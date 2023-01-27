@@ -1,0 +1,829 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Release 2.0 (2018-02-22)</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../package-management/channels.html"><strong aria-hidden="true">4.4.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../package-management/sharing-packages.html"><strong aria-hidden="true">4.5.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.5.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../package-management/copy-closure.html"><strong aria-hidden="true">4.5.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../package-management/ssh-substituter.html"><strong aria-hidden="true">4.5.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../package-management/s3-substituter.html"><strong aria-hidden="true">4.5.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li class="chapter-item expanded "><a href="../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../language/builtins.html"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/nix-env.html"><strong aria-hidden="true">7.3.1.</strong> nix-env</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-build.html"><strong aria-hidden="true">7.3.2.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.3.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-store.html"><strong aria-hidden="true">7.3.4.</strong> nix-store</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-describe-stores.html"><strong aria-hidden="true">7.5.6.</strong> nix describe-stores</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.7.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.8.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.9.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.10.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake.html"><strong aria-hidden="true">7.5.11.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.12.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.13.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.14.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.15.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.16.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.17.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.18.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.19.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.20.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.21.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.22.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.23.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.24.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.25.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.26.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.27.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.28.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.31.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.32.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.33.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.34.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.35.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.36.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.37.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.38.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.39.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.40.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.41.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.42.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.43.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.44.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.45.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.46.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.47.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.48.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.49.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.50.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.51.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.52.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.53.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.54.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.55.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.56.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-remove.html"><strong aria-hidden="true">7.5.57.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.58.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.59.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.60.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.61.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.62.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-show-derivation.html"><strong aria-hidden="true">7.5.63.</strong> nix show-derivation</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.64.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.65.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.66.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.67.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.68.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.69.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.70.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.71.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.72.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.73.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.74.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.75.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.76.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.77.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.78.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.79.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.80.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.81.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.82.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.83.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.84.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">8.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../contributing/contributing.html"><strong aria-hidden="true">9.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../contributing/hacking.html"><strong aria-hidden="true">9.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../contributing/cli-guideline.html"><strong aria-hidden="true">9.2.</strong> CLI guideline</a></li></ol></li><li class="chapter-item expanded "><a href="../release-notes/release-notes.html"><strong aria-hidden="true">10.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../release-notes/rl-2.12.html"><strong aria-hidden="true">10.1.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.11.html"><strong aria-hidden="true">10.2.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.10.html"><strong aria-hidden="true">10.3.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.9.html"><strong aria-hidden="true">10.4.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.8.html"><strong aria-hidden="true">10.5.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.7.html"><strong aria-hidden="true">10.6.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.6.html"><strong aria-hidden="true">10.7.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.5.html"><strong aria-hidden="true">10.8.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.4.html"><strong aria-hidden="true">10.9.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.3.html"><strong aria-hidden="true">10.10.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.2.html"><strong aria-hidden="true">10.11.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.1.html"><strong aria-hidden="true">10.12.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.0.html" class="active"><strong aria-hidden="true">10.13.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.11.10.html"><strong aria-hidden="true">10.14.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.11.html"><strong aria-hidden="true">10.15.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.10.html"><strong aria-hidden="true">10.16.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.9.html"><strong aria-hidden="true">10.17.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.8.html"><strong aria-hidden="true">10.18.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.7.html"><strong aria-hidden="true">10.19.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.6.1.html"><strong aria-hidden="true">10.20.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.6.html"><strong aria-hidden="true">10.21.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.5.2.html"><strong aria-hidden="true">10.22.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.5.html"><strong aria-hidden="true">10.23.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.4.html"><strong aria-hidden="true">10.24.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.3.html"><strong aria-hidden="true">10.25.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.2.html"><strong aria-hidden="true">10.26.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.1.html"><strong aria-hidden="true">10.27.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.0.html"><strong aria-hidden="true">10.28.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.16.html"><strong aria-hidden="true">10.29.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.15.html"><strong aria-hidden="true">10.30.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.14.html"><strong aria-hidden="true">10.31.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.13.html"><strong aria-hidden="true">10.32.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.12.html"><strong aria-hidden="true">10.33.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.11.html"><strong aria-hidden="true">10.34.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.10.1.html"><strong aria-hidden="true">10.35.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.10.html"><strong aria-hidden="true">10.36.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.2.html"><strong aria-hidden="true">10.37.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.1.html"><strong aria-hidden="true">10.38.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.html"><strong aria-hidden="true">10.39.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.8.1.html"><strong aria-hidden="true">10.40.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.8.html"><strong aria-hidden="true">10.41.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.7.html"><strong aria-hidden="true">10.42.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.6.html"><strong aria-hidden="true">10.43.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.5.html"><strong aria-hidden="true">10.44.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="release-20-2018-02-22"><a class="header" href="#release-20-2018-02-22">Release 2.0 (2018-02-22)</a></h1>
+<p>The following incompatible changes have been made:</p>
+<ul>
+<li>
+<p>The manifest-based substituter mechanism
+(<code>download-using-manifests</code>) has been
+<a href="https://github.com/NixOS/nix/commit/867967265b80946dfe1db72d40324b4f9af988ed">removed</a>.
+It has been superseded by the binary cache substituter mechanism
+since several years. As a result, the following programs have been
+removed:</p>
+<ul>
+<li>
+<p><code>nix-pull</code></p>
+</li>
+<li>
+<p><code>nix-generate-patches</code></p>
+</li>
+<li>
+<p><code>bsdiff</code></p>
+</li>
+<li>
+<p><code>bspatch</code></p>
+</li>
+</ul>
+</li>
+<li>
+<p>The “copy from other stores” substituter mechanism
+(<code>copy-from-other-stores</code> and the <code>NIX_OTHER_STORES</code> environment
+variable) has been removed. It was primarily used by the NixOS
+installer to copy available paths from the installation medium. The
+replacement is to use a chroot store as a substituter (e.g.
+<code>--substituters /mnt</code>), or to build into a chroot store (e.g.
+<code>--store /mnt --substituters /</code>).</p>
+</li>
+<li>
+<p>The command <code>nix-push</code> has been removed as part of the effort to
+eliminate Nix's dependency on Perl. You can use <code>nix copy</code> instead,
+e.g. <code>nix copy --to file:///tmp/my-binary-cache paths…</code></p>
+</li>
+<li>
+<p>The “nested” log output feature (<code>--log-type pretty</code>) has been removed. As a result, <code>nix-log2xml</code> was also
+removed.</p>
+</li>
+<li>
+<p>OpenSSL-based signing has been
+<a href="https://github.com/NixOS/nix/commit/f435f8247553656774dd1b2c88e9de5d59cab203">removed</a>.
+This feature was never well-supported. A better alternative is
+provided by the <code>secret-key-files</code> and <code>trusted-public-keys</code>
+options.</p>
+</li>
+<li>
+<p>Failed build caching has been
+<a href="https://github.com/NixOS/nix/commit/8cffec84859cec8b610a2a22ab0c4d462a9351ff">removed</a>.
+This feature was introduced to support the Hydra continuous build
+system, but Hydra no longer uses it.</p>
+</li>
+<li>
+<p><code>nix-mode.el</code> has been removed from Nix. It is now <a href="https://github.com/NixOS/nix-mode">a separate
+repository</a> and can be installed
+through the MELPA package repository.</p>
+</li>
+</ul>
+<p>This release has the following new features:</p>
+<ul>
+<li>
+<p>It introduces a new command named <code>nix</code>, which is intended to
+eventually replace all <code>nix-*</code> commands with a more consistent and
+better designed user interface. It currently provides replacements
+for some (but not all) of the functionality provided by <code>nix-store</code>,
+<code>nix-build</code>, <code>nix-shell -p</code>, <code>nix-env -qa</code>, <code>nix-instantiate --eval</code>, <code>nix-push</code> and <code>nix-copy-closure</code>. It has the following
+major features:</p>
+<ul>
+<li>
+<p>Unlike the legacy commands, it has a consistent way to refer to
+packages and package-like arguments (like store paths). For
+example, the following commands all copy the GNU Hello package
+to a remote machine:</p>
+<pre><code>nix copy --to ssh://machine nixpkgs.hello
+
+nix copy --to ssh://machine /nix/store/0i2jd68mp5g6h2sa5k9c85rb80sn8hi9-hello-2.10
+
+nix copy --to ssh://machine '(with import &lt;nixpkgs&gt; {}; hello)'
+</code></pre>
+<p>By contrast, <code>nix-copy-closure</code> only accepted store paths as
+arguments.</p>
+</li>
+<li>
+<p>It is self-documenting: <code>--help</code> shows all available
+command-line arguments. If <code>--help</code> is given after a subcommand,
+it shows examples for that subcommand. <code>nix --help-config</code> shows all configuration options.</p>
+</li>
+<li>
+<p>It is much less verbose. By default, it displays a single-line
+progress indicator that shows how many packages are left to be
+built or downloaded, and (if there are running builds) the most
+recent line of builder output. If a build fails, it shows the
+last few lines of builder output. The full build log can be
+retrieved using <code>nix log</code>.</p>
+</li>
+<li>
+<p>It
+<a href="https://github.com/NixOS/nix/commit/b8283773bd64d7da6859ed520ee19867742a03ba">provides</a>
+all <code>nix.conf</code> configuration options as command line flags. For
+example, instead of <code>--option http-connections 100</code> you can write <code>--http-connections 100</code>.
+Boolean options can be written as <code>--foo</code> or <code>--no-foo</code> (e.g.
+<code>--no-auto-optimise-store</code>).</p>
+</li>
+<li>
+<p>Many subcommands have a <code>--json</code> flag to write results to stdout
+in JSON format.</p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Please note that the <code>nix</code> command is a work in progress and the
+interface is subject to change.</p>
+</blockquote>
+<p>It provides the following high-level (“porcelain”) subcommands:</p>
+<ul>
+<li>
+<p><code>nix build</code> is a replacement for <code>nix-build</code>.</p>
+</li>
+<li>
+<p><code>nix run</code> executes a command in an environment in which the
+specified packages are available. It is (roughly) a replacement
+for <code>nix-shell -p</code>. Unlike that command, it does not execute the command in a
+shell, and has a flag (<code>-c</code>) that specifies the unquoted command
+line to be executed.</p>
+<p>It is particularly useful in conjunction with chroot stores,
+allowing Linux users who do not have permission to install Nix
+in <code>/nix/store</code> to still use binary substitutes that assume
+<code>/nix/store</code>. For example,</p>
+<pre><code>nix run --store ~/my-nix nixpkgs.hello -c hello --greeting 'Hi everybody!'
+</code></pre>
+<p>downloads (or if not substitutes are available, builds) the GNU
+Hello package into <code>~/my-nix/nix/store</code>, then runs <code>hello</code> in a
+mount namespace where <code>~/my-nix/nix/store</code> is mounted onto
+<code>/nix/store</code>.</p>
+</li>
+<li>
+<p><code>nix search</code> replaces <code>nix-env -qa</code>. It searches the available packages for occurrences of a
+search string in the attribute name, package name or
+description. Unlike <code>nix-env -qa</code>, it has a cache to speed up
+subsequent searches.</p>
+</li>
+<li>
+<p><code>nix copy</code> copies paths between arbitrary Nix stores,
+generalising <code>nix-copy-closure</code> and <code>nix-push</code>.</p>
+</li>
+<li>
+<p><code>nix repl</code> replaces the external program <code>nix-repl</code>. It provides
+an interactive environment for evaluating and building Nix
+expressions. Note that it uses <code>linenoise-ng</code> instead of GNU
+Readline.</p>
+</li>
+<li>
+<p><code>nix upgrade-nix</code> upgrades Nix to the latest stable version.
+This requires that Nix is installed in a profile. (Thus it won’t
+work on NixOS, or if it’s installed outside of the Nix store.)</p>
+</li>
+<li>
+<p><code>nix verify</code> checks whether store paths are unmodified and/or
+“trusted” (see below). It replaces <code>nix-store --verify</code> and
+<code>nix-store --verify-path</code>.</p>
+</li>
+<li>
+<p><code>nix log</code> shows the build log of a package or path. If the
+build log is not available locally, it will try to obtain it
+from the configured substituters (such as
+<a href="https://cache.nixos.org/">cache.nixos.org</a>, which now
+provides build logs).</p>
+</li>
+<li>
+<p><code>nix edit</code> opens the source code of a package in your editor.</p>
+</li>
+<li>
+<p><code>nix eval</code> replaces <code>nix-instantiate --eval</code>.</p>
+</li>
+<li>
+<p><code>nix why-depends</code> shows why one store path has another in its
+closure. This is primarily useful to finding the causes of
+closure bloat. For example,</p>
+<pre><code>nix why-depends nixpkgs.vlc nixpkgs.libdrm.dev
+</code></pre>
+<p>shows a chain of files and fragments of file contents that cause
+the VLC package to have the “dev” output of <code>libdrm</code> in its
+closure — an undesirable situation.</p>
+</li>
+<li>
+<p><code>nix path-info</code> shows information about store paths, replacing
+<code>nix-store -q</code>. A useful feature is the option <code>--closure-size</code>
+(<code>-S</code>). For example, the following command show the closure
+sizes of every path in the current NixOS system closure, sorted
+by size:</p>
+<pre><code>nix path-info -rS /run/current-system | sort -nk2
+</code></pre>
+</li>
+<li>
+<p><code>nix optimise-store</code> replaces <code>nix-store --optimise</code>. The main
+difference is that it has a progress indicator.</p>
+</li>
+</ul>
+<p>A number of low-level (“plumbing”) commands are also available:</p>
+<ul>
+<li>
+<p><code>nix ls-store</code> and <code>nix ls-nar</code> list the contents of a store path or NAR file. The
+former is primarily useful in conjunction with remote stores,
+e.g.</p>
+<pre><code>nix ls-store --store https://cache.nixos.org/ -lR /nix/store/0i2jd68mp5g6h2sa5k9c85rb80sn8hi9-hello-2.10
+</code></pre>
+<p>lists the contents of path in a binary cache.</p>
+</li>
+<li>
+<p><code>nix cat-store</code> and <code>nix cat-nar</code> allow extracting a file from a store path or NAR file.</p>
+</li>
+<li>
+<p><code>nix dump-path</code> writes the contents of a store path to stdout in
+NAR format. This replaces <code>nix-store --dump</code>.</p>
+</li>
+<li>
+<p><code>nix show-derivation</code> displays a store derivation in JSON format.
+This is an alternative to <code>pp-aterm</code>.</p>
+</li>
+<li>
+<p><code>nix add-to-store</code> replaces <code>nix-store --add</code>.</p>
+</li>
+<li>
+<p><code>nix sign-paths</code> signs store paths.</p>
+</li>
+<li>
+<p><code>nix copy-sigs</code> copies signatures from one store to another.</p>
+</li>
+<li>
+<p><code>nix show-config</code> shows all configuration options and their
+current values.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>The store abstraction that Nix has had for a long time to support
+store access via the Nix daemon has been extended
+significantly. In particular, substituters (which used to be
+external programs such as <code>download-from-binary-cache</code>) are now
+subclasses of the abstract <code>Store</code> class. This allows many Nix
+commands to operate on such store types. For example, <code>nix path-info</code> shows information about paths in your local Nix store,
+while <code>nix path-info --store https://cache.nixos.org/</code> shows
+information about paths in the specified binary cache. Similarly,
+<code>nix-copy-closure</code>, <code>nix-push</code> and substitution are all instances
+of the general notion of copying paths between different kinds of
+Nix stores.</p>
+<p>Stores are specified using an URI-like syntax, e.g.
+<a href="https://cache.nixos.org/">https://cache.nixos.org/</a> or <a href="ssh://machine">ssh://machine</a>. The following store
+types are supported:</p>
+<ul>
+<li>
+<p><code>LocalStore</code> (stori URI <code>local</code> or an absolute path) and the
+misnamed <code>RemoteStore</code> (<code>daemon</code>) provide access to a local Nix
+store, the latter via the Nix daemon. You can use <code>auto</code> or the
+empty string to auto-select a local or daemon store depending on
+whether you have write permission to the Nix store. It is no
+longer necessary to set the <code>NIX_REMOTE</code> environment variable to
+use the Nix daemon.</p>
+<p>As noted above, <code>LocalStore</code> now supports chroot builds,
+allowing the “physical” location of the Nix store (e.g.
+<code>/home/alice/nix/store</code>) to differ from its “logical” location
+(typically <code>/nix/store</code>). This allows non-root users to use Nix
+while still getting the benefits from prebuilt binaries from
+<a href="https://cache.nixos.org/">cache.nixos.org</a>.</p>
+</li>
+<li>
+<p><code>BinaryCacheStore</code> is the abstract superclass of all binary
+cache stores. It supports writing build logs and NAR content
+listings in JSON format.</p>
+</li>
+<li>
+<p><code>HttpBinaryCacheStore</code> (<code>http://</code>, <code>https://</code>) supports binary
+caches via HTTP or HTTPS. If the server supports <code>PUT</code> requests,
+it supports uploading store paths via commands such as <code>nix copy</code>.</p>
+</li>
+<li>
+<p><code>LocalBinaryCacheStore</code> (<code>file://</code>) supports binary caches in
+the local filesystem.</p>
+</li>
+<li>
+<p><code>S3BinaryCacheStore</code> (<code>s3://</code>) supports binary caches stored in
+Amazon S3, if enabled at compile time.</p>
+</li>
+<li>
+<p><code>LegacySSHStore</code> (<code>ssh://</code>) is used to implement remote builds
+and <code>nix-copy-closure</code>.</p>
+</li>
+<li>
+<p><code>SSHStore</code> (<code>ssh-ng://</code>) supports arbitrary Nix operations on a
+remote machine via the same protocol used by <code>nix-daemon</code>.</p>
+</li>
+</ul>
+</li>
+<li>
+<p>Security has been improved in various ways:</p>
+<ul>
+<li>
+<p>Nix now stores signatures for local store paths. When paths are
+copied between stores (e.g., copied from a binary cache to a
+local store), signatures are propagated.</p>
+<p>Locally-built paths are signed automatically using the secret
+keys specified by the <code>secret-key-files</code> store option.
+Secret/public key pairs can be generated using <code>nix-store --generate-binary-cache-key</code>.</p>
+<p>In addition, locally-built store paths are marked as “ultimately
+trusted”, but this bit is not propagated when paths are copied
+between stores.</p>
+</li>
+<li>
+<p>Content-addressable store paths no longer require signatures —
+they can be imported into a store by unprivileged users even if
+they lack signatures.</p>
+</li>
+<li>
+<p>The command <code>nix verify</code> checks whether the specified paths are
+trusted, i.e., have a certain number of trusted signatures, are
+ultimately trusted, or are content-addressed.</p>
+</li>
+<li>
+<p>Substitutions from binary caches
+<a href="https://github.com/NixOS/nix/commit/ecbc3fedd3d5bdc5a0e1a0a51b29062f2874ac8b">now</a>
+require signatures by default. This was already the case on
+NixOS.</p>
+</li>
+<li>
+<p>In Linux sandbox builds, we
+<a href="https://github.com/NixOS/nix/commit/eba840c8a13b465ace90172ff76a0db2899ab11b">now</a>
+use <code>/build</code> instead of <code>/tmp</code> as the temporary build directory.
+This fixes potential security problems when a build accidentally
+stores its <code>TMPDIR</code> in some security-sensitive place, such as an
+RPATH.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><em>Pure evaluation mode</em>. With the <code>--pure-eval</code> flag, Nix enables a
+variant of the existing restricted evaluation mode that forbids
+access to anything that could cause different evaluations of the
+same command line arguments to produce a different result. This
+includes builtin functions such as <code>builtins.getEnv</code>, but more
+importantly, <em>all</em> filesystem or network access unless a content
+hash or commit hash is specified. For example, calls to
+<code>builtins.fetchGit</code> are only allowed if a <code>rev</code> attribute is
+specified.</p>
+<p>The goal of this feature is to enable true reproducibility and
+traceability of builds (including NixOS system configurations) at
+the evaluation level. For example, in the future, <code>nixos-rebuild</code>
+might build configurations from a Nix expression in a Git repository
+in pure mode. That expression might fetch other repositories such as
+Nixpkgs via <code>builtins.fetchGit</code>. The commit hash of the top-level
+repository then uniquely identifies a running system, and, in
+conjunction with that repository, allows it to be reproduced or
+modified.</p>
+</li>
+<li>
+<p>There are several new features to support binary reproducibility
+(i.e. to help ensure that multiple builds of the same derivation
+produce exactly the same output). When <code>enforce-determinism</code> is set
+to <code>false</code>, it’s <a href="https://github.com/NixOS/nix/commit/8bdf83f936adae6f2c907a6d2541e80d4120f051">no
+longer</a>
+a fatal error if build rounds produce different output. Also, a hook
+named <code>diff-hook</code> is
+<a href="https://github.com/NixOS/nix/commit/9a313469a4bdea2d1e8df24d16289dc2a172a169">provided</a>
+to allow you to run tools such as <code>diffoscope</code> when build rounds
+produce different output.</p>
+</li>
+<li>
+<p>Configuring remote builds is a lot easier now. Provided you are not
+using the Nix daemon, you can now just specify a remote build
+machine on the command line, e.g. <code>--option builders 'ssh://my-mac x86_64-darwin'</code>. The environment variable
+<code>NIX_BUILD_HOOK</code> has been removed and is no longer needed. The
+environment variable <code>NIX_REMOTE_SYSTEMS</code> is still supported for
+compatibility, but it is also possible to specify builders in
+<code>nix.conf</code> by setting the option <code>builders = @path</code>.</p>
+</li>
+<li>
+<p>If a fixed-output derivation produces a result with an incorrect
+hash, the output path is moved to the location corresponding to the
+actual hash and registered as valid. Thus, a subsequent build of the
+fixed-output derivation with the correct hash is unnecessary.</p>
+</li>
+<li>
+<p><code>nix-shell</code>
+<a href="https://github.com/NixOS/nix/commit/ea59f39326c8e9dc42dfed4bcbf597fbce58797c">now</a>
+sets the <code>IN_NIX_SHELL</code> environment variable during evaluation and
+in the shell itself. This can be used to perform different actions
+depending on whether you’re in a Nix shell or in a regular build.
+Nixpkgs provides <code>lib.inNixShell</code> to check this variable during
+evaluation.</p>
+</li>
+<li>
+<p><code>NIX_PATH</code> is now lazy, so URIs in the path are only downloaded if
+they are needed for evaluation.</p>
+</li>
+<li>
+<p>You can now use <code>channel:</code> as a short-hand for
+<a href="https://nixos.org/channels//nixexprs.tar.xz">https://nixos.org/channels//nixexprs.tar.xz</a>. For example,
+<code>nix-build channel:nixos-15.09 -A hello</code> will build the GNU Hello
+package from the <code>nixos-15.09</code> channel. In the future, this may
+use Git to fetch updates more efficiently.</p>
+</li>
+<li>
+<p>When <code>--no-build-output</code> is given, the last 10 lines of the build
+log will be shown if a build fails.</p>
+</li>
+<li>
+<p>Networking has been improved:</p>
+<ul>
+<li>
+<p>HTTP/2 is now supported. This makes binary cache lookups <a href="https://github.com/NixOS/nix/commit/90ad02bf626b885a5dd8967894e2eafc953bdf92">much
+more
+efficient</a>.</p>
+</li>
+<li>
+<p>We now retry downloads on many HTTP errors, making binary caches
+substituters more resilient to temporary failures.</p>
+</li>
+<li>
+<p>HTTP credentials can now be configured via the standard <code>netrc</code>
+mechanism.</p>
+</li>
+<li>
+<p>If S3 support is enabled at compile time, <a href="s3://">s3://</a> URIs are
+<a href="https://github.com/NixOS/nix/commit/9ff9c3f2f80ba4108e9c945bbfda2c64735f987b">supported</a>
+in all places where Nix allows URIs.</p>
+</li>
+<li>
+<p>Brotli compression is now supported. In particular,
+<a href="https://cache.nixos.org/">cache.nixos.org</a> build logs are now compressed
+using Brotli.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>nix-env</code>
+<a href="https://github.com/NixOS/nix/commit/b0cb11722626e906a73f10dd9a0c9eea29faf43a">now</a>
+ignores packages with bad derivation names (in particular those
+starting with a digit or containing a dot).</p>
+</li>
+<li>
+<p>Many configuration options have been renamed, either because they
+were unnecessarily verbose (e.g. <code>build-use-sandbox</code> is now just
+<code>sandbox</code>) or to reflect generalised behaviour (e.g. <code>binary-caches</code>
+is now <code>substituters</code> because it allows arbitrary store URIs). The
+old names are still supported for compatibility.</p>
+</li>
+<li>
+<p>The <code>max-jobs</code> option can
+<a href="https://github.com/NixOS/nix/commit/7251d048fa812d2551b7003bc9f13a8f5d4c95a5">now</a>
+be set to <code>auto</code> to use the number of CPUs in the system.</p>
+</li>
+<li>
+<p>Hashes can
+<a href="https://github.com/NixOS/nix/commit/c0015e87af70f539f24d2aa2bc224a9d8b84276b">now</a>
+be specified in base-64 format, in addition to base-16 and the
+non-standard base-32.</p>
+</li>
+<li>
+<p><code>nix-shell</code> now uses <code>bashInteractive</code> from Nixpkgs, rather than the
+<code>bash</code> command that happens to be in the caller’s <code>PATH</code>. This is
+especially important on macOS where the <code>bash</code> provided by the
+system is seriously outdated and cannot execute <code>stdenv</code>’s setup
+script.</p>
+</li>
+<li>
+<p>Nix can now automatically trigger a garbage collection if free disk
+space drops below a certain level during a build. This is configured
+using the <code>min-free</code> and <code>max-free</code> options.</p>
+</li>
+<li>
+<p><code>nix-store -q --roots</code> and <code>nix-store --gc --print-roots</code> now show
+temporary and in-memory roots.</p>
+</li>
+<li>
+<p>Nix can now be extended with plugins. See the documentation of the
+<code>plugin-files</code> option for more details.</p>
+</li>
+</ul>
+<p>The Nix language has the following new features:</p>
+<ul>
+<li>
+<p>It supports floating point numbers. They are based on the C++
+<code>float</code> type and are supported by the existing numerical operators.
+Export and import to and from JSON and XML works, too.</p>
+</li>
+<li>
+<p>Derivation attributes can now reference the outputs of the
+derivation using the <code>placeholder</code> builtin function. For example,
+the attribute</p>
+<pre><code>configureFlags = &quot;--prefix=${placeholder &quot;out&quot;} --includedir=${placeholder &quot;dev&quot;}&quot;;
+</code></pre>
+<p>will cause the <code>configureFlags</code> environment variable to contain the
+actual store paths corresponding to the <code>out</code> and <code>dev</code> outputs.</p>
+</li>
+</ul>
+<p>The following builtin functions are new or extended:</p>
+<ul>
+<li>
+<p><code>builtins.fetchGit</code> allows Git repositories to be fetched at
+evaluation time. Thus it differs from the <code>fetchgit</code> function in
+Nixpkgs, which fetches at build time and cannot be used to fetch Nix
+expressions during evaluation. A typical use case is to import
+external NixOS modules from your configuration, e.g.</p>
+<pre><code>imports = [ (builtins.fetchGit https://github.com/edolstra/dwarffs + &quot;/module.nix&quot;) ];
+</code></pre>
+</li>
+<li>
+<p>Similarly, <code>builtins.fetchMercurial</code> allows you to fetch Mercurial
+repositories.</p>
+</li>
+<li>
+<p><code>builtins.path</code> generalises <code>builtins.filterSource</code> and path
+literals (e.g. <code>./foo</code>). It allows specifying a store path name that
+differs from the source path name (e.g. <code>builtins.path { path = ./foo; name = &quot;bar&quot;; }</code>) and also supports filtering out unwanted files.</p>
+</li>
+<li>
+<p><code>builtins.fetchurl</code> and <code>builtins.fetchTarball</code> now support <code>sha256</code>
+and <code>name</code> attributes.</p>
+</li>
+<li>
+<p><code>builtins.split</code> splits a string using a POSIX extended regular
+expression as the separator.</p>
+</li>
+<li>
+<p><code>builtins.partition</code> partitions the elements of a list into two
+lists, depending on a Boolean predicate.</p>
+</li>
+<li>
+<p><code>&lt;nix/fetchurl.nix&gt;</code> now uses the content-addressable tarball cache
+at <a href="http://tarballs.nixos.org/">http://tarballs.nixos.org/</a>, just like <code>fetchurl</code> in Nixpkgs.
+(f2682e6e18a76ecbfb8a12c17e3a0ca15c084197)</p>
+</li>
+<li>
+<p>In restricted and pure evaluation mode, builtin functions that
+download from the network (such as <code>fetchGit</code>) are permitted to
+fetch underneath a list of URI prefixes specified in the option
+<code>allowed-uris</code>.</p>
+</li>
+</ul>
+<p>The Nix build environment has the following changes:</p>
+<ul>
+<li>
+<p>Values such as Booleans, integers, (nested) lists and attribute sets
+can
+<a href="https://github.com/NixOS/nix/commit/6de33a9c675b187437a2e1abbcb290981a89ecb1">now</a>
+be passed to builders in a non-lossy way. If the special attribute
+<code>__structuredAttrs</code> is set to <code>true</code>, the other derivation
+attributes are serialised in JSON format and made available to the
+builder via the file <code>.attrs.json</code> in the builder’s temporary
+directory. This obviates the need for <code>passAsFile</code> since JSON files
+have no size restrictions, unlike process environments.</p>
+<p><a href="https://github.com/NixOS/nix/commit/2d5b1b24bf70a498e4c0b378704cfdb6471cc699">As a convenience to Bash
+builders</a>,
+Nix writes a script named <code>.attrs.sh</code> to the builder’s directory
+that initialises shell variables corresponding to all attributes
+that are representable in Bash. This includes non-nested
+(associative) arrays. For example, the attribute <code>hardening.format = true</code> ends up as the Bash associative array element
+<code>${hardening[format]}</code>.</p>
+</li>
+<li>
+<p>Builders can
+<a href="https://github.com/NixOS/nix/commit/88e6bb76de5564b3217be9688677d1c89101b2a3">now</a>
+communicate what build phase they are in by writing messages to the
+file descriptor specified in <code>NIX_LOG_FD</code>. The current phase is
+shown by the <code>nix</code> progress indicator.</p>
+</li>
+<li>
+<p>In Linux sandbox builds, we
+<a href="https://github.com/NixOS/nix/commit/a2d92bb20e82a0957067ede60e91fab256948b41">now</a>
+provide a default <code>/bin/sh</code> (namely <code>ash</code> from BusyBox).</p>
+</li>
+<li>
+<p>In structured attribute mode, <code>exportReferencesGraph</code>
+<a href="https://github.com/NixOS/nix/commit/c2b0d8749f7e77afc1c4b3e8dd36b7ee9720af4a">exports</a>
+extended information about closures in JSON format. In particular,
+it includes the sizes and hashes of paths. This is primarily useful
+for NixOS image builders.</p>
+</li>
+<li>
+<p>Builds are
+<a href="https://github.com/NixOS/nix/commit/21948deed99a3295e4d5666e027a6ca42dc00b40">now</a>
+killed as soon as Nix receives EOF on the builder’s stdout or
+stderr. This fixes a bug that allowed builds to hang Nix
+indefinitely, regardless of timeouts.</p>
+</li>
+<li>
+<p>The <code>sandbox-paths</code> configuration option can now specify optional
+paths by appending a <code>?</code>, e.g. <code>/dev/nvidiactl?</code> will bind-mount
+<code>/dev/nvidiactl</code> only if it exists.</p>
+</li>
+<li>
+<p>On Linux, builds are now executed in a user namespace with UID 1000
+and GID 100.</p>
+</li>
+</ul>
+<p>A number of significant internal changes were made:</p>
+<ul>
+<li>
+<p>Nix no longer depends on Perl and all Perl components have been
+rewritten in C++ or removed. The Perl bindings that used to be part
+of Nix have been moved to a separate package, <code>nix-perl</code>.</p>
+</li>
+<li>
+<p>All <code>Store</code> classes are now thread-safe. <code>RemoteStore</code> supports
+multiple concurrent connections to the daemon. This is primarily
+useful in multi-threaded programs such as <code>hydra-queue-runner</code>.</p>
+</li>
+</ul>
+<p>This release has contributions from Adrien Devresse, Alexander Ried,
+Alex Cruice, Alexey Shmalko, AmineChikhaoui, Andy Wingo, Aneesh Agrawal,
+Anthony Cowley, Armijn Hemel, aszlig, Ben Gamari, Benjamin Hipple,
+Benjamin Staffin, Benno Fünfstück, Bjørn Forsman, Brian McKenna, Charles
+Strahan, Chase Adams, Chris Martin, Christian Theune, Chris Warburton,
+Daiderd Jordan, Dan Connolly, Daniel Peebles, Dan Peebles, davidak,
+David McFarland, Dmitry Kalinkin, Domen Kožar, Eelco Dolstra, Emery
+Hemingway, Eric Litak, Eric Wolf, Fabian Schmitthenner, Frederik
+Rietdijk, Gabriel Gonzalez, Giorgio Gallo, Graham Christensen, Guillaume
+Maudoux, Harmen, Iavael, James Broadhead, James Earl Douglas, Janus
+Troelsen, Jeremy Shaw, Joachim Schiele, Joe Hermaszewski, Joel Moberg,
+Johannes 'fish' Ziemke, Jörg Thalheim, Jude Taylor, kballou, Keshav
+Kini, Kjetil Orbekk, Langston Barrett, Linus Heckemann, Ludovic Courtès,
+Manav Rathi, Marc Scholten, Markus Hauck, Matt Audesse, Matthew Bauer,
+Matthias Beyer, Matthieu Coudron, N1X, Nathan Zadoks, Neil Mayhew,
+Nicolas B. Pierron, Niklas Hambüchen, Nikolay Amiantov, Ole Jørgen
+Brønner, Orivej Desh, Peter Simons, Peter Stuart, Pyry Jahkola, regnat,
+Renzo Carbonara, Rhys, Robert Vollmert, Scott Olson, Scott R. Parish,
+Sergei Trofimovich, Shea Levy, Sheena Artrip, Spencer Baugh, Stefan
+Junker, Susan Potter, Thomas Tuegel, Timothy Allen, Tristan Hume, Tuomas
+Tynkkynen, tv, Tyson Whitehead, Vladimír Čunát, Will Dietz, wmertens,
+Wout Mertens, zimbatm and Zoran Plesivčak.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../release-notes/rl-2.1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../release-notes/rl-1.11.10.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../release-notes/rl-2.1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../release-notes/rl-1.11.10.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../redirects.js"></script>
+
+
+    </body>
+</html>

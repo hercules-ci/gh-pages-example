@@ -1,0 +1,772 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>nix flake</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../custom.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/channels.html"><strong aria-hidden="true">4.4.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../../package-management/sharing-packages.html"><strong aria-hidden="true">4.5.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.5.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../../package-management/copy-closure.html"><strong aria-hidden="true">4.5.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/ssh-substituter.html"><strong aria-hidden="true">4.5.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/s3-substituter.html"><strong aria-hidden="true">4.5.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li class="chapter-item expanded "><a href="../../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../../language/builtins.html"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-env.html"><strong aria-hidden="true">7.3.1.</strong> nix-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-build.html"><strong aria-hidden="true">7.3.2.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.3.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store.html"><strong aria-hidden="true">7.3.4.</strong> nix-store</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-describe-stores.html"><strong aria-hidden="true">7.5.6.</strong> nix describe-stores</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.7.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.8.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.9.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.10.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake.html" class="active"><strong aria-hidden="true">7.5.11.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.12.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.13.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.14.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.15.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.16.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.17.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.18.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.19.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.20.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.21.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.22.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.23.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.24.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.25.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.26.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.27.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.28.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.31.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.32.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.33.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.34.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.35.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.36.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.37.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.38.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.39.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.40.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.41.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.42.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.43.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.44.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.45.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.46.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.47.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.48.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.49.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.50.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.51.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.52.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.53.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.54.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.55.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.56.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-remove.html"><strong aria-hidden="true">7.5.57.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.58.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.59.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.60.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.61.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.62.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-show-derivation.html"><strong aria-hidden="true">7.5.63.</strong> nix show-derivation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.64.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.65.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.66.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.67.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.68.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.69.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.70.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.71.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.72.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.73.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.74.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.75.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.76.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.77.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.78.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.79.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.80.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.81.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.82.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.83.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.84.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../glossary.html"><strong aria-hidden="true">8.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../../contributing/contributing.html"><strong aria-hidden="true">9.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../contributing/hacking.html"><strong aria-hidden="true">9.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../../contributing/cli-guideline.html"><strong aria-hidden="true">9.2.</strong> CLI guideline</a></li></ol></li><li class="chapter-item expanded "><a href="../../release-notes/release-notes.html"><strong aria-hidden="true">10.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../release-notes/rl-2.12.html"><strong aria-hidden="true">10.1.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.11.html"><strong aria-hidden="true">10.2.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.10.html"><strong aria-hidden="true">10.3.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.9.html"><strong aria-hidden="true">10.4.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.8.html"><strong aria-hidden="true">10.5.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.7.html"><strong aria-hidden="true">10.6.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.6.html"><strong aria-hidden="true">10.7.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.5.html"><strong aria-hidden="true">10.8.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.4.html"><strong aria-hidden="true">10.9.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.3.html"><strong aria-hidden="true">10.10.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.2.html"><strong aria-hidden="true">10.11.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.1.html"><strong aria-hidden="true">10.12.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.0.html"><strong aria-hidden="true">10.13.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.10.html"><strong aria-hidden="true">10.14.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.html"><strong aria-hidden="true">10.15.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.10.html"><strong aria-hidden="true">10.16.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.9.html"><strong aria-hidden="true">10.17.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.8.html"><strong aria-hidden="true">10.18.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.7.html"><strong aria-hidden="true">10.19.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.1.html"><strong aria-hidden="true">10.20.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.html"><strong aria-hidden="true">10.21.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.2.html"><strong aria-hidden="true">10.22.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.html"><strong aria-hidden="true">10.23.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.4.html"><strong aria-hidden="true">10.24.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.3.html"><strong aria-hidden="true">10.25.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.2.html"><strong aria-hidden="true">10.26.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.1.html"><strong aria-hidden="true">10.27.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.0.html"><strong aria-hidden="true">10.28.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.16.html"><strong aria-hidden="true">10.29.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.15.html"><strong aria-hidden="true">10.30.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.14.html"><strong aria-hidden="true">10.31.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.13.html"><strong aria-hidden="true">10.32.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.12.html"><strong aria-hidden="true">10.33.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.11.html"><strong aria-hidden="true">10.34.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.1.html"><strong aria-hidden="true">10.35.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.html"><strong aria-hidden="true">10.36.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.2.html"><strong aria-hidden="true">10.37.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.1.html"><strong aria-hidden="true">10.38.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.html"><strong aria-hidden="true">10.39.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.1.html"><strong aria-hidden="true">10.40.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.html"><strong aria-hidden="true">10.41.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.7.html"><strong aria-hidden="true">10.42.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.6.html"><strong aria-hidden="true">10.43.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.5.html"><strong aria-hidden="true">10.44.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <blockquote>
+<p><strong>Warning</strong> <br />
+This program is <strong>experimental</strong> and its interface is subject to change.</p>
+</blockquote>
+<h1 id="name"><a class="header" href="#name">Name</a></h1>
+<p><code>nix flake</code> - manage Nix flakes</p>
+<h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
+<p><code>nix flake</code> [<em>option</em>...] <em>subcommand</em></p>
+<p>where <em>subcommand</em> is one of the following:</p>
+<ul>
+<li><a href="./nix3-flake-archive.html"><code>nix flake archive</code></a> - copy a flake and all its inputs to a store</li>
+<li><a href="./nix3-flake-check.html"><code>nix flake check</code></a> - check whether the flake evaluates and run its tests</li>
+<li><a href="./nix3-flake-clone.html"><code>nix flake clone</code></a> - clone flake repository</li>
+<li><a href="./nix3-flake-info.html"><code>nix flake info</code></a> - show flake metadata</li>
+<li><a href="./nix3-flake-init.html"><code>nix flake init</code></a> - create a flake in the current directory from a template</li>
+<li><a href="./nix3-flake-lock.html"><code>nix flake lock</code></a> - create missing lock file entries</li>
+<li><a href="./nix3-flake-metadata.html"><code>nix flake metadata</code></a> - show flake metadata</li>
+<li><a href="./nix3-flake-new.html"><code>nix flake new</code></a> - create a flake in the specified directory from a template</li>
+<li><a href="./nix3-flake-prefetch.html"><code>nix flake prefetch</code></a> - download the source tree denoted by a flake reference into the Nix store</li>
+<li><a href="./nix3-flake-show.html"><code>nix flake show</code></a> - show the outputs provided by a flake</li>
+<li><a href="./nix3-flake-update.html"><code>nix flake update</code></a> - update flake lock file</li>
+</ul>
+<h1 id="description"><a class="header" href="#description">Description</a></h1>
+<p><code>nix flake</code> provides subcommands for creating, modifying and querying
+<em>Nix flakes</em>. Flakes are the unit for packaging Nix code in a
+reproducible and discoverable way. They can have dependencies on other
+flakes, making it possible to have multi-repository Nix projects.</p>
+<p>A flake is a filesystem tree (typically fetched from a Git repository
+or a tarball) that contains a file named <code>flake.nix</code> in the root
+directory. <code>flake.nix</code> specifies some metadata about the flake such as
+dependencies (called <em>inputs</em>), as well as its <em>outputs</em> (the Nix
+values such as packages or NixOS modules provided by the flake).</p>
+<h1 id="flake-references"><a class="header" href="#flake-references">Flake references</a></h1>
+<p>Flake references (<em>flakerefs</em>) are a way to specify the location of a
+flake. These have two different forms:</p>
+<ul>
+<li>
+<p>An attribute set representation, e.g.</p>
+<pre><code class="language-nix">{
+  type = &quot;github&quot;;
+  owner = &quot;NixOS&quot;;
+  repo = &quot;nixpkgs&quot;;
+}
+</code></pre>
+<p>The only required attribute is <code>type</code>. The supported types are
+listed below.</p>
+</li>
+<li>
+<p>A URL-like syntax, e.g.</p>
+<pre><code>github:NixOS/nixpkgs
+</code></pre>
+<p>These are used on the command line as a more convenient alternative
+to the attribute set representation. For instance, in the command</p>
+<pre><code class="language-console"># nix build github:NixOS/nixpkgs#hello
+</code></pre>
+<p><code>github:NixOS/nixpkgs</code> is a flake reference (while <code>hello</code> is an
+output attribute). They are also allowed in the <code>inputs</code> attribute
+of a flake, e.g.</p>
+<pre><code class="language-nix">inputs.nixpkgs.url = github:NixOS/nixpkgs;
+</code></pre>
+<p>is equivalent to</p>
+<pre><code class="language-nix">inputs.nixpkgs = {
+  type = &quot;github&quot;;
+  owner = &quot;NixOS&quot;;
+  repo = &quot;nixpkgs&quot;;
+};
+</code></pre>
+</li>
+</ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<p>Here are some examples of flake references in their URL-like representation:</p>
+<ul>
+<li><code>.</code>: The flake in the current directory.</li>
+<li><code>/home/alice/src/patchelf</code>: A flake in some other directory.</li>
+<li><code>nixpkgs</code>: The <code>nixpkgs</code> entry in the flake registry.</li>
+<li><code>nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293</code>: The <code>nixpkgs</code>
+entry in the flake registry, with its Git revision overridden to a
+specific value.</li>
+<li><code>github:NixOS/nixpkgs</code>: The <code>master</code> branch of the <code>NixOS/nixpkgs</code>
+repository on GitHub.</li>
+<li><code>github:NixOS/nixpkgs/nixos-20.09</code>: The <code>nixos-20.09</code> branch of the
+<code>nixpkgs</code> repository.</li>
+<li><code>github:NixOS/nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293</code>: A
+specific revision of the <code>nixpkgs</code> repository.</li>
+<li><code>github:edolstra/nix-warez?dir=blender</code>: A flake in a subdirectory
+of a GitHub repository.</li>
+<li><code>git+https://github.com/NixOS/patchelf</code>: A Git repository.</li>
+<li><code>git+https://github.com/NixOS/patchelf?ref=master</code>: A specific
+branch of a Git repository.</li>
+<li><code>git+https://github.com/NixOS/patchelf?ref=master&amp;rev=f34751b88bd07d7f44f5cd3200fb4122bf916c7e</code>:
+A specific branch <em>and</em> revision of a Git repository.</li>
+<li><code>https://github.com/NixOS/patchelf/archive/master.tar.gz</code>: A tarball
+flake.</li>
+</ul>
+<h2 id="flake-reference-attributes"><a class="header" href="#flake-reference-attributes">Flake reference attributes</a></h2>
+<p>The following generic flake reference attributes are supported:</p>
+<ul>
+<li>
+<p><code>dir</code>: The subdirectory of the flake in which <code>flake.nix</code> is
+located. This parameter enables having multiple flakes in a
+repository or tarball. The default is the root directory of the
+flake.</p>
+</li>
+<li>
+<p><code>narHash</code>: The hash of the NAR serialisation (in SRI format) of the
+contents of the flake. This is useful for flake types such as
+tarballs that lack a unique content identifier such as a Git commit
+hash.</p>
+</li>
+</ul>
+<p>In addition, the following attributes are common to several flake
+reference types:</p>
+<ul>
+<li>
+<p><code>rev</code>: A Git or Mercurial commit hash.</p>
+</li>
+<li>
+<p><code>ref</code>: A Git or Mercurial branch or tag name.</p>
+</li>
+</ul>
+<p>Finally, some attribute are typically not specified by the user, but
+can occur in <em>locked</em> flake references and are available to Nix code:</p>
+<ul>
+<li>
+<p><code>revCount</code>: The number of ancestors of the commit <code>rev</code>.</p>
+</li>
+<li>
+<p><code>lastModified</code>: The timestamp (in seconds since the Unix epoch) of
+the last modification of this version of the flake. For
+Git/Mercurial flakes, this is the commit time of commit <em>rev</em>, while
+for tarball flakes, it's the most recent timestamp of any file
+inside the tarball.</p>
+</li>
+</ul>
+<h2 id="types"><a class="header" href="#types">Types</a></h2>
+<p>Currently the <code>type</code> attribute can be one of the following:</p>
+<ul>
+<li>
+<p><code>path</code>: arbitrary local directories, or local Git trees. The
+required attribute <code>path</code> specifies the path of the flake. The URL
+form is</p>
+<pre><code>[path:]&lt;path&gt;(\?&lt;params)?
+</code></pre>
+<p>where <em>path</em> is an absolute path.</p>
+<p><em>path</em> must be a directory in the file system containing a file
+named <code>flake.nix</code>.</p>
+<p><em>path</em> generally must be an absolute path. However, on the command
+line, it can be a relative path (e.g. <code>.</code> or <code>./foo</code>) which is
+interpreted as relative to the current directory. In this case, it
+must start with <code>.</code> to avoid ambiguity with registry lookups
+(e.g. <code>nixpkgs</code> is a registry lookup; <code>./nixpkgs</code> is a relative
+path).</p>
+</li>
+<li>
+<p><code>git</code>: Git repositories. The location of the repository is specified
+by the attribute <code>url</code>.</p>
+<p>They have the URL form</p>
+<pre><code>git(+http|+https|+ssh|+git|+file|):(//&lt;server&gt;)?&lt;path&gt;(\?&lt;params&gt;)?
+</code></pre>
+<p>The <code>ref</code> attribute defaults to resolving the <code>HEAD</code> reference.</p>
+<p>The <code>rev</code> attribute must denote a commit that exists in the branch
+or tag specified by the <code>ref</code> attribute, since Nix doesn't do a full
+clone of the remote repository by default (and the Git protocol
+doesn't allow fetching a <code>rev</code> without a known <code>ref</code>). The default
+is the commit currently pointed to by <code>ref</code>.</p>
+<p>When <code>git+file</code> is used without specifying <code>ref</code> or <code>rev</code>, files are
+fetched directly from the local <code>path</code> as long as they have been added
+to the Git repository. If there are uncommitted changes, the reference
+is treated as dirty and a warning is printed.</p>
+<p>For example, the following are valid Git flake references:</p>
+<ul>
+<li><code>git+https://example.org/my/repo</code></li>
+<li><code>git+https://example.org/my/repo?dir=flake1</code></li>
+<li><code>git+ssh://git@github.com/NixOS/nix?ref=v1.2.3</code></li>
+<li><code>git://github.com/edolstra/dwarffs?ref=unstable&amp;rev=e486d8d40e626a20e06d792db8cc5ac5aba9a5b4</code></li>
+<li><code>git+file:///home/my-user/some-repo/some-repo</code></li>
+</ul>
+</li>
+<li>
+<p><code>mercurial</code>: Mercurial repositories. The URL form is similar to the
+<code>git</code> type, except that the URL schema must be one of <code>hg+http</code>,
+<code>hg+https</code>, <code>hg+ssh</code> or <code>hg+file</code>.</p>
+</li>
+<li>
+<p><code>tarball</code>: Tarballs. The location of the tarball is specified by the
+attribute <code>url</code>.</p>
+<p>In URL form, the schema must be <code>tarball+http://</code>, <code>tarball+https://</code> or <code>tarball+file://</code>.
+If the extension corresponds to a known archive format (<code>.zip</code>, <code>.tar</code>,
+<code>.tgz</code>, <code>.tar.gz</code>, <code>.tar.xz</code>, <code>.tar.bz2</code> or <code>.tar.zst</code>), then the <code>tarball+</code>
+can be dropped.</p>
+</li>
+<li>
+<p><code>file</code>: Plain files or directory tarballs, either over http(s) or from the local
+disk.</p>
+<p>In URL form, the schema must be <code>file+http://</code>, <code>file+https://</code> or <code>file+file://</code>.
+If the extension doesn’t correspond to a known archive format (as defined by the
+<code>tarball</code> fetcher), then the <code>file+</code> prefix can be dropped.</p>
+</li>
+<li>
+<p><code>github</code>: A more efficient way to fetch repositories from
+GitHub. The following attributes are required:</p>
+<ul>
+<li>
+<p><code>owner</code>: The owner of the repository.</p>
+</li>
+<li>
+<p><code>repo</code>: The name of the repository.</p>
+</li>
+</ul>
+<p>These are downloaded as tarball archives, rather than
+through Git. This is often much faster and uses less disk space
+since it doesn't require fetching the entire history of the
+repository. On the other hand, it doesn't allow incremental fetching
+(but full downloads are often faster than incremental fetches!).</p>
+<p>The URL syntax for <code>github</code> flakes is:</p>
+<pre><code>github:&lt;owner&gt;/&lt;repo&gt;(/&lt;rev-or-ref&gt;)?(\?&lt;params&gt;)?
+</code></pre>
+<p><code>&lt;rev-or-ref&gt;</code> specifies the name of a branch or tag (<code>ref</code>), or a
+commit hash (<code>rev</code>). Note that unlike Git, GitHub allows fetching by
+commit hash without specifying a branch or tag.</p>
+<p>Some examples:</p>
+<ul>
+<li><code>github:edolstra/dwarffs</code></li>
+<li><code>github:edolstra/dwarffs/unstable</code></li>
+<li><code>github:edolstra/dwarffs/d3f2baba8f425779026c6ec04021b2e927f61e31</code></li>
+</ul>
+</li>
+<li>
+<p><code>sourcehut</code>: Similar to <code>github</code>, is a more efficient way to fetch
+SourceHut repositories. The following attributes are required:</p>
+<ul>
+<li>
+<p><code>owner</code>: The owner of the repository (including leading <code>~</code>).</p>
+</li>
+<li>
+<p><code>repo</code>: The name of the repository.</p>
+</li>
+</ul>
+<p>Like <code>github</code>, these are downloaded as tarball archives.</p>
+<p>The URL syntax for <code>sourcehut</code> flakes is:</p>
+<p><code>sourcehut:&lt;owner&gt;/&lt;repo&gt;(/&lt;rev-or-ref&gt;)?(\?&lt;params&gt;)?</code></p>
+<p><code>&lt;rev-or-ref&gt;</code> works the same as <code>github</code>. Either a branch or tag name
+(<code>ref</code>), or a commit hash (<code>rev</code>) can be specified.</p>
+<p>Since SourceHut allows for self-hosting, you can specify <code>host</code> as
+a parameter, to point to any instances other than <code>git.sr.ht</code>.</p>
+<p>Currently, <code>ref</code> name resolution only works for Git repositories.
+You can refer to Mercurial repositories by simply changing <code>host</code> to
+<code>hg.sr.ht</code> (or any other Mercurial instance). With the caveat
+that you must explicitly specify a commit hash (<code>rev</code>).</p>
+<p>Some examples:</p>
+<ul>
+<li><code>sourcehut:~misterio/nix-colors</code></li>
+<li><code>sourcehut:~misterio/nix-colors/main</code></li>
+<li><code>sourcehut:~misterio/nix-colors?host=git.example.org</code></li>
+<li><code>sourcehut:~misterio/nix-colors/182b4b8709b8ffe4e9774a4c5d6877bf6bb9a21c</code></li>
+<li><code>sourcehut:~misterio/nix-colors/21c1a380a6915d890d408e9f22203436a35bb2de?host=hg.sr.ht</code></li>
+</ul>
+</li>
+<li>
+<p><code>indirect</code>: Indirections through the flake registry. These have the
+form</p>
+<pre><code>[flake:]&lt;flake-id&gt;(/&lt;rev-or-ref&gt;(/rev)?)?
+</code></pre>
+<p>These perform a lookup of <code>&lt;flake-id&gt;</code> in the flake registry. For
+example, <code>nixpkgs</code> and <code>nixpkgs/release-20.09</code> are indirect flake
+references. The specified <code>rev</code> and/or <code>ref</code> are merged with the
+entry in the registry; see <a href="./nix3-registry.html">nix registry</a> for
+details.</p>
+</li>
+</ul>
+<h1 id="flake-format"><a class="header" href="#flake-format">Flake format</a></h1>
+<p>As an example, here is a simple <code>flake.nix</code> that depends on the
+Nixpkgs flake and provides a single package (i.e. an installable
+derivation):</p>
+<pre><code class="language-nix">{
+  description = &quot;A flake for building Hello World&quot;;
+
+  inputs.nixpkgs.url = github:NixOS/nixpkgs/nixos-20.03;
+
+  outputs = { self, nixpkgs }: {
+
+    packages.x86_64-linux.default =
+      # Notice the reference to nixpkgs here.
+      with import nixpkgs { system = &quot;x86_64-linux&quot;; };
+      stdenv.mkDerivation {
+        name = &quot;hello&quot;;
+        src = self;
+        buildPhase = &quot;gcc -o hello ./hello.c&quot;;
+        installPhase = &quot;mkdir -p $out/bin; install -t $out/bin hello&quot;;
+      };
+
+  };
+}
+</code></pre>
+<p>The following attributes are supported in <code>flake.nix</code>:</p>
+<ul>
+<li>
+<p><code>description</code>: A short, one-line description of the flake.</p>
+</li>
+<li>
+<p><code>inputs</code>: An attrset specifying the dependencies of the flake
+(described below).</p>
+</li>
+<li>
+<p><code>outputs</code>: A function that, given an attribute set containing the
+outputs of each of the input flakes keyed by their identifier,
+yields the Nix values provided by this flake. Thus, in the example
+above, <code>inputs.nixpkgs</code> contains the result of the call to the
+<code>outputs</code> function of the <code>nixpkgs</code> flake.</p>
+<p>In addition to the outputs of each input, each input in <code>inputs</code>
+also contains some metadata about the inputs. These are:</p>
+<ul>
+<li>
+<p><code>outPath</code>: The path in the Nix store of the flake's source tree.</p>
+</li>
+<li>
+<p><code>rev</code>: The commit hash of the flake's repository, if applicable.</p>
+</li>
+<li>
+<p><code>revCount</code>: The number of ancestors of the revision <code>rev</code>. This is
+not available for <code>github</code> repositories, since they're fetched as
+tarballs rather than as Git repositories.</p>
+</li>
+<li>
+<p><code>lastModifiedDate</code>: The commit time of the revision <code>rev</code>, in the
+format <code>%Y%m%d%H%M%S</code> (e.g. <code>20181231100934</code>). Unlike <code>revCount</code>,
+this is available for both Git and GitHub repositories, so it's
+useful for generating (hopefully) monotonically increasing version
+strings.</p>
+</li>
+<li>
+<p><code>lastModified</code>: The commit time of the revision <code>rev</code> as an integer
+denoting the number of seconds since 1970.</p>
+</li>
+<li>
+<p><code>narHash</code>: The SHA-256 (in SRI format) of the NAR serialization of
+the flake's source tree.</p>
+</li>
+</ul>
+<p>The value returned by the <code>outputs</code> function must be an attribute
+set. The attributes can have arbitrary values; however, various
+<code>nix</code> subcommands require specific attributes to have a specific
+value (e.g. <code>packages.x86_64-linux</code> must be an attribute set of
+derivations built for the <code>x86_64-linux</code> platform).</p>
+</li>
+<li>
+<p><code>nixConfig</code>: a set of <code>nix.conf</code> options to be set when evaluating any
+part of a flake. In the interests of security, only a small set of
+whitelisted options (currently <code>bash-prompt</code>, <code>bash-prompt-prefix</code>,
+<code>bash-prompt-suffix</code>, and <code>flake-registry</code>) are allowed to be set without
+confirmation so long as <code>accept-flake-config</code> is not set in the global
+configuration.</p>
+</li>
+</ul>
+<h2 id="flake-inputs"><a class="header" href="#flake-inputs">Flake inputs</a></h2>
+<p>The attribute <code>inputs</code> specifies the dependencies of a flake, as an
+attrset mapping input names to flake references. For example, the
+following specifies a dependency on the <code>nixpkgs</code> and <code>import-cargo</code>
+repositories:</p>
+<pre><code class="language-nix"># A GitHub repository.
+inputs.import-cargo = {
+  type = &quot;github&quot;;
+  owner = &quot;edolstra&quot;;
+  repo = &quot;import-cargo&quot;;
+};
+
+# An indirection through the flake registry.
+inputs.nixpkgs = {
+  type = &quot;indirect&quot;;
+  id = &quot;nixpkgs&quot;;
+};
+</code></pre>
+<p>Alternatively, you can use the URL-like syntax:</p>
+<pre><code class="language-nix">inputs.import-cargo.url = github:edolstra/import-cargo;
+inputs.nixpkgs.url = &quot;nixpkgs&quot;;
+</code></pre>
+<p>Each input is fetched, evaluated and passed to the <code>outputs</code> function
+as a set of attributes with the same name as the corresponding
+input. The special input named <code>self</code> refers to the outputs and source
+tree of <em>this</em> flake. Thus, a typical <code>outputs</code> function looks like
+this:</p>
+<pre><code class="language-nix">outputs = { self, nixpkgs, import-cargo }: {
+  ... outputs ...
+};
+</code></pre>
+<p>It is also possible to omit an input entirely and <em>only</em> list it as
+expected function argument to <code>outputs</code>. Thus,</p>
+<pre><code class="language-nix">outputs = { self, nixpkgs }: ...;
+</code></pre>
+<p>without an <code>inputs.nixpkgs</code> attribute is equivalent to</p>
+<pre><code class="language-nix">inputs.nixpkgs = {
+  type = &quot;indirect&quot;;
+  id = &quot;nixpkgs&quot;;
+};
+</code></pre>
+<p>Repositories that don't contain a <code>flake.nix</code> can also be used as
+inputs, by setting the input's <code>flake</code> attribute to <code>false</code>:</p>
+<pre><code class="language-nix">inputs.grcov = {
+  type = &quot;github&quot;;
+  owner = &quot;mozilla&quot;;
+  repo = &quot;grcov&quot;;
+  flake = false;
+};
+
+outputs = { self, nixpkgs, grcov }: {
+  packages.x86_64-linux.grcov = stdenv.mkDerivation {
+    src = grcov;
+    ...
+  };
+};
+</code></pre>
+<p>Transitive inputs can be overridden from a <code>flake.nix</code> file. For
+example, the following overrides the <code>nixpkgs</code> input of the <code>nixops</code>
+input:</p>
+<pre><code class="language-nix">inputs.nixops.inputs.nixpkgs = {
+  type = &quot;github&quot;;
+  owner = &quot;my-org&quot;;
+  repo = &quot;nixpkgs&quot;;
+};
+</code></pre>
+<p>It is also possible to &quot;inherit&quot; an input from another input. This is
+useful to minimize flake dependencies. For example, the following sets
+the <code>nixpkgs</code> input of the top-level flake to be equal to the
+<code>nixpkgs</code> input of the <code>dwarffs</code> input of the top-level flake:</p>
+<pre><code class="language-nix">inputs.nixpkgs.follows = &quot;dwarffs/nixpkgs&quot;;
+</code></pre>
+<p>The value of the <code>follows</code> attribute is a <code>/</code>-separated sequence of
+input names denoting the path of inputs to be followed from the root
+flake.</p>
+<p>Overrides and <code>follows</code> can be combined, e.g.</p>
+<pre><code class="language-nix">inputs.nixops.inputs.nixpkgs.follows = &quot;dwarffs/nixpkgs&quot;;
+</code></pre>
+<p>sets the <code>nixpkgs</code> input of <code>nixops</code> to be the same as the <code>nixpkgs</code>
+input of <code>dwarffs</code>. It is worth noting, however, that it is generally
+not useful to eliminate transitive <code>nixpkgs</code> flake inputs in this
+way. Most flakes provide their functionality through Nixpkgs overlays
+or NixOS modules, which are composed into the top-level flake's
+<code>nixpkgs</code> input; so their own <code>nixpkgs</code> input is usually irrelevant.</p>
+<h1 id="lock-files"><a class="header" href="#lock-files">Lock files</a></h1>
+<p>Inputs specified in <code>flake.nix</code> are typically &quot;unlocked&quot; in the sense
+that they don't specify an exact revision. To ensure reproducibility,
+Nix will automatically generate and use a <em>lock file</em> called
+<code>flake.lock</code> in the flake's directory. The lock file contains a graph
+structure isomorphic to the graph of dependencies of the root
+flake. Each node in the graph (except the root node) maps the
+(usually) unlocked input specifications in <code>flake.nix</code> to locked input
+specifications. Each node also contains some metadata, such as the
+dependencies (outgoing edges) of the node.</p>
+<p>For example, if <code>flake.nix</code> has the inputs in the example above, then
+the resulting lock file might be:</p>
+<pre><code class="language-json">{
+  &quot;version&quot;: 7,
+  &quot;root&quot;: &quot;n1&quot;,
+  &quot;nodes&quot;: {
+    &quot;n1&quot;: {
+      &quot;inputs&quot;: {
+        &quot;nixpkgs&quot;: &quot;n2&quot;,
+        &quot;import-cargo&quot;: &quot;n3&quot;,
+        &quot;grcov&quot;: &quot;n4&quot;
+      }
+    },
+    &quot;n2&quot;: {
+      &quot;inputs&quot;: {},
+      &quot;locked&quot;: {
+        &quot;owner&quot;: &quot;edolstra&quot;,
+        &quot;repo&quot;: &quot;nixpkgs&quot;,
+        &quot;rev&quot;: &quot;7f8d4b088e2df7fdb6b513bc2d6941f1d422a013&quot;,
+        &quot;type&quot;: &quot;github&quot;,
+        &quot;lastModified&quot;: 1580555482,
+        &quot;narHash&quot;: &quot;sha256-OnpEWzNxF/AU4KlqBXM2s5PWvfI5/BS6xQrPvkF5tO8=&quot;
+      },
+      &quot;original&quot;: {
+        &quot;id&quot;: &quot;nixpkgs&quot;,
+        &quot;type&quot;: &quot;indirect&quot;
+      }
+    },
+    &quot;n3&quot;: {
+      &quot;inputs&quot;: {},
+      &quot;locked&quot;: {
+        &quot;owner&quot;: &quot;edolstra&quot;,
+        &quot;repo&quot;: &quot;import-cargo&quot;,
+        &quot;rev&quot;: &quot;8abf7b3a8cbe1c8a885391f826357a74d382a422&quot;,
+        &quot;type&quot;: &quot;github&quot;,
+        &quot;lastModified&quot;: 1567183309,
+        &quot;narHash&quot;: &quot;sha256-wIXWOpX9rRjK5NDsL6WzuuBJl2R0kUCnlpZUrASykSc=&quot;
+      },
+      &quot;original&quot;: {
+        &quot;owner&quot;: &quot;edolstra&quot;,
+        &quot;repo&quot;: &quot;import-cargo&quot;,
+        &quot;type&quot;: &quot;github&quot;
+      }
+    },
+    &quot;n4&quot;: {
+      &quot;inputs&quot;: {},
+      &quot;locked&quot;: {
+        &quot;owner&quot;: &quot;mozilla&quot;,
+        &quot;repo&quot;: &quot;grcov&quot;,
+        &quot;rev&quot;: &quot;989a84bb29e95e392589c4e73c29189fd69a1d4e&quot;,
+        &quot;type&quot;: &quot;github&quot;,
+        &quot;lastModified&quot;: 1580729070,
+        &quot;narHash&quot;: &quot;sha256-235uMxYlHxJ5y92EXZWAYEsEb6mm+b069GAd+BOIOxI=&quot;
+      },
+      &quot;original&quot;: {
+        &quot;owner&quot;: &quot;mozilla&quot;,
+        &quot;repo&quot;: &quot;grcov&quot;,
+        &quot;type&quot;: &quot;github&quot;
+      },
+      &quot;flake&quot;: false
+    }
+  }
+}
+</code></pre>
+<p>This graph has 4 nodes: the root flake, and its 3 dependencies. The
+nodes have arbitrary labels (e.g. <code>n1</code>). The label of the root node of
+the graph is specified by the <code>root</code> attribute. Nodes contain the
+following fields:</p>
+<ul>
+<li>
+<p><code>inputs</code>: The dependencies of this node, as a mapping from input
+names (e.g. <code>nixpkgs</code>) to node labels (e.g. <code>n2</code>).</p>
+</li>
+<li>
+<p><code>original</code>: The original input specification from <code>flake.lock</code>, as a
+set of <code>builtins.fetchTree</code> arguments.</p>
+</li>
+<li>
+<p><code>locked</code>: The locked input specification, as a set of
+<code>builtins.fetchTree</code> arguments. Thus, in the example above, when we
+build this flake, the input <code>nixpkgs</code> is mapped to revision
+<code>7f8d4b088e2df7fdb6b513bc2d6941f1d422a013</code> of the <code>edolstra/nixpkgs</code>
+repository on GitHub.</p>
+<p>It also includes the attribute <code>narHash</code>, specifying the expected
+contents of the tree in the Nix store (as computed by <code>nix hash-path</code>), and may include input-type-specific attributes such as
+the <code>lastModified</code> or <code>revCount</code>. The main reason for these
+attributes is to allow flake inputs to be substituted from a binary
+cache: <code>narHash</code> allows the store path to be computed, while the
+other attributes are necessary because they provide information not
+stored in the store path.</p>
+</li>
+<li>
+<p><code>flake</code>: A Boolean denoting whether this is a flake or non-flake
+dependency. Corresponds to the <code>flake</code> attribute in the <code>inputs</code>
+attribute in <code>flake.nix</code>.</p>
+</li>
+</ul>
+<p>The <code>original</code> and <code>locked</code> attributes are omitted for the root
+node. This is because we cannot record the commit hash or content hash
+of the root flake, since modifying <code>flake.lock</code> will invalidate these.</p>
+<p>The graph representation of lock files allows circular dependencies
+between flakes. For example, here are two flakes that reference each
+other:</p>
+<pre><code class="language-nix">{
+  inputs.b = ... location of flake B ...;
+  # Tell the 'b' flake not to fetch 'a' again, to ensure its 'a' is
+  # *this* 'a'.
+  inputs.b.inputs.a.follows = &quot;&quot;;
+  outputs = { self, b }: {
+    foo = 123 + b.bar;
+    xyzzy = 1000;
+  };
+}
+</code></pre>
+<p>and</p>
+<pre><code class="language-nix">{
+  inputs.a = ... location of flake A ...;
+  inputs.a.inputs.b.follows = &quot;&quot;;
+  outputs = { self, a }: {
+    bar = 456 + a.xyzzy;
+  };
+}
+</code></pre>
+<p>Lock files transitively lock direct as well as indirect
+dependencies. That is, if a lock file exists and is up to date, Nix
+will not look at the lock files of dependencies. However, lock file
+generation itself <em>does</em> use the lock files of dependencies by
+default.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../command-ref/new-cli/nix3-eval.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../command-ref/new-cli/nix3-flake-archive.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../command-ref/new-cli/nix3-eval.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../command-ref/new-cli/nix3-flake-archive.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../redirects.js"></script>
+
+
+    </body>
+</html>

@@ -1,0 +1,1458 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Built-in Functions</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom.css">
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../package-management/channels.html"><strong aria-hidden="true">4.4.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../package-management/sharing-packages.html"><strong aria-hidden="true">4.5.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.5.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../package-management/copy-closure.html"><strong aria-hidden="true">4.5.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../package-management/ssh-substituter.html"><strong aria-hidden="true">4.5.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../package-management/s3-substituter.html"><strong aria-hidden="true">4.5.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li class="chapter-item expanded "><a href="../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../language/builtins.html" class="active"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/nix-env.html"><strong aria-hidden="true">7.3.1.</strong> nix-env</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-build.html"><strong aria-hidden="true">7.3.2.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.3.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-store.html"><strong aria-hidden="true">7.3.4.</strong> nix-store</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-describe-stores.html"><strong aria-hidden="true">7.5.6.</strong> nix describe-stores</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.7.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.8.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.9.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.10.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake.html"><strong aria-hidden="true">7.5.11.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.12.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.13.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.14.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.15.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.16.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.17.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.18.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.19.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.20.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.21.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.22.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.23.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.24.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.25.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.26.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.27.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.28.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.31.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.32.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.33.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.34.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.35.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.36.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.37.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.38.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.39.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.40.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.41.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.42.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.43.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.44.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.45.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.46.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.47.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.48.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.49.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.50.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.51.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.52.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.53.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.54.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.55.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.56.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-registry-remove.html"><strong aria-hidden="true">7.5.57.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.58.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.59.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.60.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.61.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.62.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-show-derivation.html"><strong aria-hidden="true">7.5.63.</strong> nix show-derivation</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.64.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.65.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.66.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.67.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.68.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.69.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.70.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.71.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.72.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.73.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.74.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.75.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.76.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.77.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.78.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.79.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.80.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.81.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.82.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.83.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.84.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../glossary.html"><strong aria-hidden="true">8.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../contributing/contributing.html"><strong aria-hidden="true">9.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../contributing/hacking.html"><strong aria-hidden="true">9.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../contributing/cli-guideline.html"><strong aria-hidden="true">9.2.</strong> CLI guideline</a></li></ol></li><li class="chapter-item expanded "><a href="../release-notes/release-notes.html"><strong aria-hidden="true">10.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../release-notes/rl-2.12.html"><strong aria-hidden="true">10.1.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.11.html"><strong aria-hidden="true">10.2.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.10.html"><strong aria-hidden="true">10.3.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.9.html"><strong aria-hidden="true">10.4.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.8.html"><strong aria-hidden="true">10.5.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.7.html"><strong aria-hidden="true">10.6.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.6.html"><strong aria-hidden="true">10.7.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.5.html"><strong aria-hidden="true">10.8.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.4.html"><strong aria-hidden="true">10.9.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.3.html"><strong aria-hidden="true">10.10.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.2.html"><strong aria-hidden="true">10.11.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.1.html"><strong aria-hidden="true">10.12.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-2.0.html"><strong aria-hidden="true">10.13.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.11.10.html"><strong aria-hidden="true">10.14.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.11.html"><strong aria-hidden="true">10.15.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.10.html"><strong aria-hidden="true">10.16.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.9.html"><strong aria-hidden="true">10.17.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.8.html"><strong aria-hidden="true">10.18.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.7.html"><strong aria-hidden="true">10.19.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.6.1.html"><strong aria-hidden="true">10.20.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.6.html"><strong aria-hidden="true">10.21.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.5.2.html"><strong aria-hidden="true">10.22.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.5.html"><strong aria-hidden="true">10.23.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.4.html"><strong aria-hidden="true">10.24.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.3.html"><strong aria-hidden="true">10.25.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.2.html"><strong aria-hidden="true">10.26.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.1.html"><strong aria-hidden="true">10.27.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-1.0.html"><strong aria-hidden="true">10.28.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.16.html"><strong aria-hidden="true">10.29.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.15.html"><strong aria-hidden="true">10.30.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.14.html"><strong aria-hidden="true">10.31.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.13.html"><strong aria-hidden="true">10.32.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.12.html"><strong aria-hidden="true">10.33.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.11.html"><strong aria-hidden="true">10.34.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.10.1.html"><strong aria-hidden="true">10.35.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.10.html"><strong aria-hidden="true">10.36.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.2.html"><strong aria-hidden="true">10.37.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.1.html"><strong aria-hidden="true">10.38.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.9.html"><strong aria-hidden="true">10.39.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.8.1.html"><strong aria-hidden="true">10.40.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.8.html"><strong aria-hidden="true">10.41.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.7.html"><strong aria-hidden="true">10.42.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.6.html"><strong aria-hidden="true">10.43.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../release-notes/rl-0.5.html"><strong aria-hidden="true">10.44.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title"></h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="built-in-functions"><a class="header" href="#built-in-functions">Built-in Functions</a></h1>
+<p>This section lists the functions built into the Nix expression
+evaluator. (The built-in function <code>derivation</code> is discussed above.)
+Some built-ins, such as <code>derivation</code>, are always in scope of every Nix
+expression; you can just access them right away. But to prevent
+polluting the namespace too much, most built-ins are not in
+scope. Instead, you can access them through the <code>builtins</code> built-in
+value, which is a set that contains all built-in functions and values.
+For instance, <code>derivation</code> is also available as <code>builtins.derivation</code>.</p>
+<dl>
+  <dt><code>derivation <var>attrs</var></code>;
+      <code>builtins.derivation <var>attrs</var></code></dt>
+  <dd><p><var>derivation</var> is described in
+         <a href="derivations.html">its own section</a>.</p></dd>
+<dt id="builtins-abort">
+  <a href="#builtins-abort"><code>abort <var>s</var></code></a>
+</dt>
+<dd>
+<p>Abort Nix expression evaluation and print the error message <em>s</em>.</p>
+</dd>
+<dt id="builtins-add">
+  <a href="#builtins-add"><code>add <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the sum of the numbers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-all">
+  <a href="#builtins-all"><code>all <var>pred</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for all elements
+of <em>list</em>, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-any">
+  <a href="#builtins-any"><code>any <var>pred</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for at least one
+element of <em>list</em>, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-attrNames">
+  <a href="#builtins-attrNames"><code>attrNames <var>set</var></code></a>
+</dt>
+<dd>
+<p>Return the names of the attributes in the set <em>set</em> in an
+alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = &quot;foo&quot;; }</code> evaluates to <code>[ &quot;x&quot; &quot;y&quot; ]</code>.</p>
+</dd>
+<dt id="builtins-attrValues">
+  <a href="#builtins-attrValues"><code>attrValues <var>set</var></code></a>
+</dt>
+<dd>
+<p>Return the values of the attributes in the set <em>set</em> in the order
+corresponding to the sorted attribute names.</p>
+</dd>
+<dt id="builtins-baseNameOf">
+  <a href="#builtins-baseNameOf"><code>baseNameOf <var>s</var></code></a>
+</dt>
+<dd>
+<p>Return the <em>base name</em> of the string <em>s</em>, that is, everything
+following the final slash in the string. This is similar to the GNU
+<code>basename</code> command.</p>
+</dd>
+<dt id="builtins-bitAnd">
+  <a href="#builtins-bitAnd"><code>bitAnd <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the bitwise AND of the integers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-bitOr">
+  <a href="#builtins-bitOr"><code>bitOr <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the bitwise OR of the integers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-bitXor">
+  <a href="#builtins-bitXor"><code>bitXor <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the bitwise XOR of the integers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-break">
+  <a href="#builtins-break"><code>break <var>v</var></code></a>
+</dt>
+<dd>
+<p>In debug mode (enabled using <code>--debugger</code>), pause Nix expression evaluation and enter the REPL.
+Otherwise, return the argument <code>v</code>.</p>
+</dd>
+<dt id="builtins-catAttrs">
+  <a href="#builtins-catAttrs"><code>catAttrs <var>attr</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Collect each attribute named <em>attr</em> from a list of attribute
+sets.  Attrsets that don't contain the named attribute are
+ignored. For example,</p>
+<pre><code class="language-nix">builtins.catAttrs &quot;a&quot; [{a = 1;} {b = 0;} {a = 2;}]
+</code></pre>
+<p>evaluates to <code>[1 2]</code>.</p>
+</dd>
+<dt id="builtins-ceil">
+  <a href="#builtins-ceil"><code>ceil <var>double</var></code></a>
+</dt>
+<dd>
+<p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
+the next higher integer.</p>
+<p>If the datatype is neither an integer nor a &quot;float&quot;, an evaluation error will be
+thrown.</p>
+</dd>
+<dt id="builtins-compareVersions">
+  <a href="#builtins-compareVersions"><code>compareVersions <var>s1</var> <var>s2</var></code></a>
+</dt>
+<dd>
+<p>Compare two strings representing versions and return <code>-1</code> if
+version <em>s1</em> is older than version <em>s2</em>, <code>0</code> if they are the same,
+and <code>1</code> if <em>s1</em> is newer than <em>s2</em>. The version comparison
+algorithm is the same as the one used by <a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
+</dd>
+<dt id="builtins-concatLists">
+  <a href="#builtins-concatLists"><code>concatLists <var>lists</var></code></a>
+</dt>
+<dd>
+<p>Concatenate a list of lists into a single list.</p>
+</dd>
+<dt id="builtins-concatMap">
+  <a href="#builtins-concatMap"><code>concatMap <var>f</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>This function is equivalent to <code>builtins.concatLists (map f list)</code>
+but is more efficient.</p>
+</dd>
+<dt id="builtins-concatStringsSep">
+  <a href="#builtins-concatStringsSep"><code>concatStringsSep <var>separator</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Concatenate a list of strings with a separator between each
+element, e.g. <code>concatStringsSep &quot;/&quot; [&quot;usr&quot; &quot;local&quot; &quot;bin&quot;] == &quot;usr/local/bin&quot;</code>.</p>
+</dd>
+<dt id="builtins-deepSeq">
+  <a href="#builtins-deepSeq"><code>deepSeq <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>This is like <code>seq e1 e2</code>, except that <em>e1</em> is evaluated <em>deeply</em>:
+if it’s a list or set, its elements or attributes are also
+evaluated recursively.</p>
+</dd>
+<dt id="builtins-dirOf">
+  <a href="#builtins-dirOf"><code>dirOf <var>s</var></code></a>
+</dt>
+<dd>
+<p>Return the directory part of the string <em>s</em>, that is, everything
+before the final slash in the string. This is similar to the GNU
+<code>dirname</code> command.</p>
+</dd>
+<dt id="builtins-div">
+  <a href="#builtins-div"><code>div <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the quotient of the numbers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-elem">
+  <a href="#builtins-elem"><code>elem <var>x</var> <var>xs</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if a value equal to <em>x</em> occurs in the list <em>xs</em>, and
+<code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-elemAt">
+  <a href="#builtins-elemAt"><code>elemAt <var>xs</var> <var>n</var></code></a>
+</dt>
+<dd>
+<p>Return element <em>n</em> from the list <em>xs</em>. Elements are counted starting
+from 0. A fatal error occurs if the index is out of bounds.</p>
+</dd>
+<dt id="builtins-fetchClosure">
+  <a href="#builtins-fetchClosure"><code>fetchClosure <var>args</var></code></a>
+</dt>
+<dd>
+<p>Fetch a Nix store closure from a binary cache, rewriting it into
+content-addressed form. For example,</p>
+<pre><code class="language-nix">builtins.fetchClosure {
+  fromStore = &quot;https://cache.nixos.org&quot;;
+  fromPath = /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1;
+  toPath = /nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1;
+}
+</code></pre>
+<p>fetches <code>/nix/store/r2jd...</code> from the specified binary cache,
+and rewrites it into the content-addressed store path
+<code>/nix/store/ldbh...</code>.</p>
+<p>If <code>fromPath</code> is already content-addressed, or if you are
+allowing impure evaluation (<code>--impure</code>), then <code>toPath</code> may be
+omitted.</p>
+<p>To find out the correct value for <code>toPath</code> given a <code>fromPath</code>,
+you can use <code>nix store make-content-addressed</code>:</p>
+<pre><code class="language-console"># nix store make-content-addressed --from https://cache.nixos.org /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1
+rewrote '/nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1' to '/nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1'
+</code></pre>
+<p>This function is similar to <code>builtins.storePath</code> in that it
+allows you to use a previously built store path in a Nix
+expression. However, it is more reproducible because it requires
+specifying a binary cache from which the path can be fetched.
+Also, requiring a content-addressed final store path avoids the
+need for users to configure binary cache public keys.</p>
+<p>This function is only available if you enable the experimental
+feature <code>fetch-closure</code>.</p>
+</dd>
+<dt id="builtins-fetchGit">
+  <a href="#builtins-fetchGit"><code>fetchGit <var>args</var></code></a>
+</dt>
+<dd>
+<p>Fetch a path from git. <em>args</em> can be a URL, in which case the HEAD
+of the repo at that URL is fetched. Otherwise, it can be an
+attribute with the following attributes (all except <code>url</code> optional):</p>
+<ul>
+<li>
+<p>url<br />
+The URL of the repo.</p>
+</li>
+<li>
+<p>name<br />
+The name of the directory the repo should be exported to in the
+store. Defaults to the basename of the URL.</p>
+</li>
+<li>
+<p>rev<br />
+The git revision to fetch. Defaults to the tip of <code>ref</code>.</p>
+</li>
+<li>
+<p>ref<br />
+The git ref to look for the requested revision under. This is
+often a branch or tag name. Defaults to <code>HEAD</code>.</p>
+<p>By default, the <code>ref</code> value is prefixed with <code>refs/heads/</code>. As
+of Nix 2.3.0 Nix will not prefix <code>refs/heads/</code> if <code>ref</code> starts
+with <code>refs/</code>.</p>
+</li>
+<li>
+<p>submodules<br />
+A Boolean parameter that specifies whether submodules should be
+checked out. Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p>shallow<br />
+A Boolean parameter that specifies whether fetching a shallow clone
+is allowed. Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p>allRefs<br />
+Whether to fetch all refs of the repository. With this argument being
+true, it's possible to load a <code>rev</code> from <em>any</em> <code>ref</code> (by default only
+<code>rev</code>s from the specified <code>ref</code> are supported).</p>
+</li>
+</ul>
+<p>Here are some examples of how to use <code>fetchGit</code>.</p>
+<ul>
+<li>
+<p>To fetch a private repository over SSH:</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;git@github.com:my-secret/repository.git&quot;;
+  ref = &quot;master&quot;;
+  rev = &quot;adab8b916a45068c044658c4158d81878f9ed1c3&quot;;
+}
+</code></pre>
+</li>
+<li>
+<p>To fetch an arbitrary reference:</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;https://github.com/NixOS/nix.git&quot;;
+  ref = &quot;refs/heads/0.5-release&quot;;
+}
+</code></pre>
+</li>
+<li>
+<p>If the revision you're looking for is in the default branch of
+the git repository you don't strictly need to specify the branch
+name in the <code>ref</code> attribute.</p>
+<p>However, if the revision you're looking for is in a future
+branch for the non-default branch you will need to specify the
+the <code>ref</code> attribute as well.</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;https://github.com/nixos/nix.git&quot;;
+  rev = &quot;841fcbd04755c7a2865c51c1e2d3b045976b7452&quot;;
+  ref = &quot;1.11-maintenance&quot;;
+}
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>It is nice to always specify the branch which a revision
+belongs to. Without the branch being specified, the fetcher
+might fail if the default branch changes. Additionally, it can
+be confusing to try a commit from a non-default branch and see
+the fetch fail. If the branch is specified the fault is much
+more obvious.</p>
+</blockquote>
+</li>
+<li>
+<p>If the revision you're looking for is in the default branch of
+the git repository you may omit the <code>ref</code> attribute.</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;https://github.com/nixos/nix.git&quot;;
+  rev = &quot;841fcbd04755c7a2865c51c1e2d3b045976b7452&quot;;
+}
+</code></pre>
+</li>
+<li>
+<p>To fetch a specific tag:</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;https://github.com/nixos/nix.git&quot;;
+  ref = &quot;refs/tags/1.9&quot;;
+}
+</code></pre>
+</li>
+<li>
+<p>To fetch the latest version of a remote branch:</p>
+<pre><code class="language-nix">builtins.fetchGit {
+  url = &quot;ssh://git@github.com/nixos/nix.git&quot;;
+  ref = &quot;master&quot;;
+}
+</code></pre>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Nix will refetch the branch in accordance with
+the option <code>tarball-ttl</code>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>This behavior is disabled in <em>Pure evaluation mode</em>.</p>
+</blockquote>
+</li>
+</ul>
+</dd>
+<dt id="builtins-fetchTarball">
+  <a href="#builtins-fetchTarball"><code>fetchTarball <var>args</var></code></a>
+</dt>
+<dd>
+<p>Download the specified URL, unpack it and return the path of the
+unpacked tree. The file must be a tape archive (<code>.tar</code>) compressed
+with <code>gzip</code>, <code>bzip2</code> or <code>xz</code>. The top-level path component of the
+files in the tarball is removed, so it is best if the tarball
+contains a single directory at top level. The typical use of the
+function is to obtain external Nix expression dependencies, such as
+a particular version of Nixpkgs, e.g.</p>
+<pre><code class="language-nix">with import (fetchTarball https://github.com/NixOS/nixpkgs/archive/nixos-14.12.tar.gz) {};
+
+stdenv.mkDerivation { … }
+</code></pre>
+<p>The fetched tarball is cached for a certain amount of time (1
+hour by default) in <code>~/.cache/nix/tarballs/</code>. You can change the
+cache timeout either on the command line with <code>--tarball-ttl</code>
+<em>number-of-seconds</em> or in the Nix configuration file by adding
+the line <code>tarball-ttl = </code> <em>number-of-seconds</em>.</p>
+<p>Note that when obtaining the hash with <code>nix-prefetch-url</code> the
+option <code>--unpack</code> is required.</p>
+<p>This function can also verify the contents against a hash. In that
+case, the function takes a set instead of a URL. The set requires
+the attribute <code>url</code> and the attribute <code>sha256</code>, e.g.</p>
+<pre><code class="language-nix">with import (fetchTarball {
+  url = &quot;https://github.com/NixOS/nixpkgs/archive/nixos-14.12.tar.gz&quot;;
+  sha256 = &quot;1jppksrfvbk5ypiqdz4cddxdl8z6zyzdb2srq8fcffr327ld5jj2&quot;;
+}) {};
+
+stdenv.mkDerivation { … }
+</code></pre>
+<p>This function is not available if <a href="../command-ref/conf-file.html">restricted evaluation
+mode</a> is enabled.</p>
+</dd>
+<dt id="builtins-fetchurl">
+  <a href="#builtins-fetchurl"><code>fetchurl <var>url</var></code></a>
+</dt>
+<dd>
+<p>Download the specified URL and return the path of the downloaded
+file. This function is not available if <a href="../command-ref/conf-file.html">restricted evaluation
+mode</a> is enabled.</p>
+</dd>
+<dt id="builtins-filter">
+  <a href="#builtins-filter"><code>filter <var>f</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return a list consisting of the elements of <em>list</em> for which the
+function <em>f</em> returns <code>true</code>.</p>
+</dd>
+<dt id="builtins-filterSource">
+  <a href="#builtins-filterSource"><code>filterSource <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>filterSource</code> should not be used to filter store paths. Since
+<code>filterSource</code> uses the name of the input directory while naming
+the output directory, doing so will produce a directory name in
+the form of <code>&lt;hash2&gt;-&lt;hash&gt;-&lt;name&gt;</code>, where <code>&lt;hash&gt;-&lt;name&gt;</code> is
+the name of the input directory. Since <code>&lt;hash&gt;</code> depends on the
+unfiltered directory, the name of the output directory will
+indirectly depend on files that are filtered out by the
+function. This will trigger a rebuild even when a filtered out
+file is changed. Use <code>builtins.path</code> instead, which allows
+specifying the name of the output directory.</p>
+</blockquote>
+<p>This function allows you to copy sources into the Nix store while
+filtering certain files. For instance, suppose that you want to use
+the directory <code>source-dir</code> as an input to a Nix expression, e.g.</p>
+<pre><code class="language-nix">stdenv.mkDerivation {
+  ...
+  src = ./source-dir;
+}
+</code></pre>
+<p>However, if <code>source-dir</code> is a Subversion working copy, then all
+those annoying <code>.svn</code> subdirectories will also be copied to the
+store. Worse, the contents of those directories may change a lot,
+causing lots of spurious rebuilds. With <code>filterSource</code> you can
+filter out the <code>.svn</code> directories:</p>
+<pre><code class="language-nix">src = builtins.filterSource
+  (path: type: type != &quot;directory&quot; || baseNameOf path != &quot;.svn&quot;)
+  ./source-dir;
+</code></pre>
+<p>Thus, the first argument <em>e1</em> must be a predicate function that is
+called for each regular file, directory or symlink in the source
+tree <em>e2</em>. If the function returns <code>true</code>, the file is copied to the
+Nix store, otherwise it is omitted. The function is called with two
+arguments. The first is the full path of the file. The second is a
+string that identifies the type of the file, which is either
+<code>&quot;regular&quot;</code>, <code>&quot;directory&quot;</code>, <code>&quot;symlink&quot;</code> or <code>&quot;unknown&quot;</code> (for other
+kinds of files such as device nodes or fifos — but note that those
+cannot be copied to the Nix store, so if the predicate returns
+<code>true</code> for them, the copy will fail). If you exclude a directory,
+the entire corresponding subtree of <em>e2</em> will be excluded.</p>
+</dd>
+<dt id="builtins-floor">
+  <a href="#builtins-floor"><code>floor <var>double</var></code></a>
+</dt>
+<dd>
+<p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
+the next lower integer.</p>
+<p>If the datatype is neither an integer nor a &quot;float&quot;, an evaluation error will be
+thrown.</p>
+</dd>
+<dt id="builtins-foldl'">
+  <a href="#builtins-foldl'"><code>foldl' <var>op</var> <var>nul</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Reduce a list by applying a binary operator, from left to right,
+e.g. <code>foldl' op nul [x0 x1 x2 ...] = op (op (op nul x0) x1) x2) ...</code>. The operator is applied strictly, i.e., its arguments are
+evaluated first. For example, <code>foldl' (x: y: x + y) 0 [1 2 3]</code>
+evaluates to 6.</p>
+</dd>
+<dt id="builtins-fromJSON">
+  <a href="#builtins-fromJSON"><code>fromJSON <var>e</var></code></a>
+</dt>
+<dd>
+<p>Convert a JSON string to a Nix value. For example,</p>
+<pre><code class="language-nix">builtins.fromJSON ''{&quot;x&quot;: [1, 2, 3], &quot;y&quot;: null}''
+</code></pre>
+<p>returns the value <code>{ x = [ 1 2 3 ]; y = null; }</code>.</p>
+</dd>
+<dt id="builtins-functionArgs">
+  <a href="#builtins-functionArgs"><code>functionArgs <var>f</var></code></a>
+</dt>
+<dd>
+<p>Return a set containing the names of the formal arguments expected
+by the function <em>f</em>. The value of each attribute is a Boolean
+denoting whether the corresponding argument has a default value. For
+instance, <code>functionArgs ({ x, y ? 123}: ...) = { x = false; y = true; }</code>.</p>
+<p>&quot;Formal argument&quot; here refers to the attributes pattern-matched by
+the function. Plain lambdas are not included, e.g. <code>functionArgs (x: ...) = { }</code>.</p>
+</dd>
+<dt id="builtins-genList">
+  <a href="#builtins-genList"><code>genList <var>generator</var> <var>length</var></code></a>
+</dt>
+<dd>
+<p>Generate list of size <em>length</em>, with each element <em>i</em> equal to the
+value returned by <em>generator</em> <code>i</code>. For example,</p>
+<pre><code class="language-nix">builtins.genList (x: x * x) 5
+</code></pre>
+<p>returns the list <code>[ 0 1 4 9 16 ]</code>.</p>
+</dd>
+<dt id="builtins-genericClosure">
+  <a href="#builtins-genericClosure"><code>genericClosure <var>attrset</var></code></a>
+</dt>
+<dd>
+<p>Take an <em>attrset</em> with values named <code>startSet</code> and <code>operator</code> in order to
+return a <em>list of attrsets</em> by starting with the <code>startSet</code>, recursively
+applying the <code>operator</code> function to each element. The <em>attrsets</em> in the
+<code>startSet</code> and produced by the <code>operator</code> must each contain value named
+<code>key</code> which are comparable to each other. The result is produced by
+repeatedly calling the operator for each element encountered with a
+unique key, terminating when no new elements are produced. For example,</p>
+<pre><code>builtins.genericClosure {
+  startSet = [ {key = 5;} ];
+  operator = item: [{
+    key = if (item.key / 2 ) * 2 == item.key
+         then item.key / 2
+         else 3 * item.key + 1;
+  }];
+}
+</code></pre>
+<p>evaluates to</p>
+<pre><code>[ { key = 5; } { key = 16; } { key = 8; } { key = 4; } { key = 2; } { key = 1; } ]
+</code></pre>
+</dd>
+<dt id="builtins-getAttr">
+  <a href="#builtins-getAttr"><code>getAttr <var>s</var> <var>set</var></code></a>
+</dt>
+<dd>
+<p><code>getAttr</code> returns the attribute named <em>s</em> from <em>set</em>. Evaluation
+aborts if the attribute doesn’t exist. This is a dynamic version of
+the <code>.</code> operator, since <em>s</em> is an expression rather than an
+identifier.</p>
+</dd>
+<dt id="builtins-getEnv">
+  <a href="#builtins-getEnv"><code>getEnv <var>s</var></code></a>
+</dt>
+<dd>
+<p><code>getEnv</code> returns the value of the environment variable <em>s</em>, or an
+empty string if the variable doesn’t exist. This function should be
+used with care, as it can introduce all sorts of nasty environment
+dependencies in your Nix expression.</p>
+<p><code>getEnv</code> is used in Nix Packages to locate the file
+<code>~/.nixpkgs/config.nix</code>, which contains user-local settings for Nix
+Packages. (That is, it does a <code>getEnv &quot;HOME&quot;</code> to locate the user’s
+home directory.)</p>
+</dd>
+<dt id="builtins-getFlake">
+  <a href="#builtins-getFlake"><code>getFlake <var>args</var></code></a>
+</dt>
+<dd>
+<p>Fetch a flake from a flake reference, and return its output attributes and some metadata. For example:</p>
+<pre><code class="language-nix">(builtins.getFlake &quot;nix/55bc52401966fbffa525c574c14f67b00bc4fb3a&quot;).packages.x86_64-linux.nix
+</code></pre>
+<p>Unless impure evaluation is allowed (<code>--impure</code>), the flake reference
+must be &quot;locked&quot;, e.g. contain a Git revision or content hash. An
+example of an unlocked usage is:</p>
+<pre><code class="language-nix">(builtins.getFlake &quot;github:edolstra/dwarffs&quot;).rev
+</code></pre>
+<p>This function is only available if you enable the experimental feature
+<code>flakes</code>.</p>
+</dd>
+<dt id="builtins-groupBy">
+  <a href="#builtins-groupBy"><code>groupBy <var>f</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Groups elements of <em>list</em> together by the string returned from the
+function <em>f</em> called on each element. It returns an attribute set
+where each attribute value contains the elements of <em>list</em> that are
+mapped to the same corresponding attribute name returned by <em>f</em>.</p>
+<p>For example,</p>
+<pre><code class="language-nix">builtins.groupBy (builtins.substring 0 1) [&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;]
+</code></pre>
+<p>evaluates to</p>
+<pre><code class="language-nix">{ b = [ &quot;bar&quot; &quot;baz&quot; ]; f = [ &quot;foo&quot; ]; }
+</code></pre>
+</dd>
+<dt id="builtins-hasAttr">
+  <a href="#builtins-hasAttr"><code>hasAttr <var>s</var> <var>set</var></code></a>
+</dt>
+<dd>
+<p><code>hasAttr</code> returns <code>true</code> if <em>set</em> has an attribute named <em>s</em>, and
+<code>false</code> otherwise. This is a dynamic version of the <code>?</code> operator,
+since <em>s</em> is an expression rather than an identifier.</p>
+</dd>
+<dt id="builtins-hashFile">
+  <a href="#builtins-hashFile"><code>hashFile <var>type</var> <var>p</var></code></a>
+</dt>
+<dd>
+<p>Return a base-16 representation of the cryptographic hash of the
+file at path <em>p</em>. The hash algorithm specified by <em>type</em> must be one
+of <code>&quot;md5&quot;</code>, <code>&quot;sha1&quot;</code>, <code>&quot;sha256&quot;</code> or <code>&quot;sha512&quot;</code>.</p>
+</dd>
+<dt id="builtins-hashString">
+  <a href="#builtins-hashString"><code>hashString <var>type</var> <var>s</var></code></a>
+</dt>
+<dd>
+<p>Return a base-16 representation of the cryptographic hash of string
+<em>s</em>. The hash algorithm specified by <em>type</em> must be one of <code>&quot;md5&quot;</code>,
+<code>&quot;sha1&quot;</code>, <code>&quot;sha256&quot;</code> or <code>&quot;sha512&quot;</code>.</p>
+</dd>
+<dt id="builtins-head">
+  <a href="#builtins-head"><code>head <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return the first element of a list; abort evaluation if the argument
+isn’t a list or is an empty list. You can test whether a list is
+empty by comparing it with <code>[]</code>.</p>
+</dd>
+<dt id="builtins-import">
+  <a href="#builtins-import"><code>import <var>path</var></code></a>
+</dt>
+<dd>
+<p>Load, parse and return the Nix expression in the file <em>path</em>. If
+<em>path</em> is a directory, the file <code>default.nix</code> in that directory
+is loaded. Evaluation aborts if the file doesn’t exist or contains
+an incorrect Nix expression. <code>import</code> implements Nix’s module
+system: you can put any Nix expression (such as a set or a
+function) in a separate file, and use it from Nix expressions in
+other files.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Unlike some languages, <code>import</code> is a regular function in Nix.
+Paths using the angle bracket syntax (e.g., <code>import</code> <em>&lt;foo&gt;</em>)
+are <a href="language-values.html">normal path values</a>.</p>
+</blockquote>
+<p>A Nix expression loaded by <code>import</code> must not contain any <em>free
+variables</em> (identifiers that are not defined in the Nix expression
+itself and are not built-in). Therefore, it cannot refer to
+variables that are in scope at the call site. For instance, if you
+have a calling expression</p>
+<pre><code class="language-nix">rec {
+  x = 123;
+  y = import ./foo.nix;
+}
+</code></pre>
+<p>then the following <code>foo.nix</code> will give an error:</p>
+<pre><code class="language-nix">x + 456
+</code></pre>
+<p>since <code>x</code> is not in scope in <code>foo.nix</code>. If you want <code>x</code> to be
+available in <code>foo.nix</code>, you should pass it as a function argument:</p>
+<pre><code class="language-nix">rec {
+  x = 123;
+  y = import ./foo.nix x;
+}
+</code></pre>
+<p>and</p>
+<pre><code class="language-nix">x: x + 456
+</code></pre>
+<p>(The function argument doesn’t have to be called <code>x</code> in <code>foo.nix</code>;
+any name would work.)</p>
+</dd>
+<dt id="builtins-intersectAttrs">
+  <a href="#builtins-intersectAttrs"><code>intersectAttrs <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return a set consisting of the attributes in the set <em>e2</em> which have the
+same name as some attribute in <em>e1</em>.</p>
+</dd>
+<dt id="builtins-isAttrs">
+  <a href="#builtins-isAttrs"><code>isAttrs <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a set, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isBool">
+  <a href="#builtins-isBool"><code>isBool <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a bool, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isFloat">
+  <a href="#builtins-isFloat"><code>isFloat <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a float, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isFunction">
+  <a href="#builtins-isFunction"><code>isFunction <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a function, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isInt">
+  <a href="#builtins-isInt"><code>isInt <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to an integer, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isList">
+  <a href="#builtins-isList"><code>isList <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a list, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isNull">
+  <a href="#builtins-isNull"><code>isNull <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to <code>null</code>, and <code>false</code> otherwise.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This function is <em>deprecated</em>; just write <code>e == null</code> instead.</p>
+</blockquote>
+</dd>
+<dt id="builtins-isPath">
+  <a href="#builtins-isPath"><code>isPath <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a path, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-isString">
+  <a href="#builtins-isString"><code>isString <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if <em>e</em> evaluates to a string, and <code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-length">
+  <a href="#builtins-length"><code>length <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return the length of the list <em>e</em>.</p>
+</dd>
+<dt id="builtins-lessThan">
+  <a href="#builtins-lessThan"><code>lessThan <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if the number <em>e1</em> is less than the number <em>e2</em>, and
+<code>false</code> otherwise. Evaluation aborts if either <em>e1</em> or <em>e2</em> does not
+evaluate to a number.</p>
+</dd>
+<dt id="builtins-listToAttrs">
+  <a href="#builtins-listToAttrs"><code>listToAttrs <var>e</var></code></a>
+</dt>
+<dd>
+<p>Construct a set from a list specifying the names and values of each
+attribute. Each element of the list should be a set consisting of a
+string-valued attribute <code>name</code> specifying the name of the attribute,
+and an attribute <code>value</code> specifying its value.</p>
+<p>In case of duplicate occurrences of the same name, the first
+takes precedence.</p>
+<p>Example:</p>
+<pre><code class="language-nix">builtins.listToAttrs
+  [ { name = &quot;foo&quot;; value = 123; }
+    { name = &quot;bar&quot;; value = 456; }
+    { name = &quot;bar&quot;; value = 420; }
+  ]
+</code></pre>
+<p>evaluates to</p>
+<pre><code class="language-nix">{ foo = 123; bar = 456; }
+</code></pre>
+</dd>
+<dt id="builtins-map">
+  <a href="#builtins-map"><code>map <var>f</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Apply the function <em>f</em> to each element in the list <em>list</em>. For
+example,</p>
+<pre><code class="language-nix">map (x: &quot;foo&quot; + x) [ &quot;bar&quot; &quot;bla&quot; &quot;abc&quot; ]
+</code></pre>
+<p>evaluates to <code>[ &quot;foobar&quot; &quot;foobla&quot; &quot;fooabc&quot; ]</code>.</p>
+</dd>
+<dt id="builtins-mapAttrs">
+  <a href="#builtins-mapAttrs"><code>mapAttrs <var>f</var> <var>attrset</var></code></a>
+</dt>
+<dd>
+<p>Apply function <em>f</em> to every element of <em>attrset</em>. For example,</p>
+<pre><code class="language-nix">builtins.mapAttrs (name: value: value * 10) { a = 1; b = 2; }
+</code></pre>
+<p>evaluates to <code>{ a = 10; b = 20; }</code>.</p>
+</dd>
+<dt id="builtins-match">
+  <a href="#builtins-match"><code>match <var>regex</var> <var>str</var></code></a>
+</dt>
+<dd>
+<p>Returns a list if the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">extended POSIX regular
+expression</a>
+<em>regex</em> matches <em>str</em> precisely, otherwise returns <code>null</code>. Each item
+in the list is a regex group.</p>
+<pre><code class="language-nix">builtins.match &quot;ab&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>null</code>.</p>
+<pre><code class="language-nix">builtins.match &quot;abc&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>[ ]</code>.</p>
+<pre><code class="language-nix">builtins.match &quot;a(b)(c)&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot;b&quot; &quot;c&quot; ]</code>.</p>
+<pre><code class="language-nix">builtins.match &quot;[[:space:]]+([[:upper:]]+)[[:space:]]+&quot; &quot;  FOO   &quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot;FOO&quot; ]</code>.</p>
+</dd>
+<dt id="builtins-mul">
+  <a href="#builtins-mul"><code>mul <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the product of the numbers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-parseDrvName">
+  <a href="#builtins-parseDrvName"><code>parseDrvName <var>s</var></code></a>
+</dt>
+<dd>
+<p>Split the string <em>s</em> into a package name and version. The package
+name is everything up to but not including the first dash not followed
+by a letter, and the version is everything following that dash. The
+result is returned in a set <code>{ name, version }</code>. Thus,
+<code>builtins.parseDrvName &quot;nix-0.12pre12876&quot;</code> returns <code>{ name = &quot;nix&quot;; version = &quot;0.12pre12876&quot;; }</code>.</p>
+</dd>
+<dt id="builtins-partition">
+  <a href="#builtins-partition"><code>partition <var>pred</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Given a predicate function <em>pred</em>, this function returns an
+attrset containing a list named <code>right</code>, containing the elements
+in <em>list</em> for which <em>pred</em> returned <code>true</code>, and a list named
+<code>wrong</code>, containing the elements for which it returned
+<code>false</code>. For example,</p>
+<pre><code class="language-nix">builtins.partition (x: x &gt; 10) [1 23 9 3 42]
+</code></pre>
+<p>evaluates to</p>
+<pre><code class="language-nix">{ right = [ 23 42 ]; wrong = [ 1 9 3 ]; }
+</code></pre>
+</dd>
+<dt id="builtins-path">
+  <a href="#builtins-path"><code>path <var>args</var></code></a>
+</dt>
+<dd>
+<p>An enrichment of the built-in path type, based on the attributes
+present in <em>args</em>. All are optional except <code>path</code>:</p>
+<ul>
+<li>
+<p>path<br />
+The underlying path.</p>
+</li>
+<li>
+<p>name<br />
+The name of the path when added to the store. This can used to
+reference paths that have nix-illegal characters in their names,
+like <code>@</code>.</p>
+</li>
+<li>
+<p>filter<br />
+A function of the type expected by <code>builtins.filterSource</code>,
+with the same semantics.</p>
+</li>
+<li>
+<p>recursive<br />
+When <code>false</code>, when <code>path</code> is added to the store it is with a
+flat hash, rather than a hash of the NAR serialization of the
+file. Thus, <code>path</code> must refer to a regular file, not a
+directory. This allows similar behavior to <code>fetchurl</code>. Defaults
+to <code>true</code>.</p>
+</li>
+<li>
+<p>sha256<br />
+When provided, this is the expected hash of the file at the
+path. Evaluation will fail if the hash is incorrect, and
+providing a hash allows <code>builtins.path</code> to be used even when the
+<code>pure-eval</code> nix config option is on.</p>
+</li>
+</ul>
+</dd>
+<dt id="builtins-pathExists">
+  <a href="#builtins-pathExists"><code>pathExists <var>path</var></code></a>
+</dt>
+<dd>
+<p>Return <code>true</code> if the path <em>path</em> exists at evaluation time, and
+<code>false</code> otherwise.</p>
+</dd>
+<dt id="builtins-placeholder">
+  <a href="#builtins-placeholder"><code>placeholder <var>output</var></code></a>
+</dt>
+<dd>
+<p>Return a placeholder string for the specified <em>output</em> that will be
+substituted by the corresponding output path at build time. Typical
+outputs would be <code>&quot;out&quot;</code>, <code>&quot;bin&quot;</code> or <code>&quot;dev&quot;</code>.</p>
+</dd>
+<dt id="builtins-readDir">
+  <a href="#builtins-readDir"><code>readDir <var>path</var></code></a>
+</dt>
+<dd>
+<p>Return the contents of the directory <em>path</em> as a set mapping
+directory entries to the corresponding file type. For instance, if
+directory <code>A</code> contains a regular file <code>B</code> and another directory
+<code>C</code>, then <code>builtins.readDir ./A</code> will return the set</p>
+<pre><code class="language-nix">{ B = &quot;regular&quot;; C = &quot;directory&quot;; }
+</code></pre>
+<p>The possible values for the file type are <code>&quot;regular&quot;</code>,
+<code>&quot;directory&quot;</code>, <code>&quot;symlink&quot;</code> and <code>&quot;unknown&quot;</code>.</p>
+</dd>
+<dt id="builtins-readFile">
+  <a href="#builtins-readFile"><code>readFile <var>path</var></code></a>
+</dt>
+<dd>
+<p>Return the contents of the file <em>path</em> as a string.</p>
+</dd>
+<dt id="builtins-removeAttrs">
+  <a href="#builtins-removeAttrs"><code>removeAttrs <var>set</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Remove the attributes listed in <em>list</em> from <em>set</em>. The attributes
+don’t have to exist in <em>set</em>. For instance,</p>
+<pre><code class="language-nix">removeAttrs { x = 1; y = 2; z = 3; } [ &quot;a&quot; &quot;x&quot; &quot;z&quot; ]
+</code></pre>
+<p>evaluates to <code>{ y = 2; }</code>.</p>
+</dd>
+<dt id="builtins-replaceStrings">
+  <a href="#builtins-replaceStrings"><code>replaceStrings <var>from</var> <var>to</var> <var>s</var></code></a>
+</dt>
+<dd>
+<p>Given string <em>s</em>, replace every occurrence of the strings in <em>from</em>
+with the corresponding string in <em>to</em>. For example,</p>
+<pre><code class="language-nix">builtins.replaceStrings [&quot;oo&quot; &quot;a&quot;] [&quot;a&quot; &quot;i&quot;] &quot;foobar&quot;
+</code></pre>
+<p>evaluates to <code>&quot;fabir&quot;</code>.</p>
+</dd>
+<dt id="builtins-seq">
+  <a href="#builtins-seq"><code>seq <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Evaluate <em>e1</em>, then evaluate and return <em>e2</em>. This ensures that a
+computation is strict in the value of <em>e1</em>.</p>
+</dd>
+<dt id="builtins-sort">
+  <a href="#builtins-sort"><code>sort <var>comparator</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return <em>list</em> in sorted order. It repeatedly calls the function
+<em>comparator</em> with two elements. The comparator should return <code>true</code>
+if the first element is less than the second, and <code>false</code> otherwise.
+For example,</p>
+<pre><code class="language-nix">builtins.sort builtins.lessThan [ 483 249 526 147 42 77 ]
+</code></pre>
+<p>produces the list <code>[ 42 77 147 249 483 526 ]</code>.</p>
+<p>This is a stable sort: it preserves the relative order of elements
+deemed equal by the comparator.</p>
+</dd>
+<dt id="builtins-split">
+  <a href="#builtins-split"><code>split <var>regex</var> <var>str</var></code></a>
+</dt>
+<dd>
+<p>Returns a list composed of non matched strings interleaved with the
+lists of the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">extended POSIX regular
+expression</a>
+<em>regex</em> matches of <em>str</em>. Each item in the lists of matched
+sequences is a regex group.</p>
+<pre><code class="language-nix">builtins.split &quot;(a)b&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; ] &quot;c&quot; ]</code>.</p>
+<pre><code class="language-nix">builtins.split &quot;([ac])&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; ] &quot;b&quot; [ &quot;c&quot; ] &quot;&quot; ]</code>.</p>
+<pre><code class="language-nix">builtins.split &quot;(a)|(c)&quot; &quot;abc&quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; null ] &quot;b&quot; [ null &quot;c&quot; ] &quot;&quot; ]</code>.</p>
+<pre><code class="language-nix">builtins.split &quot;([[:upper:]]+)&quot; &quot; FOO &quot;
+</code></pre>
+<p>Evaluates to <code>[ &quot; &quot; [ &quot;FOO&quot; ] &quot; &quot; ]</code>.</p>
+</dd>
+<dt id="builtins-splitVersion">
+  <a href="#builtins-splitVersion"><code>splitVersion <var>s</var></code></a>
+</dt>
+<dd>
+<p>Split a string representing a version into its components, by the
+same version splitting logic underlying the version comparison in
+<a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
+</dd>
+<dt id="builtins-storePath">
+  <a href="#builtins-storePath"><code>storePath <var>path</var></code></a>
+</dt>
+<dd>
+<p>This function allows you to define a dependency on an already
+existing store path. For example, the derivation attribute <code>src = builtins.storePath /nix/store/f1d18v1y…-source</code> causes the
+derivation to depend on the specified path, which must exist or
+be substitutable. Note that this differs from a plain path
+(e.g. <code>src = /nix/store/f1d18v1y…-source</code>) in that the latter
+causes the path to be <em>copied</em> again to the Nix store, resulting
+in a new path (e.g. <code>/nix/store/ld01dnzc…-source-source</code>).</p>
+<p>This function is not available in pure evaluation mode.</p>
+</dd>
+<dt id="builtins-stringLength">
+  <a href="#builtins-stringLength"><code>stringLength <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return the length of the string <em>e</em>. If <em>e</em> is not a string,
+evaluation is aborted.</p>
+</dd>
+<dt id="builtins-sub">
+  <a href="#builtins-sub"><code>sub <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Return the difference between the numbers <em>e1</em> and <em>e2</em>.</p>
+</dd>
+<dt id="builtins-substring">
+  <a href="#builtins-substring"><code>substring <var>start</var> <var>len</var> <var>s</var></code></a>
+</dt>
+<dd>
+<p>Return the substring of <em>s</em> from character position <em>start</em>
+(zero-based) up to but not including <em>start + len</em>. If <em>start</em> is
+greater than the length of the string, an empty string is returned,
+and if <em>start + len</em> lies beyond the end of the string, only the
+substring up to the end of the string is returned. <em>start</em> must be
+non-negative. For example,</p>
+<pre><code class="language-nix">builtins.substring 0 3 &quot;nixos&quot;
+</code></pre>
+<p>evaluates to <code>&quot;nix&quot;</code>.</p>
+</dd>
+<dt id="builtins-tail">
+  <a href="#builtins-tail"><code>tail <var>list</var></code></a>
+</dt>
+<dd>
+<p>Return the second to last elements of a list; abort evaluation if
+the argument isn’t a list or is an empty list.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This function should generally be avoided since it's inefficient:
+unlike Haskell's <code>tail</code>, it takes O(n) time, so recursing over a
+list by repeatedly calling <code>tail</code> takes O(n^2) time.</p>
+</blockquote>
+</dd>
+<dt id="builtins-throw">
+  <a href="#builtins-throw"><code>throw <var>s</var></code></a>
+</dt>
+<dd>
+<p>Throw an error message <em>s</em>. This usually aborts Nix expression
+evaluation, but in <code>nix-env -qa</code> and other commands that try to
+evaluate a set of derivations to get information about those
+derivations, a derivation that throws an error is silently skipped
+(which is not the case for <code>abort</code>).</p>
+</dd>
+<dt id="builtins-toFile">
+  <a href="#builtins-toFile"><code>toFile <var>name</var> <var>s</var></code></a>
+</dt>
+<dd>
+<p>Store the string <em>s</em> in a file in the Nix store and return its
+path.  The file has suffix <em>name</em>. This file can be used as an
+input to derivations. One application is to write builders
+“inline”. For instance, the following Nix expression combines the
+<a href="expression-syntax.html">Nix expression for GNU Hello</a> and its
+<a href="build-script.html">build script</a> into one file:</p>
+<pre><code class="language-nix">{ stdenv, fetchurl, perl }:
+
+stdenv.mkDerivation {
+  name = &quot;hello-2.1.1&quot;;
+
+  builder = builtins.toFile &quot;builder.sh&quot; &quot;
+    source $stdenv/setup
+
+    PATH=$perl/bin:$PATH
+
+    tar xvfz $src
+    cd hello-*
+    ./configure --prefix=$out
+    make
+    make install
+  &quot;;
+
+  src = fetchurl {
+    url = &quot;http://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz&quot;;
+    sha256 = &quot;1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465&quot;;
+  };
+  inherit perl;
+}
+</code></pre>
+<p>It is even possible for one file to refer to another, e.g.,</p>
+<pre><code class="language-nix">builder = let
+  configFile = builtins.toFile &quot;foo.conf&quot; &quot;
+    # This is some dummy configuration file.
+    ...
+  &quot;;
+in builtins.toFile &quot;builder.sh&quot; &quot;
+  source $stdenv/setup
+  ...
+  cp ${configFile} $out/etc/foo.conf
+&quot;;
+</code></pre>
+<p>Note that <code>${configFile}</code> is an
+<a href="language-values.html">antiquotation</a>, so the result of the
+expression <code>configFile</code>
+(i.e., a path like <code>/nix/store/m7p7jfny445k...-foo.conf</code>) will be
+spliced into the resulting string.</p>
+<p>It is however <em>not</em> allowed to have files mutually referring to each
+other, like so:</p>
+<pre><code class="language-nix">let
+  foo = builtins.toFile &quot;foo&quot; &quot;...${bar}...&quot;;
+  bar = builtins.toFile &quot;bar&quot; &quot;...${foo}...&quot;;
+in foo
+</code></pre>
+<p>This is not allowed because it would cause a cyclic dependency in
+the computation of the cryptographic hashes for <code>foo</code> and <code>bar</code>.</p>
+<p>It is also not possible to reference the result of a derivation. If
+you are using Nixpkgs, the <code>writeTextFile</code> function is able to do
+that.</p>
+</dd>
+<dt id="builtins-toJSON">
+  <a href="#builtins-toJSON"><code>toJSON <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return a string containing a JSON representation of <em>e</em>. Strings,
+integers, floats, booleans, nulls and lists are mapped to their JSON
+equivalents. Sets (except derivations) are represented as objects.
+Derivations are translated to a JSON string containing the
+derivation’s output path. Paths are copied to the store and
+represented as a JSON string of the resulting store path.</p>
+</dd>
+<dt id="builtins-toPath">
+  <a href="#builtins-toPath"><code>toPath <var>s</var></code></a>
+</dt>
+<dd>
+<p><strong>DEPRECATED.</strong> Use <code>/. + &quot;/path&quot;</code> to convert a string into an absolute
+path. For relative paths, use <code>./. + &quot;/path&quot;</code>.</p>
+</dd>
+<dt id="builtins-toString">
+  <a href="#builtins-toString"><code>toString <var>e</var></code></a>
+</dt>
+<dd>
+<p>Convert the expression <em>e</em> to a string. <em>e</em> can be:</p>
+<ul>
+<li>
+<p>A string (in which case the string is returned unmodified).</p>
+</li>
+<li>
+<p>A path (e.g., <code>toString /foo/bar</code> yields <code>&quot;/foo/bar&quot;</code>.</p>
+</li>
+<li>
+<p>A set containing <code>{ __toString = self: ...; }</code> or <code>{ outPath = ...; }</code>.</p>
+</li>
+<li>
+<p>An integer.</p>
+</li>
+<li>
+<p>A list, in which case the string representations of its elements
+are joined with spaces.</p>
+</li>
+<li>
+<p>A Boolean (<code>false</code> yields <code>&quot;&quot;</code>, <code>true</code> yields <code>&quot;1&quot;</code>).</p>
+</li>
+<li>
+<p><code>null</code>, which yields the empty string.</p>
+</li>
+</ul>
+</dd>
+<dt id="builtins-toXML">
+  <a href="#builtins-toXML"><code>toXML <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return a string containing an XML representation of <em>e</em>. The main
+application for <code>toXML</code> is to communicate information with the
+builder in a more structured format than plain environment
+variables.</p>
+<p>Here is an example where this is the case:</p>
+<pre><code class="language-nix">{ stdenv, fetchurl, libxslt, jira, uberwiki }:
+
+stdenv.mkDerivation (rec {
+  name = &quot;web-server&quot;;
+
+  buildInputs = [ libxslt ];
+
+  builder = builtins.toFile &quot;builder.sh&quot; &quot;
+    source $stdenv/setup
+    mkdir $out
+    echo &quot;$servlets&quot; | xsltproc ${stylesheet} - &gt; $out/server-conf.xml ①
+  &quot;;
+
+  stylesheet = builtins.toFile &quot;stylesheet.xsl&quot; ②
+   &quot;&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+    &lt;xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'&gt;
+      &lt;xsl:template match='/'&gt;
+        &lt;Configure&gt;
+          &lt;xsl:for-each select='/expr/list/attrs'&gt;
+            &lt;Call name='addWebApplication'&gt;
+              &lt;Arg&gt;&lt;xsl:value-of select=\&quot;attr[@name = 'path']/string/@value\&quot; /&gt;&lt;/Arg&gt;
+              &lt;Arg&gt;&lt;xsl:value-of select=\&quot;attr[@name = 'war']/path/@value\&quot; /&gt;&lt;/Arg&gt;
+            &lt;/Call&gt;
+          &lt;/xsl:for-each&gt;
+        &lt;/Configure&gt;
+      &lt;/xsl:template&gt;
+    &lt;/xsl:stylesheet&gt;
+  &quot;;
+
+  servlets = builtins.toXML [ ③
+    { path = &quot;/bugtracker&quot;; war = jira + &quot;/lib/atlassian-jira.war&quot;; }
+    { path = &quot;/wiki&quot;; war = uberwiki + &quot;/uberwiki.war&quot;; }
+  ];
+})
+</code></pre>
+<p>The builder is supposed to generate the configuration file for a
+<a href="http://jetty.mortbay.org/">Jetty servlet container</a>. A servlet
+container contains a number of servlets (<code>*.war</code> files) each
+exported under a specific URI prefix. So the servlet configuration
+is a list of sets containing the <code>path</code> and <code>war</code> of the servlet
+(①). This kind of information is difficult to communicate with the
+normal method of passing information through an environment
+variable, which just concatenates everything together into a
+string (which might just work in this case, but wouldn’t work if
+fields are optional or contain lists themselves). Instead the Nix
+expression is converted to an XML representation with <code>toXML</code>,
+which is unambiguous and can easily be processed with the
+appropriate tools. For instance, in the example an XSLT stylesheet
+(at point ②) is applied to it (at point ①) to generate the XML
+configuration file for the Jetty server. The XML representation
+produced at point ③ by <code>toXML</code> is as follows:</p>
+<pre><code class="language-xml">&lt;?xml version='1.0' encoding='utf-8'?&gt;
+&lt;expr&gt;
+  &lt;list&gt;
+    &lt;attrs&gt;
+      &lt;attr name=&quot;path&quot;&gt;
+        &lt;string value=&quot;/bugtracker&quot; /&gt;
+      &lt;/attr&gt;
+      &lt;attr name=&quot;war&quot;&gt;
+        &lt;path value=&quot;/nix/store/d1jh9pasa7k2...-jira/lib/atlassian-jira.war&quot; /&gt;
+      &lt;/attr&gt;
+    &lt;/attrs&gt;
+    &lt;attrs&gt;
+      &lt;attr name=&quot;path&quot;&gt;
+        &lt;string value=&quot;/wiki&quot; /&gt;
+      &lt;/attr&gt;
+      &lt;attr name=&quot;war&quot;&gt;
+        &lt;path value=&quot;/nix/store/y6423b1yi4sx...-uberwiki/uberwiki.war&quot; /&gt;
+      &lt;/attr&gt;
+    &lt;/attrs&gt;
+  &lt;/list&gt;
+&lt;/expr&gt;
+</code></pre>
+<p>Note that we used the <code>toFile</code> built-in to write the builder and
+the stylesheet “inline” in the Nix expression. The path of the
+stylesheet is spliced into the builder using the syntax <code>xsltproc ${stylesheet}</code>.</p>
+</dd>
+<dt id="builtins-trace">
+  <a href="#builtins-trace"><code>trace <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Evaluate <em>e1</em> and print its abstract syntax representation on
+standard error. Then return <em>e2</em>. This function is useful for
+debugging.</p>
+</dd>
+<dt id="builtins-traceVerbose">
+  <a href="#builtins-traceVerbose"><code>traceVerbose <var>e1</var> <var>e2</var></code></a>
+</dt>
+<dd>
+<p>Evaluate <em>e1</em> and print its abstract syntax representation on standard
+error if <code>--trace-verbose</code> is enabled. Then return <em>e2</em>. This function
+is useful for debugging.</p>
+</dd>
+<dt id="builtins-tryEval">
+  <a href="#builtins-tryEval"><code>tryEval <var>e</var></code></a>
+</dt>
+<dd>
+<p>Try to shallowly evaluate <em>e</em>. Return a set containing the
+attributes <code>success</code> (<code>true</code> if <em>e</em> evaluated successfully,
+<code>false</code> if an error was thrown) and <code>value</code>, equalling <em>e</em> if
+successful and <code>false</code> otherwise. <code>tryEval</code> will only prevent
+errors created by <code>throw</code> or <code>assert</code> from being thrown.
+Errors <code>tryEval</code> will not catch are for example those created
+by <code>abort</code> and type errors generated by builtins. Also note that
+this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw &quot;&quot;; }; in (builtins.tryEval e).success</code> will be <code>true</code>. Using
+<code>builtins.deepSeq</code> one can get the expected result:
+<code>let e = { x = throw &quot;&quot;; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
+<code>false</code>.</p>
+</dd>
+<dt id="builtins-typeOf">
+  <a href="#builtins-typeOf"><code>typeOf <var>e</var></code></a>
+</dt>
+<dd>
+<p>Return a string representing the type of the value <em>e</em>, namely
+<code>&quot;int&quot;</code>, <code>&quot;bool&quot;</code>, <code>&quot;string&quot;</code>, <code>&quot;path&quot;</code>, <code>&quot;null&quot;</code>, <code>&quot;set&quot;</code>,
+<code>&quot;list&quot;</code>, <code>&quot;lambda&quot;</code> or <code>&quot;float&quot;</code>.</p>
+</dd>
+<dt id="builtins-zipAttrsWith">
+  <a href="#builtins-zipAttrsWith"><code>zipAttrsWith <var>f</var> <var>list</var></code></a>
+</dt>
+<dd>
+<p>Transpose a list of attribute sets into an attribute set of lists,
+then apply <code>mapAttrs</code>.</p>
+<p><code>f</code> receives two arguments: the attribute name and a non-empty
+list of all values encountered for that attribute name.</p>
+<p>The result is an attribute set where the attribute names are the
+union of the attribute names in each element of <code>list</code>. The attribute
+values are the return values of <code>f</code>.</p>
+<pre><code class="language-nix">builtins.zipAttrsWith
+  (name: values: { inherit name values; })
+  [ { a = &quot;x&quot;; } { a = &quot;y&quot;; b = &quot;z&quot;; } ]
+</code></pre>
+<p>evaluates to</p>
+<pre><code>{
+  a = { name = &quot;a&quot;; values = [ &quot;x&quot; &quot;y&quot; ]; };
+  b = { name = &quot;b&quot;; values = [ &quot;z&quot; ]; };
+}
+</code></pre>
+</dd>
+</dl>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../language/builtin-constants.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../advanced-topics/advanced-topics.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../language/builtin-constants.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../advanced-topics/advanced-topics.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../redirects.js"></script>
+
+
+    </body>
+</html>
