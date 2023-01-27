@@ -20,8 +20,7 @@
         # module parameters provide easy access to attributes of the same
         # system.
 
-        # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-        packages.default = pkgs.hello;
+        packages.default = pkgs.nix.doc;
       };
       flake = {
         # The usual flake attributes can be defined here, including system-
