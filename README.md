@@ -26,3 +26,19 @@ For this example, we'll use Nix's documentation.
 +        packages.default = pkgs.nix.doc;
 ```
 
+## 3. Add hercules-ci-effects
+
+See [the hercules-ci-effects docs](https://docs.hercules-ci.com/hercules-ci-effects/guide/import-or-pin#_flakes_with_flake_parts).
+
+`flake.nix`
+```diff
+   inputs = {
++    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
+```
+
+```
+      imports = [
+        # Add this
+        hercules-ci-effects.flakeModule
+      ];
+```
