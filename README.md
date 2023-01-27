@@ -13,6 +13,7 @@ This section is for educational purposes and future reference. This repository a
 
 ```console
 nix flake init -t flake-parts
+nix flake lock
 ```
 
 ## 2. Package a documentation site
