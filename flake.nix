@@ -15,6 +15,10 @@
 
       hercules-ci.github-pages.branch = "main";
 
+      hercules-ci.flake-update.enable = true;
+      hercules-ci.flake-update.when.dayOfMonth = 17;
+      hercules-ci.flake-update.autoMergeMethod = "merge";
+
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         packages.default = pkgs.nix.doc;
 
