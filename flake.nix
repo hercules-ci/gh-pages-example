@@ -12,8 +12,13 @@
         inputs.hercules-ci-effects.flakeModule
       ];
       systems = [ "x86_64-linux" "aarch64-darwin" ];
+
+      hercules-ci.github-pages.branch = "main";
+
       perSystem = { config, self', inputs', pkgs, system, ... }: {
         packages.default = pkgs.nix.doc;
+
+        hercules-ci.github-pages.settings.contents = config.packages.default + "/share/doc/nix/manual";
       };
     };
 }

@@ -36,9 +36,21 @@ See [the hercules-ci-effects docs](https://docs.hercules-ci.com/hercules-ci-effe
 +    hercules-ci-effects.url = "github:hercules-ci/hercules-ci-effects";
 ```
 
+```diff
+       imports = [
++        hercules-ci-effects.flakeModule
+       ];
 ```
-      imports = [
-        # Add this
-        hercules-ci-effects.flakeModule
-      ];
+
+## 4. Configure `hercules-ci.github-pages`
+
+`flake.nix`
+```diff
++  hercules-ci.github-pages.branch = "main";
+
+   perSystem = { config, ... }: {
+     packages.default = pkgs.nix.doc;
+
++    hercules-ci.github-pages.settings.contents = config.packages.default + "/share/doc/nix/manual";
+   };
 ```
