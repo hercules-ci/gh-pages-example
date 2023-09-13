@@ -1,0 +1,639 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>nix-store --add - Nix Reference Manual</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../custom.css">
+
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var html = document.querySelector('html');
+            var sidebar = null;
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li><li class="chapter-item expanded "><a href="../../installation/uninstall.html"><strong aria-hidden="true">3.8.</strong> Uninstalling Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/sharing-packages.html"><strong aria-hidden="true">4.4.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.4.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../../package-management/copy-closure.html"><strong aria-hidden="true">4.4.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/ssh-substituter.html"><strong aria-hidden="true">4.4.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/s3-substituter.html"><strong aria-hidden="true">4.4.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/string-interpolation.html"><strong aria-hidden="true">5.2.1.</strong> String interpolation</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../../language/builtins.html"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-build.html"><strong aria-hidden="true">7.3.1.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.2.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store.html"><strong aria-hidden="true">7.3.3.</strong> nix-store</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add-fixed.html"><strong aria-hidden="true">7.3.3.1.</strong> nix-store --add-fixed</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add.html" class="active"><strong aria-hidden="true">7.3.3.2.</strong> nix-store --add</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/delete.html"><strong aria-hidden="true">7.3.3.3.</strong> nix-store --delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump-db.html"><strong aria-hidden="true">7.3.3.4.</strong> nix-store --dump-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump.html"><strong aria-hidden="true">7.3.3.5.</strong> nix-store --dump</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/export.html"><strong aria-hidden="true">7.3.3.6.</strong> nix-store --export</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/gc.html"><strong aria-hidden="true">7.3.3.7.</strong> nix-store --gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/generate-binary-cache-key.html"><strong aria-hidden="true">7.3.3.8.</strong> nix-store --generate-binary-cache-key</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/import.html"><strong aria-hidden="true">7.3.3.9.</strong> nix-store --import</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/load-db.html"><strong aria-hidden="true">7.3.3.10.</strong> nix-store --load-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/optimise.html"><strong aria-hidden="true">7.3.3.11.</strong> nix-store --optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/print-env.html"><strong aria-hidden="true">7.3.3.12.</strong> nix-store --print-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/query.html"><strong aria-hidden="true">7.3.3.13.</strong> nix-store --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/read-log.html"><strong aria-hidden="true">7.3.3.14.</strong> nix-store --read-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/realise.html"><strong aria-hidden="true">7.3.3.15.</strong> nix-store --realise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/repair-path.html"><strong aria-hidden="true">7.3.3.16.</strong> nix-store --repair-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/restore.html"><strong aria-hidden="true">7.3.3.17.</strong> nix-store --restore</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/serve.html"><strong aria-hidden="true">7.3.3.18.</strong> nix-store --serve</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify-path.html"><strong aria-hidden="true">7.3.3.19.</strong> nix-store --verify-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify.html"><strong aria-hidden="true">7.3.3.20.</strong> nix-store --verify</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env.html"><strong aria-hidden="true">7.3.4.</strong> nix-env</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-env/delete-generations.html"><strong aria-hidden="true">7.3.4.1.</strong> nix-env --delete-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/install.html"><strong aria-hidden="true">7.3.4.2.</strong> nix-env --install</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/list-generations.html"><strong aria-hidden="true">7.3.4.3.</strong> nix-env --list-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/query.html"><strong aria-hidden="true">7.3.4.4.</strong> nix-env --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/rollback.html"><strong aria-hidden="true">7.3.4.5.</strong> nix-env --rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set-flag.html"><strong aria-hidden="true">7.3.4.6.</strong> nix-env --set-flag</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set.html"><strong aria-hidden="true">7.3.4.7.</strong> nix-env --set</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-generation.html"><strong aria-hidden="true">7.3.4.8.</strong> nix-env --switch-generation</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-profile.html"><strong aria-hidden="true">7.3.4.9.</strong> nix-env --switch-profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/uninstall.html"><strong aria-hidden="true">7.3.4.10.</strong> nix-env --uninstall</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/upgrade.html"><strong aria-hidden="true">7.3.4.11.</strong> nix-env --upgrade</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation.html"><strong aria-hidden="true">7.5.6.</strong> nix derivation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-add.html"><strong aria-hidden="true">7.5.7.</strong> nix derivation add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-show.html"><strong aria-hidden="true">7.5.8.</strong> nix derivation show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.9.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.10.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.11.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.12.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake.html"><strong aria-hidden="true">7.5.13.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.14.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.15.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.16.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.17.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.18.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.19.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.20.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.21.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.22.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.23.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.24.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.25.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.26.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.27.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.28.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.31.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.32.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.33.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help-stores.html"><strong aria-hidden="true">7.5.34.</strong> nix help-stores</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.35.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.36.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.37.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.38.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.39.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.40.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.41.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.42.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.43.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.44.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.45.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.46.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.47.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.48.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.49.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.50.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.51.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.52.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.53.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.54.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.55.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.56.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.57.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.58.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.59.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-remove.html"><strong aria-hidden="true">7.5.60.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.61.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.62.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.63.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.64.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.65.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.66.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.67.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.68.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.69.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.70.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.71.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.72.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.73.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.74.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.75.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.76.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.77.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.78.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.79.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.80.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.81.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.82.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.83.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.84.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.85.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.86.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/profiles.html"><strong aria-hidden="true">7.6.2.</strong> Profiles</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.nix.html"><strong aria-hidden="true">7.6.2.1.</strong> manifest.nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.json.html"><strong aria-hidden="true">7.6.2.2.</strong> manifest.json</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files/channels.html"><strong aria-hidden="true">7.6.3.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/default-nix-expression.html"><strong aria-hidden="true">7.6.4.</strong> Default Nix expression</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../architecture/architecture.html"><strong aria-hidden="true">8.</strong> Architecture and Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../architecture/file-system-object.html"><strong aria-hidden="true">8.1.</strong> File System Object</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocols/protocols.html"><strong aria-hidden="true">9.</strong> Protocols</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocols/tarball-fetcher.html"><strong aria-hidden="true">9.1.</strong> Serving Tarball Flakes</a></li></ol></li><li class="chapter-item expanded "><a href="../../glossary.html"><strong aria-hidden="true">10.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../../contributing/contributing.html"><strong aria-hidden="true">11.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../contributing/hacking.html"><strong aria-hidden="true">11.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../../contributing/testing.html"><strong aria-hidden="true">11.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="../../contributing/experimental-features.html"><strong aria-hidden="true">11.3.</strong> Experimental Features</a></li><li class="chapter-item expanded "><a href="../../contributing/cli-guideline.html"><strong aria-hidden="true">11.4.</strong> CLI guideline</a></li><li class="chapter-item expanded "><a href="../../contributing/cxx.html"><strong aria-hidden="true">11.5.</strong> C++ style guide</a></li></ol></li><li class="chapter-item expanded "><a href="../../release-notes/release-notes.html"><strong aria-hidden="true">12.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../release-notes/rl-2.17.html"><strong aria-hidden="true">12.1.</strong> Release 2.17 (2023-07-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.16.html"><strong aria-hidden="true">12.2.</strong> Release 2.16 (2023-05-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.15.html"><strong aria-hidden="true">12.3.</strong> Release 2.15 (2023-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.14.html"><strong aria-hidden="true">12.4.</strong> Release 2.14 (2023-02-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.13.html"><strong aria-hidden="true">12.5.</strong> Release 2.13 (2023-01-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.12.html"><strong aria-hidden="true">12.6.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.11.html"><strong aria-hidden="true">12.7.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.10.html"><strong aria-hidden="true">12.8.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.9.html"><strong aria-hidden="true">12.9.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.8.html"><strong aria-hidden="true">12.10.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.7.html"><strong aria-hidden="true">12.11.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.6.html"><strong aria-hidden="true">12.12.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.5.html"><strong aria-hidden="true">12.13.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.4.html"><strong aria-hidden="true">12.14.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.3.html"><strong aria-hidden="true">12.15.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.2.html"><strong aria-hidden="true">12.16.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.1.html"><strong aria-hidden="true">12.17.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.0.html"><strong aria-hidden="true">12.18.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.10.html"><strong aria-hidden="true">12.19.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.html"><strong aria-hidden="true">12.20.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.10.html"><strong aria-hidden="true">12.21.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.9.html"><strong aria-hidden="true">12.22.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.8.html"><strong aria-hidden="true">12.23.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.7.html"><strong aria-hidden="true">12.24.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.1.html"><strong aria-hidden="true">12.25.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.html"><strong aria-hidden="true">12.26.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.2.html"><strong aria-hidden="true">12.27.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.html"><strong aria-hidden="true">12.28.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.4.html"><strong aria-hidden="true">12.29.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.3.html"><strong aria-hidden="true">12.30.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.2.html"><strong aria-hidden="true">12.31.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.1.html"><strong aria-hidden="true">12.32.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.0.html"><strong aria-hidden="true">12.33.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.16.html"><strong aria-hidden="true">12.34.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.15.html"><strong aria-hidden="true">12.35.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.14.html"><strong aria-hidden="true">12.36.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.13.html"><strong aria-hidden="true">12.37.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.12.html"><strong aria-hidden="true">12.38.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.11.html"><strong aria-hidden="true">12.39.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.1.html"><strong aria-hidden="true">12.40.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.html"><strong aria-hidden="true">12.41.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.2.html"><strong aria-hidden="true">12.42.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.1.html"><strong aria-hidden="true">12.43.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.html"><strong aria-hidden="true">12.44.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.1.html"><strong aria-hidden="true">12.45.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.html"><strong aria-hidden="true">12.46.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.7.html"><strong aria-hidden="true">12.47.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.6.html"><strong aria-hidden="true">12.48.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.5.html"><strong aria-hidden="true">12.49.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <!-- Track and set sidebar scroll position -->
+        <script>
+            var sidebarScrollbox = document.querySelector('#sidebar .sidebar-scrollbox');
+            sidebarScrollbox.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    sessionStorage.setItem('sidebar-scroll', sidebarScrollbox.scrollTop);
+                }
+            }, { passive: true });
+            var sidebarScrollTop = sessionStorage.getItem('sidebar-scroll');
+            sessionStorage.removeItem('sidebar-scroll');
+            if (sidebarScrollTop) {
+                // preserve sidebar scroll position when navigating via links within sidebar
+                sidebarScrollbox.scrollTop = sidebarScrollTop;
+            } else {
+                // scroll sidebar to current active section when navigating via "next/previous chapter" buttons
+                var activeSection = document.querySelector('#sidebar .active');
+                if (activeSection) {
+                    activeSection.scrollIntoView({ block: 'center' });
+                }
+            }
+        </script>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nix Reference Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/command-ref/nix-store/add.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="name"><a class="header" href="#name">Name</a></h1>
+<p><code>nix-store --add</code> - add paths to Nix store</p>
+<h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
+<p><code>nix-store</code> <code>--add</code> <em>paths…</em></p>
+<h1 id="description"><a class="header" href="#description">Description</a></h1>
+<p>The operation <code>--add</code> adds the specified paths to the Nix store. It
+prints the resulting paths in the Nix store on standard output.</p>
+<h1 id="options"><a class="header" href="#options">Options</a></h1>
+<p>The following options are allowed for all <code>nix-store</code> operations, but may not always have an effect.</p>
+<ul>
+<li>
+<p><span id="opt-add-root"><a href="#opt-add-root"><code>--add-root</code></a></span> <em>path</em></p>
+<p>Causes the result of a realisation (<code>--realise</code> and
+<code>--force-realise</code>) to be registered as a root of the garbage
+collector. <em>path</em> will be created as a symlink to the resulting
+store path. In addition, a uniquely named symlink to <em>path</em> will
+be created in <code>/nix/var/nix/gcroots/auto/</code>. For instance,</p>
+<pre><code class="language-console">$ nix-store --add-root /home/eelco/bla/result --realise ...
+
+$ ls -l /nix/var/nix/gcroots/auto
+lrwxrwxrwx    1 ... 2005-03-13 21:10 dn54lcypm8f8... -&gt; /home/eelco/bla/result
+
+$ ls -l /home/eelco/bla/result
+lrwxrwxrwx    1 ... 2005-03-13 21:10 /home/eelco/bla/result -&gt; /nix/store/1r11343n6qd4...-f-spot-0.0.10
+</code></pre>
+<p>Thus, when <code>/home/eelco/bla/result</code> is removed, the GC root in the
+<code>auto</code> directory becomes a dangling symlink and will be ignored by
+the collector.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>Note that it is not possible to move or rename GC roots, since
+the symlink in the <code>auto</code> directory will still point to the old
+location.</p>
+</blockquote>
+<p>If there are multiple results, then multiple symlinks will be
+created by sequentially numbering symlinks beyond the first one
+(e.g., <code>foo</code>, <code>foo-2</code>, <code>foo-3</code>, and so on).</p>
+</li>
+</ul>
+<h1 id="common-options"><a class="header" href="#common-options">Common Options</a></h1>
+<p>Most Nix commands accept the following command-line options:</p>
+<ul>
+<li>
+<p><span id="opt-help"><a href="#opt-help"><code>--help</code></a></span><br />
+Prints out a summary of the command syntax and exits.</p>
+</li>
+<li>
+<p><span id="opt-version"><a href="#opt-version"><code>--version</code></a></span><br />
+Prints out the Nix version number on standard output and exits.</p>
+</li>
+<li>
+<p><span id="opt-verbose"><a href="#opt-verbose"><code>--verbose</code></a></span> / <code>-v</code><br />
+Increases the level of verbosity of diagnostic messages printed on
+standard error. For each Nix operation, the information printed on
+standard output is well-defined; any diagnostic information is
+printed on standard error, never on standard output.</p>
+<p>This option may be specified repeatedly. Currently, the following
+verbosity levels exist:</p>
+<ul>
+<li>
+<p>0<br />
+“Errors only”: only print messages explaining why the Nix
+invocation failed.</p>
+</li>
+<li>
+<p>1<br />
+“Informational”: print <em>useful</em> messages about what Nix is
+doing. This is the default.</p>
+</li>
+<li>
+<p>2<br />
+“Talkative”: print more informational messages.</p>
+</li>
+<li>
+<p>3<br />
+“Chatty”: print even more informational messages.</p>
+</li>
+<li>
+<p>4<br />
+“Debug”: print debug information.</p>
+</li>
+<li>
+<p>5<br />
+“Vomit”: print vast amounts of debug information.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><span id="opt-quiet"><a href="#opt-quiet"><code>--quiet</code></a></span><br />
+Decreases the level of verbosity of diagnostic messages printed on
+standard error. This is the inverse option to <code>-v</code> / <code>--verbose</code>.</p>
+<p>This option may be specified repeatedly. See the previous verbosity
+levels list.</p>
+</li>
+<li>
+<p><span id="opt-log-format"><a href="#opt-log-format"><code>--log-format</code></a></span> <em>format</em><br />
+This option can be used to change the output of the log format, with
+<em>format</em> being one of:</p>
+<ul>
+<li>
+<p>raw<br />
+This is the raw format, as outputted by nix-build.</p>
+</li>
+<li>
+<p>internal-json<br />
+Outputs the logs in a structured manner.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>While the schema itself is relatively stable, the format of
+the error-messages (namely of the <code>msg</code>-field) can change
+between releases.</p>
+</blockquote>
+</li>
+<li>
+<p>bar<br />
+Only display a progress bar during the builds.</p>
+</li>
+<li>
+<p>bar-with-logs<br />
+Display the raw logs, with the progress bar at the bottom.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><span id="opt-no-build-output"><a href="#opt-no-build-output"><code>--no-build-output</code></a></span> / <code>-Q</code><br />
+By default, output written by builders to standard output and
+standard error is echoed to the Nix command's standard error. This
+option suppresses this behaviour. Note that the builder's standard
+output and error are always written to a log file in
+<code>prefix/nix/var/log/nix</code>.</p>
+</li>
+<li>
+<p><span id="opt-max-jobs"><a href="#opt-max-jobs"><code>--max-jobs</code></a></span> / <code>-j</code> <em>number</em><br />
+Sets the maximum number of build jobs that Nix will perform in
+parallel to the specified number. Specify <code>auto</code> to use the number
+of CPUs in the system. The default is specified by the <code>max-jobs</code>
+configuration setting, which itself defaults to <code>1</code>. A higher
+value is useful on SMP systems or to exploit I/O latency.</p>
+<p>Setting it to <code>0</code> disallows building on the local machine, which is
+useful when you want builds to happen only on remote builders.</p>
+</li>
+<li>
+<p><span id="opt-cores"><a href="#opt-cores"><code>--cores</code></a></span><br />
+Sets the value of the <code>NIX_BUILD_CORES</code> environment variable in
+the invocation of builders. Builders can use this variable at
+their discretion to control the maximum amount of parallelism. For
+instance, in Nixpkgs, if the derivation attribute
+<code>enableParallelBuilding</code> is set to <code>true</code>, the builder passes the
+<code>-jN</code> flag to GNU Make. It defaults to the value of the <code>cores</code>
+configuration setting, if set, or <code>1</code> otherwise. The value <code>0</code>
+means that the builder should use all available CPU cores in the
+system.</p>
+</li>
+<li>
+<p><span id="opt-max-silent-time"><a href="#opt-max-silent-time"><code>--max-silent-time</code></a></span><br />
+Sets the maximum number of seconds that a builder can go without
+producing any data on standard output or standard error. The
+default is specified by the <code>max-silent-time</code> configuration
+setting. <code>0</code> means no time-out.</p>
+</li>
+<li>
+<p><span id="opt-timeout"><a href="#opt-timeout"><code>--timeout</code></a></span><br />
+Sets the maximum number of seconds that a builder can run. The
+default is specified by the <code>timeout</code> configuration setting. <code>0</code>
+means no timeout.</p>
+</li>
+<li>
+<p><span id="opt-keep-going"><a href="#opt-keep-going"><code>--keep-going</code></a></span> / <code>-k</code><br />
+Keep going in case of failed builds, to the greatest extent
+possible. That is, if building an input of some derivation fails,
+Nix will still build the other inputs, but not the derivation
+itself. Without this option, Nix stops if any build fails (except
+for builds of substitutes), possibly killing builds in progress (in
+case of parallel or distributed builds).</p>
+</li>
+<li>
+<p><span id="opt-keep-failed"><a href="#opt-keep-failed"><code>--keep-failed</code></a></span> / <code>-K</code><br />
+Specifies that in case of a build failure, the temporary directory
+(usually in <code>/tmp</code>) in which the build takes place should not be
+deleted. The path of the build directory is printed as an
+informational message.</p>
+</li>
+<li>
+<p><span id="opt-fallback"><a href="#opt-fallback"><code>--fallback</code></a></span><br />
+Whenever Nix attempts to build a derivation for which substitutes
+are known for each output path, but realising the output paths
+through the substitutes fails, fall back on building the derivation.</p>
+<p>The most common scenario in which this is useful is when we have
+registered substitutes in order to perform binary distribution from,
+say, a network repository. If the repository is down, the
+realisation of the derivation will fail. When this option is
+specified, Nix will build the derivation instead. Thus, installation
+from binaries falls back on installation from source. This option is
+not the default since it is generally not desirable for a transient
+failure in obtaining the substitutes to lead to a full build from
+source (with the related consumption of resources).</p>
+</li>
+<li>
+<p><span id="opt-readonly-mode"><a href="#opt-readonly-mode"><code>--readonly-mode</code></a></span><br />
+When this option is used, no attempt is made to open the Nix
+database. Most Nix operations do need database access, so those
+operations will fail.</p>
+</li>
+<li>
+<p><span id="opt-arg"><a href="#opt-arg"><code>--arg</code></a></span> <em>name</em> <em>value</em><br />
+This option is accepted by <code>nix-env</code>, <code>nix-instantiate</code>,
+<code>nix-shell</code> and <code>nix-build</code>. When evaluating Nix expressions, the
+expression evaluator will automatically try to call functions that
+it encounters. It can automatically call functions for which every
+argument has a <a href="../../language/constructs.html#functions">default
+value</a> (e.g.,
+<code>{ argName ?  defaultValue }: ...</code>). With <code>--arg</code>, you can also
+call functions that have arguments without a default value (or
+override a default value). That is, if the evaluator encounters a
+function with an argument named <em>name</em>, it will call it with value
+<em>value</em>.</p>
+<p>For instance, the top-level <code>default.nix</code> in Nixpkgs is actually a
+function:</p>
+<pre><code class="language-nix">{ # The system (e.g., `i686-linux') for which to build the packages.
+  system ? builtins.currentSystem
+  ...
+}: ...
+</code></pre>
+<p>So if you call this Nix expression (e.g., when you do <code>nix-env --install --attr pkgname</code>), the function will be called automatically using the
+value <a href="../../language/builtins.html"><code>builtins.currentSystem</code></a> for
+the <code>system</code> argument. You can override this using <code>--arg</code>, e.g.,
+<code>nix-env --install --attr pkgname --arg system \&quot;i686-freebsd\&quot;</code>. (Note that
+since the argument is a Nix string literal, you have to escape the
+quotes.)</p>
+</li>
+<li>
+<p><span id="opt-argstr"><a href="#opt-argstr"><code>--argstr</code></a></span> <em>name</em> <em>value</em><br />
+This option is like <code>--arg</code>, only the value is not a Nix
+expression but a string. So instead of <code>--arg system &quot;i686-linux&quot;</code> (the outer quotes are to keep the shell happy) you
+can say <code>--argstr system i686-linux</code>.</p>
+</li>
+<li>
+<p><span id="opt-attr"><a href="#opt-attr"><code>--attr</code></a></span> / <code>-A</code> <em>attrPath</em><br />
+Select an attribute from the top-level Nix expression being
+evaluated. (<code>nix-env</code>, <code>nix-instantiate</code>, <code>nix-build</code> and
+<code>nix-shell</code> only.) The <em>attribute path</em> <em>attrPath</em> is a sequence
+of attribute names separated by dots. For instance, given a
+top-level Nix expression <em>e</em>, the attribute path <code>xorg.xorgserver</code>
+would cause the expression <code>e.xorg.xorgserver</code> to be used. See
+<a href="../../command-ref/nix-env/install.html"><code>nix-env --install</code></a> for some
+concrete examples.</p>
+<p>In addition to attribute names, you can also specify array indices.
+For instance, the attribute path <code>foo.3.bar</code> selects the <code>bar</code>
+attribute of the fourth element of the array in the <code>foo</code> attribute
+of the top-level expression.</p>
+</li>
+<li>
+<p><span id="opt-expr"><a href="#opt-expr"><code>--expr</code></a></span> / <code>-E</code><br />
+Interpret the command line arguments as a list of Nix expressions to
+be parsed and evaluated, rather than as a list of file names of Nix
+expressions. (<code>nix-instantiate</code>, <code>nix-build</code> and <code>nix-shell</code> only.)</p>
+<p>For <code>nix-shell</code>, this option is commonly used to give you a shell in
+which you can build the packages returned by the expression. If you
+want to get a shell which contain the <em>built</em> packages ready for
+use, give your expression to the <code>nix-shell --packages </code> convenience flag
+instead.</p>
+</li>
+<li>
+<p><span id="opt-I"><a href="#opt-I"><code>-I</code></a></span> <em>path</em><br />
+Add an entry to the <a href="../../command-ref/conf-file.html#conf-nix-path">Nix expression search path</a>.
+This option may be given multiple times.
+Paths added through <code>-I</code> take precedence over <a href="../../command-ref/env-common.html#env-NIX_PATH"><code>NIX_PATH</code></a>.</p>
+</li>
+<li>
+<p><span id="opt-option"><a href="#opt-option"><code>--option</code></a></span> <em>name</em> <em>value</em><br />
+Set the Nix configuration option <em>name</em> to <em>value</em>. This overrides
+settings in the Nix configuration file (see nix.conf5).</p>
+</li>
+<li>
+<p><span id="opt-repair"><a href="#opt-repair"><code>--repair</code></a></span><br />
+Fix corrupted or missing store paths by redownloading or rebuilding
+them. Note that this is slow because it requires computing a
+cryptographic hash of the contents of every path in the closure of
+the build. Also note the warning under <code>nix-store --repair-path</code>.</p>
+</li>
+</ul>
+<h1 id="common-environment-variables"><a class="header" href="#common-environment-variables">Common Environment Variables</a></h1>
+<p>Most Nix commands interpret the following environment variables:</p>
+<ul>
+<li>
+<p><span id="env-IN_NIX_SHELL"><a href="#env-IN_NIX_SHELL"><code>IN_NIX_SHELL</code></a></span><br />
+Indicator that tells if the current environment was set up by
+<code>nix-shell</code>. It can have the values <code>pure</code> or <code>impure</code>.</p>
+</li>
+<li>
+<p><span id="env-NIX_PATH"><a href="#env-NIX_PATH"><code>NIX_PATH</code></a></span><br />
+A colon-separated list of directories used to look up the location of Nix
+expressions using <a href="../../language/values.html#type-path">paths</a>
+enclosed in angle brackets (i.e., <code>&lt;path&gt;</code>),
+e.g. <code>/home/eelco/Dev:/etc/nixos</code>. It can be extended using the
+<a href="../../command-ref/opt-common.html#opt-I"><code>-I</code> option</a>.</p>
+<p>If <code>NIX_PATH</code> is not set at all, Nix will fall back to the following list in <a href="../../command-ref/conf-file.html#conf-pure-eval">impure</a> and <a href="../../command-ref/conf-file.html#conf-restrict-eval">unrestricted</a> evaluation mode:</p>
+<ol>
+<li><code>$HOME/.nix-defexpr/channels</code></li>
+<li><code>nixpkgs=/nix/var/nix/profiles/per-user/root/channels/nixpkgs</code></li>
+<li><code>/nix/var/nix/profiles/per-user/root/channels</code></li>
+</ol>
+<p>If <code>NIX_PATH</code> is set to an empty string, resolving search paths will always fail.
+For example, attempting to use <code>&lt;nixpkgs&gt;</code> will produce:</p>
+<pre><code>error: file 'nixpkgs' was not found in the Nix search path
+</code></pre>
+</li>
+<li>
+<p><span id="env-NIX_IGNORE_SYMLINK_STORE"><a href="#env-NIX_IGNORE_SYMLINK_STORE"><code>NIX_IGNORE_SYMLINK_STORE</code></a></span><br />
+Normally, the Nix store directory (typically <code>/nix/store</code>) is not
+allowed to contain any symlink components. This is to prevent
+“impure” builds. Builders sometimes “canonicalise” paths by
+resolving all symlink components. Thus, builds on different machines
+(with <code>/nix/store</code> resolving to different locations) could yield
+different results. This is generally not a problem, except when
+builds are deployed to machines where <code>/nix/store</code> resolves
+differently. If you are sure that you’re not going to do that, you
+can set <code>NIX_IGNORE_SYMLINK_STORE</code> to <code>1</code>.</p>
+<p>Note that if you’re symlinking the Nix store so that you can put it
+on another file system than the root file system, on Linux you’re
+better off using <code>bind</code> mount points, e.g.,</p>
+<pre><code class="language-console">$ mkdir /nix
+$ mount -o bind /mnt/otherdisk/nix /nix
+</code></pre>
+<p>Consult the mount 8 manual page for details.</p>
+</li>
+<li>
+<p><span id="env-NIX_STORE_DIR"><a href="#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a></span><br />
+Overrides the location of the Nix store (default <code>prefix/store</code>).</p>
+</li>
+<li>
+<p><span id="env-NIX_DATA_DIR"><a href="#env-NIX_DATA_DIR"><code>NIX_DATA_DIR</code></a></span><br />
+Overrides the location of the Nix static data directory (default
+<code>prefix/share</code>).</p>
+</li>
+<li>
+<p><span id="env-NIX_LOG_DIR"><a href="#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a></span><br />
+Overrides the location of the Nix log directory (default
+<code>prefix/var/log/nix</code>).</p>
+</li>
+<li>
+<p><span id="env-NIX_STATE_DIR"><a href="#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a></span><br />
+Overrides the location of the Nix state directory (default
+<code>prefix/var/nix</code>).</p>
+</li>
+<li>
+<p><span id="env-NIX_CONF_DIR"><a href="#env-NIX_CONF_DIR"><code>NIX_CONF_DIR</code></a></span><br />
+Overrides the location of the system Nix configuration directory
+(default <code>prefix/etc/nix</code>).</p>
+</li>
+<li>
+<p><span id="env-NIX_CONFIG"><a href="#env-NIX_CONFIG"><code>NIX_CONFIG</code></a></span><br />
+Applies settings from Nix configuration from the environment.
+The content is treated as if it was read from a Nix configuration file.
+Settings are separated by the newline character.</p>
+</li>
+<li>
+<p><span id="env-NIX_USER_CONF_FILES"><a href="#env-NIX_USER_CONF_FILES"><code>NIX_USER_CONF_FILES</code></a></span><br />
+Overrides the location of the Nix user configuration files to load from.</p>
+<p>The default are the locations according to the <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a>.
+See the <a href="#xdg-base-directories">XDG Base Directories</a> sub-section for details.</p>
+<p>The variable is treated as a list separated by the <code>:</code> token.</p>
+</li>
+<li>
+<p><span id="env-TMPDIR"><a href="#env-TMPDIR"><code>TMPDIR</code></a></span><br />
+Use the specified directory to store temporary files. In particular,
+this includes temporary build directories; these can take up
+substantial amounts of disk space. The default is <code>/tmp</code>.</p>
+</li>
+<li>
+<p><span id="env-NIX_REMOTE"><a href="#env-NIX_REMOTE"><code>NIX_REMOTE</code></a></span><br />
+This variable should be set to <code>daemon</code> if you want to use the Nix
+daemon to execute Nix operations. This is necessary in <a href="../../installation/multi-user.html">multi-user
+Nix installations</a>. If the Nix
+daemon's Unix socket is at some non-standard path, this variable
+should be set to <code>unix://path/to/socket</code>. Otherwise, it should be
+left unset.</p>
+</li>
+<li>
+<p><span id="env-NIX_SHOW_STATS"><a href="#env-NIX_SHOW_STATS"><code>NIX_SHOW_STATS</code></a></span><br />
+If set to <code>1</code>, Nix will print some evaluation statistics, such as
+the number of values allocated.</p>
+</li>
+<li>
+<p><span id="env-NIX_COUNT_CALLS"><a href="#env-NIX_COUNT_CALLS"><code>NIX_COUNT_CALLS</code></a></span><br />
+If set to <code>1</code>, Nix will print how often functions were called during
+Nix expression evaluation. This is useful for profiling your Nix
+expressions.</p>
+</li>
+<li>
+<p><span id="env-GC_INITIAL_HEAP_SIZE"><a href="#env-GC_INITIAL_HEAP_SIZE"><code>GC_INITIAL_HEAP_SIZE</code></a></span><br />
+If Nix has been configured to use the Boehm garbage collector, this
+variable sets the initial size of the heap in bytes. It defaults to
+384 MiB. Setting it to a low value reduces memory consumption, but
+will increase runtime due to the overhead of garbage collection.</p>
+</li>
+</ul>
+<h2 id="xdg-base-directories"><a class="header" href="#xdg-base-directories">XDG Base Directories</a></h2>
+<p>Nix follows the <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a>.</p>
+<p>For backwards compatibility, Nix commands will follow the standard only when <a href="../../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is enabled.
+<a href="../../command-ref/new-cli/nix.html">New Nix commands</a> (experimental) conform to the standard by default.</p>
+<p>The following environment variables are used to determine locations of various state and configuration files:</p>
+<ul>
+<li><a href="#env-XDG_CONFIG_HOME" id="env-XDG_CONFIG_HOME"><code>XDG_CONFIG_HOME</code></a> (default <code>~/.config</code>)</li>
+<li><a href="#env-XDG_STATE_HOME" id="env-XDG_STATE_HOME"><code>XDG_STATE_HOME</code></a> (default <code>~/.local/state</code>)</li>
+<li><a href="#env-XDG_CACHE_HOME" id="env-XDG_CACHE_HOME"><code>XDG_CACHE_HOME</code></a> (default <code>~/.cache</code>)</li>
+</ul>
+<h1 id="example"><a class="header" href="#example">Example</a></h1>
+<pre><code class="language-console">$ nix-store --add ./foo.c
+/nix/store/m7lrha58ph6rcnv109yzx1nk1cj7k7zf-foo.c
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../command-ref/nix-store/add-fixed.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="../../command-ref/nix-store/delete.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../command-ref/nix-store/add-fixed.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="../../command-ref/nix-store/delete.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../redirects.js"></script>
+
+
+    </div>
+    </body>
+</html>
