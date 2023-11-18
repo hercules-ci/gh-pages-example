@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="sidebar-visible no-js light">
+<html lang="en" class="light" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -10,7 +10,7 @@
         
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="theme-color" content="#ffffff" />
+        <meta name="theme-color" content="#ffffff">
 
         <link rel="icon" href="../../favicon.svg">
         <link rel="shortcut icon" href="../../favicon.png">
@@ -32,7 +32,7 @@
         <link rel="stylesheet" href="../../custom.css">
 
     </head>
-    <body>
+    <body class="sidebar-visible no-js">
     <div id="body-container">
         <!-- Provide site root to javascript -->
         <script>
@@ -62,29 +62,34 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             var html = document.querySelector('html');
-            html.classList.remove('no-js')
             html.classList.remove('light')
             html.classList.add(theme);
-            html.classList.add('js');
+            var body = document.querySelector('body');
+            body.classList.remove('no-js')
+            body.classList.add('js');
         </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var html = document.querySelector('html');
+            var body = document.querySelector('body');
             var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
             } else {
                 sidebar = 'hidden';
             }
-            html.classList.remove('sidebar-visible');
-            html.classList.add("sidebar-" + sidebar);
+            sidebar_toggle.checked = sidebar === 'visible';
+            body.classList.remove('sidebar-visible');
+            body.classList.add("sidebar-" + sidebar);
         </script>
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="../../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li><li class="chapter-item expanded "><a href="../../installation/uninstall.html"><strong aria-hidden="true">3.8.</strong> Uninstalling Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/sharing-packages.html"><strong aria-hidden="true">4.4.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.4.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../../package-management/copy-closure.html"><strong aria-hidden="true">4.4.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/ssh-substituter.html"><strong aria-hidden="true">4.4.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/s3-substituter.html"><strong aria-hidden="true">4.4.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/string-interpolation.html"><strong aria-hidden="true">5.2.1.</strong> String interpolation</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../../language/builtins.html"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-build.html"><strong aria-hidden="true">7.3.1.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.2.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store.html"><strong aria-hidden="true">7.3.3.</strong> nix-store</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add-fixed.html"><strong aria-hidden="true">7.3.3.1.</strong> nix-store --add-fixed</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add.html"><strong aria-hidden="true">7.3.3.2.</strong> nix-store --add</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/delete.html"><strong aria-hidden="true">7.3.3.3.</strong> nix-store --delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump-db.html"><strong aria-hidden="true">7.3.3.4.</strong> nix-store --dump-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump.html"><strong aria-hidden="true">7.3.3.5.</strong> nix-store --dump</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/export.html"><strong aria-hidden="true">7.3.3.6.</strong> nix-store --export</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/gc.html"><strong aria-hidden="true">7.3.3.7.</strong> nix-store --gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/generate-binary-cache-key.html"><strong aria-hidden="true">7.3.3.8.</strong> nix-store --generate-binary-cache-key</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/import.html"><strong aria-hidden="true">7.3.3.9.</strong> nix-store --import</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/load-db.html"><strong aria-hidden="true">7.3.3.10.</strong> nix-store --load-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/optimise.html"><strong aria-hidden="true">7.3.3.11.</strong> nix-store --optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/print-env.html"><strong aria-hidden="true">7.3.3.12.</strong> nix-store --print-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/query.html"><strong aria-hidden="true">7.3.3.13.</strong> nix-store --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/read-log.html"><strong aria-hidden="true">7.3.3.14.</strong> nix-store --read-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/realise.html"><strong aria-hidden="true">7.3.3.15.</strong> nix-store --realise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/repair-path.html"><strong aria-hidden="true">7.3.3.16.</strong> nix-store --repair-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/restore.html"><strong aria-hidden="true">7.3.3.17.</strong> nix-store --restore</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/serve.html"><strong aria-hidden="true">7.3.3.18.</strong> nix-store --serve</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify-path.html"><strong aria-hidden="true">7.3.3.19.</strong> nix-store --verify-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify.html"><strong aria-hidden="true">7.3.3.20.</strong> nix-store --verify</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env.html"><strong aria-hidden="true">7.3.4.</strong> nix-env</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-env/delete-generations.html"><strong aria-hidden="true">7.3.4.1.</strong> nix-env --delete-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/install.html"><strong aria-hidden="true">7.3.4.2.</strong> nix-env --install</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/list-generations.html"><strong aria-hidden="true">7.3.4.3.</strong> nix-env --list-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/query.html"><strong aria-hidden="true">7.3.4.4.</strong> nix-env --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/rollback.html"><strong aria-hidden="true">7.3.4.5.</strong> nix-env --rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set-flag.html"><strong aria-hidden="true">7.3.4.6.</strong> nix-env --set-flag</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set.html"><strong aria-hidden="true">7.3.4.7.</strong> nix-env --set</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-generation.html"><strong aria-hidden="true">7.3.4.8.</strong> nix-env --switch-generation</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-profile.html"><strong aria-hidden="true">7.3.4.9.</strong> nix-env --switch-profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/uninstall.html"><strong aria-hidden="true">7.3.4.10.</strong> nix-env --uninstall</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/upgrade.html"><strong aria-hidden="true">7.3.4.11.</strong> nix-env --upgrade</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation.html"><strong aria-hidden="true">7.5.6.</strong> nix derivation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-add.html"><strong aria-hidden="true">7.5.7.</strong> nix derivation add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-show.html"><strong aria-hidden="true">7.5.8.</strong> nix derivation show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.9.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.10.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.11.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.12.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake.html"><strong aria-hidden="true">7.5.13.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.14.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.15.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.16.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.17.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.18.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.19.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.20.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.21.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.22.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.23.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.24.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.25.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.26.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.27.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.28.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.31.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.32.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.33.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help-stores.html"><strong aria-hidden="true">7.5.34.</strong> nix help-stores</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.35.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.36.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.37.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.38.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.39.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.40.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.41.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.42.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.43.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.44.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.45.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.46.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.47.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.48.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.49.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.50.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.51.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.52.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.53.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.54.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.55.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.56.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.57.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.58.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.59.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-remove.html" class="active"><strong aria-hidden="true">7.5.60.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.61.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.62.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.63.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.64.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.65.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.66.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.67.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.68.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.69.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.70.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.71.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.72.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.73.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.74.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.75.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.76.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.77.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.78.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.79.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.80.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.81.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.82.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.83.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.84.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.85.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.86.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/profiles.html"><strong aria-hidden="true">7.6.2.</strong> Profiles</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.nix.html"><strong aria-hidden="true">7.6.2.1.</strong> manifest.nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.json.html"><strong aria-hidden="true">7.6.2.2.</strong> manifest.json</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files/channels.html"><strong aria-hidden="true">7.6.3.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/default-nix-expression.html"><strong aria-hidden="true">7.6.4.</strong> Default Nix expression</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../architecture/architecture.html"><strong aria-hidden="true">8.</strong> Architecture and Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../architecture/file-system-object.html"><strong aria-hidden="true">8.1.</strong> File System Object</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocols/protocols.html"><strong aria-hidden="true">9.</strong> Protocols</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocols/tarball-fetcher.html"><strong aria-hidden="true">9.1.</strong> Serving Tarball Flakes</a></li></ol></li><li class="chapter-item expanded "><a href="../../glossary.html"><strong aria-hidden="true">10.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../../contributing/contributing.html"><strong aria-hidden="true">11.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../contributing/hacking.html"><strong aria-hidden="true">11.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../../contributing/testing.html"><strong aria-hidden="true">11.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="../../contributing/experimental-features.html"><strong aria-hidden="true">11.3.</strong> Experimental Features</a></li><li class="chapter-item expanded "><a href="../../contributing/cli-guideline.html"><strong aria-hidden="true">11.4.</strong> CLI guideline</a></li><li class="chapter-item expanded "><a href="../../contributing/cxx.html"><strong aria-hidden="true">11.5.</strong> C++ style guide</a></li></ol></li><li class="chapter-item expanded "><a href="../../release-notes/release-notes.html"><strong aria-hidden="true">12.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../release-notes/rl-2.17.html"><strong aria-hidden="true">12.1.</strong> Release 2.17 (2023-07-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.16.html"><strong aria-hidden="true">12.2.</strong> Release 2.16 (2023-05-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.15.html"><strong aria-hidden="true">12.3.</strong> Release 2.15 (2023-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.14.html"><strong aria-hidden="true">12.4.</strong> Release 2.14 (2023-02-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.13.html"><strong aria-hidden="true">12.5.</strong> Release 2.13 (2023-01-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.12.html"><strong aria-hidden="true">12.6.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.11.html"><strong aria-hidden="true">12.7.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.10.html"><strong aria-hidden="true">12.8.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.9.html"><strong aria-hidden="true">12.9.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.8.html"><strong aria-hidden="true">12.10.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.7.html"><strong aria-hidden="true">12.11.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.6.html"><strong aria-hidden="true">12.12.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.5.html"><strong aria-hidden="true">12.13.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.4.html"><strong aria-hidden="true">12.14.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.3.html"><strong aria-hidden="true">12.15.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.2.html"><strong aria-hidden="true">12.16.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.1.html"><strong aria-hidden="true">12.17.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.0.html"><strong aria-hidden="true">12.18.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.10.html"><strong aria-hidden="true">12.19.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.html"><strong aria-hidden="true">12.20.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.10.html"><strong aria-hidden="true">12.21.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.9.html"><strong aria-hidden="true">12.22.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.8.html"><strong aria-hidden="true">12.23.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.7.html"><strong aria-hidden="true">12.24.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.1.html"><strong aria-hidden="true">12.25.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.html"><strong aria-hidden="true">12.26.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.2.html"><strong aria-hidden="true">12.27.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.html"><strong aria-hidden="true">12.28.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.4.html"><strong aria-hidden="true">12.29.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.3.html"><strong aria-hidden="true">12.30.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.2.html"><strong aria-hidden="true">12.31.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.1.html"><strong aria-hidden="true">12.32.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.0.html"><strong aria-hidden="true">12.33.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.16.html"><strong aria-hidden="true">12.34.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.15.html"><strong aria-hidden="true">12.35.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.14.html"><strong aria-hidden="true">12.36.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.13.html"><strong aria-hidden="true">12.37.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.12.html"><strong aria-hidden="true">12.38.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.11.html"><strong aria-hidden="true">12.39.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.1.html"><strong aria-hidden="true">12.40.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.html"><strong aria-hidden="true">12.41.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.2.html"><strong aria-hidden="true">12.42.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.1.html"><strong aria-hidden="true">12.43.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.html"><strong aria-hidden="true">12.44.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.1.html"><strong aria-hidden="true">12.45.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.html"><strong aria-hidden="true">12.46.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.7.html"><strong aria-hidden="true">12.47.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.6.html"><strong aria-hidden="true">12.48.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.5.html"><strong aria-hidden="true">12.49.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../introduction.html"><strong aria-hidden="true">1.</strong> Introduction</a></li><li class="chapter-item expanded "><a href="../../quick-start.html"><strong aria-hidden="true">2.</strong> Quick Start</a></li><li class="chapter-item expanded "><a href="../../installation/installation.html"><strong aria-hidden="true">3.</strong> Installation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/supported-platforms.html"><strong aria-hidden="true">3.1.</strong> Supported Platforms</a></li><li class="chapter-item expanded "><a href="../../installation/installing-binary.html"><strong aria-hidden="true">3.2.</strong> Installing a Binary Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/installing-source.html"><strong aria-hidden="true">3.3.</strong> Installing Nix from Source</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/prerequisites-source.html"><strong aria-hidden="true">3.3.1.</strong> Prerequisites</a></li><li class="chapter-item expanded "><a href="../../installation/obtaining-source.html"><strong aria-hidden="true">3.3.2.</strong> Obtaining a Source Distribution</a></li><li class="chapter-item expanded "><a href="../../installation/building-source.html"><strong aria-hidden="true">3.3.3.</strong> Building Nix from Source</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/installing-docker.html"><strong aria-hidden="true">3.4.</strong> Using Nix within Docker</a></li><li class="chapter-item expanded "><a href="../../installation/nix-security.html"><strong aria-hidden="true">3.5.</strong> Security</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../installation/single-user.html"><strong aria-hidden="true">3.5.1.</strong> Single-User Mode</a></li><li class="chapter-item expanded "><a href="../../installation/multi-user.html"><strong aria-hidden="true">3.5.2.</strong> Multi-User Mode</a></li></ol></li><li class="chapter-item expanded "><a href="../../installation/env-variables.html"><strong aria-hidden="true">3.6.</strong> Environment Variables</a></li><li class="chapter-item expanded "><a href="../../installation/upgrading.html"><strong aria-hidden="true">3.7.</strong> Upgrading Nix</a></li><li class="chapter-item expanded "><a href="../../installation/uninstall.html"><strong aria-hidden="true">3.8.</strong> Uninstalling Nix</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/package-management.html"><strong aria-hidden="true">4.</strong> Package Management</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/basic-package-mgmt.html"><strong aria-hidden="true">4.1.</strong> Basic Package Management</a></li><li class="chapter-item expanded "><a href="../../package-management/profiles.html"><strong aria-hidden="true">4.2.</strong> Profiles</a></li><li class="chapter-item expanded "><a href="../../package-management/garbage-collection.html"><strong aria-hidden="true">4.3.</strong> Garbage Collection</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/garbage-collector-roots.html"><strong aria-hidden="true">4.3.1.</strong> Garbage Collector Roots</a></li></ol></li><li class="chapter-item expanded "><a href="../../package-management/sharing-packages.html"><strong aria-hidden="true">4.4.</strong> Sharing Packages Between Machines</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../package-management/binary-cache-substituter.html"><strong aria-hidden="true">4.4.1.</strong> Serving a Nix store via HTTP</a></li><li class="chapter-item expanded "><a href="../../package-management/copy-closure.html"><strong aria-hidden="true">4.4.2.</strong> Copying Closures via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/ssh-substituter.html"><strong aria-hidden="true">4.4.3.</strong> Serving a Nix store via SSH</a></li><li class="chapter-item expanded "><a href="../../package-management/s3-substituter.html"><strong aria-hidden="true">4.4.4.</strong> Serving a Nix store via S3</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../language/index.html"><strong aria-hidden="true">5.</strong> Nix Language</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/values.html"><strong aria-hidden="true">5.1.</strong> Data Types</a></li><li class="chapter-item expanded "><a href="../../language/constructs.html"><strong aria-hidden="true">5.2.</strong> Language Constructs</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/string-interpolation.html"><strong aria-hidden="true">5.2.1.</strong> String interpolation</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/operators.html"><strong aria-hidden="true">5.3.</strong> Operators</a></li><li class="chapter-item expanded "><a href="../../language/derivations.html"><strong aria-hidden="true">5.4.</strong> Derivations</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../language/advanced-attributes.html"><strong aria-hidden="true">5.4.1.</strong> Advanced Attributes</a></li></ol></li><li class="chapter-item expanded "><a href="../../language/builtin-constants.html"><strong aria-hidden="true">5.5.</strong> Built-in Constants</a></li><li class="chapter-item expanded "><a href="../../language/builtins.html"><strong aria-hidden="true">5.6.</strong> Built-in Functions</a></li></ol></li><li class="chapter-item expanded "><a href="../../advanced-topics/advanced-topics.html"><strong aria-hidden="true">6.</strong> Advanced Topics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../advanced-topics/distributed-builds.html"><strong aria-hidden="true">6.1.</strong> Remote Builds</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/cores-vs-jobs.html"><strong aria-hidden="true">6.2.</strong> Tuning Cores and Jobs</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/diff-hook.html"><strong aria-hidden="true">6.3.</strong> Verifying Build Reproducibility</a></li><li class="chapter-item expanded "><a href="../../advanced-topics/post-build-hook.html"><strong aria-hidden="true">6.4.</strong> Using the post-build-hook</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/command-ref.html"><strong aria-hidden="true">7.</strong> Command Reference</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/opt-common.html"><strong aria-hidden="true">7.1.</strong> Common Options</a></li><li class="chapter-item expanded "><a href="../../command-ref/env-common.html"><strong aria-hidden="true">7.2.</strong> Common Environment Variables</a></li><li class="chapter-item expanded "><a href="../../command-ref/main-commands.html"><strong aria-hidden="true">7.3.</strong> Main Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-build.html"><strong aria-hidden="true">7.3.1.</strong> nix-build</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-shell.html"><strong aria-hidden="true">7.3.2.</strong> nix-shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store.html"><strong aria-hidden="true">7.3.3.</strong> nix-store</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add-fixed.html"><strong aria-hidden="true">7.3.3.1.</strong> nix-store --add-fixed</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/add.html"><strong aria-hidden="true">7.3.3.2.</strong> nix-store --add</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/delete.html"><strong aria-hidden="true">7.3.3.3.</strong> nix-store --delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump-db.html"><strong aria-hidden="true">7.3.3.4.</strong> nix-store --dump-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/dump.html"><strong aria-hidden="true">7.3.3.5.</strong> nix-store --dump</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/export.html"><strong aria-hidden="true">7.3.3.6.</strong> nix-store --export</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/gc.html"><strong aria-hidden="true">7.3.3.7.</strong> nix-store --gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/generate-binary-cache-key.html"><strong aria-hidden="true">7.3.3.8.</strong> nix-store --generate-binary-cache-key</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/import.html"><strong aria-hidden="true">7.3.3.9.</strong> nix-store --import</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/load-db.html"><strong aria-hidden="true">7.3.3.10.</strong> nix-store --load-db</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/optimise.html"><strong aria-hidden="true">7.3.3.11.</strong> nix-store --optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/print-env.html"><strong aria-hidden="true">7.3.3.12.</strong> nix-store --print-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/query.html"><strong aria-hidden="true">7.3.3.13.</strong> nix-store --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/read-log.html"><strong aria-hidden="true">7.3.3.14.</strong> nix-store --read-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/realise.html"><strong aria-hidden="true">7.3.3.15.</strong> nix-store --realise</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/repair-path.html"><strong aria-hidden="true">7.3.3.16.</strong> nix-store --repair-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/restore.html"><strong aria-hidden="true">7.3.3.17.</strong> nix-store --restore</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/serve.html"><strong aria-hidden="true">7.3.3.18.</strong> nix-store --serve</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify-path.html"><strong aria-hidden="true">7.3.3.19.</strong> nix-store --verify-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-store/verify.html"><strong aria-hidden="true">7.3.3.20.</strong> nix-store --verify</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env.html"><strong aria-hidden="true">7.3.4.</strong> nix-env</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-env/delete-generations.html"><strong aria-hidden="true">7.3.4.1.</strong> nix-env --delete-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/install.html"><strong aria-hidden="true">7.3.4.2.</strong> nix-env --install</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/list-generations.html"><strong aria-hidden="true">7.3.4.3.</strong> nix-env --list-generations</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/query.html"><strong aria-hidden="true">7.3.4.4.</strong> nix-env --query</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/rollback.html"><strong aria-hidden="true">7.3.4.5.</strong> nix-env --rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set-flag.html"><strong aria-hidden="true">7.3.4.6.</strong> nix-env --set-flag</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/set.html"><strong aria-hidden="true">7.3.4.7.</strong> nix-env --set</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-generation.html"><strong aria-hidden="true">7.3.4.8.</strong> nix-env --switch-generation</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/switch-profile.html"><strong aria-hidden="true">7.3.4.9.</strong> nix-env --switch-profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/uninstall.html"><strong aria-hidden="true">7.3.4.10.</strong> nix-env --uninstall</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-env/upgrade.html"><strong aria-hidden="true">7.3.4.11.</strong> nix-env --upgrade</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/utilities.html"><strong aria-hidden="true">7.4.</strong> Utilities</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/nix-channel.html"><strong aria-hidden="true">7.4.1.</strong> nix-channel</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-collect-garbage.html"><strong aria-hidden="true">7.4.2.</strong> nix-collect-garbage</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-copy-closure.html"><strong aria-hidden="true">7.4.3.</strong> nix-copy-closure</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-daemon.html"><strong aria-hidden="true">7.4.4.</strong> nix-daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-hash.html"><strong aria-hidden="true">7.4.5.</strong> nix-hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-instantiate.html"><strong aria-hidden="true">7.4.6.</strong> nix-instantiate</a></li><li class="chapter-item expanded "><a href="../../command-ref/nix-prefetch-url.html"><strong aria-hidden="true">7.4.7.</strong> nix-prefetch-url</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/experimental-commands.html"><strong aria-hidden="true">7.5.</strong> Experimental Commands</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix.html"><strong aria-hidden="true">7.5.1.</strong> nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-build.html"><strong aria-hidden="true">7.5.2.</strong> nix build</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-bundle.html"><strong aria-hidden="true">7.5.3.</strong> nix bundle</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-copy.html"><strong aria-hidden="true">7.5.4.</strong> nix copy</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-daemon.html"><strong aria-hidden="true">7.5.5.</strong> nix daemon</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation.html"><strong aria-hidden="true">7.5.6.</strong> nix derivation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-add.html"><strong aria-hidden="true">7.5.7.</strong> nix derivation add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-derivation-show.html"><strong aria-hidden="true">7.5.8.</strong> nix derivation show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-develop.html"><strong aria-hidden="true">7.5.9.</strong> nix develop</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-doctor.html"><strong aria-hidden="true">7.5.10.</strong> nix doctor</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-edit.html"><strong aria-hidden="true">7.5.11.</strong> nix edit</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-eval.html"><strong aria-hidden="true">7.5.12.</strong> nix eval</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake.html"><strong aria-hidden="true">7.5.13.</strong> nix flake</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-archive.html"><strong aria-hidden="true">7.5.14.</strong> nix flake archive</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-check.html"><strong aria-hidden="true">7.5.15.</strong> nix flake check</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-clone.html"><strong aria-hidden="true">7.5.16.</strong> nix flake clone</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-info.html"><strong aria-hidden="true">7.5.17.</strong> nix flake info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-init.html"><strong aria-hidden="true">7.5.18.</strong> nix flake init</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-lock.html"><strong aria-hidden="true">7.5.19.</strong> nix flake lock</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-metadata.html"><strong aria-hidden="true">7.5.20.</strong> nix flake metadata</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-new.html"><strong aria-hidden="true">7.5.21.</strong> nix flake new</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-prefetch.html"><strong aria-hidden="true">7.5.22.</strong> nix flake prefetch</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-show.html"><strong aria-hidden="true">7.5.23.</strong> nix flake show</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-flake-update.html"><strong aria-hidden="true">7.5.24.</strong> nix flake update</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-fmt.html"><strong aria-hidden="true">7.5.25.</strong> nix fmt</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash.html"><strong aria-hidden="true">7.5.26.</strong> nix hash</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-file.html"><strong aria-hidden="true">7.5.27.</strong> nix hash file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-path.html"><strong aria-hidden="true">7.5.28.</strong> nix hash path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base16.html"><strong aria-hidden="true">7.5.29.</strong> nix hash to-base16</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base32.html"><strong aria-hidden="true">7.5.30.</strong> nix hash to-base32</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-base64.html"><strong aria-hidden="true">7.5.31.</strong> nix hash to-base64</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-hash-to-sri.html"><strong aria-hidden="true">7.5.32.</strong> nix hash to-sri</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help.html"><strong aria-hidden="true">7.5.33.</strong> nix help</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-help-stores.html"><strong aria-hidden="true">7.5.34.</strong> nix help-stores</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key.html"><strong aria-hidden="true">7.5.35.</strong> nix key</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-convert-secret-to-public.html"><strong aria-hidden="true">7.5.36.</strong> nix key convert-secret-to-public</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-key-generate-secret.html"><strong aria-hidden="true">7.5.37.</strong> nix key generate-secret</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-log.html"><strong aria-hidden="true">7.5.38.</strong> nix log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar.html"><strong aria-hidden="true">7.5.39.</strong> nix nar</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-cat.html"><strong aria-hidden="true">7.5.40.</strong> nix nar cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-dump-path.html"><strong aria-hidden="true">7.5.41.</strong> nix nar dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-nar-ls.html"><strong aria-hidden="true">7.5.42.</strong> nix nar ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-path-info.html"><strong aria-hidden="true">7.5.43.</strong> nix path-info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-print-dev-env.html"><strong aria-hidden="true">7.5.44.</strong> nix print-dev-env</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile.html"><strong aria-hidden="true">7.5.45.</strong> nix profile</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-diff-closures.html"><strong aria-hidden="true">7.5.46.</strong> nix profile diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-history.html"><strong aria-hidden="true">7.5.47.</strong> nix profile history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-install.html"><strong aria-hidden="true">7.5.48.</strong> nix profile install</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-list.html"><strong aria-hidden="true">7.5.49.</strong> nix profile list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-remove.html"><strong aria-hidden="true">7.5.50.</strong> nix profile remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-rollback.html"><strong aria-hidden="true">7.5.51.</strong> nix profile rollback</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-upgrade.html"><strong aria-hidden="true">7.5.52.</strong> nix profile upgrade</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-profile-wipe-history.html"><strong aria-hidden="true">7.5.53.</strong> nix profile wipe-history</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation.html"><strong aria-hidden="true">7.5.54.</strong> nix realisation</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-realisation-info.html"><strong aria-hidden="true">7.5.55.</strong> nix realisation info</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry.html"><strong aria-hidden="true">7.5.56.</strong> nix registry</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-add.html"><strong aria-hidden="true">7.5.57.</strong> nix registry add</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-list.html"><strong aria-hidden="true">7.5.58.</strong> nix registry list</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-pin.html"><strong aria-hidden="true">7.5.59.</strong> nix registry pin</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-registry-remove.html" class="active"><strong aria-hidden="true">7.5.60.</strong> nix registry remove</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-repl.html"><strong aria-hidden="true">7.5.61.</strong> nix repl</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-run.html"><strong aria-hidden="true">7.5.62.</strong> nix run</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-search.html"><strong aria-hidden="true">7.5.63.</strong> nix search</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-shell.html"><strong aria-hidden="true">7.5.64.</strong> nix shell</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-show-config.html"><strong aria-hidden="true">7.5.65.</strong> nix show-config</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store.html"><strong aria-hidden="true">7.5.66.</strong> nix store</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-file.html"><strong aria-hidden="true">7.5.67.</strong> nix store add-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-add-path.html"><strong aria-hidden="true">7.5.68.</strong> nix store add-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-cat.html"><strong aria-hidden="true">7.5.69.</strong> nix store cat</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-log.html"><strong aria-hidden="true">7.5.70.</strong> nix store copy-log</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-copy-sigs.html"><strong aria-hidden="true">7.5.71.</strong> nix store copy-sigs</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-delete.html"><strong aria-hidden="true">7.5.72.</strong> nix store delete</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-diff-closures.html"><strong aria-hidden="true">7.5.73.</strong> nix store diff-closures</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-dump-path.html"><strong aria-hidden="true">7.5.74.</strong> nix store dump-path</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-gc.html"><strong aria-hidden="true">7.5.75.</strong> nix store gc</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ls.html"><strong aria-hidden="true">7.5.76.</strong> nix store ls</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-make-content-addressed.html"><strong aria-hidden="true">7.5.77.</strong> nix store make-content-addressed</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-optimise.html"><strong aria-hidden="true">7.5.78.</strong> nix store optimise</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html"><strong aria-hidden="true">7.5.79.</strong> nix store path-from-hash-part</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-ping.html"><strong aria-hidden="true">7.5.80.</strong> nix store ping</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-prefetch-file.html"><strong aria-hidden="true">7.5.81.</strong> nix store prefetch-file</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-repair.html"><strong aria-hidden="true">7.5.82.</strong> nix store repair</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-sign.html"><strong aria-hidden="true">7.5.83.</strong> nix store sign</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-store-verify.html"><strong aria-hidden="true">7.5.84.</strong> nix store verify</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-upgrade-nix.html"><strong aria-hidden="true">7.5.85.</strong> nix upgrade-nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/new-cli/nix3-why-depends.html"><strong aria-hidden="true">7.5.86.</strong> nix why-depends</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files.html"><strong aria-hidden="true">7.6.</strong> Files</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/conf-file.html"><strong aria-hidden="true">7.6.1.</strong> nix.conf</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/profiles.html"><strong aria-hidden="true">7.6.2.</strong> Profiles</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.nix.html"><strong aria-hidden="true">7.6.2.1.</strong> manifest.nix</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/manifest.json.html"><strong aria-hidden="true">7.6.2.2.</strong> manifest.json</a></li></ol></li><li class="chapter-item expanded "><a href="../../command-ref/files/channels.html"><strong aria-hidden="true">7.6.3.</strong> Channels</a></li><li class="chapter-item expanded "><a href="../../command-ref/files/default-nix-expression.html"><strong aria-hidden="true">7.6.4.</strong> Default Nix expression</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="../../architecture/architecture.html"><strong aria-hidden="true">8.</strong> Architecture and Design</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../architecture/file-system-object.html"><strong aria-hidden="true">8.1.</strong> File System Object</a></li></ol></li><li class="chapter-item expanded "><a href="../../protocols/protocols.html"><strong aria-hidden="true">9.</strong> Protocols</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../protocols/tarball-fetcher.html"><strong aria-hidden="true">9.1.</strong> Serving Tarball Flakes</a></li><li class="chapter-item expanded "><a href="../../protocols/derivation-aterm.html"><strong aria-hidden="true">9.2.</strong> Derivation "ATerm" file format</a></li></ol></li><li class="chapter-item expanded "><a href="../../glossary.html"><strong aria-hidden="true">10.</strong> Glossary</a></li><li class="chapter-item expanded "><a href="../../contributing/contributing.html"><strong aria-hidden="true">11.</strong> Contributing</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../contributing/hacking.html"><strong aria-hidden="true">11.1.</strong> Hacking</a></li><li class="chapter-item expanded "><a href="../../contributing/testing.html"><strong aria-hidden="true">11.2.</strong> Testing</a></li><li class="chapter-item expanded "><a href="../../contributing/experimental-features.html"><strong aria-hidden="true">11.3.</strong> Experimental Features</a></li><li class="chapter-item expanded "><a href="../../contributing/cli-guideline.html"><strong aria-hidden="true">11.4.</strong> CLI guideline</a></li><li class="chapter-item expanded "><a href="../../contributing/cxx.html"><strong aria-hidden="true">11.5.</strong> C++ style guide</a></li></ol></li><li class="chapter-item expanded "><a href="../../release-notes/release-notes.html"><strong aria-hidden="true">12.</strong> Release Notes</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../release-notes/rl-2.18.html"><strong aria-hidden="true">12.1.</strong> Release 2.18 (2023-09-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.17.html"><strong aria-hidden="true">12.2.</strong> Release 2.17 (2023-07-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.16.html"><strong aria-hidden="true">12.3.</strong> Release 2.16 (2023-05-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.15.html"><strong aria-hidden="true">12.4.</strong> Release 2.15 (2023-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.14.html"><strong aria-hidden="true">12.5.</strong> Release 2.14 (2023-02-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.13.html"><strong aria-hidden="true">12.6.</strong> Release 2.13 (2023-01-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.12.html"><strong aria-hidden="true">12.7.</strong> Release 2.12 (2022-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.11.html"><strong aria-hidden="true">12.8.</strong> Release 2.11 (2022-08-25)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.10.html"><strong aria-hidden="true">12.9.</strong> Release 2.10 (2022-07-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.9.html"><strong aria-hidden="true">12.10.</strong> Release 2.9 (2022-05-30)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.8.html"><strong aria-hidden="true">12.11.</strong> Release 2.8 (2022-04-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.7.html"><strong aria-hidden="true">12.12.</strong> Release 2.7 (2022-03-07)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.6.html"><strong aria-hidden="true">12.13.</strong> Release 2.6 (2022-01-24)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.5.html"><strong aria-hidden="true">12.14.</strong> Release 2.5 (2021-12-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.4.html"><strong aria-hidden="true">12.15.</strong> Release 2.4 (2021-11-01)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.3.html"><strong aria-hidden="true">12.16.</strong> Release 2.3 (2019-09-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.2.html"><strong aria-hidden="true">12.17.</strong> Release 2.2 (2019-01-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.1.html"><strong aria-hidden="true">12.18.</strong> Release 2.1 (2018-09-02)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-2.0.html"><strong aria-hidden="true">12.19.</strong> Release 2.0 (2018-02-22)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.10.html"><strong aria-hidden="true">12.20.</strong> Release 1.11.10 (2017-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.11.html"><strong aria-hidden="true">12.21.</strong> Release 1.11 (2016-01-19)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.10.html"><strong aria-hidden="true">12.22.</strong> Release 1.10 (2015-09-03)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.9.html"><strong aria-hidden="true">12.23.</strong> Release 1.9 (2015-06-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.8.html"><strong aria-hidden="true">12.24.</strong> Release 1.8 (2014-12-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.7.html"><strong aria-hidden="true">12.25.</strong> Release 1.7 (2014-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.1.html"><strong aria-hidden="true">12.26.</strong> Release 1.6.1 (2013-10-28)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.6.html"><strong aria-hidden="true">12.27.</strong> Release 1.6 (2013-09-10)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.2.html"><strong aria-hidden="true">12.28.</strong> Release 1.5.2 (2013-05-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.5.html"><strong aria-hidden="true">12.29.</strong> Release 1.5 (2013-02-27)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.4.html"><strong aria-hidden="true">12.30.</strong> Release 1.4 (2013-02-26)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.3.html"><strong aria-hidden="true">12.31.</strong> Release 1.3 (2013-01-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.2.html"><strong aria-hidden="true">12.32.</strong> Release 1.2 (2012-12-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.1.html"><strong aria-hidden="true">12.33.</strong> Release 1.1 (2012-07-18)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-1.0.html"><strong aria-hidden="true">12.34.</strong> Release 1.0 (2012-05-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.16.html"><strong aria-hidden="true">12.35.</strong> Release 0.16 (2010-08-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.15.html"><strong aria-hidden="true">12.36.</strong> Release 0.15 (2010-03-17)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.14.html"><strong aria-hidden="true">12.37.</strong> Release 0.14 (2010-02-04)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.13.html"><strong aria-hidden="true">12.38.</strong> Release 0.13 (2009-11-05)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.12.html"><strong aria-hidden="true">12.39.</strong> Release 0.12 (2008-11-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.11.html"><strong aria-hidden="true">12.40.</strong> Release 0.11 (2007-12-31)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.1.html"><strong aria-hidden="true">12.41.</strong> Release 0.10.1 (2006-10-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.10.html"><strong aria-hidden="true">12.42.</strong> Release 0.10 (2006-10-06)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.2.html"><strong aria-hidden="true">12.43.</strong> Release 0.9.2 (2005-09-21)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.1.html"><strong aria-hidden="true">12.44.</strong> Release 0.9.1 (2005-09-20)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.9.html"><strong aria-hidden="true">12.45.</strong> Release 0.9 (2005-09-16)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.1.html"><strong aria-hidden="true">12.46.</strong> Release 0.8.1 (2005-04-13)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.8.html"><strong aria-hidden="true">12.47.</strong> Release 0.8 (2005-04-11)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.7.html"><strong aria-hidden="true">12.48.</strong> Release 0.7 (2005-01-12)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.6.html"><strong aria-hidden="true">12.49.</strong> Release 0.6 (2004-11-14)</a></li><li class="chapter-item expanded "><a href="../../release-notes/rl-0.5.html"><strong aria-hidden="true">12.50.</strong> Release 0.5 and earlier</a></li></ol></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -117,9 +122,9 @@
                                 <div id="menu-bar-hover-placeholder"></div>
                 <div id="menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
                             <i class="fa fa-bars"></i>
-                        </button>
+                        </label>
                         <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
                             <i class="fa fa-paint-brush"></i>
                         </button>
@@ -202,708 +207,708 @@ reference <em>url</em>.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <ul>
 <li>
-<p><code>--registry</code> <em>registry</em></p>
+<p><span id="opt-registry"><a href="#opt-registry"><code>--registry</code></a></span> <em>registry</em></p>
 <p>The registry to operate on.</p>
 </li>
 </ul>
 <p><strong>Logging-related options:</strong></p>
 <ul>
 <li>
-<p><code>--debug</code></p>
+<p><span id="opt-debug"><a href="#opt-debug"><code>--debug</code></a></span></p>
 <p>Set the logging verbosity level to 'debug'.</p>
 </li>
 <li>
-<p><code>--log-format</code> <em>format</em></p>
+<p><span id="opt-log-format"><a href="#opt-log-format"><code>--log-format</code></a></span> <em>format</em></p>
 <p>Set the format of log output; one of <code>raw</code>, <code>internal-json</code>, <code>bar</code> or <code>bar-with-logs</code>.</p>
 </li>
 <li>
-<p><code>--print-build-logs</code> / <code>-L</code></p>
+<p><span id="opt-print-build-logs"><a href="#opt-print-build-logs"><code>--print-build-logs</code></a></span> / <code>-L</code></p>
 <p>Print full build logs on standard error.</p>
 </li>
 <li>
-<p><code>--quiet</code></p>
+<p><span id="opt-quiet"><a href="#opt-quiet"><code>--quiet</code></a></span></p>
 <p>Decrease the logging verbosity level.</p>
 </li>
 <li>
-<p><code>--verbose</code> / <code>-v</code></p>
+<p><span id="opt-verbose"><a href="#opt-verbose"><code>--verbose</code></a></span> / <code>-v</code></p>
 <p>Increase the logging verbosity level.</p>
 </li>
 </ul>
 <p><strong>Miscellaneous global options:</strong></p>
 <ul>
 <li>
-<p><code>--help</code></p>
+<p><span id="opt-help"><a href="#opt-help"><code>--help</code></a></span></p>
 <p>Show usage information.</p>
 </li>
 <li>
-<p><code>--offline</code></p>
+<p><span id="opt-offline"><a href="#opt-offline"><code>--offline</code></a></span></p>
 <p>Disable substituters and consider all previously downloaded files up-to-date.</p>
 </li>
 <li>
-<p><code>--option</code> <em>name</em> <em>value</em></p>
+<p><span id="opt-option"><a href="#opt-option"><code>--option</code></a></span> <em>name</em> <em>value</em></p>
 <p>Set the Nix configuration setting <em>name</em> to <em>value</em> (overriding <code>nix.conf</code>).</p>
 </li>
 <li>
-<p><code>--refresh</code></p>
+<p><span id="opt-refresh"><a href="#opt-refresh"><code>--refresh</code></a></span></p>
 <p>Consider all previously downloaded files out-of-date.</p>
 </li>
 <li>
-<p><code>--version</code></p>
+<p><span id="opt-version"><a href="#opt-version"><code>--version</code></a></span></p>
 <p>Show version information.</p>
 </li>
 </ul>
 <p><strong>Options to override configuration settings:</strong></p>
 <ul>
 <li>
-<p><code>--accept-flake-config</code></p>
+<p><span id="opt-accept-flake-config"><a href="#opt-accept-flake-config"><code>--accept-flake-config</code></a></span></p>
 <p>Enable the <code>accept-flake-config</code> setting.</p>
 </li>
 <li>
-<p><code>--access-tokens</code> <em>value</em></p>
+<p><span id="opt-access-tokens"><a href="#opt-access-tokens"><code>--access-tokens</code></a></span> <em>value</em></p>
 <p>Set the <code>access-tokens</code> setting.</p>
 </li>
 <li>
-<p><code>--allow-dirty</code></p>
+<p><span id="opt-allow-dirty"><a href="#opt-allow-dirty"><code>--allow-dirty</code></a></span></p>
 <p>Enable the <code>allow-dirty</code> setting.</p>
 </li>
 <li>
-<p><code>--allow-import-from-derivation</code></p>
+<p><span id="opt-allow-import-from-derivation"><a href="#opt-allow-import-from-derivation"><code>--allow-import-from-derivation</code></a></span></p>
 <p>Enable the <code>allow-import-from-derivation</code> setting.</p>
 </li>
 <li>
-<p><code>--allow-new-privileges</code></p>
+<p><span id="opt-allow-new-privileges"><a href="#opt-allow-new-privileges"><code>--allow-new-privileges</code></a></span></p>
 <p>Enable the <code>allow-new-privileges</code> setting.</p>
 </li>
 <li>
-<p><code>--allow-symlinked-store</code></p>
+<p><span id="opt-allow-symlinked-store"><a href="#opt-allow-symlinked-store"><code>--allow-symlinked-store</code></a></span></p>
 <p>Enable the <code>allow-symlinked-store</code> setting.</p>
 </li>
 <li>
-<p><code>--allow-unsafe-native-code-during-evaluation</code></p>
+<p><span id="opt-allow-unsafe-native-code-during-evaluation"><a href="#opt-allow-unsafe-native-code-during-evaluation"><code>--allow-unsafe-native-code-during-evaluation</code></a></span></p>
 <p>Enable the <code>allow-unsafe-native-code-during-evaluation</code> setting.</p>
 </li>
 <li>
-<p><code>--allowed-impure-host-deps</code> <em>value</em></p>
+<p><span id="opt-allowed-impure-host-deps"><a href="#opt-allowed-impure-host-deps"><code>--allowed-impure-host-deps</code></a></span> <em>value</em></p>
 <p>Set the <code>allowed-impure-host-deps</code> setting.</p>
 </li>
 <li>
-<p><code>--allowed-uris</code> <em>value</em></p>
+<p><span id="opt-allowed-uris"><a href="#opt-allowed-uris"><code>--allowed-uris</code></a></span> <em>value</em></p>
 <p>Set the <code>allowed-uris</code> setting.</p>
 </li>
 <li>
-<p><code>--allowed-users</code> <em>value</em></p>
+<p><span id="opt-allowed-users"><a href="#opt-allowed-users"><code>--allowed-users</code></a></span> <em>value</em></p>
 <p>Set the <code>allowed-users</code> setting.</p>
 </li>
 <li>
-<p><code>--auto-allocate-uids</code></p>
+<p><span id="opt-auto-allocate-uids"><a href="#opt-auto-allocate-uids"><code>--auto-allocate-uids</code></a></span></p>
 <p>Enable the <code>auto-allocate-uids</code> setting.</p>
 </li>
 <li>
-<p><code>--auto-optimise-store</code></p>
+<p><span id="opt-auto-optimise-store"><a href="#opt-auto-optimise-store"><code>--auto-optimise-store</code></a></span></p>
 <p>Enable the <code>auto-optimise-store</code> setting.</p>
 </li>
 <li>
-<p><code>--bash-prompt</code> <em>value</em></p>
+<p><span id="opt-bash-prompt"><a href="#opt-bash-prompt"><code>--bash-prompt</code></a></span> <em>value</em></p>
 <p>Set the <code>bash-prompt</code> setting.</p>
 </li>
 <li>
-<p><code>--bash-prompt-prefix</code> <em>value</em></p>
+<p><span id="opt-bash-prompt-prefix"><a href="#opt-bash-prompt-prefix"><code>--bash-prompt-prefix</code></a></span> <em>value</em></p>
 <p>Set the <code>bash-prompt-prefix</code> setting.</p>
 </li>
 <li>
-<p><code>--bash-prompt-suffix</code> <em>value</em></p>
+<p><span id="opt-bash-prompt-suffix"><a href="#opt-bash-prompt-suffix"><code>--bash-prompt-suffix</code></a></span> <em>value</em></p>
 <p>Set the <code>bash-prompt-suffix</code> setting.</p>
 </li>
 <li>
-<p><code>--build-hook</code> <em>value</em></p>
+<p><span id="opt-build-hook"><a href="#opt-build-hook"><code>--build-hook</code></a></span> <em>value</em></p>
 <p>Set the <code>build-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--build-poll-interval</code> <em>value</em></p>
+<p><span id="opt-build-poll-interval"><a href="#opt-build-poll-interval"><code>--build-poll-interval</code></a></span> <em>value</em></p>
 <p>Set the <code>build-poll-interval</code> setting.</p>
 </li>
 <li>
-<p><code>--build-users-group</code> <em>value</em></p>
+<p><span id="opt-build-users-group"><a href="#opt-build-users-group"><code>--build-users-group</code></a></span> <em>value</em></p>
 <p>Set the <code>build-users-group</code> setting.</p>
 </li>
 <li>
-<p><code>--builders</code> <em>value</em></p>
+<p><span id="opt-builders"><a href="#opt-builders"><code>--builders</code></a></span> <em>value</em></p>
 <p>Set the <code>builders</code> setting.</p>
 </li>
 <li>
-<p><code>--builders-use-substitutes</code></p>
+<p><span id="opt-builders-use-substitutes"><a href="#opt-builders-use-substitutes"><code>--builders-use-substitutes</code></a></span></p>
 <p>Enable the <code>builders-use-substitutes</code> setting.</p>
 </li>
 <li>
-<p><code>--commit-lockfile-summary</code> <em>value</em></p>
+<p><span id="opt-commit-lockfile-summary"><a href="#opt-commit-lockfile-summary"><code>--commit-lockfile-summary</code></a></span> <em>value</em></p>
 <p>Set the <code>commit-lockfile-summary</code> setting.</p>
 </li>
 <li>
-<p><code>--compress-build-log</code></p>
+<p><span id="opt-compress-build-log"><a href="#opt-compress-build-log"><code>--compress-build-log</code></a></span></p>
 <p>Enable the <code>compress-build-log</code> setting.</p>
 </li>
 <li>
-<p><code>--connect-timeout</code> <em>value</em></p>
+<p><span id="opt-connect-timeout"><a href="#opt-connect-timeout"><code>--connect-timeout</code></a></span> <em>value</em></p>
 <p>Set the <code>connect-timeout</code> setting.</p>
 </li>
 <li>
-<p><code>--cores</code> <em>value</em></p>
+<p><span id="opt-cores"><a href="#opt-cores"><code>--cores</code></a></span> <em>value</em></p>
 <p>Set the <code>cores</code> setting.</p>
 </li>
 <li>
-<p><code>--diff-hook</code> <em>value</em></p>
+<p><span id="opt-diff-hook"><a href="#opt-diff-hook"><code>--diff-hook</code></a></span> <em>value</em></p>
 <p>Set the <code>diff-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--download-attempts</code> <em>value</em></p>
+<p><span id="opt-download-attempts"><a href="#opt-download-attempts"><code>--download-attempts</code></a></span> <em>value</em></p>
 <p>Set the <code>download-attempts</code> setting.</p>
 </li>
 <li>
-<p><code>--download-speed</code> <em>value</em></p>
+<p><span id="opt-download-speed"><a href="#opt-download-speed"><code>--download-speed</code></a></span> <em>value</em></p>
 <p>Set the <code>download-speed</code> setting.</p>
 </li>
 <li>
-<p><code>--eval-cache</code></p>
+<p><span id="opt-eval-cache"><a href="#opt-eval-cache"><code>--eval-cache</code></a></span></p>
 <p>Enable the <code>eval-cache</code> setting.</p>
 </li>
 <li>
-<p><code>--experimental-features</code> <em>value</em></p>
+<p><span id="opt-experimental-features"><a href="#opt-experimental-features"><code>--experimental-features</code></a></span> <em>value</em></p>
 <p>Set the <code>experimental-features</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-access-tokens</code> <em>value</em></p>
+<p><span id="opt-extra-access-tokens"><a href="#opt-extra-access-tokens"><code>--extra-access-tokens</code></a></span> <em>value</em></p>
 <p>Append to the <code>access-tokens</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-allowed-impure-host-deps</code> <em>value</em></p>
+<p><span id="opt-extra-allowed-impure-host-deps"><a href="#opt-extra-allowed-impure-host-deps"><code>--extra-allowed-impure-host-deps</code></a></span> <em>value</em></p>
 <p>Append to the <code>allowed-impure-host-deps</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-allowed-uris</code> <em>value</em></p>
+<p><span id="opt-extra-allowed-uris"><a href="#opt-extra-allowed-uris"><code>--extra-allowed-uris</code></a></span> <em>value</em></p>
 <p>Append to the <code>allowed-uris</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-allowed-users</code> <em>value</em></p>
+<p><span id="opt-extra-allowed-users"><a href="#opt-extra-allowed-users"><code>--extra-allowed-users</code></a></span> <em>value</em></p>
 <p>Append to the <code>allowed-users</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-build-hook</code> <em>value</em></p>
+<p><span id="opt-extra-build-hook"><a href="#opt-extra-build-hook"><code>--extra-build-hook</code></a></span> <em>value</em></p>
 <p>Append to the <code>build-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-experimental-features</code> <em>value</em></p>
+<p><span id="opt-extra-experimental-features"><a href="#opt-extra-experimental-features"><code>--extra-experimental-features</code></a></span> <em>value</em></p>
 <p>Append to the <code>experimental-features</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-extra-platforms</code> <em>value</em></p>
+<p><span id="opt-extra-extra-platforms"><a href="#opt-extra-extra-platforms"><code>--extra-extra-platforms</code></a></span> <em>value</em></p>
 <p>Append to the <code>extra-platforms</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-hashed-mirrors</code> <em>value</em></p>
+<p><span id="opt-extra-hashed-mirrors"><a href="#opt-extra-hashed-mirrors"><code>--extra-hashed-mirrors</code></a></span> <em>value</em></p>
 <p>Append to the <code>hashed-mirrors</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-ignored-acls</code> <em>value</em></p>
+<p><span id="opt-extra-ignored-acls"><a href="#opt-extra-ignored-acls"><code>--extra-ignored-acls</code></a></span> <em>value</em></p>
 <p>Append to the <code>ignored-acls</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-nix-path</code> <em>value</em></p>
+<p><span id="opt-extra-nix-path"><a href="#opt-extra-nix-path"><code>--extra-nix-path</code></a></span> <em>value</em></p>
 <p>Append to the <code>nix-path</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-platforms</code> <em>value</em></p>
+<p><span id="opt-extra-platforms"><a href="#opt-extra-platforms"><code>--extra-platforms</code></a></span> <em>value</em></p>
 <p>Set the <code>extra-platforms</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-plugin-files</code> <em>value</em></p>
+<p><span id="opt-extra-plugin-files"><a href="#opt-extra-plugin-files"><code>--extra-plugin-files</code></a></span> <em>value</em></p>
 <p>Append to the <code>plugin-files</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-sandbox-paths</code> <em>value</em></p>
+<p><span id="opt-extra-sandbox-paths"><a href="#opt-extra-sandbox-paths"><code>--extra-sandbox-paths</code></a></span> <em>value</em></p>
 <p>Append to the <code>sandbox-paths</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-secret-key-files</code> <em>value</em></p>
+<p><span id="opt-extra-secret-key-files"><a href="#opt-extra-secret-key-files"><code>--extra-secret-key-files</code></a></span> <em>value</em></p>
 <p>Append to the <code>secret-key-files</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-substituters</code> <em>value</em></p>
+<p><span id="opt-extra-substituters"><a href="#opt-extra-substituters"><code>--extra-substituters</code></a></span> <em>value</em></p>
 <p>Append to the <code>substituters</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-system-features</code> <em>value</em></p>
+<p><span id="opt-extra-system-features"><a href="#opt-extra-system-features"><code>--extra-system-features</code></a></span> <em>value</em></p>
 <p>Append to the <code>system-features</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-trusted-public-keys</code> <em>value</em></p>
+<p><span id="opt-extra-trusted-public-keys"><a href="#opt-extra-trusted-public-keys"><code>--extra-trusted-public-keys</code></a></span> <em>value</em></p>
 <p>Append to the <code>trusted-public-keys</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-trusted-substituters</code> <em>value</em></p>
+<p><span id="opt-extra-trusted-substituters"><a href="#opt-extra-trusted-substituters"><code>--extra-trusted-substituters</code></a></span> <em>value</em></p>
 <p>Append to the <code>trusted-substituters</code> setting.</p>
 </li>
 <li>
-<p><code>--extra-trusted-users</code> <em>value</em></p>
+<p><span id="opt-extra-trusted-users"><a href="#opt-extra-trusted-users"><code>--extra-trusted-users</code></a></span> <em>value</em></p>
 <p>Append to the <code>trusted-users</code> setting.</p>
 </li>
 <li>
-<p><code>--fallback</code></p>
+<p><span id="opt-fallback"><a href="#opt-fallback"><code>--fallback</code></a></span></p>
 <p>Enable the <code>fallback</code> setting.</p>
 </li>
 <li>
-<p><code>--filter-syscalls</code></p>
+<p><span id="opt-filter-syscalls"><a href="#opt-filter-syscalls"><code>--filter-syscalls</code></a></span></p>
 <p>Enable the <code>filter-syscalls</code> setting.</p>
 </li>
 <li>
-<p><code>--flake-registry</code> <em>value</em></p>
+<p><span id="opt-flake-registry"><a href="#opt-flake-registry"><code>--flake-registry</code></a></span> <em>value</em></p>
 <p>Set the <code>flake-registry</code> setting.</p>
 </li>
 <li>
-<p><code>--fsync-metadata</code></p>
+<p><span id="opt-fsync-metadata"><a href="#opt-fsync-metadata"><code>--fsync-metadata</code></a></span></p>
 <p>Enable the <code>fsync-metadata</code> setting.</p>
 </li>
 <li>
-<p><code>--gc-reserved-space</code> <em>value</em></p>
+<p><span id="opt-gc-reserved-space"><a href="#opt-gc-reserved-space"><code>--gc-reserved-space</code></a></span> <em>value</em></p>
 <p>Set the <code>gc-reserved-space</code> setting.</p>
 </li>
 <li>
-<p><code>--hashed-mirrors</code> <em>value</em></p>
+<p><span id="opt-hashed-mirrors"><a href="#opt-hashed-mirrors"><code>--hashed-mirrors</code></a></span> <em>value</em></p>
 <p>Set the <code>hashed-mirrors</code> setting.</p>
 </li>
 <li>
-<p><code>--http-connections</code> <em>value</em></p>
+<p><span id="opt-http-connections"><a href="#opt-http-connections"><code>--http-connections</code></a></span> <em>value</em></p>
 <p>Set the <code>http-connections</code> setting.</p>
 </li>
 <li>
-<p><code>--http2</code></p>
+<p><span id="opt-http2"><a href="#opt-http2"><code>--http2</code></a></span></p>
 <p>Enable the <code>http2</code> setting.</p>
 </li>
 <li>
-<p><code>--id-count</code> <em>value</em></p>
+<p><span id="opt-id-count"><a href="#opt-id-count"><code>--id-count</code></a></span> <em>value</em></p>
 <p>Set the <code>id-count</code> setting.</p>
 </li>
 <li>
-<p><code>--ignore-try</code></p>
+<p><span id="opt-ignore-try"><a href="#opt-ignore-try"><code>--ignore-try</code></a></span></p>
 <p>Enable the <code>ignore-try</code> setting.</p>
 </li>
 <li>
-<p><code>--ignored-acls</code> <em>value</em></p>
+<p><span id="opt-ignored-acls"><a href="#opt-ignored-acls"><code>--ignored-acls</code></a></span> <em>value</em></p>
 <p>Set the <code>ignored-acls</code> setting.</p>
 </li>
 <li>
-<p><code>--impersonate-linux-26</code></p>
+<p><span id="opt-impersonate-linux-26"><a href="#opt-impersonate-linux-26"><code>--impersonate-linux-26</code></a></span></p>
 <p>Enable the <code>impersonate-linux-26</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-build-log</code></p>
+<p><span id="opt-keep-build-log"><a href="#opt-keep-build-log"><code>--keep-build-log</code></a></span></p>
 <p>Enable the <code>keep-build-log</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-derivations</code></p>
+<p><span id="opt-keep-derivations"><a href="#opt-keep-derivations"><code>--keep-derivations</code></a></span></p>
 <p>Enable the <code>keep-derivations</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-env-derivations</code></p>
+<p><span id="opt-keep-env-derivations"><a href="#opt-keep-env-derivations"><code>--keep-env-derivations</code></a></span></p>
 <p>Enable the <code>keep-env-derivations</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-failed</code></p>
+<p><span id="opt-keep-failed"><a href="#opt-keep-failed"><code>--keep-failed</code></a></span></p>
 <p>Enable the <code>keep-failed</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-going</code></p>
+<p><span id="opt-keep-going"><a href="#opt-keep-going"><code>--keep-going</code></a></span></p>
 <p>Enable the <code>keep-going</code> setting.</p>
 </li>
 <li>
-<p><code>--keep-outputs</code></p>
+<p><span id="opt-keep-outputs"><a href="#opt-keep-outputs"><code>--keep-outputs</code></a></span></p>
 <p>Enable the <code>keep-outputs</code> setting.</p>
 </li>
 <li>
-<p><code>--log-lines</code> <em>value</em></p>
+<p><span id="opt-log-lines"><a href="#opt-log-lines"><code>--log-lines</code></a></span> <em>value</em></p>
 <p>Set the <code>log-lines</code> setting.</p>
 </li>
 <li>
-<p><code>--max-build-log-size</code> <em>value</em></p>
+<p><span id="opt-max-build-log-size"><a href="#opt-max-build-log-size"><code>--max-build-log-size</code></a></span> <em>value</em></p>
 <p>Set the <code>max-build-log-size</code> setting.</p>
 </li>
 <li>
-<p><code>--max-free</code> <em>value</em></p>
+<p><span id="opt-max-free"><a href="#opt-max-free"><code>--max-free</code></a></span> <em>value</em></p>
 <p>Set the <code>max-free</code> setting.</p>
 </li>
 <li>
-<p><code>--max-jobs</code> <em>value</em></p>
+<p><span id="opt-max-jobs"><a href="#opt-max-jobs"><code>--max-jobs</code></a></span> <em>value</em></p>
 <p>Set the <code>max-jobs</code> setting.</p>
 </li>
 <li>
-<p><code>--max-silent-time</code> <em>value</em></p>
+<p><span id="opt-max-silent-time"><a href="#opt-max-silent-time"><code>--max-silent-time</code></a></span> <em>value</em></p>
 <p>Set the <code>max-silent-time</code> setting.</p>
 </li>
 <li>
-<p><code>--max-substitution-jobs</code> <em>value</em></p>
+<p><span id="opt-max-substitution-jobs"><a href="#opt-max-substitution-jobs"><code>--max-substitution-jobs</code></a></span> <em>value</em></p>
 <p>Set the <code>max-substitution-jobs</code> setting.</p>
 </li>
 <li>
-<p><code>--min-free</code> <em>value</em></p>
+<p><span id="opt-min-free"><a href="#opt-min-free"><code>--min-free</code></a></span> <em>value</em></p>
 <p>Set the <code>min-free</code> setting.</p>
 </li>
 <li>
-<p><code>--min-free-check-interval</code> <em>value</em></p>
+<p><span id="opt-min-free-check-interval"><a href="#opt-min-free-check-interval"><code>--min-free-check-interval</code></a></span> <em>value</em></p>
 <p>Set the <code>min-free-check-interval</code> setting.</p>
 </li>
 <li>
-<p><code>--nar-buffer-size</code> <em>value</em></p>
+<p><span id="opt-nar-buffer-size"><a href="#opt-nar-buffer-size"><code>--nar-buffer-size</code></a></span> <em>value</em></p>
 <p>Set the <code>nar-buffer-size</code> setting.</p>
 </li>
 <li>
-<p><code>--narinfo-cache-negative-ttl</code> <em>value</em></p>
+<p><span id="opt-narinfo-cache-negative-ttl"><a href="#opt-narinfo-cache-negative-ttl"><code>--narinfo-cache-negative-ttl</code></a></span> <em>value</em></p>
 <p>Set the <code>narinfo-cache-negative-ttl</code> setting.</p>
 </li>
 <li>
-<p><code>--narinfo-cache-positive-ttl</code> <em>value</em></p>
+<p><span id="opt-narinfo-cache-positive-ttl"><a href="#opt-narinfo-cache-positive-ttl"><code>--narinfo-cache-positive-ttl</code></a></span> <em>value</em></p>
 <p>Set the <code>narinfo-cache-positive-ttl</code> setting.</p>
 </li>
 <li>
-<p><code>--netrc-file</code> <em>value</em></p>
+<p><span id="opt-netrc-file"><a href="#opt-netrc-file"><code>--netrc-file</code></a></span> <em>value</em></p>
 <p>Set the <code>netrc-file</code> setting.</p>
 </li>
 <li>
-<p><code>--nix-path</code> <em>value</em></p>
+<p><span id="opt-nix-path"><a href="#opt-nix-path"><code>--nix-path</code></a></span> <em>value</em></p>
 <p>Set the <code>nix-path</code> setting.</p>
 </li>
 <li>
-<p><code>--no-accept-flake-config</code></p>
+<p><span id="opt-no-accept-flake-config"><a href="#opt-no-accept-flake-config"><code>--no-accept-flake-config</code></a></span></p>
 <p>Disable the <code>accept-flake-config</code> setting.</p>
 </li>
 <li>
-<p><code>--no-allow-dirty</code></p>
+<p><span id="opt-no-allow-dirty"><a href="#opt-no-allow-dirty"><code>--no-allow-dirty</code></a></span></p>
 <p>Disable the <code>allow-dirty</code> setting.</p>
 </li>
 <li>
-<p><code>--no-allow-import-from-derivation</code></p>
+<p><span id="opt-no-allow-import-from-derivation"><a href="#opt-no-allow-import-from-derivation"><code>--no-allow-import-from-derivation</code></a></span></p>
 <p>Disable the <code>allow-import-from-derivation</code> setting.</p>
 </li>
 <li>
-<p><code>--no-allow-new-privileges</code></p>
+<p><span id="opt-no-allow-new-privileges"><a href="#opt-no-allow-new-privileges"><code>--no-allow-new-privileges</code></a></span></p>
 <p>Disable the <code>allow-new-privileges</code> setting.</p>
 </li>
 <li>
-<p><code>--no-allow-symlinked-store</code></p>
+<p><span id="opt-no-allow-symlinked-store"><a href="#opt-no-allow-symlinked-store"><code>--no-allow-symlinked-store</code></a></span></p>
 <p>Disable the <code>allow-symlinked-store</code> setting.</p>
 </li>
 <li>
-<p><code>--no-allow-unsafe-native-code-during-evaluation</code></p>
+<p><span id="opt-no-allow-unsafe-native-code-during-evaluation"><a href="#opt-no-allow-unsafe-native-code-during-evaluation"><code>--no-allow-unsafe-native-code-during-evaluation</code></a></span></p>
 <p>Disable the <code>allow-unsafe-native-code-during-evaluation</code> setting.</p>
 </li>
 <li>
-<p><code>--no-auto-allocate-uids</code></p>
+<p><span id="opt-no-auto-allocate-uids"><a href="#opt-no-auto-allocate-uids"><code>--no-auto-allocate-uids</code></a></span></p>
 <p>Disable the <code>auto-allocate-uids</code> setting.</p>
 </li>
 <li>
-<p><code>--no-auto-optimise-store</code></p>
+<p><span id="opt-no-auto-optimise-store"><a href="#opt-no-auto-optimise-store"><code>--no-auto-optimise-store</code></a></span></p>
 <p>Disable the <code>auto-optimise-store</code> setting.</p>
 </li>
 <li>
-<p><code>--no-builders-use-substitutes</code></p>
+<p><span id="opt-no-builders-use-substitutes"><a href="#opt-no-builders-use-substitutes"><code>--no-builders-use-substitutes</code></a></span></p>
 <p>Disable the <code>builders-use-substitutes</code> setting.</p>
 </li>
 <li>
-<p><code>--no-compress-build-log</code></p>
+<p><span id="opt-no-compress-build-log"><a href="#opt-no-compress-build-log"><code>--no-compress-build-log</code></a></span></p>
 <p>Disable the <code>compress-build-log</code> setting.</p>
 </li>
 <li>
-<p><code>--no-eval-cache</code></p>
+<p><span id="opt-no-eval-cache"><a href="#opt-no-eval-cache"><code>--no-eval-cache</code></a></span></p>
 <p>Disable the <code>eval-cache</code> setting.</p>
 </li>
 <li>
-<p><code>--no-fallback</code></p>
+<p><span id="opt-no-fallback"><a href="#opt-no-fallback"><code>--no-fallback</code></a></span></p>
 <p>Disable the <code>fallback</code> setting.</p>
 </li>
 <li>
-<p><code>--no-filter-syscalls</code></p>
+<p><span id="opt-no-filter-syscalls"><a href="#opt-no-filter-syscalls"><code>--no-filter-syscalls</code></a></span></p>
 <p>Disable the <code>filter-syscalls</code> setting.</p>
 </li>
 <li>
-<p><code>--no-fsync-metadata</code></p>
+<p><span id="opt-no-fsync-metadata"><a href="#opt-no-fsync-metadata"><code>--no-fsync-metadata</code></a></span></p>
 <p>Disable the <code>fsync-metadata</code> setting.</p>
 </li>
 <li>
-<p><code>--no-http2</code></p>
+<p><span id="opt-no-http2"><a href="#opt-no-http2"><code>--no-http2</code></a></span></p>
 <p>Disable the <code>http2</code> setting.</p>
 </li>
 <li>
-<p><code>--no-ignore-try</code></p>
+<p><span id="opt-no-ignore-try"><a href="#opt-no-ignore-try"><code>--no-ignore-try</code></a></span></p>
 <p>Disable the <code>ignore-try</code> setting.</p>
 </li>
 <li>
-<p><code>--no-impersonate-linux-26</code></p>
+<p><span id="opt-no-impersonate-linux-26"><a href="#opt-no-impersonate-linux-26"><code>--no-impersonate-linux-26</code></a></span></p>
 <p>Disable the <code>impersonate-linux-26</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-build-log</code></p>
+<p><span id="opt-no-keep-build-log"><a href="#opt-no-keep-build-log"><code>--no-keep-build-log</code></a></span></p>
 <p>Disable the <code>keep-build-log</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-derivations</code></p>
+<p><span id="opt-no-keep-derivations"><a href="#opt-no-keep-derivations"><code>--no-keep-derivations</code></a></span></p>
 <p>Disable the <code>keep-derivations</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-env-derivations</code></p>
+<p><span id="opt-no-keep-env-derivations"><a href="#opt-no-keep-env-derivations"><code>--no-keep-env-derivations</code></a></span></p>
 <p>Disable the <code>keep-env-derivations</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-failed</code></p>
+<p><span id="opt-no-keep-failed"><a href="#opt-no-keep-failed"><code>--no-keep-failed</code></a></span></p>
 <p>Disable the <code>keep-failed</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-going</code></p>
+<p><span id="opt-no-keep-going"><a href="#opt-no-keep-going"><code>--no-keep-going</code></a></span></p>
 <p>Disable the <code>keep-going</code> setting.</p>
 </li>
 <li>
-<p><code>--no-keep-outputs</code></p>
+<p><span id="opt-no-keep-outputs"><a href="#opt-no-keep-outputs"><code>--no-keep-outputs</code></a></span></p>
 <p>Disable the <code>keep-outputs</code> setting.</p>
 </li>
 <li>
-<p><code>--no-preallocate-contents</code></p>
+<p><span id="opt-no-preallocate-contents"><a href="#opt-no-preallocate-contents"><code>--no-preallocate-contents</code></a></span></p>
 <p>Disable the <code>preallocate-contents</code> setting.</p>
 </li>
 <li>
-<p><code>--no-print-missing</code></p>
+<p><span id="opt-no-print-missing"><a href="#opt-no-print-missing"><code>--no-print-missing</code></a></span></p>
 <p>Disable the <code>print-missing</code> setting.</p>
 </li>
 <li>
-<p><code>--no-pure-eval</code></p>
+<p><span id="opt-no-pure-eval"><a href="#opt-no-pure-eval"><code>--no-pure-eval</code></a></span></p>
 <p>Disable the <code>pure-eval</code> setting.</p>
 </li>
 <li>
-<p><code>--no-require-drop-supplementary-groups</code></p>
+<p><span id="opt-no-require-drop-supplementary-groups"><a href="#opt-no-require-drop-supplementary-groups"><code>--no-require-drop-supplementary-groups</code></a></span></p>
 <p>Disable the <code>require-drop-supplementary-groups</code> setting.</p>
 </li>
 <li>
-<p><code>--no-require-sigs</code></p>
+<p><span id="opt-no-require-sigs"><a href="#opt-no-require-sigs"><code>--no-require-sigs</code></a></span></p>
 <p>Disable the <code>require-sigs</code> setting.</p>
 </li>
 <li>
-<p><code>--no-restrict-eval</code></p>
+<p><span id="opt-no-restrict-eval"><a href="#opt-no-restrict-eval"><code>--no-restrict-eval</code></a></span></p>
 <p>Disable the <code>restrict-eval</code> setting.</p>
 </li>
 <li>
-<p><code>--no-run-diff-hook</code></p>
+<p><span id="opt-no-run-diff-hook"><a href="#opt-no-run-diff-hook"><code>--no-run-diff-hook</code></a></span></p>
 <p>Disable the <code>run-diff-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--no-sandbox</code></p>
+<p><span id="opt-no-sandbox"><a href="#opt-no-sandbox"><code>--no-sandbox</code></a></span></p>
 <p>Disable sandboxing.</p>
 </li>
 <li>
-<p><code>--no-sandbox-fallback</code></p>
+<p><span id="opt-no-sandbox-fallback"><a href="#opt-no-sandbox-fallback"><code>--no-sandbox-fallback</code></a></span></p>
 <p>Disable the <code>sandbox-fallback</code> setting.</p>
 </li>
 <li>
-<p><code>--no-show-trace</code></p>
+<p><span id="opt-no-show-trace"><a href="#opt-no-show-trace"><code>--no-show-trace</code></a></span></p>
 <p>Disable the <code>show-trace</code> setting.</p>
 </li>
 <li>
-<p><code>--no-substitute</code></p>
+<p><span id="opt-no-substitute"><a href="#opt-no-substitute"><code>--no-substitute</code></a></span></p>
 <p>Disable the <code>substitute</code> setting.</p>
 </li>
 <li>
-<p><code>--no-sync-before-registering</code></p>
+<p><span id="opt-no-sync-before-registering"><a href="#opt-no-sync-before-registering"><code>--no-sync-before-registering</code></a></span></p>
 <p>Disable the <code>sync-before-registering</code> setting.</p>
 </li>
 <li>
-<p><code>--no-trace-function-calls</code></p>
+<p><span id="opt-no-trace-function-calls"><a href="#opt-no-trace-function-calls"><code>--no-trace-function-calls</code></a></span></p>
 <p>Disable the <code>trace-function-calls</code> setting.</p>
 </li>
 <li>
-<p><code>--no-trace-verbose</code></p>
+<p><span id="opt-no-trace-verbose"><a href="#opt-no-trace-verbose"><code>--no-trace-verbose</code></a></span></p>
 <p>Disable the <code>trace-verbose</code> setting.</p>
 </li>
 <li>
-<p><code>--no-use-case-hack</code></p>
+<p><span id="opt-no-use-case-hack"><a href="#opt-no-use-case-hack"><code>--no-use-case-hack</code></a></span></p>
 <p>Disable the <code>use-case-hack</code> setting.</p>
 </li>
 <li>
-<p><code>--no-use-cgroups</code></p>
+<p><span id="opt-no-use-cgroups"><a href="#opt-no-use-cgroups"><code>--no-use-cgroups</code></a></span></p>
 <p>Disable the <code>use-cgroups</code> setting.</p>
 </li>
 <li>
-<p><code>--no-use-registries</code></p>
+<p><span id="opt-no-use-registries"><a href="#opt-no-use-registries"><code>--no-use-registries</code></a></span></p>
 <p>Disable the <code>use-registries</code> setting.</p>
 </li>
 <li>
-<p><code>--no-use-sqlite-wal</code></p>
+<p><span id="opt-no-use-sqlite-wal"><a href="#opt-no-use-sqlite-wal"><code>--no-use-sqlite-wal</code></a></span></p>
 <p>Disable the <code>use-sqlite-wal</code> setting.</p>
 </li>
 <li>
-<p><code>--no-use-xdg-base-directories</code></p>
+<p><span id="opt-no-use-xdg-base-directories"><a href="#opt-no-use-xdg-base-directories"><code>--no-use-xdg-base-directories</code></a></span></p>
 <p>Disable the <code>use-xdg-base-directories</code> setting.</p>
 </li>
 <li>
-<p><code>--no-warn-dirty</code></p>
+<p><span id="opt-no-warn-dirty"><a href="#opt-no-warn-dirty"><code>--no-warn-dirty</code></a></span></p>
 <p>Disable the <code>warn-dirty</code> setting.</p>
 </li>
 <li>
-<p><code>--plugin-files</code> <em>value</em></p>
+<p><span id="opt-plugin-files"><a href="#opt-plugin-files"><code>--plugin-files</code></a></span> <em>value</em></p>
 <p>Set the <code>plugin-files</code> setting.</p>
 </li>
 <li>
-<p><code>--post-build-hook</code> <em>value</em></p>
+<p><span id="opt-post-build-hook"><a href="#opt-post-build-hook"><code>--post-build-hook</code></a></span> <em>value</em></p>
 <p>Set the <code>post-build-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--pre-build-hook</code> <em>value</em></p>
+<p><span id="opt-pre-build-hook"><a href="#opt-pre-build-hook"><code>--pre-build-hook</code></a></span> <em>value</em></p>
 <p>Set the <code>pre-build-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--preallocate-contents</code></p>
+<p><span id="opt-preallocate-contents"><a href="#opt-preallocate-contents"><code>--preallocate-contents</code></a></span></p>
 <p>Enable the <code>preallocate-contents</code> setting.</p>
 </li>
 <li>
-<p><code>--print-missing</code></p>
+<p><span id="opt-print-missing"><a href="#opt-print-missing"><code>--print-missing</code></a></span></p>
 <p>Enable the <code>print-missing</code> setting.</p>
 </li>
 <li>
-<p><code>--pure-eval</code></p>
+<p><span id="opt-pure-eval"><a href="#opt-pure-eval"><code>--pure-eval</code></a></span></p>
 <p>Enable the <code>pure-eval</code> setting.</p>
 </li>
 <li>
-<p><code>--relaxed-sandbox</code></p>
+<p><span id="opt-relaxed-sandbox"><a href="#opt-relaxed-sandbox"><code>--relaxed-sandbox</code></a></span></p>
 <p>Enable sandboxing, but allow builds to disable it.</p>
 </li>
 <li>
-<p><code>--require-drop-supplementary-groups</code></p>
+<p><span id="opt-require-drop-supplementary-groups"><a href="#opt-require-drop-supplementary-groups"><code>--require-drop-supplementary-groups</code></a></span></p>
 <p>Enable the <code>require-drop-supplementary-groups</code> setting.</p>
 </li>
 <li>
-<p><code>--require-sigs</code></p>
+<p><span id="opt-require-sigs"><a href="#opt-require-sigs"><code>--require-sigs</code></a></span></p>
 <p>Enable the <code>require-sigs</code> setting.</p>
 </li>
 <li>
-<p><code>--restrict-eval</code></p>
+<p><span id="opt-restrict-eval"><a href="#opt-restrict-eval"><code>--restrict-eval</code></a></span></p>
 <p>Enable the <code>restrict-eval</code> setting.</p>
 </li>
 <li>
-<p><code>--run-diff-hook</code></p>
+<p><span id="opt-run-diff-hook"><a href="#opt-run-diff-hook"><code>--run-diff-hook</code></a></span></p>
 <p>Enable the <code>run-diff-hook</code> setting.</p>
 </li>
 <li>
-<p><code>--sandbox</code></p>
+<p><span id="opt-sandbox"><a href="#opt-sandbox"><code>--sandbox</code></a></span></p>
 <p>Enable sandboxing.</p>
 </li>
 <li>
-<p><code>--sandbox-build-dir</code> <em>value</em></p>
+<p><span id="opt-sandbox-build-dir"><a href="#opt-sandbox-build-dir"><code>--sandbox-build-dir</code></a></span> <em>value</em></p>
 <p>Set the <code>sandbox-build-dir</code> setting.</p>
 </li>
 <li>
-<p><code>--sandbox-dev-shm-size</code> <em>value</em></p>
+<p><span id="opt-sandbox-dev-shm-size"><a href="#opt-sandbox-dev-shm-size"><code>--sandbox-dev-shm-size</code></a></span> <em>value</em></p>
 <p>Set the <code>sandbox-dev-shm-size</code> setting.</p>
 </li>
 <li>
-<p><code>--sandbox-fallback</code></p>
+<p><span id="opt-sandbox-fallback"><a href="#opt-sandbox-fallback"><code>--sandbox-fallback</code></a></span></p>
 <p>Enable the <code>sandbox-fallback</code> setting.</p>
 </li>
 <li>
-<p><code>--sandbox-paths</code> <em>value</em></p>
+<p><span id="opt-sandbox-paths"><a href="#opt-sandbox-paths"><code>--sandbox-paths</code></a></span> <em>value</em></p>
 <p>Set the <code>sandbox-paths</code> setting.</p>
 </li>
 <li>
-<p><code>--secret-key-files</code> <em>value</em></p>
+<p><span id="opt-secret-key-files"><a href="#opt-secret-key-files"><code>--secret-key-files</code></a></span> <em>value</em></p>
 <p>Set the <code>secret-key-files</code> setting.</p>
 </li>
 <li>
-<p><code>--show-trace</code></p>
+<p><span id="opt-show-trace"><a href="#opt-show-trace"><code>--show-trace</code></a></span></p>
 <p>Enable the <code>show-trace</code> setting.</p>
 </li>
 <li>
-<p><code>--ssl-cert-file</code> <em>value</em></p>
+<p><span id="opt-ssl-cert-file"><a href="#opt-ssl-cert-file"><code>--ssl-cert-file</code></a></span> <em>value</em></p>
 <p>Set the <code>ssl-cert-file</code> setting.</p>
 </li>
 <li>
-<p><code>--stalled-download-timeout</code> <em>value</em></p>
+<p><span id="opt-stalled-download-timeout"><a href="#opt-stalled-download-timeout"><code>--stalled-download-timeout</code></a></span> <em>value</em></p>
 <p>Set the <code>stalled-download-timeout</code> setting.</p>
 </li>
 <li>
-<p><code>--start-id</code> <em>value</em></p>
+<p><span id="opt-start-id"><a href="#opt-start-id"><code>--start-id</code></a></span> <em>value</em></p>
 <p>Set the <code>start-id</code> setting.</p>
 </li>
 <li>
-<p><code>--store</code> <em>value</em></p>
+<p><span id="opt-store"><a href="#opt-store"><code>--store</code></a></span> <em>value</em></p>
 <p>Set the <code>store</code> setting.</p>
 </li>
 <li>
-<p><code>--substitute</code></p>
+<p><span id="opt-substitute"><a href="#opt-substitute"><code>--substitute</code></a></span></p>
 <p>Enable the <code>substitute</code> setting.</p>
 </li>
 <li>
-<p><code>--substituters</code> <em>value</em></p>
+<p><span id="opt-substituters"><a href="#opt-substituters"><code>--substituters</code></a></span> <em>value</em></p>
 <p>Set the <code>substituters</code> setting.</p>
 </li>
 <li>
-<p><code>--sync-before-registering</code></p>
+<p><span id="opt-sync-before-registering"><a href="#opt-sync-before-registering"><code>--sync-before-registering</code></a></span></p>
 <p>Enable the <code>sync-before-registering</code> setting.</p>
 </li>
 <li>
-<p><code>--system</code> <em>value</em></p>
+<p><span id="opt-system"><a href="#opt-system"><code>--system</code></a></span> <em>value</em></p>
 <p>Set the <code>system</code> setting.</p>
 </li>
 <li>
-<p><code>--system-features</code> <em>value</em></p>
+<p><span id="opt-system-features"><a href="#opt-system-features"><code>--system-features</code></a></span> <em>value</em></p>
 <p>Set the <code>system-features</code> setting.</p>
 </li>
 <li>
-<p><code>--tarball-ttl</code> <em>value</em></p>
+<p><span id="opt-tarball-ttl"><a href="#opt-tarball-ttl"><code>--tarball-ttl</code></a></span> <em>value</em></p>
 <p>Set the <code>tarball-ttl</code> setting.</p>
 </li>
 <li>
-<p><code>--timeout</code> <em>value</em></p>
+<p><span id="opt-timeout"><a href="#opt-timeout"><code>--timeout</code></a></span> <em>value</em></p>
 <p>Set the <code>timeout</code> setting.</p>
 </li>
 <li>
-<p><code>--trace-function-calls</code></p>
+<p><span id="opt-trace-function-calls"><a href="#opt-trace-function-calls"><code>--trace-function-calls</code></a></span></p>
 <p>Enable the <code>trace-function-calls</code> setting.</p>
 </li>
 <li>
-<p><code>--trace-verbose</code></p>
+<p><span id="opt-trace-verbose"><a href="#opt-trace-verbose"><code>--trace-verbose</code></a></span></p>
 <p>Enable the <code>trace-verbose</code> setting.</p>
 </li>
 <li>
-<p><code>--trusted-public-keys</code> <em>value</em></p>
+<p><span id="opt-trusted-public-keys"><a href="#opt-trusted-public-keys"><code>--trusted-public-keys</code></a></span> <em>value</em></p>
 <p>Set the <code>trusted-public-keys</code> setting.</p>
 </li>
 <li>
-<p><code>--trusted-substituters</code> <em>value</em></p>
+<p><span id="opt-trusted-substituters"><a href="#opt-trusted-substituters"><code>--trusted-substituters</code></a></span> <em>value</em></p>
 <p>Set the <code>trusted-substituters</code> setting.</p>
 </li>
 <li>
-<p><code>--trusted-users</code> <em>value</em></p>
+<p><span id="opt-trusted-users"><a href="#opt-trusted-users"><code>--trusted-users</code></a></span> <em>value</em></p>
 <p>Set the <code>trusted-users</code> setting.</p>
 </li>
 <li>
-<p><code>--use-case-hack</code></p>
+<p><span id="opt-use-case-hack"><a href="#opt-use-case-hack"><code>--use-case-hack</code></a></span></p>
 <p>Enable the <code>use-case-hack</code> setting.</p>
 </li>
 <li>
-<p><code>--use-cgroups</code></p>
+<p><span id="opt-use-cgroups"><a href="#opt-use-cgroups"><code>--use-cgroups</code></a></span></p>
 <p>Enable the <code>use-cgroups</code> setting.</p>
 </li>
 <li>
-<p><code>--use-registries</code></p>
+<p><span id="opt-use-registries"><a href="#opt-use-registries"><code>--use-registries</code></a></span></p>
 <p>Enable the <code>use-registries</code> setting.</p>
 </li>
 <li>
-<p><code>--use-sqlite-wal</code></p>
+<p><span id="opt-use-sqlite-wal"><a href="#opt-use-sqlite-wal"><code>--use-sqlite-wal</code></a></span></p>
 <p>Enable the <code>use-sqlite-wal</code> setting.</p>
 </li>
 <li>
-<p><code>--use-xdg-base-directories</code></p>
+<p><span id="opt-use-xdg-base-directories"><a href="#opt-use-xdg-base-directories"><code>--use-xdg-base-directories</code></a></span></p>
 <p>Enable the <code>use-xdg-base-directories</code> setting.</p>
 </li>
 <li>
-<p><code>--user-agent-suffix</code> <em>value</em></p>
+<p><span id="opt-user-agent-suffix"><a href="#opt-user-agent-suffix"><code>--user-agent-suffix</code></a></span> <em>value</em></p>
 <p>Set the <code>user-agent-suffix</code> setting.</p>
 </li>
 <li>
-<p><code>--warn-dirty</code></p>
+<p><span id="opt-warn-dirty"><a href="#opt-warn-dirty"><code>--warn-dirty</code></a></span></p>
 <p>Enable the <code>warn-dirty</code> setting.</p>
 </li>
 </ul>
@@ -916,7 +921,7 @@ reference <em>url</em>.</p>
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="../../command-ref/new-cli/nix3-repl.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../command-ref/new-cli/nix3-repl.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -930,7 +935,7 @@ reference <em>url</em>.</p>
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="../../command-ref/new-cli/nix3-repl.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../command-ref/new-cli/nix3-repl.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
