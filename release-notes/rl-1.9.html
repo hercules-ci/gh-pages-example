@@ -261,7 +261,7 @@ it depends:</p>
 import Network.HTTP
 
 main = do
-  resp &lt;- Network.HTTP.simpleHTTP (getRequest &quot;http://nixos.org/&quot;)
+  resp &lt;- Network.HTTP.simpleHTTP (getRequest "http://nixos.org/")
   body &lt;- getResponseBody resp
   print (take 100 body)
 </code></pre>
@@ -293,7 +293,7 @@ in Nix 1.8.)</p>
 <p>Store paths listed in <code>build-chroot-dirs</code> are now automatically
 expanded to their closure. For instance, if you want
 <code>/nix/store/…-bash/bin/sh</code> mounted in your chroot as <code>/bin/sh</code>,
-you only need to say <code>build-chroot-dirs = /bin/sh=/nix/store/…-bash/bin/sh</code>; it is no longer necessary to
+you only need to say <code>build-chroot-dirs =                                                 /bin/sh=/nix/store/…-bash/bin/sh</code>; it is no longer necessary to
 specify the dependencies of Bash.</p>
 </li>
 </ul>
@@ -307,7 +307,7 @@ environment. The Nixpkgs function <code>writeTextFile</code> uses this.</p>
 </li>
 <li>
 <p>You can now use <code>~</code> in Nix file names to refer to your home
-directory, e.g. <code>import ~/.nixpkgs/config.nix</code>.</p>
+directory, e.g. <code>import         ~/.nixpkgs/config.nix</code>.</p>
 </li>
 <li>
 <p>Nix has a new option <code>restrict-eval</code> that allows limiting what paths
@@ -330,7 +330,7 @@ only.</p>
 </li>
 <li>
 <p>Improved Boehm GC use: we disabled scanning for interior pointers,
-which should reduce the “<code>Repeated allocation of very large block</code>” warnings and associated retention
+which should reduce the “<code>Repeated         allocation of very large block</code>” warnings and associated retention
 of memory.</p>
 </li>
 </ul>

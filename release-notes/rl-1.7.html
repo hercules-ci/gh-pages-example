@@ -186,7 +186,7 @@ features:</p>
 <ul>
 <li>
 <p>Antiquotation is now allowed inside of quoted attribute names (e.g.
-<code>set.&quot;${foo}&quot;</code>). In the case where the attribute name is just a
+<code>set."${foo}"</code>). In the case where the attribute name is just a
 single antiquotation, the quotes can be dropped (e.g. the above
 example can be written <code>set.${foo}</code>). If an attribute name inside of
 a set declaration evaluates to <code>null</code> (e.g. <code>{ ${null} = false; }</code>),
@@ -200,7 +200,7 @@ details</a>.</p>
 <li>
 <p>An experimental new substituter, <code>download-via-ssh</code>, that fetches
 binaries from remote machines via SSH. Specifying the flags
-<code>--option use-ssh-substituter true --option ssh-substituter-hosts user@hostname</code> will cause Nix to download binaries from the
+<code>--option                 use-ssh-substituter true --option ssh-substituter-hosts                 user@hostname</code> will cause Nix to download binaries from the
 specified machine, if it has them.</p>
 </li>
 <li>
@@ -223,7 +223,7 @@ been renamed to <code>--eval</code> and <code>--parse</code>, respectively.</p>
 <li>
 <p><code>nix-instantiate</code>, <code>nix-build</code> and <code>nix-shell</code> now have a flag
 <code>--expr</code> (or <code>-E</code>) that allows you to specify the expression to be
-evaluated as a command line argument. For instance, <code>nix-instantiate --eval -E '1 + 2'</code> will print <code>3</code>.</p>
+evaluated as a command line argument. For instance, <code>nix-instantiate --eval -E                 '1 + 2'</code> will print <code>3</code>.</p>
 </li>
 <li>
 <p><code>nix-shell</code> improvements:</p>
@@ -275,17 +275,17 @@ such as attribute sets.</p>
 </li>
 <li>
 <p>The <code>-A</code> flag now allows attribute names with dots in them, e.g.</p>
-<pre><code>$ nix-instantiate --eval '&lt;nixos&gt;' -A 'config.systemd.units.&quot;nscd.service&quot;.text'
+<pre><code>$ nix-instantiate --eval '&lt;nixos&gt;' -A 'config.systemd.units."nscd.service".text'
 </code></pre>
 </li>
 <li>
 <p>The <code>--max-freed</code> option to <code>nix-store --gc</code> now accepts a unit
-specifier. For example, <code>nix-store --gc --max-freed 1G</code> will free up to 1 gigabyte of disk space.</p>
+specifier. For example, <code>nix-store --gc --max-freed                 1G</code> will free up to 1 gigabyte of disk space.</p>
 </li>
 <li>
 <p><code>nix-collect-garbage</code> has a new flag <code>--delete-older-than</code> <em>N</em><code>d</code>,
 which deletes all user environment generations older than <em>N</em> days.
-Likewise, <code>nix-env --delete-generations</code> accepts a <em>N</em><code>d</code> age limit.</p>
+Likewise, <code>nix-env                 --delete-generations</code> accepts a <em>N</em><code>d</code> age limit.</p>
 </li>
 <li>
 <p>Nix now heuristically detects whether a build failure was due to a
@@ -295,7 +295,7 @@ to distinguish between permanent and transient build failures.</p>
 </li>
 <li>
 <p>There is a new symbol <code>__curPos</code> that expands to an attribute set
-containing its file name and line and column numbers, e.g. <code>{ file = &quot;foo.nix&quot;; line = 10; column = 5; }</code>. There also is a new builtin function,
+containing its file name and line and column numbers, e.g. <code>{ file = "foo.nix"; line = 10;                 column = 5; }</code>. There also is a new builtin function,
 <code>unsafeGetAttrPos</code>, that returns the position of an attribute. This
 is used by Nixpkgs to provide location information in error
 messages, e.g.</p>

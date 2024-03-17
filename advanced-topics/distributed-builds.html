@@ -218,7 +218,7 @@ example, the following command allows you to build a derivation for
 Linux
 
 $ nix build --impure \
-  --expr '(with import &lt;nixpkgs&gt; { system = &quot;x86_64-darwin&quot;; }; runCommand &quot;foo&quot; {} &quot;uname &gt; $out&quot;)' \
+  --expr '(with import &lt;nixpkgs&gt; { system = "x86_64-darwin"; }; runCommand "foo" {} "uname &gt; $out")' \
   --builders 'ssh://mac x86_64-darwin'
 [1/0/1 built, 0.0 MiB DL] building foo on ssh://mac
 
@@ -265,7 +265,7 @@ fastest, taking load into account.</p>
 the <code>requiredSystemFeatures</code> attribute, then Nix will only perform
 the derivation on a machine that has the specified features. For
 instance, the attribute</p>
-<pre><code class="language-nix">requiredSystemFeatures = [ &quot;kvm&quot; ];
+<pre><code class="language-nix">requiredSystemFeatures = [ "kvm" ];
 </code></pre>
 <p>will cause the build to be performed on a machine that has the <code>kvm</code>
 feature.</p>
@@ -289,10 +289,10 @@ nix@poochie.labs.cs.uu.nl   i686-linux      /home/nix/.ssh/id_scratchy_auto     
 </code></pre>
 <p>specifies several machines that can perform <code>i686-linux</code> builds.
 However, <code>poochie</code> will only do builds that have the attribute</p>
-<pre><code class="language-nix">requiredSystemFeatures = [ &quot;benchmark&quot; ];
+<pre><code class="language-nix">requiredSystemFeatures = [ "benchmark" ];
 </code></pre>
 <p>or</p>
-<pre><code class="language-nix">requiredSystemFeatures = [ &quot;benchmark&quot; &quot;kvm&quot; ];
+<pre><code class="language-nix">requiredSystemFeatures = [ "benchmark" "kvm" ];
 </code></pre>
 <p><code>itchy</code> cannot do builds that require <code>kvm</code>, but <code>scratchy</code> does support
 such builds. For regular builds, <code>itchy</code> will be preferred over

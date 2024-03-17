@@ -258,7 +258,7 @@ other locations requiring token-based authentication.</p>
 <p>Access tokens are specified as a string made up of
 space-separated <code>host=token</code> values.  The specific token
 used is selected by matching the <code>host</code> portion against the
-&quot;host&quot; specification of the input. The actual use of the
+"host" specification of the input. The actual use of the
 <code>token</code> value is determined by the type of resource being
 accessed:</p>
 <ul>
@@ -282,15 +282,15 @@ of token is being specified.</p>
 </code></pre>
 <p>Example <code>~/code/flake.nix</code>:</p>
 <pre><code class="language-nix">input.foo = {
-  type = &quot;gitlab&quot;;
-  host = &quot;gitlab.mycompany.com&quot;;
-  owner = &quot;mycompany&quot;;
-  repo = &quot;pro&quot;;
+  type = "gitlab";
+  host = "gitlab.mycompany.com";
+  owner = "mycompany";
+  repo = "pro";
 };
 </code></pre>
 <p>This example specifies three tokens, one each for accessing
 github.com, gitlab.mycompany.com, and gitlab.com.</p>
-<p>The <code>input.foo</code> uses the &quot;gitlab&quot; fetcher, which might
+<p>The <code>input.foo</code> uses the "gitlab" fetcher, which might
 requires specifying the token type along with the token
 value.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
@@ -326,8 +326,8 @@ set up userspace network interfaces in tests).</p>
 <p><span id="conf-allow-symlinked-store"><a href="#conf-allow-symlinked-store"><code>allow-symlinked-store</code></a></span></p>
 <p>If set to <code>true</code>, Nix will stop complaining if the store directory
 (typically /nix/store) contains symlink components.</p>
-<p>This risks making some builds &quot;impure&quot; because builders sometimes
-&quot;canonicalise&quot; paths by resolving all symlink components. Problems
+<p>This risks making some builds "impure" because builders sometimes
+"canonicalise" paths by resolving all symlink components. Problems
 occur if those builds are then deployed to machines where /nix/store
 resolves to a different location from that of the build machine. You
 can enable this setting if you are sure you're not going to do that.</p>
@@ -651,8 +651,8 @@ be downloaded even if they have disappeared from their original URI.
 For example, given an example mirror <code>http://tarballs.nixos.org/</code>,
 when building the derivation</p>
 <pre><code class="language-nix">builtins.fetchurl {
-  url = &quot;https://example.org/foo-1.2.3.tar.xz&quot;;
-  sha256 = &quot;2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae&quot;;
+  url = "https://example.org/foo-1.2.3.tar.xz";
+  sha256 = "2c26b46b68ffc68ff99b453c1d30413413422d706483bfa0f98a5e886266e7ae";
 }
 </code></pre>
 <p>Nix will attempt to download this file from
@@ -1199,11 +1199,12 @@ While you can force Nix to run a Darwin-specific <code>builder</code> executable
 Derivations can express a dependency on such features through the
 derivation attribute <code>requiredSystemFeatures</code>. For example, the
 attribute</p>
-<pre><code>requiredSystemFeatures = [ &quot;kvm&quot; ];
+<pre><code>requiredSystemFeatures = [ "kvm" ];
 </code></pre>
 <p>ensures that the derivation can only be built on a machine with the
 <code>kvm</code> feature.</p>
 <p>This setting by default includes <code>kvm</code> if <code>/dev/kvm</code> is accessible,
+<code>apple-virt</code> if hardware virtualization is available on macOS,
 and the pseudo-features <code>nixos-test</code>, <code>benchmark</code> and <code>big-parallel</code>
 that are used in Nixpkgs to route builds to specific machines.</p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
@@ -1236,7 +1237,7 @@ default.</p>
 <li>
 <p><span id="conf-trace-function-calls"><a href="#conf-trace-function-calls"><code>trace-function-calls</code></a></span></p>
 <p>If set to <code>true</code>, the Nix evaluator will trace every function call.
-Nix will print a log message at the &quot;vomit&quot; level for every function
+Nix will print a log message at the "vomit" level for every function
 entrance and function exit.</p>
 <pre><code>function-trace entered undefined position at 1565795816999559622
 function-trace exited undefined position at 1565795816999581277

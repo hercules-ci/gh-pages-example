@@ -188,15 +188,15 @@
 the <code>__structuredAttrs</code> attribute to <code>true</code> to cause all attributes
 to be passed to the builder in JSON format), you can now specify
 closure checks per output, e.g.:</p>
-<pre><code>outputChecks.&quot;out&quot; = {
+<pre><code>outputChecks."out" = {
   # The closure of 'out' must not be larger than 256 MiB.
   maxClosureSize = 256 * 1024 * 1024;
 
   # It must not refer to C compiler or to the 'dev' output.
-  disallowedRequisites = [ stdenv.cc &quot;dev&quot; ];
+  disallowedRequisites = [ stdenv.cc "dev" ];
 };
 
-outputChecks.&quot;dev&quot; = {
+outputChecks."dev" = {
   # The 'dev' output must not be larger than 128 KiB.
   maxSize = 128 * 1024;
 };
@@ -234,18 +234,18 @@ the hash algorithm and hash to be specified in a single string. For
 example, you can write:</p>
 <pre><code>import &lt;nix/fetchurl.nix&gt; {
   url = https://nixos.org/releases/nix/nix-2.1.3/nix-2.1.3.tar.xz;
-  hash = &quot;sha256-XSLa0FjVyADWWhFfkZ2iKTjFDda6mMXjoYMXLRSYQKQ=&quot;;
+  hash = "sha256-XSLa0FjVyADWWhFfkZ2iKTjFDda6mMXjoYMXLRSYQKQ=";
 };
 </code></pre>
 <p>instead of</p>
 <pre><code>import &lt;nix/fetchurl.nix&gt; {
   url = https://nixos.org/releases/nix/nix-2.1.3/nix-2.1.3.tar.xz;
-  sha256 = &quot;5d22dad058d5c800d65a115f919da22938c50dd6ba98c5e3a183172d149840a4&quot;;
+  sha256 = "5d22dad058d5c800d65a115f919da22938c50dd6ba98c5e3a183172d149840a4";
 };
 </code></pre>
 <p>In fixed-output derivations, the <code>outputHashAlgo</code> attribute is no
 longer mandatory if <code>outputHash</code> specifies the hash.</p>
-<p><code>nix hash-file</code> and <code>nix hash-path</code> now print hashes in SRI format by default. They also use
+<p><code>nix hash-file</code> and <code>nix                 hash-path</code> now print hashes in SRI format by default. They also use
 SHA-256 by default instead of SHA-512 because that's what we use
 most of the time in Nixpkgs.</p>
 </li>
@@ -258,7 +258,7 @@ most of the time in Nixpkgs.</p>
 JSON format.</p>
 </li>
 <li>
-<p>The option <code>--xml</code> in <code>nix-store --query</code> has been removed. Instead, there now is an option
+<p>The option <code>--xml</code> in <code>nix-store                 --query</code> has been removed. Instead, there now is an option
 <code>--graphml</code> to output the dependency graph in GraphML format.</p>
 </li>
 <li>

@@ -449,7 +449,7 @@ also allowing them to redirect content to a file. For example:</p>
   Error! Attribute `bin` missing at (1:94) from string.
 ------------------------------------------------------------------------
 
-  1| with import &lt;nixpkgs&gt; { }; (pkgs.runCommandCC or pkgs.runCommand) &quot;shell&quot; { buildInputs = [ (surge.bin) ]; } &quot;&quot;
+  1| with import &lt;nixpkgs&gt; { }; (pkgs.runCommandCC or pkgs.runCommand) "shell" { buildInputs = [ (surge.bin) ]; } ""
 </code></pre>
 <p>Because this warning is on STDERR, it doesn’t end up in the file.</p>
 <p>But not everything on STDERR is an error though. For example, you can run <code>nix build</code> and collect logs in a file while still seeing the progress.</p>
@@ -484,7 +484,7 @@ happen when TTY is not detected on STDERR. We should not display progress /
 status section, but only print warnings and errors.</p>
 <h2 id="returning-future-proof-json"><a class="header" href="#returning-future-proof-json">Returning future proof JSON</a></h2>
 <p>The schema of JSON output should allow for backwards compatible extension. This section explains how to achieve this.</p>
-<p>Two definitions are helpful here, because while JSON only defines one &quot;key-value&quot;
+<p>Two definitions are helpful here, because while JSON only defines one "key-value"
 object type, we use it to cover two use cases:</p>
 <ul>
 <li><strong>dictionary</strong>: a map from names to value that all have the same type. In
@@ -516,29 +516,29 @@ would be represented by a <code>struct</code>.</li>
 <h3 id="examples"><a class="header" href="#examples">Examples</a></h3>
 <p>This is bad, because all keys must be assumed to be store implementations:</p>
 <pre><code class="language-json">{
-  &quot;local&quot;: { ... },
-  &quot;remote&quot;: { ... },
-  &quot;http&quot;: { ... }
+  "local": { ... },
+  "remote": { ... },
+  "http": { ... }
 }
 </code></pre>
 <p>This is good, because the it is extensible at the root, and is somewhat self-documenting:</p>
 <pre><code class="language-json">{
-  &quot;storeTypes&quot;: { &quot;local&quot;: { ... }, ... },
-  &quot;pluginSupport&quot;: true
+  "storeTypes": { "local": { ... }, ... },
+  "pluginSupport": true
 }
 </code></pre>
 <p>While the dictionary of store types seems like a very complete response at first, a use case may arise that warrants returning additional information.
 For example, the presence of plugin support may be crucial information for a client to proceed when their desired store type is missing.</p>
 <p>The following representation is bad because it is not extensible:</p>
-<pre><code class="language-json">{ &quot;outputs&quot;: [ &quot;out&quot; &quot;bin&quot; ] }
+<pre><code class="language-json">{ "outputs": [ "out" "bin" ] }
 </code></pre>
 <p>However, simply converting everything to records is not enough, because the order of outputs must be preserved:</p>
-<pre><code class="language-json">{ &quot;outputs&quot;: { &quot;bin&quot;: {}, &quot;out&quot;: {} } }
+<pre><code class="language-json">{ "outputs": { "bin": {}, "out": {} } }
 </code></pre>
 <p>The first item is the default output. Deriving this information from the outputs ordering is not great, but this is how Nix currently happens to work.
 While it is possible for a JSON parser to preserve the order of fields, we can not rely on this capability to be present in all JSON libraries.</p>
 <p>This representation is extensible and preserves the ordering:</p>
-<pre><code class="language-json">{ &quot;outputs&quot;: [ { &quot;outputName&quot;: &quot;out&quot; }, { &quot;outputName&quot;: &quot;bin&quot; } ] }
+<pre><code class="language-json">{ "outputs": [ { "outputName": "out" }, { "outputName": "bin" } ] }
 </code></pre>
 <h2 id="dialog-with-the-user"><a class="header" href="#dialog-with-the-user">Dialog with the user</a></h2>
 <p>CLIs don't always make it clear when an action has taken place. For every

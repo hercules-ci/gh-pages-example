@@ -190,14 +190,14 @@
     bar = 123;
     xyzzy = true;
   };
-  a = { b = { c = &quot;d&quot;; }; };
+  a = { b = { c = "d"; }; };
 }
 </code></pre>
 <p>you can write</p>
 <pre><code>{
   foo.bar = 123;
   foo.xyzzy = true;
-  a.b.c = &quot;d&quot;;
+  a.b.c = "d";
 }
 </code></pre>
 <p>This is useful, for instance, in NixOS configuration files.</p>
@@ -240,7 +240,7 @@ traces — useful for debugging), <code>builtins.isBool</code>,
 option is used.</p>
 </li>
 <li>
-<p>The scoping rules for <code>inherit (e) ...</code> in recursive attribute sets have changed. The expression
+<p>The scoping rules for <code>inherit                 (e) ...</code> in recursive attribute sets have changed. The expression
 <em>e</em> can now refer to the attributes defined in the containing set.</p>
 </li>
 </ul>

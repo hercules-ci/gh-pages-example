@@ -201,9 +201,9 @@ do redundant unpacking and repacking of intermediate paths.</p>
 derivations can mutually refer to each other (as long as there are
 no data dependencies on the <code>outPath</code> and <code>drvPath</code> attributes
 computed by <code>derivation</code>).</p>
-<p>For example, the expression <code>derivation attrs</code> now evaluates to (essentially)</p>
+<p>For example, the expression <code>derivation         attrs</code> now evaluates to (essentially)</p>
 <pre><code>attrs // {
-  type = &quot;derivation&quot;;
+  type = "derivation";
   outPath = derivation! attrs;
   drvPath = derivation! attrs;
 }
@@ -217,7 +217,7 @@ instantiate all derivations, just the <code>name</code> attribute.</p>
 example,</p>
 <pre><code>webServer = derivation {
   ...
-  hostName = &quot;svn.cs.uu.nl&quot;;
+  hostName = "svn.cs.uu.nl";
   services = [svnService];
 };
  
@@ -242,7 +242,7 @@ arguments have defaults.</p>
 size of executables.</p>
 </li>
 <li>
-<p>A new list concatenation operator <code>++</code>. For example, <code>[1 2 3] ++ [4 5 6]</code> evaluates to <code>[1 2 3 4 5 6]</code>.</p>
+<p>A new list concatenation operator <code>++</code>. For example, <code>[1 2 3] ++ [4 5         6]</code> evaluates to <code>[1 2 3 4 5         6]</code>.</p>
 </li>
 <li>
 <p>Some currently undocumented primops to support low-level build

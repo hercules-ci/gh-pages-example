@@ -213,7 +213,7 @@ posting</a>.</p>
 <p>Multiple output support should now be usable. A derivation can
 declare that it wants to produce multiple store paths by saying
 something like</p>
-<pre><code>outputs = [ &quot;lib&quot; &quot;headers&quot; &quot;doc&quot; ];
+<pre><code>outputs = [ "lib" "headers" "doc" ];
 </code></pre>
 <p>This will cause Nix to pass the intended store path of each output
 to the builder through the environment variables <code>lib</code>, <code>headers</code>
@@ -229,7 +229,7 @@ output path will be symlinked into the user environment.</p>
 </li>
 <li>
 <p>The new operation <code>nix-store --repair-path</code> allows corrupted or
-missing store paths to be repaired by redownloading them. <code>nix-store --verify --check-contents --repair</code> will scan and repair all paths in the Nix store.
+missing store paths to be repaired by redownloading them. <code>nix-store --verify --check-contents                 --repair</code> will scan and repair all paths in the Nix store.
 Similarly, <code>nix-env</code>, <code>nix-build</code>, <code>nix-instantiate</code> and <code>nix-store --realise</code> have a <code>--repair</code> flag to detect and fix bad paths by
 rebuilding or redownloading them.</p>
 </li>

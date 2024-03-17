@@ -184,16 +184,16 @@
 <p>The manifest file records the provenance of the packages that are installed in a <a href="./profiles.html">profile</a> managed by <a href="../../command-ref/new-cli/nix3-profile.html"><code>nix profile</code></a> (experimental).</p>
 <p>Here is an example of what the file might look like after installing <code>zoom-us</code> from Nixpkgs:</p>
 <pre><code class="language-json">{
-  &quot;version&quot;: 1,
-  &quot;elements&quot;: [
+  "version": 1,
+  "elements": [
     {
-      &quot;active&quot;: true,
-      &quot;attrPath&quot;: &quot;legacyPackages.x86_64-linux.zoom-us&quot;,
-      &quot;originalUrl&quot;: &quot;flake:nixpkgs&quot;,
-      &quot;storePaths&quot;: [
-        &quot;/nix/store/wbhg2ga8f3h87s9h5k0slxk0m81m4cxl-zoom-us-5.3.469451.0927&quot;
+      "active": true,
+      "attrPath": "legacyPackages.x86_64-linux.zoom-us",
+      "originalUrl": "flake:nixpkgs",
+      "storePaths": [
+        "/nix/store/wbhg2ga8f3h87s9h5k0slxk0m81m4cxl-zoom-us-5.3.469451.0927"
       ],
-      &quot;uri&quot;: &quot;github:NixOS/nixpkgs/13d0c311e3ae923a00f734b43fd1d35b47d8943a&quot;
+      "uri": "github:NixOS/nixpkgs/13d0c311e3ae923a00f734b43fd1d35b47d8943a"
     },
     …
   ]
@@ -224,7 +224,7 @@ attribute paths and prefixes; for instance, <code>hello</code> might resolve to
 <li>
 <p><code>active</code>: Whether the profile contains symlinks to the files of this
 package. If set to false, the package is kept in the Nix store, but
-is not &quot;visible&quot; in the profile's symlink tree.</p>
+is not "visible" in the profile's symlink tree.</p>
 </li>
 </ul>
 

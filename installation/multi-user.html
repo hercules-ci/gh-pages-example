@@ -206,8 +206,8 @@ group should have no other members. The build users should not be
 members of any other group. On Linux, you can create the group and users
 as follows:</p>
 <pre><code class="language-console">$ groupadd -r nixbld
-$ for n in $(seq 1 10); do useradd -c &quot;Nix build user $n&quot; \
-    -d /var/empty -g nixbld -G nixbld -M -N -r -s &quot;$(which nologin)&quot; \
+$ for n in $(seq 1 10); do useradd -c "Nix build user $n" \
+    -d /var/empty -g nixbld -G nixbld -M -N -r -s "$(which nologin)" \
     nixbld$n; done
 </code></pre>
 <p>This creates 10 build users. There can never be more concurrent builds

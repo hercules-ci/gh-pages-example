@@ -192,7 +192,7 @@ expression. For example,</p>
 <p>will prefetch the file specified by the <code>fetchurl</code> call in the
 attribute <code>hello.src</code> from the Nix expression in the current
 directory, and print the cryptographic hash of the resulting file on
-stdout. This differs from <code>nix-build -A hello.src</code> in that it doesn't verify the hash, and is thus useful
+stdout. This differs from <code>nix-build -A                 hello.src</code> in that it doesn't verify the hash, and is thus useful
 when you’re updating a Nix expression.</p>
 <p>You can also prefetch the result of functions that unpack a tarball,
 such as <code>fetchFromGitHub</code>. For example:</p>
@@ -215,7 +215,7 @@ files can be combined into a single NAR, optionally compressed using
 derivations, and in <code>builtins.hashString</code>.</p>
 </li>
 <li>
-<p>The new flag <code>--option build-repeat N</code> will cause every build to be executed <em>N</em>+1 times. If the build
+<p>The new flag <code>--option build-repeat                         N</code> will cause every build to be executed <em>N</em>+1 times. If the build
 output differs between any round, the build is rejected, and the
 output paths are not registered as valid. This is primarily useful
 to verify build determinism. (We already had a <code>--check</code> option to
@@ -225,7 +225,7 @@ is useful for Hydra to ensure that non-deterministic builds don't
 end up getting published to the binary cache.)</p>
 </li>
 <li>
-<p>The options <code>--check</code> and <code>--option build-repeat N</code>, if they detect a difference between two runs of the
+<p>The options <code>--check</code> and <code>--option                         build-repeat N</code>, if they detect a difference between two runs of the
 same derivation and <code>-K</code> is given, will make the output of the other
 run available under <code>store-path-check</code>. This makes it easier to
 investigate the non-determinism using tools like <code>diffoscope</code>, e.g.,</p>
@@ -258,7 +258,7 @@ prevent upsetting some broken NAT routers, and also improves
 performance.</p>
 </li>
 <li>
-<p>All &quot;chroot&quot;-containing strings got renamed to &quot;sandbox&quot;. In
+<p>All "chroot"-containing strings got renamed to "sandbox". In
 particular, some Nix options got renamed, but the old names are
 still accepted as lower-priority aliases.</p>
 </li>

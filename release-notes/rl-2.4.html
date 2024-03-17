@@ -265,7 +265,7 @@ offline work.</p>
 </li>
 </ul>
 <ul>
-<li>It allows dependencies in the Nix store to be &quot;redirected&quot; to
+<li>It allows dependencies in the Nix store to be "redirected" to
 arbitrary directories using the <code>--redirect</code> flag. This is
 useful if you want to hack on a package <em>and</em> some of its
 dependencies at the same time.</li>
@@ -284,7 +284,7 @@ simply starts a shell where some packages have been added to
 </li>
 <li>
 <p><code>nix run</code> (not to be confused with the old subcommand that has
-been renamed to <code>nix shell</code>) runs an &quot;app&quot;, a flake output that
+been renamed to <code>nix shell</code>) runs an "app", a flake output that
 specifies a command to run, or an eponymous program from a
 package. For example, <code>nix run nixpkgs#hello</code> runs the <code>hello</code>
 program from the <code>hello</code> package in <code>nixpkgs</code>.</p>
@@ -566,8 +566,8 @@ new <code>nix run</code> that runs a default command. So instead of</p>
 <p>It is now an error to modify the <code>plugin-files</code> setting via a
 command-line flag that appears after the first non-flag argument to
 any command, including a subcommand to <code>nix</code>. For example,
-<code>nix-instantiate default.nix --plugin-files &quot;&quot;</code> must now become
-<code>nix-instantiate --plugin-files &quot;&quot; default.nix</code>.</p>
+<code>nix-instantiate default.nix --plugin-files ""</code> must now become
+<code>nix-instantiate --plugin-files "" default.nix</code>.</p>
 </li>
 <li>
 <p>We no longer release source tarballs. If you want to build from

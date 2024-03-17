@@ -280,10 +280,10 @@ removed next.</p>
 store.</p>
 <p>If the output indicates that the command couldn't remove the volume, you should
 make sure you don't have an <em>unmounted</em> Nix Store volume. Look for a
-&quot;Nix Store&quot; volume in the output of the following command:</p>
+"Nix Store" volume in the output of the following command:</p>
 <pre><code class="language-console">diskutil list
 </code></pre>
-<p>If you <em>do</em> see a &quot;Nix Store&quot; volume, delete it by re-running the diskutil
+<p>If you <em>do</em> see a "Nix Store" volume, delete it by re-running the diskutil
 deleteVolume command, but replace <code>/nix</code> with the store volume's <code>diskXsY</code>
 identifier.</p>
 </li>

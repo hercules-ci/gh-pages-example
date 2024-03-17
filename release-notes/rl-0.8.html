@@ -258,7 +258,7 @@ appropriate dependencies. If you just want to install some specific
 application, this is easier than subscribing to a channel.</p>
 </li>
 <li>
-<p><code>nix-store -r PATHS</code> now builds all the derivations PATHS in parallel. Previously
+<p><code>nix-store -r         PATHS</code> now builds all the derivations PATHS in parallel. Previously
 it did them sequentially (though exploiting possible parallelism
 between subderivations). This is nice for build farms.</p>
 </li>
@@ -301,14 +301,14 @@ same name.</p>
 <li>
 <p>A hash of the contents of a store path is now stored in the database
 after a successful build. This allows you to check whether store
-paths have been tampered with: <code>nix-store --verify --check-contents</code>.</p>
+paths have been tampered with: <code>nix-store         --verify --check-contents</code>.</p>
 </li>
 <li>
 <p>Implemented a concurrent garbage collector. It is now always safe to
 run the garbage collector, even if other Nix operations are
 happening simultaneously.</p>
 <p>However, there can still be GC races if you use <code>nix-instantiate</code>
-and <code>nix-store --realise</code> directly to build things. To prevent races, use the
+and <code>nix-store                 --realise</code> directly to build things. To prevent races, use the
 <code>--add-root</code> flag of those commands.</p>
 </li>
 <li>

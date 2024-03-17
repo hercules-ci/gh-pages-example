@@ -381,13 +381,13 @@ That is, if the evaluator encounters a function with an argument named <em>name<
 }: ...
 </code></pre>
 <p>So if you call this Nix expression (e.g., when you do <code>nix-env --install --attr pkgname</code>), the function will be called automatically using the value <a href="../../language/builtins.html"><code>builtins.currentSystem</code></a> for the <code>system</code> argument.
-You can override this using <code>--arg</code>, e.g., <code>nix-env --install --attr pkgname --arg system \&quot;i686-freebsd\&quot;</code>.
+You can override this using <code>--arg</code>, e.g., <code>nix-env --install --attr pkgname --arg system \"i686-freebsd\"</code>.
 (Note that since the argument is a Nix string literal, you have to escape the quotes.)</p>
 </li>
 <li>
 <p><span id="opt-argstr"><a href="#opt-argstr"><code>--argstr</code></a></span> <em>name</em> <em>value</em></p>
 <p>This option is like <code>--arg</code>, only the value is not a Nix expression but a string.
-So instead of <code>--arg system \&quot;i686-linux\&quot;</code> (the outer quotes are to keep the shell happy) you can say <code>--argstr system i686-linux</code>.</p>
+So instead of <code>--arg system \"i686-linux\"</code> (the outer quotes are to keep the shell happy) you can say <code>--argstr system i686-linux</code>.</p>
 </li>
 <li>
 <p><span id="opt-attr"><a href="#opt-attr"><code>--attr</code></a></span> / <code>-A</code> <em>attrPath</em></p>
@@ -556,7 +556,7 @@ will increase runtime due to the overhead of garbage collection.</p>
 <p>To turn a host into a build server, the <code>authorized_keys</code> file can be
 used to provide build access to a given SSH public key:</p>
 <pre><code class="language-console">$ cat &lt;&lt;EOF &gt;&gt;/root/.ssh/authorized_keys
-command=&quot;nice -n20 nix-store --serve --write&quot; ssh-rsa AAAAB3NzaC1yc2EAAAA...
+command="nice -n20 nix-store --serve --write" ssh-rsa AAAAB3NzaC1yc2EAAAA...
 EOF
 </code></pre>
 

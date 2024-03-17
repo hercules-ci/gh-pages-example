@@ -187,8 +187,8 @@
 <p><a id="type-string" href="#type-string">String</a></p>
 <p><em>Strings</em> can be written in three ways.</p>
 <p>The most common way is to enclose the string between double quotes,
-e.g., <code>&quot;foo bar&quot;</code>. Strings can span multiple lines. The special
-characters <code>&quot;</code> and <code>\</code> and the character sequence <code>${</code> must be
+e.g., <code>"foo bar"</code>. Strings can span multiple lines. The special
+characters <code>"</code> and <code>\</code> and the character sequence <code>${</code> must be
 escaped by prefixing them with a backslash (<code>\</code>). Newlines, carriage
 returns and tabs can be written as <code>\n</code>, <code>\r</code> and <code>\t</code>,
 respectively.</p>
@@ -208,7 +208,7 @@ whole (disregarding the indentation of empty lines). For instance,
 the first and second line are indented two spaces, while the third
 line is indented four spaces. Thus, two spaces are stripped from
 each line, so the resulting string is</p>
-<pre><code class="language-nix">&quot;This is the first line.\nThis is the second line.\n  This is the third line.\n&quot;
+<pre><code class="language-nix">"This is the first line.\nThis is the second line.\n  This is the third line.\n"
 </code></pre>
 <p>Note that the whitespace and newline following the opening <code>''</code> is
 ignored if there is no non-whitespace text on the initial line.</p>
@@ -224,7 +224,7 @@ escapes any other character.</p>
 string literals to follow the indentation of the enclosing Nix
 expression, and that less escaping is typically necessary for
 strings representing languages such as shell scripts and
-configuration files because <code>''</code> is much less common than <code>&quot;</code>.
+configuration files because <code>''</code> is much less common than <code>"</code>.
 Example:</p>
 <pre><code class="language-nix">stdenv.mkDerivation {
   ...
@@ -232,8 +232,8 @@ Example:</p>
     ''
       mkdir $out/bin $out/etc
       cp foo $out/bin
-      echo &quot;Hello World&quot; &gt; $out/etc/foo.conf
-      ${if enableBar then &quot;cp bar $out/bin&quot; else &quot;&quot;}
+      echo "Hello World" &gt; $out/etc/foo.conf
+      ${if enableBar then "cp bar $out/bin" else ""}
     '';
   ...
 }
@@ -241,7 +241,7 @@ Example:</p>
 <p>Finally, as a convenience, <em>URIs</em> as defined in appendix B of
 <a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a> can be written <em>as
 is</em>, without quotes. For instance, the string
-<code>&quot;http://example.org/foo.tar.bz2&quot;</code> can also be written as
+<code>"http://example.org/foo.tar.bz2"</code> can also be written as
 <code>http://example.org/foo.tar.bz2</code>.</p>
 </li>
 <li>
@@ -270,7 +270,7 @@ whose home directory is <code>/home/edolstra</code>.</p>
 environment variable <code>NIX_PATH</code> will be searched for the given file
 or directory name.</p>
 <p>When an <a href="./string-interpolation.html">interpolated string</a> evaluates to a path, the path is first copied into the Nix store and the resulting string is the <a href="../glossary.html#gloss-store-path">store path</a> of the newly created <a href="../glossary.html#gloss-store-object">store object</a>.</p>
-<p>For instance, evaluating <code>&quot;${./foo.txt}&quot;</code> will cause <code>foo.txt</code> in the current directory to be copied into the Nix store and result in the string <code>&quot;/nix/store/&lt;hash&gt;-foo.txt&quot;</code>.</p>
+<p>For instance, evaluating <code>"${./foo.txt}"</code> will cause <code>foo.txt</code> in the current directory to be copied into the Nix store and result in the string <code>"/nix/store/&lt;hash&gt;-foo.txt"</code>.</p>
 <p>Note that the Nix language assumes that all input files will remain <em>unchanged</em> while  evaluating a Nix expression.
 For example, assume you used a file path in an interpolated string during a <code>nix repl</code> session.
 Later in the same session, after having changed the file contents, evaluating the interpolated string with the file path again might not return a new store path, since Nix might not re-read the file contents.</p>
@@ -291,12 +291,12 @@ Later in the same session, after having changed the file contents, evaluating th
 <h2 id="list"><a class="header" href="#list">List</a></h2>
 <p>Lists are formed by enclosing a whitespace-separated list of values
 between square brackets. For example,</p>
-<pre><code class="language-nix">[ 123 ./foo.nix &quot;abc&quot; (f { x = y; }) ]
+<pre><code class="language-nix">[ 123 ./foo.nix "abc" (f { x = y; }) ]
 </code></pre>
 <p>defines a list of four elements, the last being the result of a call to
 the function <code>f</code>. Note that function calls have to be enclosed in
 parentheses. If they had been omitted, e.g.,</p>
-<pre><code class="language-nix">[ 123 ./foo.nix &quot;abc&quot; f { x = y; } ]
+<pre><code class="language-nix">[ 123 ./foo.nix "abc" f { x = y; } ]
 </code></pre>
 <p>the result would be a list of five elements, the fourth one being a
 function and the fifth being a set.</p>
@@ -319,42 +319,42 @@ An attribute name may only occur once.</p>
 <p>Example:</p>
 <pre><code class="language-nix">{
   x = 123;
-  text = &quot;Hello&quot;;
+  text = "Hello";
   y = f { bla = 456; };
 }
 </code></pre>
 <p>This defines a set with attributes named <code>x</code>, <code>text</code>, <code>y</code>.</p>
 <p>Attributes can be accessed with the <a href="./operators.html#attribute-selection"><code>.</code> operator</a>.</p>
 <p>Example:</p>
-<pre><code class="language-nix">{ a = &quot;Foo&quot;; b = &quot;Bar&quot;; }.a
+<pre><code class="language-nix">{ a = "Foo"; b = "Bar"; }.a
 </code></pre>
-<p>This evaluates to <code>&quot;Foo&quot;</code>.</p>
+<p>This evaluates to <code>"Foo"</code>.</p>
 <p>It is possible to provide a default value in an attribute selection using the <code>or</code> keyword.</p>
 <p>Example:</p>
-<pre><code class="language-nix">{ a = &quot;Foo&quot;; b = &quot;Bar&quot;; }.c or &quot;Xyzzy&quot;
+<pre><code class="language-nix">{ a = "Foo"; b = "Bar"; }.c or "Xyzzy"
 </code></pre>
-<pre><code class="language-nix">{ a = &quot;Foo&quot;; b = &quot;Bar&quot;; }.c.d.e.f.g or &quot;Xyzzy&quot;
+<pre><code class="language-nix">{ a = "Foo"; b = "Bar"; }.c.d.e.f.g or "Xyzzy"
 </code></pre>
-<p>will both evaluate to <code>&quot;Xyzzy&quot;</code> because there is no <code>c</code> attribute in the set.</p>
+<p>will both evaluate to <code>"Xyzzy"</code> because there is no <code>c</code> attribute in the set.</p>
 <p>You can use arbitrary double-quoted strings as attribute names:</p>
-<pre><code class="language-nix">{ &quot;$!@#?&quot; = 123; }.&quot;$!@#?&quot;
+<pre><code class="language-nix">{ "$!@#?" = 123; }."$!@#?"
 </code></pre>
-<pre><code class="language-nix">let bar = &quot;bar&quot;; in
-{ &quot;foo ${bar}&quot; = 123; }.&quot;foo ${bar}&quot;
+<pre><code class="language-nix">let bar = "bar"; in
+{ "foo ${bar}" = 123; }."foo ${bar}"
 </code></pre>
 <p>Both will evaluate to <code>123</code>.</p>
 <p>Attribute names support <a href="./string-interpolation.html">string interpolation</a>:</p>
-<pre><code class="language-nix">let bar = &quot;foo&quot;; in
+<pre><code class="language-nix">let bar = "foo"; in
 { foo = 123; }.${bar}
 </code></pre>
-<pre><code class="language-nix">let bar = &quot;foo&quot;; in
+<pre><code class="language-nix">let bar = "foo"; in
 { ${bar} = 123; }.foo
 </code></pre>
 <p>Both will evaluate to <code>123</code>.</p>
 <p>In the special case where an attribute name inside of a set declaration
 evaluates to <code>null</code> (which is normally an error, as <code>null</code> cannot be coerced to
 a string), that attribute is simply not added to the set:</p>
-<pre><code class="language-nix">{ ${if foo then &quot;bar&quot; else null} = true; }
+<pre><code class="language-nix">{ ${if foo then "bar" else null} = true; }
 </code></pre>
 <p>This will evaluate to <code>{}</code> if <code>foo</code> evaluates to <code>false</code>.</p>
 <p>A set that has a <code>__functor</code> attribute whose value is callable (i.e. is

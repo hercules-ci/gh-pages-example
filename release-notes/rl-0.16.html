@@ -192,11 +192,11 @@ It also uses less memory. It no longer depends on the ATerm library.</p>
 <li>
 <p>Support for configurable parallelism inside builders. Build scripts
 have always had the ability to perform multiple build actions in
-parallel (for instance, by running <code>make -j 2</code>), but this was not desirable because the number of actions to be
+parallel (for instance, by running <code>make -j                         2</code>), but this was not desirable because the number of actions to be
 performed in parallel was not configurable. Nix now has an option
-<code>--cores N</code> as well as a configuration setting <code>build-cores = N</code> that causes the environment variable <code>NIX_BUILD_CORES</code> to be set
+<code>--cores                         N</code> as well as a configuration setting <code>build-cores =                         N</code> that causes the environment variable <code>NIX_BUILD_CORES</code> to be set
 to <em>N</em> when the builder is invoked. The builder can use this at its
-discretion to perform a parallel build, e.g., by calling <code>make -j N</code>. In Nixpkgs, this can be enabled on a per-package basis by
+discretion to perform a parallel build, e.g., by calling <code>make -j                         N</code>. In Nixpkgs, this can be enabled on a per-package basis by
 setting the derivation attribute <code>enableParallelBuilding</code> to <code>true</code>.</p>
 </li>
 <li>

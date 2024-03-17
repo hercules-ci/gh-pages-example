@@ -185,7 +185,7 @@
 system (for <code>file://</code> URLs). Unless the server implements the Lockable
 HTTP Tarball protocol, it is the responsibility of the user to make sure that
 the URL always produces the same tarball contents.</p>
-<p>An HTTP server can return an &quot;immutable&quot; HTTP URL appropriate for lock
+<p>An HTTP server can return an "immutable" HTTP URL appropriate for lock
 files. This allows users to specify a tarball flake input in
 <code>flake.nix</code> that requests the latest version of a flake
 (e.g. <code>https://example.org/hello/latest.tar.gz</code>), while <code>flake.lock</code>
@@ -193,7 +193,7 @@ will record a URL whose contents will not change
 (e.g. <code>https://example.org/hello/&lt;revision&gt;.tar.gz</code>). To do so, the
 server must return an <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Link">HTTP <code>Link</code> header</a> with the <code>rel</code> attribute set to
 <code>immutable</code>, as follows:</p>
-<pre><code>Link: &lt;flakeref&gt;; rel=&quot;immutable&quot;
+<pre><code>Link: &lt;flakeref&gt;; rel="immutable"
 </code></pre>
 <p>(Note the required <code>&lt;</code> and <code>&gt;</code> characters around <em>flakeref</em>.)</p>
 <p><em>flakeref</em> must be a tarball flakeref. It can contain the tarball flake attributes
@@ -207,7 +207,7 @@ Nix.</p>
 <pre><code>Link: &lt;https://example.org/hello/442793d9ec0584f6a6e82fa253850c8085bb150a.tar.gz
   ?rev=442793d9ec0584f6a6e82fa253850c8085bb150a
   &amp;revCount=835
-  &amp;narHash=sha256-GUm8Uh/U74zFCwkvt9Mri4DSM%2BmHj3tYhXUkYpiv31M%3D&gt;; rel=&quot;immutable&quot;
+  &amp;narHash=sha256-GUm8Uh/U74zFCwkvt9Mri4DSM%2BmHj3tYhXUkYpiv31M%3D&gt;; rel="immutable"
 </code></pre>
 <p>(The linebreaks in this example are for clarity and must not be included in the actual response.)</p>
 <p>For tarball flakes, the value of the <code>lastModified</code> flake attribute is

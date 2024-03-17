@@ -206,9 +206,9 @@ feature <code>fetch-closure</code>.</p>
 derivations that can produce a different result every time they're
 built. Here is an example:</p>
 <pre><code class="language-nix">stdenv.mkDerivation {
-  name = &quot;impure&quot;;
+  name = "impure";
   __impure = true; # marks this derivation as impure
-  buildCommand = &quot;date &gt; $out&quot;;
+  buildCommand = "date &gt; $out";
 }
 </code></pre>
 <p>Running <code>nix build</code> twice on this expression will build the

@@ -189,11 +189,11 @@ for determining if the results are the same.</p>
 <pre><code class="language-nix">let
   inherit (import &lt;nixpkgs&gt; {}) runCommand;
 in {
-  stable = runCommand &quot;stable&quot; {} ''
+  stable = runCommand "stable" {} ''
     touch $out
   '';
 
-  unstable = runCommand &quot;unstable&quot; {} ''
+  unstable = runCommand "unstable" {} ''
     echo $RANDOM &gt; $out
   '';
 }
@@ -205,8 +205,8 @@ run-diff-hook = true
 <p>where <code>/etc/nix/my-diff-hook</code> is an executable file containing:</p>
 <pre><code class="language-bash">#!/bin/sh
 exec &gt;&amp;2
-echo &quot;For derivation $3:&quot;
-/run/current-system/sw/bin/diff -r &quot;$1&quot; &quot;$2&quot;
+echo "For derivation $3:"
+/run/current-system/sw/bin/diff -r "$1" "$2"
 </code></pre>
 <p>The diff hook is executed by the same user and group who ran the build.
 However, the diff hook does not have write access to the store path just

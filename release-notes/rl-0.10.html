@@ -204,7 +204,7 @@ irreversible.</p>
 <ul>
 <li>
 <p>An option <code>--compare-versions</code> (or <code>-c</code>) has been added to
-<code>nix-env --query</code> to allow you to compare installed versions of packages
+<code>nix-env                                                 --query</code> to allow you to compare installed versions of packages
 to available versions, or vice versa. An easy way to see if you
 are up to date with what’s in your subscribed channels is
 <code>nix-env -qc \*</code>.</p>
@@ -216,7 +216,7 @@ for example, <code>nix-env -q gcc</code>. Note that to show all
 derivations, you need to specify <code>\*</code>.</p>
 </li>
 <li>
-<p><code>nix-env -i pkgname</code> will now install the highest available version of
+<p><code>nix-env -i                                                 pkgname</code> will now install the highest available version of
 <em>pkgname</em>, rather than installing all available versions (which
 would probably give collisions) (<code>NIX-31</code>).</p>
 </li>
@@ -240,10 +240,10 @@ faster and takes a constant amount of memory.</p>
 </li>
 <li>
 <p>String interpolation. Expressions like</p>
-<pre><code>&quot;--with-freetype2-library=&quot; + freetype + &quot;/lib&quot;
+<pre><code>"--with-freetype2-library=" + freetype + "/lib"
 </code></pre>
 <p>can now be written as</p>
-<pre><code>&quot;--with-freetype2-library=${freetype}/lib&quot;
+<pre><code>"--with-freetype2-library=${freetype}/lib"
 </code></pre>
 <p>You can write arbitrary expressions within <code>${...}</code>, not just
 identifiers.</p>
@@ -253,7 +253,7 @@ identifiers.</p>
 </li>
 <li>
 <p>String concatenations can now involve derivations, as in the
-example <code>&quot;--with-freetype2-library=&quot; + freetype + &quot;/lib&quot;</code>. This was not previously possible because
+example <code>"--with-freetype2-library="                                                 + freetype + "/lib"</code>. This was not previously possible because
 we need to register that a derivation that uses such a string is
 dependent on <code>freetype</code>. The evaluator now properly propagates
 this information. Consequently, the subpath operator (<code>~</code>) has
@@ -272,7 +272,7 @@ complete list. All primops are now available in the set
 in a backwards-compatible way.</p>
 </li>
 <li>
-<p>Real let-expressions: <code>let x = ...; ... z = ...; in ...</code>.</p>
+<p>Real let-expressions: <code>let x = ...;                                                 ... z = ...; in ...</code>.</p>
 </li>
 </ul>
 </li>
@@ -290,7 +290,7 @@ your machine and you want to copy it somewhere else.</p>
 an XML representation for easy processing by other tools.</p>
 </li>
 <li>
-<p><code>nix-instantiate --eval-only --xml</code> prints an XML representation of the resulting term. (The
+<p><code>nix-instantiate --eval-only                                                 --xml</code> prints an XML representation of the resulting term. (The
 new flag <code>--strict</code> forces ‘deep’ evaluation of the result,
 i.e., list elements and attributes are evaluated recursively.)</p>
 </li>
@@ -307,17 +307,17 @@ install in <code>nix-env</code>, <code>nix-instantiate</code> and <code>nix-buil
 <code>--attr</code> / <code>-A</code> flags, which takes an attribute name as argument.
 (Unlike symbolic package names such as <code>subversion-1.4.0</code>, attribute
 names in an attribute set are unique.) For instance, a quick way to
-perform a test build of a package in Nixpkgs is <code>nix-build pkgs/top-level/all-packages.nix -A foo</code>. <code>nix-env -q --attr</code> shows the attribute names corresponding to each derivation.</p>
+perform a test build of a package in Nixpkgs is <code>nix-build         pkgs/top-level/all-packages.nix -A         foo</code>. <code>nix-env -q         --attr</code> shows the attribute names corresponding to each derivation.</p>
 </li>
 <li>
 <p>If the top-level Nix expression used by <code>nix-env</code>, <code>nix-instantiate</code>
 or <code>nix-build</code> evaluates to a function whose arguments all have
 default values, the function will be called automatically. Also, the
-new command-line switch <code>--arg name value</code> can be used to specify function arguments on the command
+new command-line switch <code>--arg         name         value</code> can be used to specify function arguments on the command
 line.</p>
 </li>
 <li>
-<p><code>nix-install-package --url URL</code> allows a package to be installed directly from the given URL.</p>
+<p><code>nix-install-package --url         URL</code> allows a package to be installed directly from the given URL.</p>
 </li>
 <li>
 <p>Nix now works behind an HTTP proxy server; just set the standard
@@ -326,7 +326,7 @@ environment variables <code>http_proxy</code>, <code>https_proxy</code>, <code>f
 also respect these variables.</p>
 </li>
 <li>
-<p><code>nix-build -o symlink</code> allows the symlink to the build result to be named
+<p><code>nix-build -o         symlink</code> allows the symlink to the build result to be named
 something other than <code>result</code>.</p>
 </li>
 <li>
@@ -363,12 +363,12 @@ utility.</p>
 </li>
 <li>
 <p><code>nix-store --gc</code> (a.k.a. <code>nix-collect-garbage</code>) prints out the
-number of bytes freed on standard output. <code>nix-store --gc --print-dead</code> shows how many bytes would be freed by an
+number of bytes freed on standard output. <code>nix-store                                                 --gc --print-dead</code> shows how many bytes would be freed by an
 actual garbage collection.</p>
 </li>
 <li>
 <p><code>nix-collect-garbage -d</code> removes all old generations of <em>all</em>
-profiles before calling the actual garbage collector (<code>nix-store --gc</code>). This is an easy way to get rid of all old packages in
+profiles before calling the actual garbage collector (<code>nix-store                                                 --gc</code>). This is an easy way to get rid of all old packages in
 the Nix store.</p>
 </li>
 <li>
@@ -392,7 +392,7 @@ garbage collector) (<code>NIX-23</code>).</p>
 </li>
 <li>
 <p>Nix now catches the <code>TERM</code> and <code>HUP</code> signals in addition to the
-<code>INT</code> signal. So you can now do a <code>killall nix-store</code> without triggering a database recovery.</p>
+<code>INT</code> signal. So you can now do a <code>killall         nix-store</code> without triggering a database recovery.</p>
 </li>
 <li>
 <p><code>bsdiff</code> updated to version 4.3.</p>
@@ -416,7 +416,7 @@ concurrent <code>nix-env</code> operations on the same profile (<code>NIX-7</cod
 </li>
 <li>
 <p>Removed misleading messages from <code>nix-env -i</code> (e.g.,
-<code>installing `foo'</code> followed by <code>uninstalling `foo'</code>) (<code>NIX-17</code>).</p>
+<code>installing                                                 `foo'</code> followed by <code>uninstalling                                                 `foo'</code>) (<code>NIX-17</code>).</p>
 </li>
 </ul>
 </li>

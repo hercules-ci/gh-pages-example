@@ -203,7 +203,7 @@ store are ignored. It is also possible to pipe the export into another
 command, e.g. to copy and install a closure directly to/on another
 machine:</p>
 <pre><code>$ nix-store --export $(nix-store --query --requisites $(type -p firefox)) | bzip2 | \
-    ssh alice@itchy.example.org &quot;bunzip2 | nix-store --import&quot;
+    ssh alice@itchy.example.org "bunzip2 | nix-store --import"
 </code></pre>
 <p>However, <code>nix-copy-closure</code> is generally more efficient because it only
 copies paths that are not already present in the target Nix store.</p>

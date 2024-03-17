@@ -189,7 +189,7 @@ as root (UID 0) and have 65,536 UIDs available.</p>
 <p>This is primarily useful for running containers such as <code>systemd-nspawn</code>
 inside a Nix build. For an example, see <a href="https://github.com/NixOS/nix/blob/67bcb99700a0da1395fa063d7c6586740b304598/tests/systemd-nspawn.nix."><code>tests/systemd-nspawn/nix</code></a>.</p>
 <p>A build can enable this by setting the derivation attribute:</p>
-<pre><code>requiredSystemFeatures = [ &quot;uid-range&quot; ];
+<pre><code>requiredSystemFeatures = [ "uid-range" ];
 </code></pre>
 <p>The <code>uid-range</code> <a href="../command-ref/conf-file.html#conf-system-features">system feature</a> requires the <a href="../command-ref/conf-file.html#conf-auto-allocate-uids"><code>auto-allocate-uids</code></a>
 setting to be enabled.</p>

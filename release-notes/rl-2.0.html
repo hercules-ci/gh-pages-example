@@ -217,10 +217,10 @@ replacement is to use a chroot store as a substituter (e.g.
 <li>
 <p>The command <code>nix-push</code> has been removed as part of the effort to
 eliminate Nix's dependency on Perl. You can use <code>nix copy</code> instead,
-e.g. <code>nix copy --to file:///tmp/my-binary-cache paths…</code></p>
+e.g. <code>nix copy                 --to file:///tmp/my-binary-cache paths…</code></p>
 </li>
 <li>
-<p>The “nested” log output feature (<code>--log-type pretty</code>) has been removed. As a result, <code>nix-log2xml</code> was also
+<p>The “nested” log output feature (<code>--log-type                 pretty</code>) has been removed. As a result, <code>nix-log2xml</code> was also
 removed.</p>
 </li>
 <li>
@@ -269,7 +269,7 @@ arguments.</p>
 <li>
 <p>It is self-documenting: <code>--help</code> shows all available
 command-line arguments. If <code>--help</code> is given after a subcommand,
-it shows examples for that subcommand. <code>nix --help-config</code> shows all configuration options.</p>
+it shows examples for that subcommand. <code>nix                                                                 --help-config</code> shows all configuration options.</p>
 </li>
 <li>
 <p>It is much less verbose. By default, it displays a single-line
@@ -277,13 +277,13 @@ progress indicator that shows how many packages are left to be
 built or downloaded, and (if there are running builds) the most
 recent line of builder output. If a build fails, it shows the
 last few lines of builder output. The full build log can be
-retrieved using <code>nix log</code>.</p>
+retrieved using <code>nix                                                                 log</code>.</p>
 </li>
 <li>
 <p>It
 <a href="https://github.com/NixOS/nix/commit/b8283773bd64d7da6859ed520ee19867742a03ba">provides</a>
 all <code>nix.conf</code> configuration options as command line flags. For
-example, instead of <code>--option http-connections 100</code> you can write <code>--http-connections 100</code>.
+example, instead of <code>--option                                                                 http-connections 100</code> you can write <code>--http-connections 100</code>.
 Boolean options can be written as <code>--foo</code> or <code>--no-foo</code> (e.g.
 <code>--no-auto-optimise-store</code>).</p>
 </li>
@@ -305,7 +305,7 @@ interface is subject to change.</p>
 <li>
 <p><code>nix run</code> executes a command in an environment in which the
 specified packages are available. It is (roughly) a replacement
-for <code>nix-shell -p</code>. Unlike that command, it does not execute the command in a
+for <code>nix-shell                                                                 -p</code>. Unlike that command, it does not execute the command in a
 shell, and has a flag (<code>-c</code>) that specifies the unquoted command
 line to be executed.</p>
 <p>It is particularly useful in conjunction with chroot stores,
@@ -320,7 +320,7 @@ mount namespace where <code>~/my-nix/nix/store</code> is mounted onto
 <code>/nix/store</code>.</p>
 </li>
 <li>
-<p><code>nix search</code> replaces <code>nix-env -qa</code>. It searches the available packages for occurrences of a
+<p><code>nix search</code> replaces <code>nix-env                                                                 -qa</code>. It searches the available packages for occurrences of a
 search string in the attribute name, package name or
 description. Unlike <code>nix-env -qa</code>, it has a cache to speed up
 subsequent searches.</p>
@@ -343,7 +343,7 @@ work on NixOS, or if it’s installed outside of the Nix store.)</p>
 <li>
 <p><code>nix verify</code> checks whether store paths are unmodified and/or
 “trusted” (see below). It replaces <code>nix-store --verify</code> and
-<code>nix-store --verify-path</code>.</p>
+<code>nix-store                                                                 --verify-path</code>.</p>
 </li>
 <li>
 <p><code>nix log</code> shows the build log of a package or path. If the
@@ -359,7 +359,7 @@ provides build logs).</p>
 <p><code>nix eval</code> replaces <code>nix-instantiate --eval</code>.</p>
 </li>
 <li>
-<p><code>nix why-depends</code> shows why one store path has another in its
+<p><code>nix                                                                 why-depends</code> shows why one store path has another in its
 closure. This is primarily useful to finding the causes of
 closure bloat. For example,</p>
 <pre><code>nix why-depends nixpkgs.vlc nixpkgs.libdrm.dev
@@ -385,7 +385,7 @@ difference is that it has a progress indicator.</p>
 <p>A number of low-level (“plumbing”) commands are also available:</p>
 <ul>
 <li>
-<p><code>nix ls-store</code> and <code>nix ls-nar</code> list the contents of a store path or NAR file. The
+<p><code>nix ls-store</code> and <code>nix                                                                 ls-nar</code> list the contents of a store path or NAR file. The
 former is primarily useful in conjunction with remote stores,
 e.g.</p>
 <pre><code>nix ls-store --store https://cache.nixos.org/ -lR /nix/store/0i2jd68mp5g6h2sa5k9c85rb80sn8hi9-hello-2.10
@@ -393,18 +393,18 @@ e.g.</p>
 <p>lists the contents of path in a binary cache.</p>
 </li>
 <li>
-<p><code>nix cat-store</code> and <code>nix cat-nar</code> allow extracting a file from a store path or NAR file.</p>
+<p><code>nix cat-store</code> and <code>nix                                                                 cat-nar</code> allow extracting a file from a store path or NAR file.</p>
 </li>
 <li>
 <p><code>nix dump-path</code> writes the contents of a store path to stdout in
 NAR format. This replaces <code>nix-store --dump</code>.</p>
 </li>
 <li>
-<p><code>nix show-derivation</code> displays a store derivation in JSON format.
+<p><code>nix                                                                 show-derivation</code> displays a store derivation in JSON format.
 This is an alternative to <code>pp-aterm</code>.</p>
 </li>
 <li>
-<p><code>nix add-to-store</code> replaces <code>nix-store --add</code>.</p>
+<p><code>nix                                                                 add-to-store</code> replaces <code>nix-store                                                                 --add</code>.</p>
 </li>
 <li>
 <p><code>nix sign-paths</code> signs store paths.</p>
@@ -457,7 +457,7 @@ listings in JSON format.</p>
 <li>
 <p><code>HttpBinaryCacheStore</code> (<code>http://</code>, <code>https://</code>) supports binary
 caches via HTTP or HTTPS. If the server supports <code>PUT</code> requests,
-it supports uploading store paths via commands such as <code>nix copy</code>.</p>
+it supports uploading store paths via commands such as <code>nix                                                                 copy</code>.</p>
 </li>
 <li>
 <p><code>LocalBinaryCacheStore</code> (<code>file://</code>) supports binary caches in
@@ -486,7 +486,7 @@ copied between stores (e.g., copied from a binary cache to a
 local store), signatures are propagated.</p>
 <p>Locally-built paths are signed automatically using the secret
 keys specified by the <code>secret-key-files</code> store option.
-Secret/public key pairs can be generated using <code>nix-store --generate-binary-cache-key</code>.</p>
+Secret/public key pairs can be generated using <code>nix-store                                                                 --generate-binary-cache-key</code>.</p>
 <p>In addition, locally-built store paths are marked as “ultimately
 trusted”, but this bit is not propagated when paths are copied
 between stores.</p>
@@ -552,11 +552,11 @@ produce different output.</p>
 <li>
 <p>Configuring remote builds is a lot easier now. Provided you are not
 using the Nix daemon, you can now just specify a remote build
-machine on the command line, e.g. <code>--option builders 'ssh://my-mac x86_64-darwin'</code>. The environment variable
+machine on the command line, e.g. <code>--option builders                 'ssh://my-mac x86_64-darwin'</code>. The environment variable
 <code>NIX_BUILD_HOOK</code> has been removed and is no longer needed. The
 environment variable <code>NIX_REMOTE_SYSTEMS</code> is still supported for
 compatibility, but it is also possible to specify builders in
-<code>nix.conf</code> by setting the option <code>builders = @path</code>.</p>
+<code>nix.conf</code> by setting the option <code>builders =                 @path</code>.</p>
 </li>
 <li>
 <p>If a fixed-output derivation produces a result with an incorrect
@@ -672,7 +672,7 @@ Export and import to and from JSON and XML works, too.</p>
 <p>Derivation attributes can now reference the outputs of the
 derivation using the <code>placeholder</code> builtin function. For example,
 the attribute</p>
-<pre><code>configureFlags = &quot;--prefix=${placeholder &quot;out&quot;} --includedir=${placeholder &quot;dev&quot;}&quot;;
+<pre><code>configureFlags = "--prefix=${placeholder "out"} --includedir=${placeholder "dev"}";
 </code></pre>
 <p>will cause the <code>configureFlags</code> environment variable to contain the
 actual store paths corresponding to the <code>out</code> and <code>dev</code> outputs.</p>
@@ -686,7 +686,7 @@ evaluation time. Thus it differs from the <code>fetchgit</code> function in
 Nixpkgs, which fetches at build time and cannot be used to fetch Nix
 expressions during evaluation. A typical use case is to import
 external NixOS modules from your configuration, e.g.</p>
-<pre><code>imports = [ (builtins.fetchGit https://github.com/edolstra/dwarffs + &quot;/module.nix&quot;) ];
+<pre><code>imports = [ (builtins.fetchGit https://github.com/edolstra/dwarffs + "/module.nix") ];
 </code></pre>
 </li>
 <li>
@@ -696,7 +696,7 @@ repositories.</p>
 <li>
 <p><code>builtins.path</code> generalises <code>builtins.filterSource</code> and path
 literals (e.g. <code>./foo</code>). It allows specifying a store path name that
-differs from the source path name (e.g. <code>builtins.path { path = ./foo; name = &quot;bar&quot;; }</code>) and also supports filtering out unwanted files.</p>
+differs from the source path name (e.g. <code>builtins.path { path = ./foo; name = "bar";                 }</code>) and also supports filtering out unwanted files.</p>
 </li>
 <li>
 <p><code>builtins.fetchurl</code> and <code>builtins.fetchTarball</code> now support <code>sha256</code>
@@ -739,7 +739,7 @@ builders</a>,
 Nix writes a script named <code>.attrs.sh</code> to the builder’s directory
 that initialises shell variables corresponding to all attributes
 that are representable in Bash. This includes non-nested
-(associative) arrays. For example, the attribute <code>hardening.format = true</code> ends up as the Bash associative array element
+(associative) arrays. For example, the attribute <code>hardening.format =                 true</code> ends up as the Bash associative array element
 <code>${hardening[format]}</code>.</p>
 </li>
 <li>

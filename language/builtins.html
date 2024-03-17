@@ -225,7 +225,7 @@ element of <em>list</em>, and <code>false</code> otherwise.</p>
 </dt>
 <dd>
 <p>Return the names of the attributes in the set <em>set</em> in an
-alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = &quot;foo&quot;; }</code> evaluates to <code>[ &quot;x&quot; &quot;y&quot; ]</code>.</p>
+alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = "foo"; }</code> evaluates to <code>[ "x" "y" ]</code>.</p>
 </dd>
 <dt id="builtins-attrValues">
   <a href="#builtins-attrValues"><code>attrValues <var>set</var></code></a>
@@ -274,7 +274,7 @@ Otherwise, return the argument <code>v</code>.</p>
 <p>Collect each attribute named <em>attr</em> from a list of attribute
 sets.  Attrsets that don't contain the named attribute are
 ignored. For example,</p>
-<pre><code class="language-nix">builtins.catAttrs &quot;a&quot; [{a = 1;} {b = 0;} {a = 2;}]
+<pre><code class="language-nix">builtins.catAttrs "a" [{a = 1;} {b = 0;} {a = 2;}]
 </code></pre>
 <p>evaluates to <code>[1 2]</code>.</p>
 </dd>
@@ -284,7 +284,7 @@ ignored. For example,</p>
 <dd>
 <p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
 the next higher integer.</p>
-<p>If the datatype is neither an integer nor a &quot;float&quot;, an evaluation error will be
+<p>If the datatype is neither an integer nor a "float", an evaluation error will be
 thrown.</p>
 </dd>
 <dt id="builtins-compareVersions">
@@ -314,7 +314,7 @@ but is more efficient.</p>
 </dt>
 <dd>
 <p>Concatenate a list of strings with a separator between each
-element, e.g. <code>concatStringsSep &quot;/&quot; [&quot;usr&quot; &quot;local&quot; &quot;bin&quot;] == &quot;usr/local/bin&quot;</code>.</p>
+element, e.g. <code>concatStringsSep "/" ["usr" "local" "bin"] == "usr/local/bin"</code>.</p>
 </dd>
 <dt id="builtins-deepSeq">
   <a href="#builtins-deepSeq"><code>deepSeq <var>e1</var> <var>e2</var></code></a>
@@ -361,7 +361,7 @@ from 0. A fatal error occurs if the index is out of bounds.</p>
 <p><strong>Fetch a content-addressed store path</strong></p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
-  fromStore = &quot;https://cache.nixos.org&quot;;
+  fromStore = "https://cache.nixos.org";
   fromPath = /nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1;
 }
 </code></pre>
@@ -370,7 +370,7 @@ from 0. A fatal error occurs if the index is out of bounds.</p>
 <p><strong>Fetch any store path and rewrite it to a fully content-addressed store path</strong></p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
-  fromStore = &quot;https://cache.nixos.org&quot;;
+  fromStore = "https://cache.nixos.org";
   fromPath = /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1;
   toPath = /nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1;
 }
@@ -384,11 +384,11 @@ use <a href="../command-ref/new-cli/nix3-store-make-content-addressed.html"><cod
 <pre><code class="language-console"># nix store make-content-addressed --from https://cache.nixos.org /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1
 rewrote '/nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1' to '/nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1'
 </code></pre>
-<p>Alternatively, set <code>toPath = &quot;&quot;</code> and find the correct <code>toPath</code> in the error message.</p>
+<p>Alternatively, set <code>toPath = ""</code> and find the correct <code>toPath</code> in the error message.</p>
 <p><strong>Fetch an input-addressed store path as is</strong></p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
-  fromStore = &quot;https://cache.nixos.org&quot;;
+  fromStore = "https://cache.nixos.org";
   fromPath = /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1;
   inputAddressed = true;
 }
@@ -435,7 +435,8 @@ As of 2.3.0, Nix will not prefix <code>refs/heads/</code> if <code>ref</code> st
 </li>
 <li>
 <p><code>shallow</code> (default: <code>false</code>)</p>
-<p>A Boolean parameter that specifies whether fetching a shallow clone is allowed.</p>
+<p>A Boolean parameter that specifies whether fetching from a shallow remote repository is allowed.
+This still performs a full clone of what is available on the remote.</p>
 </li>
 <li>
 <p><code>allRefs</code></p>
@@ -449,17 +450,17 @@ With this argument being true, it's possible to load a <code>rev</code> from <em
 <li>
 <p>To fetch a private repository over SSH:</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;git@github.com:my-secret/repository.git&quot;;
-  ref = &quot;master&quot;;
-  rev = &quot;adab8b916a45068c044658c4158d81878f9ed1c3&quot;;
+  url = "git@github.com:my-secret/repository.git";
+  ref = "master";
+  rev = "adab8b916a45068c044658c4158d81878f9ed1c3";
 }
 </code></pre>
 </li>
 <li>
 <p>To fetch an arbitrary reference:</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;https://github.com/NixOS/nix.git&quot;;
-  ref = &quot;refs/heads/0.5-release&quot;;
+  url = "https://github.com/NixOS/nix.git";
+  ref = "refs/heads/0.5-release";
 }
 </code></pre>
 </li>
@@ -471,9 +472,9 @@ name in the <code>ref</code> attribute.</p>
 branch for the non-default branch you will need to specify the
 the <code>ref</code> attribute as well.</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;https://github.com/nixos/nix.git&quot;;
-  rev = &quot;841fcbd04755c7a2865c51c1e2d3b045976b7452&quot;;
-  ref = &quot;1.11-maintenance&quot;;
+  url = "https://github.com/nixos/nix.git";
+  rev = "841fcbd04755c7a2865c51c1e2d3b045976b7452";
+  ref = "1.11-maintenance";
 }
 </code></pre>
 <blockquote>
@@ -490,24 +491,24 @@ more obvious.</p>
 <p>If the revision you're looking for is in the default branch of
 the git repository you may omit the <code>ref</code> attribute.</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;https://github.com/nixos/nix.git&quot;;
-  rev = &quot;841fcbd04755c7a2865c51c1e2d3b045976b7452&quot;;
+  url = "https://github.com/nixos/nix.git";
+  rev = "841fcbd04755c7a2865c51c1e2d3b045976b7452";
 }
 </code></pre>
 </li>
 <li>
 <p>To fetch a specific tag:</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;https://github.com/nixos/nix.git&quot;;
-  ref = &quot;refs/tags/1.9&quot;;
+  url = "https://github.com/nixos/nix.git";
+  ref = "refs/tags/1.9";
 }
 </code></pre>
 </li>
 <li>
 <p>To fetch the latest version of a remote branch:</p>
 <pre><code class="language-nix">builtins.fetchGit {
-  url = &quot;ssh://git@github.com/nixos/nix.git&quot;;
-  ref = &quot;master&quot;;
+  url = "ssh://git@github.com/nixos/nix.git";
+  ref = "master";
 }
 </code></pre>
 <p>Nix will refetch the branch according to the <a href="../command-ref/conf-file.html#conf-tarball-ttl"><code>tarball-ttl</code></a> setting.</p>
@@ -550,8 +551,8 @@ option <code>--unpack</code> is required.</p>
 case, the function takes a set instead of a URL. The set requires
 the attribute <code>url</code> and the attribute <code>sha256</code>, e.g.</p>
 <pre><code class="language-nix">with import (fetchTarball {
-  url = &quot;https://github.com/NixOS/nixpkgs/archive/nixos-14.12.tar.gz&quot;;
-  sha256 = &quot;1jppksrfvbk5ypiqdz4cddxdl8z6zyzdb2srq8fcffr327ld5jj2&quot;;
+  url = "https://github.com/NixOS/nixpkgs/archive/nixos-14.12.tar.gz";
+  sha256 = "1jppksrfvbk5ypiqdz4cddxdl8z6zyzdb2srq8fcffr327ld5jj2";
 }) {};
 
 stdenv.mkDerivation { … }
@@ -603,7 +604,7 @@ store. Worse, the contents of those directories may change a lot,
 causing lots of spurious rebuilds. With <code>filterSource</code> you can
 filter out the <code>.svn</code> directories:</p>
 <pre><code class="language-nix">src = builtins.filterSource
-  (path: type: type != &quot;directory&quot; || baseNameOf path != &quot;.svn&quot;)
+  (path: type: type != "directory" || baseNameOf path != ".svn")
   ./source-dir;
 </code></pre>
 <p>Thus, the first argument <em>e1</em> must be a predicate function that is
@@ -612,7 +613,7 @@ tree <em>e2</em>. If the function returns <code>true</code>, the file is copied 
 Nix store, otherwise it is omitted. The function is called with two
 arguments. The first is the full path of the file. The second is a
 string that identifies the type of the file, which is either
-<code>&quot;regular&quot;</code>, <code>&quot;directory&quot;</code>, <code>&quot;symlink&quot;</code> or <code>&quot;unknown&quot;</code> (for other
+<code>"regular"</code>, <code>"directory"</code>, <code>"symlink"</code> or <code>"unknown"</code> (for other
 kinds of files such as device nodes or fifos — but note that those
 cannot be copied to the Nix store, so if the predicate returns
 <code>true</code> for them, the copy will fail). If you exclude a directory,
@@ -630,22 +631,22 @@ the entire corresponding subtree of <em>e2</em> will be excluded.</p>
 <ul>
 <li>
 <pre><code>{
-  prefix = &quot;nixos-config&quot;;
-  path = &quot;/etc/nixos/configuration.nix&quot;;
+  prefix = "nixos-config";
+  path = "/etc/nixos/configuration.nix";
 }
 </code></pre>
 </li>
 <li>
 <pre><code>{
-  prefix = &quot;&quot;;
-  path = &quot;/nix/var/nix/profiles/per-user/root/channels&quot;;
+  prefix = "";
+  path = "/nix/var/nix/profiles/per-user/root/channels";
 }
 </code></pre>
 </li>
 </ul>
 <p>The lookup algorithm checks each entry until a match is found, returning a <a href="../language/values.html#type-path">path value</a> of the match.</p>
 <p>This is the process for each entry:
-If the lookup path matches <code>prefix</code>, then the remainder of the lookup path (the &quot;suffix&quot;) is searched for within the directory denoted by <code>patch</code>.
+If the lookup path matches <code>prefix</code>, then the remainder of the lookup path (the "suffix") is searched for within the directory denoted by <code>patch</code>.
 Note that the <code>path</code> may need to be downloaded at this point to look inside.
 If the suffix is found inside that directory, then the entry is a match;
 the combined absolute path of the directory (now downloaded if need be) and the suffix is returned.</p>
@@ -653,7 +654,7 @@ the combined absolute path of the directory (now downloaded if need be) and the 
 <pre><code class="language-nix">&lt;nixpkgs&gt;
 </code></pre>
 <p>is equivalent to:</p>
-<pre><code class="language-nix">builtins.findFile builtins.nixPath &quot;nixpkgs&quot;
+<pre><code class="language-nix">builtins.findFile builtins.nixPath "nixpkgs"
 </code></pre>
 </dd>
 <dt id="builtins-flakeRefToString">
@@ -663,11 +664,11 @@ the combined absolute path of the directory (now downloaded if need be) and the 
 <p>Convert a flake reference from attribute set format to URL format.</p>
 <p>For example:</p>
 <pre><code class="language-nix">builtins.flakeRefToString {
-  dir = &quot;lib&quot;; owner = &quot;NixOS&quot;; ref = &quot;23.05&quot;; repo = &quot;nixpkgs&quot;; type = &quot;github&quot;;
+  dir = "lib"; owner = "NixOS"; ref = "23.05"; repo = "nixpkgs"; type = "github";
 }
 </code></pre>
 <p>evaluates to</p>
-<pre><code class="language-nix">&quot;github:NixOS/nixpkgs/23.05?dir=lib&quot;
+<pre><code class="language-nix">"github:NixOS/nixpkgs/23.05?dir=lib"
 </code></pre>
 <p>This function is only available if the <a href="../contributing/experimental-features.html#xp-feature-flakes">flakes</a> experimental feature is enabled.</p>
 </dd>
@@ -677,7 +678,7 @@ the combined absolute path of the directory (now downloaded if need be) and the 
 <dd>
 <p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
 the next lower integer.</p>
-<p>If the datatype is neither an integer nor a &quot;float&quot;, an evaluation error will be
+<p>If the datatype is neither an integer nor a "float", an evaluation error will be
 thrown.</p>
 </dd>
 <dt id="builtins-foldl'">
@@ -694,7 +695,7 @@ even for intermediate values.</p>
 </dt>
 <dd>
 <p>Convert a JSON string to a Nix value. For example,</p>
-<pre><code class="language-nix">builtins.fromJSON ''{&quot;x&quot;: [1, 2, 3], &quot;y&quot;: null}''
+<pre><code class="language-nix">builtins.fromJSON ''{"x": [1, 2, 3], "y": null}''
 </code></pre>
 <p>returns the value <code>{ x = [ 1 2 3 ]; y = null; }</code>.</p>
 </dd>
@@ -705,12 +706,12 @@ even for intermediate values.</p>
 <p>Convert a TOML string to a Nix value. For example,</p>
 <pre><code class="language-nix">builtins.fromTOML ''
   x=1
-  s=&quot;a&quot;
+  s="a"
   [table]
   y=2
 ''
 </code></pre>
-<p>returns the value <code>{ s = &quot;a&quot;; table = { y = 2; }; x = 1; }</code>.</p>
+<p>returns the value <code>{ s = "a"; table = { y = 2; }; x = 1; }</code>.</p>
 </dd>
 <dt id="builtins-functionArgs">
   <a href="#builtins-functionArgs"><code>functionArgs <var>f</var></code></a>
@@ -720,7 +721,7 @@ even for intermediate values.</p>
 by the function <em>f</em>. The value of each attribute is a Boolean
 denoting whether the corresponding argument has a default value. For
 instance, <code>functionArgs ({ x, y ? 123}: ...) = { x = false; y = true; }</code>.</p>
-<p>&quot;Formal argument&quot; here refers to the attributes pattern-matched by
+<p>"Formal argument" here refers to the attributes pattern-matched by
 the function. Plain lambdas are not included, e.g. <code>functionArgs (x: ...) = { }</code>.</p>
 </dd>
 <dt id="builtins-genList">
@@ -777,10 +778,10 @@ identifier.</p>
 It is represented as an attribute set of <a href="../glossary.html#gloss-store-derivation">store derivation</a> paths mapping to output names.</p>
 <p>Using <a href="../language/string-interpolation.html">string interpolation</a> on a derivation will add that derivation to the string context.
 For example,</p>
-<pre><code class="language-nix">builtins.getContext &quot;${derivation { name = &quot;a&quot;; builder = &quot;b&quot;; system = &quot;c&quot;; }}&quot;
+<pre><code class="language-nix">builtins.getContext "${derivation { name = "a"; builder = "b"; system = "c"; }}"
 </code></pre>
 <p>evaluates to</p>
-<pre><code>{ &quot;/nix/store/arhvjaf6zmlyn8vh8fgn55rpwnxq0n7l-a.drv&quot; = { outputs = [ &quot;out&quot; ]; }; }
+<pre><code>{ "/nix/store/arhvjaf6zmlyn8vh8fgn55rpwnxq0n7l-a.drv" = { outputs = [ "out" ]; }; }
 </code></pre>
 </dd>
 <dt id="builtins-getEnv">
@@ -793,7 +794,7 @@ used with care, as it can introduce all sorts of nasty environment
 dependencies in your Nix expression.</p>
 <p><code>getEnv</code> is used in Nix Packages to locate the file
 <code>~/.nixpkgs/config.nix</code>, which contains user-local settings for Nix
-Packages. (That is, it does a <code>getEnv &quot;HOME&quot;</code> to locate the user’s
+Packages. (That is, it does a <code>getEnv "HOME"</code> to locate the user’s
 home directory.)</p>
 </dd>
 <dt id="builtins-getFlake">
@@ -801,12 +802,12 @@ home directory.)</p>
 </dt>
 <dd>
 <p>Fetch a flake from a flake reference, and return its output attributes and some metadata. For example:</p>
-<pre><code class="language-nix">(builtins.getFlake &quot;nix/55bc52401966fbffa525c574c14f67b00bc4fb3a&quot;).packages.x86_64-linux.nix
+<pre><code class="language-nix">(builtins.getFlake "nix/55bc52401966fbffa525c574c14f67b00bc4fb3a").packages.x86_64-linux.nix
 </code></pre>
 <p>Unless impure evaluation is allowed (<code>--impure</code>), the flake reference
-must be &quot;locked&quot;, e.g. contain a Git revision or content hash. An
+must be "locked", e.g. contain a Git revision or content hash. An
 example of an unlocked usage is:</p>
-<pre><code class="language-nix">(builtins.getFlake &quot;github:edolstra/dwarffs&quot;).rev
+<pre><code class="language-nix">(builtins.getFlake "github:edolstra/dwarffs").rev
 </code></pre>
 <p>This function is only available if the <a href="../contributing/experimental-features.html#xp-feature-flakes">flakes</a> experimental feature is enabled.</p>
 </dd>
@@ -819,10 +820,10 @@ function <em>f</em> called on each element. It returns an attribute set
 where each attribute value contains the elements of <em>list</em> that are
 mapped to the same corresponding attribute name returned by <em>f</em>.</p>
 <p>For example,</p>
-<pre><code class="language-nix">builtins.groupBy (builtins.substring 0 1) [&quot;foo&quot; &quot;bar&quot; &quot;baz&quot;]
+<pre><code class="language-nix">builtins.groupBy (builtins.substring 0 1) ["foo" "bar" "baz"]
 </code></pre>
 <p>evaluates to</p>
-<pre><code class="language-nix">{ b = [ &quot;bar&quot; &quot;baz&quot; ]; f = [ &quot;foo&quot; ]; }
+<pre><code class="language-nix">{ b = [ "bar" "baz" ]; f = [ "foo" ]; }
 </code></pre>
 </dd>
 <dt id="builtins-hasAttr">
@@ -847,15 +848,15 @@ context can be obtained with
 <dd>
 <p>Return a base-16 representation of the cryptographic hash of the
 file at path <em>p</em>. The hash algorithm specified by <em>type</em> must be one
-of <code>&quot;md5&quot;</code>, <code>&quot;sha1&quot;</code>, <code>&quot;sha256&quot;</code> or <code>&quot;sha512&quot;</code>.</p>
+of <code>"md5"</code>, <code>"sha1"</code>, <code>"sha256"</code> or <code>"sha512"</code>.</p>
 </dd>
 <dt id="builtins-hashString">
   <a href="#builtins-hashString"><code>hashString <var>type</var> <var>s</var></code></a>
 </dt>
 <dd>
 <p>Return a base-16 representation of the cryptographic hash of string
-<em>s</em>. The hash algorithm specified by <em>type</em> must be one of <code>&quot;md5&quot;</code>,
-<code>&quot;sha1&quot;</code>, <code>&quot;sha256&quot;</code> or <code>&quot;sha512&quot;</code>.</p>
+<em>s</em>. The hash algorithm specified by <em>type</em> must be one of <code>"md5"</code>,
+<code>"sha1"</code>, <code>"sha256"</code> or <code>"sha512"</code>.</p>
 </dd>
 <dt id="builtins-head">
   <a href="#builtins-head"><code>head <var>list</var></code></a>
@@ -1004,9 +1005,9 @@ and an attribute <code>value</code> specifying its value.</p>
 takes precedence.</p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.listToAttrs
-  [ { name = &quot;foo&quot;; value = 123; }
-    { name = &quot;bar&quot;; value = 456; }
-    { name = &quot;bar&quot;; value = 420; }
+  [ { name = "foo"; value = 123; }
+    { name = "bar"; value = 456; }
+    { name = "bar"; value = 420; }
   ]
 </code></pre>
 <p>evaluates to</p>
@@ -1019,9 +1020,9 @@ takes precedence.</p>
 <dd>
 <p>Apply the function <em>f</em> to each element in the list <em>list</em>. For
 example,</p>
-<pre><code class="language-nix">map (x: &quot;foo&quot; + x) [ &quot;bar&quot; &quot;bla&quot; &quot;abc&quot; ]
+<pre><code class="language-nix">map (x: "foo" + x) [ "bar" "bla" "abc" ]
 </code></pre>
-<p>evaluates to <code>[ &quot;foobar&quot; &quot;foobla&quot; &quot;fooabc&quot; ]</code>.</p>
+<p>evaluates to <code>[ "foobar" "foobla" "fooabc" ]</code>.</p>
 </dd>
 <dt id="builtins-mapAttrs">
   <a href="#builtins-mapAttrs"><code>mapAttrs <var>f</var> <var>attrset</var></code></a>
@@ -1040,18 +1041,18 @@ example,</p>
 expression</a>
 <em>regex</em> matches <em>str</em> precisely, otherwise returns <code>null</code>. Each item
 in the list is a regex group.</p>
-<pre><code class="language-nix">builtins.match &quot;ab&quot; &quot;abc&quot;
+<pre><code class="language-nix">builtins.match "ab" "abc"
 </code></pre>
 <p>Evaluates to <code>null</code>.</p>
-<pre><code class="language-nix">builtins.match &quot;abc&quot; &quot;abc&quot;
+<pre><code class="language-nix">builtins.match "abc" "abc"
 </code></pre>
 <p>Evaluates to <code>[ ]</code>.</p>
-<pre><code class="language-nix">builtins.match &quot;a(b)(c)&quot; &quot;abc&quot;
+<pre><code class="language-nix">builtins.match "a(b)(c)" "abc"
 </code></pre>
-<p>Evaluates to <code>[ &quot;b&quot; &quot;c&quot; ]</code>.</p>
-<pre><code class="language-nix">builtins.match &quot;[[:space:]]+([[:upper:]]+)[[:space:]]+&quot; &quot;  FOO   &quot;
+<p>Evaluates to <code>[ "b" "c" ]</code>.</p>
+<pre><code class="language-nix">builtins.match "[[:space:]]+([[:upper:]]+)[[:space:]]+" "  FOO   "
 </code></pre>
-<p>Evaluates to <code>[ &quot;FOO&quot; ]</code>.</p>
+<p>Evaluates to <code>[ "FOO" ]</code>.</p>
 </dd>
 <dt id="builtins-mul">
   <a href="#builtins-mul"><code>mul <var>e1</var> <var>e2</var></code></a>
@@ -1070,8 +1071,8 @@ But if the derivation is content-addressed or if the derivation is itself not-st
 This primop can be chained arbitrarily deeply.
 For instance,</p>
 <pre><code class="language-nix">builtins.outputOf
-  (builtins.outputOf myDrv &quot;out)
-  &quot;out&quot;
+  (builtins.outputOf myDrv "out)
+  "out"
 </code></pre>
 <p>will return a placeholder for the output of the output of <code>myDrv</code>.</p>
 <p>This primop corresponds to the <code>^</code> sigil for derivable paths, e.g. as part of installable syntax on the command line.</p>
@@ -1085,7 +1086,7 @@ For instance,</p>
 name is everything up to but not including the first dash not followed
 by a letter, and the version is everything following that dash. The
 result is returned in a set <code>{ name, version }</code>. Thus,
-<code>builtins.parseDrvName &quot;nix-0.12pre12876&quot;</code> returns <code>{ name = &quot;nix&quot;; version = &quot;0.12pre12876&quot;; }</code>.</p>
+<code>builtins.parseDrvName "nix-0.12pre12876"</code> returns <code>{ name = "nix"; version = "0.12pre12876"; }</code>.</p>
 </dd>
 <dt id="builtins-parseFlakeRef">
   <a href="#builtins-parseFlakeRef"><code>parseFlakeRef <var>flake-ref</var></code></a>
@@ -1093,10 +1094,10 @@ result is returned in a set <code>{ name, version }</code>. Thus,
 <dd>
 <p>Parse a flake reference, and return its exploded form.</p>
 <p>For example:</p>
-<pre><code class="language-nix">builtins.parseFlakeRef &quot;github:NixOS/nixpkgs/23.05?dir=lib&quot;
+<pre><code class="language-nix">builtins.parseFlakeRef "github:NixOS/nixpkgs/23.05?dir=lib"
 </code></pre>
 <p>evaluates to:</p>
-<pre><code class="language-nix">{ dir = &quot;lib&quot;; owner = &quot;NixOS&quot;; ref = &quot;23.05&quot;; repo = &quot;nixpkgs&quot;; type = &quot;github&quot;; }
+<pre><code class="language-nix">{ dir = "lib"; owner = "NixOS"; ref = "23.05"; repo = "nixpkgs"; type = "github"; }
 </code></pre>
 <p>This function is only available if the <a href="../contributing/experimental-features.html#xp-feature-flakes">flakes</a> experimental feature is enabled.</p>
 </dd>
@@ -1167,7 +1168,7 @@ providing a hash allows <code>builtins.path</code> to be used even when the
 <dd>
 <p>Return a placeholder string for the specified <em>output</em> that will be
 substituted by the corresponding output path at build time. Typical
-outputs would be <code>&quot;out&quot;</code>, <code>&quot;bin&quot;</code> or <code>&quot;dev&quot;</code>.</p>
+outputs would be <code>"out"</code>, <code>"bin"</code> or <code>"dev"</code>.</p>
 </dd>
 <dt id="builtins-readDir">
   <a href="#builtins-readDir"><code>readDir <var>path</var></code></a>
@@ -1177,10 +1178,10 @@ outputs would be <code>&quot;out&quot;</code>, <code>&quot;bin&quot;</code> or <
 directory entries to the corresponding file type. For instance, if
 directory <code>A</code> contains a regular file <code>B</code> and another directory
 <code>C</code>, then <code>builtins.readDir ./A</code> will return the set</p>
-<pre><code class="language-nix">{ B = &quot;regular&quot;; C = &quot;directory&quot;; }
+<pre><code class="language-nix">{ B = "regular"; C = "directory"; }
 </code></pre>
-<p>The possible values for the file type are <code>&quot;regular&quot;</code>,
-<code>&quot;directory&quot;</code>, <code>&quot;symlink&quot;</code> and <code>&quot;unknown&quot;</code>.</p>
+<p>The possible values for the file type are <code>"regular"</code>,
+<code>"directory"</code>, <code>"symlink"</code> and <code>"unknown"</code>.</p>
 </dd>
 <dt id="builtins-readFile">
   <a href="#builtins-readFile"><code>readFile <var>path</var></code></a>
@@ -1193,7 +1194,7 @@ directory <code>A</code> contains a regular file <code>B</code> and another dire
 </dt>
 <dd>
 <p>Determine the directory entry type of a filesystem node, being
-one of &quot;directory&quot;, &quot;regular&quot;, &quot;symlink&quot;, or &quot;unknown&quot;.</p>
+one of "directory", "regular", "symlink", or "unknown".</p>
 </dd>
 <dt id="builtins-removeAttrs">
   <a href="#builtins-removeAttrs"><code>removeAttrs <var>set</var> <var>list</var></code></a>
@@ -1201,7 +1202,7 @@ one of &quot;directory&quot;, &quot;regular&quot;, &quot;symlink&quot;, or &quot
 <dd>
 <p>Remove the attributes listed in <em>list</em> from <em>set</em>. The attributes
 don’t have to exist in <em>set</em>. For instance,</p>
-<pre><code class="language-nix">removeAttrs { x = 1; y = 2; z = 3; } [ &quot;a&quot; &quot;x&quot; &quot;z&quot; ]
+<pre><code class="language-nix">removeAttrs { x = 1; y = 2; z = 3; } [ "a" "x" "z" ]
 </code></pre>
 <p>evaluates to <code>{ y = 2; }</code>.</p>
 </dd>
@@ -1213,9 +1214,9 @@ don’t have to exist in <em>set</em>. For instance,</p>
 with the corresponding string in <em>to</em>.</p>
 <p>The argument <em>to</em> is lazy, that is, it is only evaluated when its corresponding pattern in <em>from</em> is matched in the string <em>s</em></p>
 <p>Example:</p>
-<pre><code class="language-nix">builtins.replaceStrings [&quot;oo&quot; &quot;a&quot;] [&quot;a&quot; &quot;i&quot;] &quot;foobar&quot;
+<pre><code class="language-nix">builtins.replaceStrings ["oo" "a"] ["a" "i"] "foobar"
 </code></pre>
-<p>evaluates to <code>&quot;fabir&quot;</code>.</p>
+<p>evaluates to <code>"fabir"</code>.</p>
 </dd>
 <dt id="builtins-seq">
   <a href="#builtins-seq"><code>seq <var>e1</var> <var>e2</var></code></a>
@@ -1247,18 +1248,18 @@ lists of the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V
 expression</a>
 <em>regex</em> matches of <em>str</em>. Each item in the lists of matched
 sequences is a regex group.</p>
-<pre><code class="language-nix">builtins.split &quot;(a)b&quot; &quot;abc&quot;
+<pre><code class="language-nix">builtins.split "(a)b" "abc"
 </code></pre>
-<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; ] &quot;c&quot; ]</code>.</p>
-<pre><code class="language-nix">builtins.split &quot;([ac])&quot; &quot;abc&quot;
+<p>Evaluates to <code>[ "" [ "a" ] "c" ]</code>.</p>
+<pre><code class="language-nix">builtins.split "([ac])" "abc"
 </code></pre>
-<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; ] &quot;b&quot; [ &quot;c&quot; ] &quot;&quot; ]</code>.</p>
-<pre><code class="language-nix">builtins.split &quot;(a)|(c)&quot; &quot;abc&quot;
+<p>Evaluates to <code>[ "" [ "a" ] "b" [ "c" ] "" ]</code>.</p>
+<pre><code class="language-nix">builtins.split "(a)|(c)" "abc"
 </code></pre>
-<p>Evaluates to <code>[ &quot;&quot; [ &quot;a&quot; null ] &quot;b&quot; [ null &quot;c&quot; ] &quot;&quot; ]</code>.</p>
-<pre><code class="language-nix">builtins.split &quot;([[:upper:]]+)&quot; &quot; FOO &quot;
+<p>Evaluates to <code>[ "" [ "a" null ] "b" [ null "c" ] "" ]</code>.</p>
+<pre><code class="language-nix">builtins.split "([[:upper:]]+)" " FOO "
 </code></pre>
-<p>Evaluates to <code>[ &quot; &quot; [ &quot;FOO&quot; ] &quot; &quot; ]</code>.</p>
+<p>Evaluates to <code>[ " " [ "FOO" ] " " ]</code>.</p>
 </dd>
 <dt id="builtins-splitVersion">
   <a href="#builtins-splitVersion"><code>splitVersion <var>s</var></code></a>
@@ -1305,9 +1306,9 @@ greater than the length of the string, an empty string is returned,
 and if <em>start + len</em> lies beyond the end of the string, only the
 substring up to the end of the string is returned. <em>start</em> must be
 non-negative. For example,</p>
-<pre><code class="language-nix">builtins.substring 0 3 &quot;nixos&quot;
+<pre><code class="language-nix">builtins.substring 0 3 "nixos"
 </code></pre>
-<p>evaluates to <code>&quot;nix&quot;</code>.</p>
+<p>evaluates to <code>"nix"</code>.</p>
 </dd>
 <dt id="builtins-tail">
   <a href="#builtins-tail"><code>tail <var>list</var></code></a>
@@ -1344,9 +1345,9 @@ Nix expression for GNU Hello and its build script into one file:</p>
 <pre><code class="language-nix">{ stdenv, fetchurl, perl }:
 
 stdenv.mkDerivation {
-  name = &quot;hello-2.1.1&quot;;
+  name = "hello-2.1.1";
 
-  builder = builtins.toFile &quot;builder.sh&quot; &quot;
+  builder = builtins.toFile "builder.sh" "
     source $stdenv/setup
 
     PATH=$perl/bin:$PATH
@@ -1356,26 +1357,26 @@ stdenv.mkDerivation {
     ./configure --prefix=$out
     make
     make install
-  &quot;;
+  ";
 
   src = fetchurl {
-    url = &quot;http://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz&quot;;
-    sha256 = &quot;1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465&quot;;
+    url = "http://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz";
+    sha256 = "1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465";
   };
   inherit perl;
 }
 </code></pre>
 <p>It is even possible for one file to refer to another, e.g.,</p>
 <pre><code class="language-nix">builder = let
-  configFile = builtins.toFile &quot;foo.conf&quot; &quot;
+  configFile = builtins.toFile "foo.conf" "
     # This is some dummy configuration file.
     ...
-  &quot;;
-in builtins.toFile &quot;builder.sh&quot; &quot;
+  ";
+in builtins.toFile "builder.sh" "
   source $stdenv/setup
   ...
   cp ${configFile} $out/etc/foo.conf
-&quot;;
+";
 </code></pre>
 <p>Note that <code>${configFile}</code> is a
 <a href="../language/values.html#type-string">string interpolation</a>, so the result of the
@@ -1385,8 +1386,8 @@ spliced into the resulting string.</p>
 <p>It is however <em>not</em> allowed to have files mutually referring to each
 other, like so:</p>
 <pre><code class="language-nix">let
-  foo = builtins.toFile &quot;foo&quot; &quot;...${bar}...&quot;;
-  bar = builtins.toFile &quot;bar&quot; &quot;...${foo}...&quot;;
+  foo = builtins.toFile "foo" "...${bar}...";
+  bar = builtins.toFile "bar" "...${foo}...";
 in foo
 </code></pre>
 <p>This is not allowed because it would cause a cyclic dependency in
@@ -1410,8 +1411,8 @@ represented as a JSON string of the resulting store path.</p>
   <a href="#builtins-toPath"><code>toPath <var>s</var></code></a>
 </dt>
 <dd>
-<p><strong>DEPRECATED.</strong> Use <code>/. + &quot;/path&quot;</code> to convert a string into an absolute
-path. For relative paths, use <code>./. + &quot;/path&quot;</code>.</p>
+<p><strong>DEPRECATED.</strong> Use <code>/. + "/path"</code> to convert a string into an absolute
+path. For relative paths, use <code>./. + "/path"</code>.</p>
 </dd>
 <dt id="builtins-toString">
   <a href="#builtins-toString"><code>toString <var>e</var></code></a>
@@ -1423,7 +1424,7 @@ path. For relative paths, use <code>./. + &quot;/path&quot;</code>.</p>
 <p>A string (in which case the string is returned unmodified).</p>
 </li>
 <li>
-<p>A path (e.g., <code>toString /foo/bar</code> yields <code>&quot;/foo/bar&quot;</code>.</p>
+<p>A path (e.g., <code>toString /foo/bar</code> yields <code>"/foo/bar"</code>.</p>
 </li>
 <li>
 <p>A set containing <code>{ __toString = self: ...; }</code> or <code>{ outPath = ...; }</code>.</p>
@@ -1436,7 +1437,7 @@ path. For relative paths, use <code>./. + &quot;/path&quot;</code>.</p>
 are joined with spaces.</p>
 </li>
 <li>
-<p>A Boolean (<code>false</code> yields <code>&quot;&quot;</code>, <code>true</code> yields <code>&quot;1&quot;</code>).</p>
+<p>A Boolean (<code>false</code> yields <code>""</code>, <code>true</code> yields <code>"1"</code>).</p>
 </li>
 <li>
 <p><code>null</code>, which yields the empty string.</p>
@@ -1455,35 +1456,35 @@ variables.</p>
 <pre><code class="language-nix">{ stdenv, fetchurl, libxslt, jira, uberwiki }:
 
 stdenv.mkDerivation (rec {
-  name = &quot;web-server&quot;;
+  name = "web-server";
 
   buildInputs = [ libxslt ];
 
-  builder = builtins.toFile &quot;builder.sh&quot; &quot;
+  builder = builtins.toFile "builder.sh" "
     source $stdenv/setup
     mkdir $out
-    echo &quot;$servlets&quot; | xsltproc ${stylesheet} - &gt; $out/server-conf.xml ①
-  &quot;;
+    echo "$servlets" | xsltproc ${stylesheet} - &gt; $out/server-conf.xml ①
+  ";
 
-  stylesheet = builtins.toFile &quot;stylesheet.xsl&quot; ②
-   &quot;&lt;?xml version='1.0' encoding='UTF-8'?&gt;
+  stylesheet = builtins.toFile "stylesheet.xsl" ②
+   "&lt;?xml version='1.0' encoding='UTF-8'?&gt;
     &lt;xsl:stylesheet xmlns:xsl='http://www.w3.org/1999/XSL/Transform' version='1.0'&gt;
       &lt;xsl:template match='/'&gt;
         &lt;Configure&gt;
           &lt;xsl:for-each select='/expr/list/attrs'&gt;
             &lt;Call name='addWebApplication'&gt;
-              &lt;Arg&gt;&lt;xsl:value-of select=\&quot;attr[@name = 'path']/string/@value\&quot; /&gt;&lt;/Arg&gt;
-              &lt;Arg&gt;&lt;xsl:value-of select=\&quot;attr[@name = 'war']/path/@value\&quot; /&gt;&lt;/Arg&gt;
+              &lt;Arg&gt;&lt;xsl:value-of select=\"attr[@name = 'path']/string/@value\" /&gt;&lt;/Arg&gt;
+              &lt;Arg&gt;&lt;xsl:value-of select=\"attr[@name = 'war']/path/@value\" /&gt;&lt;/Arg&gt;
             &lt;/Call&gt;
           &lt;/xsl:for-each&gt;
         &lt;/Configure&gt;
       &lt;/xsl:template&gt;
     &lt;/xsl:stylesheet&gt;
-  &quot;;
+  ";
 
   servlets = builtins.toXML [ ③
-    { path = &quot;/bugtracker&quot;; war = jira + &quot;/lib/atlassian-jira.war&quot;; }
-    { path = &quot;/wiki&quot;; war = uberwiki + &quot;/uberwiki.war&quot;; }
+    { path = "/bugtracker"; war = jira + "/lib/atlassian-jira.war"; }
+    { path = "/wiki"; war = uberwiki + "/uberwiki.war"; }
   ];
 })
 </code></pre>
@@ -1507,19 +1508,19 @@ produced at point ③ by <code>toXML</code> is as follows:</p>
 &lt;expr&gt;
   &lt;list&gt;
     &lt;attrs&gt;
-      &lt;attr name=&quot;path&quot;&gt;
-        &lt;string value=&quot;/bugtracker&quot; /&gt;
+      &lt;attr name="path"&gt;
+        &lt;string value="/bugtracker" /&gt;
       &lt;/attr&gt;
-      &lt;attr name=&quot;war&quot;&gt;
-        &lt;path value=&quot;/nix/store/d1jh9pasa7k2...-jira/lib/atlassian-jira.war&quot; /&gt;
+      &lt;attr name="war"&gt;
+        &lt;path value="/nix/store/d1jh9pasa7k2...-jira/lib/atlassian-jira.war" /&gt;
       &lt;/attr&gt;
     &lt;/attrs&gt;
     &lt;attrs&gt;
-      &lt;attr name=&quot;path&quot;&gt;
-        &lt;string value=&quot;/wiki&quot; /&gt;
+      &lt;attr name="path"&gt;
+        &lt;string value="/wiki" /&gt;
       &lt;/attr&gt;
-      &lt;attr name=&quot;war&quot;&gt;
-        &lt;path value=&quot;/nix/store/y6423b1yi4sx...-uberwiki/uberwiki.war&quot; /&gt;
+      &lt;attr name="war"&gt;
+        &lt;path value="/nix/store/y6423b1yi4sx...-uberwiki/uberwiki.war" /&gt;
       &lt;/attr&gt;
     &lt;/attrs&gt;
   &lt;/list&gt;
@@ -1556,9 +1557,9 @@ successful and <code>false</code> otherwise. <code>tryEval</code> will only prev
 errors created by <code>throw</code> or <code>assert</code> from being thrown.
 Errors <code>tryEval</code> will not catch are for example those created
 by <code>abort</code> and type errors generated by builtins. Also note that
-this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw &quot;&quot;; }; in (builtins.tryEval e).success</code> will be <code>true</code>. Using
+this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in (builtins.tryEval e).success</code> will be <code>true</code>. Using
 <code>builtins.deepSeq</code> one can get the expected result:
-<code>let e = { x = throw &quot;&quot;; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
+<code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
 <code>false</code>.</p>
 </dd>
 <dt id="builtins-typeOf">
@@ -1566,8 +1567,8 @@ this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw &quot;&quo
 </dt>
 <dd>
 <p>Return a string representing the type of the value <em>e</em>, namely
-<code>&quot;int&quot;</code>, <code>&quot;bool&quot;</code>, <code>&quot;string&quot;</code>, <code>&quot;path&quot;</code>, <code>&quot;null&quot;</code>, <code>&quot;set&quot;</code>,
-<code>&quot;list&quot;</code>, <code>&quot;lambda&quot;</code> or <code>&quot;float&quot;</code>.</p>
+<code>"int"</code>, <code>"bool"</code>, <code>"string"</code>, <code>"path"</code>, <code>"null"</code>, <code>"set"</code>,
+<code>"list"</code>, <code>"lambda"</code> or <code>"float"</code>.</p>
 </dd>
 <dt id="builtins-zipAttrsWith">
   <a href="#builtins-zipAttrsWith"><code>zipAttrsWith <var>f</var> <var>list</var></code></a>
@@ -1582,12 +1583,12 @@ union of the attribute names in each element of <code>list</code>. The attribute
 values are the return values of <code>f</code>.</p>
 <pre><code class="language-nix">builtins.zipAttrsWith
   (name: values: { inherit name values; })
-  [ { a = &quot;x&quot;; } { a = &quot;y&quot;; b = &quot;z&quot;; } ]
+  [ { a = "x"; } { a = "y"; b = "z"; } ]
 </code></pre>
 <p>evaluates to</p>
 <pre><code>{
-  a = { name = &quot;a&quot;; values = [ &quot;x&quot; &quot;y&quot; ]; };
-  b = { name = &quot;b&quot;; values = [ &quot;z&quot; ]; };
+  a = { name = "a"; values = [ "x" "y" ]; };
+  b = { name = "b"; values = [ "z" ]; };
 }
 </code></pre>
 </dd>

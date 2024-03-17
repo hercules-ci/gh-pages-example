@@ -183,29 +183,38 @@
                         <h1 id="running-tests"><a class="header" href="#running-tests">Running tests</a></h1>
 <h2 id="unit-tests"><a class="header" href="#unit-tests">Unit-tests</a></h2>
 <p>The unit-tests for each Nix library (<code>libexpr</code>, <code>libstore</code>, etc..) are defined
-under <code>src/{library_name}/tests</code> using the
+under <code>tests/unit/{library_name}/tests</code> using the
 <a href="https://google.github.io/googletest/">googletest</a> and
 <a href="https://github.com/emil-e/rapidcheck">rapidcheck</a> frameworks.</p>
 <p>You can run the whole testsuite with <code>make check</code>, or the tests for a specific component with <code>make libfoo-tests_RUN</code>.
 Finer-grained filtering is also possible using the <a href="https://google.github.io/googletest/advanced.html#running-a-subset-of-the-tests">--gtest_filter</a> command-line option, or the <code>GTEST_FILTER</code> environment variable.</p>
+<h3 id="unit-test-support-libraries"><a class="header" href="#unit-test-support-libraries">Unit test support libraries</a></h3>
+<p>There are headers and code which are not just used to test the library in question, but also downstream libraries.
+For example, we do [property testing] with the [rapidcheck] library.
+This requires writing <code>Arbitrary</code> "instances", which are used to describe how to generate values of a given type for the sake of running property tests.
+Because types contain other types, <code>Arbitrary</code> "instances" for some type are not just useful for testing that type, but also any other type that contains it.
+Downstream types frequently contain upstream types, so it is very important that we share arbitrary instances so that downstream libraries' property tests can also use them.</p>
+<p>It is important that these testing libraries don't contain any actual tests themselves.
+On some platforms they would be run as part of every test executable that uses them, which is redundant.
+On other platforms they wouldn't be run at all.</p>
 <h2 id="functional-tests"><a class="header" href="#functional-tests">Functional tests</a></h2>
-<p>The functional tests reside under the <code>tests</code> directory and are listed in <code>tests/local.mk</code>.
+<p>The functional tests reside under the <code>tests/functional</code> directory and are listed in <code>tests/functional/local.mk</code>.
 Each test is a bash script.</p>
 <h3 id="running-the-whole-test-suite"><a class="header" href="#running-the-whole-test-suite">Running the whole test suite</a></h3>
 <p>The whole test suite can be run with:</p>
 <pre><code class="language-shell-session">$ make install &amp;&amp; make installcheck
-ran test tests/foo.sh... [PASS]
-ran test tests/bar.sh... [PASS]
+ran test tests/functional/foo.sh... [PASS]
+ran test tests/functional/bar.sh... [PASS]
 ...
 </code></pre>
 <h3 id="grouping-tests"><a class="header" href="#grouping-tests">Grouping tests</a></h3>
 <p>Sometimes it is useful to group related tests so they can be easily run together without running the entire test suite.
 Each test group is in a subdirectory of <code>tests</code>.
-For example, <code>tests/ca/local.mk</code> defines a <code>ca</code> test group for content-addressed derivation outputs.</p>
+For example, <code>tests/functional/ca/local.mk</code> defines a <code>ca</code> test group for content-addressed derivation outputs.</p>
 <p>That test group can be run like this:</p>
 <pre><code class="language-shell-session">$ make ca.test-group -j50
-ran test tests/ca/nix-run.sh... [PASS]
-ran test tests/ca/import-derivation.sh... [PASS]
+ran test tests/functional/ca/nix-run.sh... [PASS]
+ran test tests/functional/ca/import-derivation.sh... [PASS]
 ...
 </code></pre>
 <p>The test group is defined in Make like this:</p>
@@ -218,15 +227,15 @@ install-tests-groups += $(test-group-name)
 </code></pre>
 <h3 id="running-individual-tests"><a class="header" href="#running-individual-tests">Running individual tests</a></h3>
 <p>Individual tests can be run with <code>make</code>:</p>
-<pre><code class="language-shell-session">$ make tests/${testName}.sh.test
-ran test tests/${testName}.sh... [PASS]
+<pre><code class="language-shell-session">$ make tests/functional/${testName}.sh.test
+ran test tests/functional/${testName}.sh... [PASS]
 </code></pre>
 <p>or without <code>make</code>:</p>
-<pre><code class="language-shell-session">$ ./mk/run-test.sh tests/${testName}.sh
-ran test tests/${testName}.sh... [PASS]
+<pre><code class="language-shell-session">$ ./mk/run-test.sh tests/functional/${testName}.sh
+ran test tests/functional/${testName}.sh... [PASS]
 </code></pre>
 <p>To see the complete output, one can also run:</p>
-<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/${testName}.sh
+<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/functional/${testName}.sh
 + foo
 output from foo
 + bar
@@ -249,7 +258,7 @@ bar
  bar
 </code></pre>
 <p>Then, running the test with <code>./mk/debug-test.sh</code> will drop you into GDB once the script reaches that point:</p>
-<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/${testName}.sh
+<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/functional/${testName}.sh
 ...
 + gdb blash blub
 GNU gdb (GDB) 12.1
@@ -263,10 +272,11 @@ For example, enter <code>run</code> to start the Nix invocation.</p>
 This technique is to include the exact output/behavior of a former version of Nix in a test in order to check that Nix continues to produce the same behavior going forward.</p>
 <p>For example, this technique is used for the language tests, to check both the printed final value if evaluation was successful, and any errors and warnings encountered.</p>
 <p>It is frequently useful to regenerate the expected output.
-To do that, rerun the failed test with <code>_NIX_TEST_ACCEPT=1</code>.
-(At least, this is the convention we've used for <code>tests/lang.sh</code>.
-If we add more characterization testing we should always strive to be consistent.)</p>
-<p>An interesting situation to document is the case when these tests are &quot;overfitted&quot;.
+To do that, rerun the failed test(s) with <code>_NIX_TEST_ACCEPT=1</code>.
+For example:</p>
+<pre><code class="language-bash">_NIX_TEST_ACCEPT=1 make tests/functional/lang.sh.test
+</code></pre>
+<p>An interesting situation to document is the case when these tests are "overfitted".
 The language tests are, again, an example of this.
 The expected successful output of evaluation is supposed to be highly stable – we do not intend to make breaking changes to (the stable parts of) the Nix language.
 However, the errors and warnings during evaluation (successful or not) are not stable in this way.

@@ -197,21 +197,21 @@ compatible binary cache is to use the HTTP URL for that cache.</p>
 cache's documentation.</p>
 <p>Your bucket will need the following bucket policy:</p>
 <pre><code class="language-json">{
-    &quot;Id&quot;: &quot;DirectReads&quot;,
-    &quot;Version&quot;: &quot;2012-10-17&quot;,
-    &quot;Statement&quot;: [
+    "Id": "DirectReads",
+    "Version": "2012-10-17",
+    "Statement": [
         {
-            &quot;Sid&quot;: &quot;AllowDirectReads&quot;,
-            &quot;Action&quot;: [
-                &quot;s3:GetObject&quot;,
-                &quot;s3:GetBucketLocation&quot;
+            "Sid": "AllowDirectReads",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetBucketLocation"
             ],
-            &quot;Effect&quot;: &quot;Allow&quot;,
-            &quot;Resource&quot;: [
-                &quot;arn:aws:s3:::example-nix-cache&quot;,
-                &quot;arn:aws:s3:::example-nix-cache/*&quot;
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::example-nix-cache",
+                "arn:aws:s3:::example-nix-cache/*"
             ],
-            &quot;Principal&quot;: &quot;*&quot;
+            "Principal": "*"
         }
     ]
 }
@@ -238,23 +238,23 @@ chain</a>
 for authenticating requests to Amazon S3.</p>
 <p>Your account will need the following IAM policy to upload to the cache:</p>
 <pre><code class="language-json">{
-  &quot;Version&quot;: &quot;2012-10-17&quot;,
-  &quot;Statement&quot;: [
+  "Version": "2012-10-17",
+  "Statement": [
     {
-      &quot;Sid&quot;: &quot;UploadToCache&quot;,
-      &quot;Effect&quot;: &quot;Allow&quot;,
-      &quot;Action&quot;: [
-        &quot;s3:AbortMultipartUpload&quot;,
-        &quot;s3:GetBucketLocation&quot;,
-        &quot;s3:GetObject&quot;,
-        &quot;s3:ListBucket&quot;,
-        &quot;s3:ListBucketMultipartUploads&quot;,
-        &quot;s3:ListMultipartUploadParts&quot;,
-        &quot;s3:PutObject&quot;
+      "Sid": "UploadToCache",
+      "Effect": "Allow",
+      "Action": [
+        "s3:AbortMultipartUpload",
+        "s3:GetBucketLocation",
+        "s3:GetObject",
+        "s3:ListBucket",
+        "s3:ListBucketMultipartUploads",
+        "s3:ListMultipartUploadParts",
+        "s3:PutObject"
       ],
-      &quot;Resource&quot;: [
-        &quot;arn:aws:s3:::example-nix-cache&quot;,
-        &quot;arn:aws:s3:::example-nix-cache/*&quot;
+      "Resource": [
+        "arn:aws:s3:::example-nix-cache",
+        "arn:aws:s3:::example-nix-cache/*"
       ]
     }
   ]

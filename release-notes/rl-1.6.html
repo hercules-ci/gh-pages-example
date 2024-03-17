@@ -203,7 +203,7 @@ shells are distinguishable from your regular shells.</p>
 </li>
 <li>
 <p><code>nix-env</code> no longer requires a <code>*</code> argument to match all packages,
-so <code>nix-env -qa</code> is equivalent to <code>nix-env -qa '*'</code>.</p>
+so <code>nix-env -qa</code> is equivalent to <code>nix-env                 -qa '*'</code>.</p>
 </li>
 <li>
 <p><code>nix-env -i</code> has a new flag <code>--remove-all</code> (<code>-r</code>) to remove all
@@ -227,16 +227,16 @@ specification <code>my-packages.nix</code> like this:</p>
 its argument if a variable might actually refer to an attribute in
 the argument. For instance, this now works:</p>
 <pre><code>let
-  pkgs = with pkgs; { foo = &quot;old&quot;; bar = foo; } // overrides;
-  overrides = { foo = &quot;new&quot;; };
+  pkgs = with pkgs; { foo = "old"; bar = foo; } // overrides;
+  overrides = { foo = "new"; };
 in pkgs.bar
 </code></pre>
-<p>This evaluates to <code>&quot;new&quot;</code>, while previously it gave an “infinite
+<p>This evaluates to <code>"new"</code>, while previously it gave an “infinite
 recursion” error.</p>
 </li>
 <li>
 <p>Nix now has proper integer arithmetic operators. For instance, you
-can write <code>x + y</code> instead of <code>builtins.add x y</code>, or <code>x &lt; y</code> instead of <code>builtins.lessThan x y</code>. The comparison operators also
+can write <code>x + y</code> instead of <code>builtins.add x y</code>, or <code>x &lt;                 y</code> instead of <code>builtins.lessThan x y</code>. The comparison operators also
 work on strings.</p>
 </li>
 <li>

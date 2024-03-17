@@ -185,14 +185,14 @@
 <ul>
 <li>
 <p>Nix 1.6 accidentally changed the semantics of antiquoted paths in
-strings, such as <code>&quot;${/foo}/bar&quot;</code>. This release reverts to the Nix
+strings, such as <code>"${/foo}/bar"</code>. This release reverts to the Nix
 1.5.3 behaviour.</p>
 </li>
 <li>
-<p>Previously, Nix optimised expressions such as <code>&quot;${expr}&quot;</code> to <em>expr</em>.
+<p>Previously, Nix optimised expressions such as <code>"${expr}"</code> to <em>expr</em>.
 Thus it neither checked whether <em>expr</em> could be coerced to a string,
-nor applied such coercions. This meant that <code>&quot;${123}&quot;</code> evaluatued to
-<code>123</code>, and <code>&quot;${./foo}&quot;</code> evaluated to <code>./foo</code> (even though <code>&quot;${./foo} &quot;</code> evaluates to <code>&quot;/nix/store/hash-foo &quot;</code>). Nix now checks the type
+nor applied such coercions. This meant that <code>"${123}"</code> evaluatued to
+<code>123</code>, and <code>"${./foo}"</code> evaluated to <code>./foo</code> (even though <code>"${./foo} "</code> evaluates to <code>"/nix/store/hash-foo "</code>). Nix now checks the type
 of antiquoted expressions and applies coercions.</p>
 </li>
 <li>

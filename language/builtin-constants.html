@@ -205,8 +205,8 @@ if builtins ? hasContext then builtins.hasContext s else true
 }
 </code></pre>
 <p>It can be overridden in order to create derivations for different system than the current one:</p>
-<pre><code class="language-console">$ nix-instantiate --system &quot;mips64-linux&quot; --eval --expr 'builtins.currentSystem'
-&quot;mips64-linux&quot;
+<pre><code class="language-console">$ nix-instantiate --system "mips64-linux" --eval --expr 'builtins.currentSystem'
+"mips64-linux"
 </code></pre>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -267,7 +267,7 @@ using this and
 <pre><code class="language-nix">&lt;nixpkgs&gt;
 </code></pre>
 <p>is equivalent to:</p>
-<pre><code class="language-nix">builtins.findFile builtins.nixPath &quot;nixpkgs&quot;
+<pre><code class="language-nix">builtins.findFile builtins.nixPath "nixpkgs"
 </code></pre>
 </dd>
 <dt id="builtins-nixVersion">
@@ -281,7 +281,7 @@ nix (Nix) 2.16.0
 </code></pre>
 <p>the Nix language evaluator returns the same value:</p>
 <pre><code class="language-nix-repl">nix-repl&gt; builtins.nixVersion
-&quot;2.16.0&quot;
+"2.16.0"
 </code></pre>
 </dd>
 <dt id="builtins-null">
@@ -301,7 +301,7 @@ nix (Nix) 2.16.0
 <p>Logical file system location of the <a href="../glossary.html#gloss-store">Nix store</a> currently in use.</p>
 <p>This value is determined by the <code>store</code> parameter in <a href="../command-ref/new-cli/nix3-help-stores.html">Store URLs</a>:</p>
 <pre><code class="language-shell-session">$ nix-instantiate --store 'dummy://?store=/blah' --eval --expr builtins.storeDir
-&quot;/blah&quot;
+"/blah"
 </code></pre>
 </dd>
 <dt id="builtins-true">

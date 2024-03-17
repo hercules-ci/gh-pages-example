@@ -235,17 +235,17 @@ be modified by commands such as <code>nix registry pin</code>.</p>
 <h1 id="registry-format"><a class="header" href="#registry-format">Registry format</a></h1>
 <p>A registry is a JSON file with the following format:</p>
 <pre><code class="language-json">{
-  &quot;version&quot;: 2,
-  &quot;flakes&quot;: [
+  "version": 2,
+  "flakes": [
     {
-      &quot;from&quot;: {
-        &quot;type&quot;: &quot;indirect&quot;,
-        &quot;id&quot;: &quot;nixpkgs&quot;
+      "from": {
+        "type": "indirect",
+        "id": "nixpkgs"
       },
-      &quot;to&quot;: {
-        &quot;type&quot;: &quot;github&quot;,
-        &quot;owner&quot;: &quot;NixOS&quot;,
-        &quot;repo&quot;: &quot;nixpkgs&quot;
+      "to": {
+        "type": "github",
+        "owner": "NixOS",
+        "repo": "nixpkgs"
       }
     },
     ...
@@ -254,8 +254,8 @@ be modified by commands such as <code>nix registry pin</code>.</p>
 </code></pre>
 <p>That is, it contains a list of objects with attributes <code>from</code> and
 <code>to</code>, both of which contain a flake reference in attribute
-representation. (For example, <code>{&quot;type&quot;: &quot;indirect&quot;, &quot;id&quot;: &quot;nixpkgs&quot;}</code>
-is the attribute representation of <code>nixpkgs</code>, while <code>{&quot;type&quot;: &quot;github&quot;, &quot;owner&quot;: &quot;NixOS&quot;, &quot;repo&quot;: &quot;nixpkgs&quot;}</code> is the attribute
+representation. (For example, <code>{"type": "indirect", "id": "nixpkgs"}</code>
+is the attribute representation of <code>nixpkgs</code>, while <code>{"type": "github", "owner": "NixOS", "repo": "nixpkgs"}</code> is the attribute
 representation of <code>github:NixOS/nixpkgs</code>.)</p>
 <p>Given some flake reference <em>R</em>, a registry entry is used if its
 <code>from</code> flake reference <em>matches</em> <em>R</em>. <em>R</em> is then replaced by the

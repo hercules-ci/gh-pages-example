@@ -297,7 +297,7 @@ networking.</p>
 <p>Allow the use of a few things related to dynamic derivations:</p>
 <ul>
 <li>
-<p>&quot;text hashing&quot; derivation outputs, so we can build .drv
+<p>"text hashing" derivation outputs, so we can build .drv
 files.</p>
 </li>
 <li>
@@ -315,10 +315,10 @@ derivations that are themselves derivations outputs.</p>
 have differing outputs each time it is built.</p>
 <p>Example:</p>
 <pre><code>derivation {
-  name = &quot;impure&quot;;
+  name = "impure";
   builder = /bin/sh;
   __impure = true; # mark this derivation as impure
-  args = [ &quot;-c&quot; &quot;read -n 10 random &lt; /dev/random; echo $random &gt; $out&quot; ];
+  args = [ "-c" "read -n 10 random &lt; /dev/random; echo $random &gt; $out" ];
   system = builtins.currentSystem;
 }
 </code></pre>
@@ -339,7 +339,7 @@ language allows for URL literals, like so:</p>
 Welcome to Nix 2.15.0. Type :? for help.
 
 nix-repl&gt; http://foo
-&quot;http://foo&quot;
+"http://foo"
 </code></pre>
 <p>But enabling this experimental feature will cause the Nix parser to
 throw an error when encountering a URL literal:</p>
@@ -371,13 +371,13 @@ recursively.</p>
 <p>Example:</p>
 <pre><code>with import &lt;nixpkgs&gt; {};
 
-runCommand &quot;foo&quot;
+runCommand "foo"
   {
      buildInputs = [ nix jq ];
-     NIX_PATH = &quot;nixpkgs=${&lt;nixpkgs&gt;}&quot;;
+     NIX_PATH = "nixpkgs=${&lt;nixpkgs&gt;}";
   }
   ''
-    hello=$(nix-build -E '(import &lt;nixpkgs&gt; {}).hello.overrideDerivation (args: { name = &quot;recursive-hello&quot;; })')
+    hello=$(nix-build -E '(import &lt;nixpkgs&gt; {}).hello.overrideDerivation (args: { name = "recursive-hello"; })')
 
     mkdir -p $out/bin
     ln -s $hello/bin/hello $out/bin/hello

@@ -224,14 +224,14 @@ reload the Nix database.</p>
 <p>The garbage collector has a number of new options to allow only some
 of the garbage to be deleted. The option <code>--max-freed N</code> tells the
 collector to stop after at least <em>N</em> bytes have been deleted. The
-option <code>--max-links N</code> tells it to stop after the link count on <code>/nix/store</code> has dropped
+option <code>--max-links         N</code> tells it to stop after the link count on <code>/nix/store</code> has dropped
 below <em>N</em>. This is useful for very large Nix stores on filesystems
 with a 32000 subdirectories limit (like <code>ext3</code>). The option
 <code>--use-atime</code> causes store paths to be deleted in order of ascending
 last access time. This allows non-recently used stuff to be deleted.
 The option <code>--max-atime time</code> specifies an upper limit to the last
 accessed time of paths that may be deleted. For instance,</p>
-<pre><code>    $ nix-store --gc -v --max-atime $(date +%s -d &quot;2 months ago&quot;)
+<pre><code>    $ nix-store --gc -v --max-atime $(date +%s -d "2 months ago")
 </code></pre>
 <p>deletes everything that hasn’t been accessed in two months.</p>
 </li>
@@ -285,8 +285,8 @@ at least the three listed attributes.</p>
 </li>
 <li>
 <p>New primops: <code>builtins.parseDrvName</code> (split a package name
-string like <code>&quot;nix-0.12pre12876&quot;</code> into its name and version
-components, e.g. <code>&quot;nix&quot;</code> and <code>&quot;0.12pre12876&quot;</code>),
+string like <code>"nix-0.12pre12876"</code> into its name and version
+components, e.g. <code>"nix"</code> and <code>"0.12pre12876"</code>),
 <code>builtins.compareVersions</code> (compare two version strings using
 the same algorithm that <code>nix-env</code> uses), <code>builtins.length</code>
 (efficiently compute the length of a list), <code>builtins.mul</code>
@@ -301,7 +301,7 @@ environment variable <code>NIXPKGS_ALL</code> points at a Nixpkgs tree.</p>
 <li>
 <p>Removed the commands <code>nix-pack-closure</code> and <code>nix-unpack-closure</code>.
 You can do almost the same thing but much more efficiently by doing
-<code>nix-store --export $(nix-store -qR paths) &gt; closure</code> and <code>nix-store --import &lt; closure</code>.</p>
+<code>nix-store --export         $(nix-store -qR paths) &gt; closure</code> and <code>nix-store --import &lt;         closure</code>.</p>
 </li>
 <li>
 <p>Lots of bug fixes, including a big performance bug in the handling

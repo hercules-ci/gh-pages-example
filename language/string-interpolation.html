@@ -192,41 +192,41 @@
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <h3 id="string"><a class="header" href="#string">String</a></h3>
 <p>Rather than writing</p>
-<pre><code class="language-nix">&quot;--with-freetype2-library=&quot; + freetype + &quot;/lib&quot;
+<pre><code class="language-nix">"--with-freetype2-library=" + freetype + "/lib"
 </code></pre>
 <p>(where <code>freetype</code> is a <a href="../glossary.html#gloss-derivation">derivation</a>), you can instead write</p>
-<pre><code class="language-nix">&quot;--with-freetype2-library=${freetype}/lib&quot;
+<pre><code class="language-nix">"--with-freetype2-library=${freetype}/lib"
 </code></pre>
 <p>The latter is automatically translated to the former.</p>
 <p>A more complicated example (from the Nix expression for <a href="http://www.trolltech.com/products/qt">Qt</a>):</p>
-<pre><code class="language-nix">configureFlags = &quot;
+<pre><code class="language-nix">configureFlags = "
   -system-zlib -system-libpng -system-libjpeg
-  ${if openglSupport then &quot;-dlopen-opengl
+  ${if openglSupport then "-dlopen-opengl
     -L${mesa}/lib -I${mesa}/include
-    -L${libXmu}/lib -I${libXmu}/include&quot; else &quot;&quot;}
-  ${if threadSupport then &quot;-thread&quot; else &quot;-no-thread&quot;}
-&quot;;
+    -L${libXmu}/lib -I${libXmu}/include" else ""}
+  ${if threadSupport then "-thread" else "-no-thread"}
+";
 </code></pre>
 <p>Note that Nix expressions and strings can be arbitrarily nested;
-in this case the outer string contains various interpolated expressions that themselves contain strings (e.g., <code>&quot;-thread&quot;</code>), some of which in turn contain interpolated expressions (e.g., <code>${mesa}</code>).</p>
+in this case the outer string contains various interpolated expressions that themselves contain strings (e.g., <code>"-thread"</code>), some of which in turn contain interpolated expressions (e.g., <code>${mesa}</code>).</p>
 <h3 id="path"><a class="header" href="#path">Path</a></h3>
 <p>Rather than writing</p>
-<pre><code class="language-nix">./. + &quot;/&quot; + foo + &quot;-&quot; + bar + &quot;.nix&quot;
+<pre><code class="language-nix">./. + "/" + foo + "-" + bar + ".nix"
 </code></pre>
 <p>or</p>
-<pre><code class="language-nix">./. + &quot;/${foo}-${bar}.nix&quot;
+<pre><code class="language-nix">./. + "/${foo}-${bar}.nix"
 </code></pre>
 <p>you can instead write</p>
 <pre><code class="language-nix">./${foo}-${bar}.nix
 </code></pre>
 <h3 id="attribute-name"><a class="header" href="#attribute-name">Attribute name</a></h3>
 <p>Attribute names can be created dynamically with string interpolation:</p>
-<pre><code class="language-nix">let name = &quot;foo&quot;; in
+<pre><code class="language-nix">let name = "foo"; in
 {
-  ${name} = &quot;bar&quot;;
+  ${name} = "bar";
 }
 </code></pre>
-<pre><code>{ foo = &quot;bar&quot;; }
+<pre><code>{ foo = "bar"; }
 </code></pre>
 
                     </main>

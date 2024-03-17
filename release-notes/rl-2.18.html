@@ -205,14 +205,14 @@ freely.</p>
 </li>
 <li>
 <p>The JSON output for derived paths which are store paths is now a string, not an object with a single <code>path</code> field.
-This only affects <code>nix-build --json</code> when &quot;building&quot; non-derivation things like fetched sources, which is a no-op.</p>
+This only affects <code>nix-build --json</code> when "building" non-derivation things like fetched sources, which is a no-op.</p>
 </li>
 <li>
 <p>A new builtin <a href="../language/builtins.html#builtins-outputOf"><code>outputOf</code></a> has been added.
 It is part of the <a href="../contributing/experimental-features.html#xp-feature-dynamic-derivations"><code>dynamic-derivations</code></a> experimental feature.</p>
 </li>
 <li>
-<p>Flake follow paths at depths greater than 2 are now handled correctly, preventing &quot;follows a non-existent input&quot; errors.</p>
+<p>Flake follow paths at depths greater than 2 are now handled correctly, preventing "follows a non-existent input" errors.</p>
 </li>
 <li>
 <p><a href="../command-ref/nix-store/query.html"><code>nix-store --query</code></a> gained a new type of query: <code>--valid-derivers</code>. It returns all <code>.drv</code> files in the local store that <em>can be</em> used to build the output passed in argument. This is in contrast to <code>--deriver</code>, which returns the single <code>.drv</code> file that <em>was actually</em> used to build the output passed in argument. In case the output was substituted from a binary cache, this <code>.drv</code> file may only exist on said binary cache and not locally.</p>

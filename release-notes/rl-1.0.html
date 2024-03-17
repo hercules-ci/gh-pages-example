@@ -220,7 +220,7 @@ of a derivation in a format that can be evaluated by a shell.</p>
 </li>
 <li>
 <p>Attribute names can now be arbitrary strings. For instance, you can
-write <code>{ &quot;foo-1.2&quot; = …; &quot;bla bla&quot; = …; }.&quot;bla bla&quot;</code>.</p>
+write <code>{ "foo-1.2" = …; "bla bla" = …; }."bla                 bla"</code>.</p>
 </li>
 <li>
 <p>Attribute selection can now provide a default value using the <code>or</code>
@@ -229,7 +229,7 @@ attribute <code>x.y.z</code> if it exists, and <code>e</code> otherwise.</p>
 </li>
 <li>
 <p>The right-hand side of the <code>?</code> operator can now be an attribute
-path, e.g., <code>attrs ? a.b.c</code>.</p>
+path, e.g., <code>attrs ?                 a.b.c</code>.</p>
 </li>
 <li>
 <p>On Linux, Nix will now make files in the Nix store immutable on

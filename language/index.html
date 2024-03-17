@@ -226,17 +226,17 @@ Functions can be assigned to names, taken as arguments, or returned by functions
  <tr>
   <td>
 <p><em>Basic values</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>&quot;hello world&quot;</code></p>
-</td>
+<p><code>"hello world"</code></p>
+  </td>
   <td>
 <p>A string</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
@@ -246,330 +246,330 @@ Functions can be assigned to names, taken as arguments, or returned by functions
     string
 ''
 </code></pre>
-</td>
+  </td>
   <td>
-<p>A multi-line string. Strips common prefixed whitespace. Evaluates to <code>&quot;multi\n line\n  string&quot;</code>.</p>
-</td>
+<p>A multi-line string. Strips common prefixed whitespace. Evaluates to <code>"multi\n line\n  string"</code>.</p>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>&quot;hello ${ { a = &quot;world&quot;; }.a }&quot;</code></p>
-<p><code>&quot;1 2 ${toString 3}&quot;</code></p>
-<p><code>&quot;${pkgs.bash}/bin/sh&quot;</code></p>
-</td>
+<p><code>"hello ${ { a = "world"; }.a }"</code></p>
+<p><code>"1 2 ${toString 3}"</code></p>
+<p><code>"${pkgs.bash}/bin/sh"</code></p>
+  </td>
   <td>
-<p>String interpolation (expands to <code>&quot;hello world&quot;</code>, <code>&quot;1 2 3&quot;</code>, <code>&quot;/nix/store/&lt;hash&gt;-bash-&lt;version&gt;/bin/sh&quot;</code>)</p>
-</td>
+<p>String interpolation (expands to <code>"hello world"</code>, <code>"1 2 3"</code>, <code>"/nix/store/&lt;hash&gt;-bash-&lt;version&gt;/bin/sh"</code>)</p>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>true</code>, <code>false</code></p>
-</td>
+  </td>
   <td>
 <p>Booleans</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>null</code></p>
-</td>
+  </td>
   <td>
 <p>Null value</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>123</code></p>
-</td>
+  </td>
   <td>
 <p>An integer</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>3.141</code></p>
-</td>
+  </td>
   <td>
 <p>A floating point number</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>/etc</code></p>
-</td>
+  </td>
   <td>
 <p>An absolute path</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>./foo.png</code></p>
-</td>
+  </td>
   <td>
 <p>A path relative to the file containing this Nix expression</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>~/.config</code></p>
-</td>
+  </td>
   <td>
-<p>A home path. Evaluates to the <code>&quot;&lt;user's home directory&gt;/.config&quot;</code>.</p>
-</td>
+<p>A home path. Evaluates to the <code>"&lt;user's home directory&gt;/.config"</code>.</p>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>&lt;nixpkgs&gt;</code></p>
-</td>
+  </td>
   <td>
 <p>Search path for Nix files. Value determined by <a href="../command-ref/env-common.html#env-NIX_PATH"><code>$NIX_PATH</code> environment variable</a>.</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><em>Compound values</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x = 1; y = 2; }</code></p>
-</td>
+  </td>
   <td>
 <p>A set with attributes named <code>x</code> and <code>y</code></p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ foo.bar = 1; }</code></p>
-</td>
+  </td>
   <td>
 <p>A nested set, equivalent to <code>{ foo = { bar = 1; }; }</code></p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>rec { x = &quot;foo&quot;; y = x + &quot;bar&quot;; }</code></p>
-</td>
+<p><code>rec { x = "foo"; y = x + "bar"; }</code></p>
+  </td>
   <td>
-<p>A recursive set, equivalent to <code>{ x = &quot;foo&quot;; y = &quot;foobar&quot;; }</code></p>
-</td>
+<p>A recursive set, equivalent to <code>{ x = "foo"; y = "foobar"; }</code></p>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>[ &quot;foo&quot; &quot;bar&quot; &quot;baz&quot; ]</code></p>
+<p><code>[ "foo" "bar" "baz" ]</code></p>
 <p><code>[ 1 2 3 ]</code></p>
-<p><code>[ (f 1) { a = 1; b = 2; } [ &quot;c&quot; ] ]</code></p>
-</td>
+<p><code>[ (f 1) { a = 1; b = 2; } [ "c" ] ]</code></p>
+  </td>
   <td>
 <p>Lists with three elements.</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><em>Operators</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>&quot;foo&quot; + &quot;bar&quot;</code></p>
-</td>
+<p><code>"foo" + "bar"</code></p>
+  </td>
   <td>
 <p>String concatenation</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>1 + 2</code></p>
-</td>
+  </td>
   <td>
 <p>Integer addition</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>&quot;foo&quot; == &quot;f&quot; + &quot;oo&quot;</code></p>
-</td>
+<p><code>"foo" == "f" + "oo"</code></p>
+  </td>
   <td>
 <p>Equality test (evaluates to <code>true</code>)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>&quot;foo&quot; != &quot;bar&quot;</code></p>
-</td>
+<p><code>"foo" != "bar"</code></p>
+  </td>
   <td>
 <p>Inequality test (evaluates to <code>true</code>)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>!true</code></p>
-</td>
+  </td>
   <td>
 <p>Boolean negation</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x = 1; y = 2; }.x</code></p>
-</td>
+  </td>
   <td>
 <p>Attribute selection (evaluates to <code>1</code>)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x = 1; y = 2; }.z or 3</code></p>
-</td>
+  </td>
   <td>
 <p>Attribute selection with default (evaluates to <code>3</code>)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x = 1; y = 2; } // { z = 3; }</code></p>
-</td>
+  </td>
   <td>
 <p>Merge two sets (attributes in the right-hand set taking precedence)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><em>Control structures</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>if 1 + 1 == 2 then &quot;yes!&quot; else &quot;no!&quot;</code></p>
-</td>
+<p><code>if 1 + 1 == 2 then "yes!" else "no!"</code></p>
+  </td>
   <td>
 <p>Conditional expression</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>assert 1 + 1 == 2; &quot;yes!&quot;</code></p>
-</td>
+<p><code>assert 1 + 1 == 2; "yes!"</code></p>
+  </td>
   <td>
-<p>Assertion check (evaluates to <code>&quot;yes!&quot;</code>).</p>
-</td>
+<p>Assertion check (evaluates to <code>"yes!"</code>).</p>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>let x = &quot;foo&quot;; y = &quot;bar&quot;; in x + y</code></p>
-</td>
+<p><code>let x = "foo"; y = "bar"; in x + y</code></p>
+  </td>
   <td>
 <p>Variable definition</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>with builtins; head [ 1 2 3 ]</code></p>
-</td>
+  </td>
   <td>
 <p>Add all attributes from the given set to the scope (evaluates to <code>1</code>)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><em>Functions (lambdas)</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>x: x + 1</code></p>
-</td>
+  </td>
   <td>
 <p>A function that expects an integer and returns it increased by 1</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>x: y: x + y</code></p>
-</td>
+  </td>
   <td>
 <p>Curried function, equivalent to <code>x: (y: x + y)</code>. Can be used like a function that takes two arguments and returns their sum.</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>(x: x + 1) 100</code></p>
-</td>
+  </td>
   <td>
 <p>A function call (evaluates to 101)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>let inc = x: x + 1; in inc (inc (inc 100))</code></p>
-</td>
+  </td>
   <td>
 <p>A function bound to a variable and subsequently called by name (evaluates to 103)</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x, y }: x + y</code></p>
-</td>
+  </td>
   <td>
 <p>A function that expects a set with required attributes <code>x</code> and <code>y</code> and concatenates them</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
-<p><code>{ x, y ? &quot;bar&quot; }: x + y</code></p>
-</td>
+<p><code>{ x, y ? "bar" }: x + y</code></p>
+  </td>
   <td>
-<p>A function that expects a set with required attribute <code>x</code> and optional <code>y</code>, using <code>&quot;bar&quot;</code> as default value for <code>y</code></p>
-</td>
+<p>A function that expects a set with required attribute <code>x</code> and optional <code>y</code>, using <code>"bar"</code> as default value for <code>y</code></p>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x, y, ... }: x + y</code></p>
-</td>
+  </td>
   <td>
 <p>A function that expects a set with required attributes <code>x</code> and <code>y</code> and ignores any other attributes</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>{ x, y } @ args: x + y</code></p>
 <p><code>args @ { x, y }: x + y</code></p>
-</td>
+  </td>
   <td>
 <p>A function that expects a set with required attributes <code>x</code> and <code>y</code>, and binds the whole set to <code>args</code></p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><em>Built-in functions</em></p>
-</td>
+  </td>
   <td>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>import ./foo.nix</code></p>
-</td>
+  </td>
   <td>
 <p>Load and return Nix expression in given file</p>
-</td>
+  </td>
  </tr>
  <tr>
   <td>
 <p><code>map (x: x + x) [ 1 2 3 ]</code></p>
-</td>
+  </td>
   <td>
 <p>Apply a function to every element of a list (evaluates to <code>[ 2 4 6 ]</code>)</p>
-</td>
+  </td>
  </tr>
 </table>
 

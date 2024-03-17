@@ -213,11 +213,11 @@ example, the expression</p>
 </blockquote>
 <p>Example:</p>
 <pre><code class="language-nix">let
-  x = &quot;foo&quot;;
-  y = &quot;bar&quot;;
+  x = "foo";
+  y = "bar";
 in x + y
 </code></pre>
-<p>This evaluates to <code>&quot;foobar&quot;</code>.</p>
+<p>This evaluates to <code>"foobar"</code>.</p>
 <h2 id="inheriting-attributes"><a class="header" href="#inheriting-attributes">Inheriting attributes</a></h2>
 <p>When defining an <a href="./values.html#attribute-set">attribute set</a> or in a <a href="#let-expressions">let-expression</a> it is often convenient to copy variables from the surrounding lexical scope (e.g., when you want to propagate attributes).
 This can be shortened using the <code>inherit</code> keyword.</p>
@@ -289,15 +289,15 @@ three kinds of patterns:</p>
 argument. Example:</p>
 <pre><code class="language-nix">let negate = x: !x;
     concat = x: y: x + y;
-in if negate true then concat &quot;foo&quot; &quot;bar&quot; else &quot;&quot;
+in if negate true then concat "foo" "bar" else ""
 </code></pre>
 <p>Note that <code>concat</code> is a function that takes one argument and returns
 a function that takes another argument. This allows partial
 parameterisation (i.e., only filling some of the arguments of a
 function); e.g.,</p>
-<pre><code class="language-nix">map (concat &quot;foo&quot;) [ &quot;bar&quot; &quot;bla&quot; &quot;abc&quot; ]
+<pre><code class="language-nix">map (concat "foo") [ "bar" "bla" "abc" ]
 </code></pre>
-<p>evaluates to <code>[ &quot;foobar&quot; &quot;foobla&quot; &quot;fooabc&quot; ]</code>.</p>
+<p>evaluates to <code>[ "foobar" "foobla" "fooabc" ]</code>.</p>
 </li>
 <li>
 <p>A <em>set pattern</em> of the form <code>{ name1, name2, …, nameN }</code> matches a
@@ -317,7 +317,7 @@ attributes.</p>
 which case they are allowed to be missing. A default value is
 specified by writing <code>name ?  e</code>, where <em>e</em> is an arbitrary
 expression. For example,</p>
-<pre><code class="language-nix">{ x, y ? &quot;foo&quot;, z ? &quot;bar&quot; }: z + y + x
+<pre><code class="language-nix">{ x, y ? "foo", z ? "bar" }: z + y + x
 </code></pre>
 <p>specifies a function that only requires an attribute named <code>x</code>, but
 optionally accepts <code>y</code> and <code>z</code>.</p>
@@ -360,7 +360,7 @@ in
 <p>Note that functions do not have names. If you want to give them a name,
 you can bind them to an attribute, e.g.,</p>
 <pre><code class="language-nix">let concat = { x, y }: x + y;
-in concat { x = &quot;foo&quot;; y = &quot;bar&quot;; }
+in concat { x = "foo"; y = "bar"; }
 </code></pre>
 <h2 id="conditionals"><a class="header" href="#conditionals">Conditionals</a></h2>
 <p>Conditionals look like this:</p>
@@ -396,7 +396,7 @@ assert javaSwigBindings -&gt; swig != null &amp;&amp; swig.javaSupport;
 assert javahlBindings -&gt; j2sdk != null;
 
 stdenv.mkDerivation {
-  name = &quot;subversion-1.1.1&quot;;
+  name = "subversion-1.1.1";
   ...
   openssl = if sslSupport then openssl else null; ④
   ...
@@ -443,10 +443,10 @@ Subversion if OpenSSL changes.</p>
 </code></pre>
 <p>introduces the set <em>e1</em> into the lexical scope of the expression <em>e2</em>.
 For instance,</p>
-<pre><code class="language-nix">let as = { x = &quot;foo&quot;; y = &quot;bar&quot;; };
+<pre><code class="language-nix">let as = { x = "foo"; y = "bar"; };
 in with as; x + y
 </code></pre>
-<p>evaluates to <code>&quot;foobar&quot;</code> since the <code>with</code> adds the <code>x</code> and <code>y</code> attributes
+<p>evaluates to <code>"foobar"</code> since the <code>with</code> adds the <code>x</code> and <code>y</code> attributes
 of <code>as</code> to the lexical scope in the expression <code>x + y</code>. The most common
 use of <code>with</code> is in conjunction with the <code>import</code> function. E.g.,</p>
 <pre><code class="language-nix">with (import ./definitions.nix); ...

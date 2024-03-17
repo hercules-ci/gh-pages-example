@@ -199,7 +199,7 @@ Previously, only <a href="../command-ref/conf-file.html#conf-trusted-users"><cod
     foo = 1;
   };
   nested = {
-    ${&quot;ba&quot; + &quot;r&quot;} = 2;
+    ${"ba" + "r"} = 2;
   };
 }
 </code></pre>
@@ -212,12 +212,12 @@ This has been around for a long time and is therefore supported for backwards co
 <p>Instead, consider using the <em>nested attribute path</em> syntax:</p>
 <pre><code class="language-nix">{
   nested.foo = 1;
-  nested.${&quot;ba&quot; + &quot;r&quot;} = 2;
+  nested.${"ba" + "r"} = 2;
 }
 </code></pre>
 </li>
 <li>
-<p>Tarball flakes can now redirect to an &quot;immutable&quot; URL that will be recorded in lock files. This allows the use of &quot;mutable&quot; tarball URLs like <code>https://example.org/hello/latest.tar.gz</code> in flakes. See the <a href="../protocols/tarball-fetcher.html">tarball fetcher</a> for details.</p>
+<p>Tarball flakes can now redirect to an "immutable" URL that will be recorded in lock files. This allows the use of "mutable" tarball URLs like <code>https://example.org/hello/latest.tar.gz</code> in flakes. See the <a href="../protocols/tarball-fetcher.html">tarball fetcher</a> for details.</p>
 </li>
 </ul>
 

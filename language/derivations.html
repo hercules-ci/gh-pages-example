@@ -187,8 +187,8 @@ the attributes of which specify the inputs of the build.</p>
 <ul>
 <li>
 <p>There must be an attribute named <a href="#attr-system" id="attr-system"><code>system</code></a> whose value must be a
-string specifying a Nix system type, such as <code>&quot;i686-linux&quot;</code> or
-<code>&quot;x86_64-darwin&quot;</code>. (To figure out your system type, run <code>nix -vv --version</code>.) The build can only be performed on a machine and
+string specifying a Nix system type, such as <code>"i686-linux"</code> or
+<code>"x86_64-darwin"</code>. (To figure out your system type, run <code>nix -vv --version</code>.) The build can only be performed on a machine and
 operating system matching the system type. (Nix can automatically
 <a href="../advanced-topics/distributed-builds.html">forward builds for other
 platforms</a> by forwarding
@@ -249,7 +249,7 @@ header files, and documentation. A program that links against the
 library doesn’t need the header files and documentation at runtime,
 and it doesn’t need the documentation at build time. Thus, the
 library package could specify:</p>
-<pre><code class="language-nix">outputs = [ &quot;lib&quot; &quot;headers&quot; &quot;doc&quot; ];
+<pre><code class="language-nix">outputs = [ "lib" "headers" "doc" ];
 </code></pre>
 <p>This will cause Nix to pass environment variables <code>lib</code>, <code>headers</code>
 and <code>doc</code> to the builder containing the intended store paths of each

@@ -221,8 +221,8 @@ set -eu
 set -f # disable globbing
 export IFS=' '
 
-echo &quot;Uploading paths&quot; $OUT_PATHS
-exec nix copy --to &quot;s3://example-nix-cache&quot; $OUT_PATHS
+echo "Uploading paths" $OUT_PATHS
+exec nix copy --to "s3://example-nix-cache" $OUT_PATHS
 </code></pre>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -243,7 +243,7 @@ configuration snippet at the end:</p>
 <p>Then, restart the <code>nix-daemon</code>.</p>
 <h1 id="testing"><a class="header" href="#testing">Testing</a></h1>
 <p>Build any derivation, for example:</p>
-<pre><code class="language-console">$ nix-build --expr '(import &lt;nixpkgs&gt; {}).writeText &quot;example&quot; (builtins.toString builtins.currentTime)'
+<pre><code class="language-console">$ nix-build --expr '(import &lt;nixpkgs&gt; {}).writeText "example" (builtins.toString builtins.currentTime)'
 this derivation will be built:
   /nix/store/s4pnfbkalzy5qz57qs6yybna8wylkig6-example.drv
 building '/nix/store/s4pnfbkalzy5qz57qs6yybna8wylkig6-example.drv'...

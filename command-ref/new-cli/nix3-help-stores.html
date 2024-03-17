@@ -189,7 +189,7 @@ and its interface is subject to change.</p>
 <h1 id="name"><a class="header" href="#name">Name</a></h1>
 <p><code>nix help-stores</code> - show help about store types and their settings</p>
 <h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
-<p><code>nix help-stores</code> [<em>option</em>...] </p>
+<p><code>nix help-stores</code> [<em>option</em>...]</p>
 <p>Nix supports different types of stores. These are described below.</p>
 <h2 id="store-url-format"><a class="header" href="#store-url-format">Store URL format</a></h2>
 <p>Stores are specified using a URL-like syntax. For example, the command</p>
@@ -236,29 +236,29 @@ evaluator when no actual Nix store exists, e.g.</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -266,7 +266,7 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
@@ -279,66 +279,66 @@ remote machine.</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>base64-ssh-public-host-key</code></p>
+<p><span id="conf-base64-ssh-public-host-key"><a href="#conf-base64-ssh-public-host-key"><code>base64-ssh-public-host-key</code></a></span></p>
 <p>The public host key of the remote machine.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>compress</code></p>
+<p><span id="conf-compress"><a href="#conf-compress"><code>compress</code></a></span></p>
 <p>Whether to enable SSH compression.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>max-connection-age</code></p>
+<p><span id="conf-max-connection-age"><a href="#conf-max-connection-age"><code>max-connection-age</code></a></span></p>
 <p>Maximum age of a connection before it is closed.</p>
 <p><strong>Default:</strong> <code>4294967295</code></p>
 </li>
 <li>
-<p><code>max-connections</code></p>
+<p><span id="conf-max-connections"><a href="#conf-max-connections"><code>max-connections</code></a></span></p>
 <p>Maximum number of concurrent connections to the Nix daemon.</p>
 <p><strong>Default:</strong> <code>1</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>remote-program</code></p>
+<p><span id="conf-remote-program"><a href="#conf-remote-program"><code>remote-program</code></a></span></p>
 <p>Path to the <code>nix-daemon</code> executable on the remote machine.</p>
 <p><strong>Default:</strong> <code>nix-daemon</code></p>
 </li>
 <li>
-<p><code>remote-store</code></p>
+<p><span id="conf-remote-store"><a href="#conf-remote-store"><code>remote-store</code></a></span></p>
 <p><a href="../../command-ref/new-cli/nix3-help-stores.html#store-url-format">Store URL</a>
 to be used on the remote machine. The default is <code>auto</code>
 (i.e. use the Nix daemon or <code>/nix/store</code> directly).</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>ssh-key</code></p>
+<p><span id="conf-ssh-key"><a href="#conf-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -346,7 +346,7 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
@@ -359,62 +359,62 @@ protocol.</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>compression</code></p>
+<p><span id="conf-compression"><a href="#conf-compression"><code>compression</code></a></span></p>
 <p>NAR compression method (<code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, or <code>none</code>).</p>
 <p><strong>Default:</strong> <code>xz</code></p>
 </li>
 <li>
-<p><code>compression-level</code></p>
+<p><span id="conf-compression-level"><a href="#conf-compression-level"><code>compression-level</code></a></span></p>
 <p>The <em>preset level</em> to be used when compressing NARs.
 The meaning and accepted values depend on the compression method selected.
 <code>-1</code> specifies that the default compression level should be used.</p>
 <p><strong>Default:</strong> <code>-1</code></p>
 </li>
 <li>
-<p><code>index-debug-info</code></p>
+<p><span id="conf-index-debug-info"><a href="#conf-index-debug-info"><code>index-debug-info</code></a></span></p>
 <p>Whether to index DWARF debug info files by build ID. This allows <a href="https://github.com/edolstra/dwarffs"><code>dwarffs</code></a> to
 fetch debug info on demand</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>local-nar-cache</code></p>
+<p><span id="conf-local-nar-cache"><a href="#conf-local-nar-cache"><code>local-nar-cache</code></a></span></p>
 <p>Path to a local cache of NARs fetched from this binary cache, used by commands such as <code>nix store cat</code>.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>parallel-compression</code></p>
+<p><span id="conf-parallel-compression"><a href="#conf-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>secret-key</code></p>
+<p><span id="conf-secret-key"><a href="#conf-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -422,13 +422,13 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>write-nar-listing</code></p>
+<p><span id="conf-write-nar-listing"><a href="#conf-write-nar-listing"><code>write-nar-listing</code></a></span></p>
 <p>Whether to write a JSON file that lists the files in each NAR.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
@@ -445,62 +445,62 @@ the local store and then copies it to the binary cache in
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>compression</code></p>
+<p><span id="conf-compression"><a href="#conf-compression"><code>compression</code></a></span></p>
 <p>NAR compression method (<code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, or <code>none</code>).</p>
 <p><strong>Default:</strong> <code>xz</code></p>
 </li>
 <li>
-<p><code>compression-level</code></p>
+<p><span id="conf-compression-level"><a href="#conf-compression-level"><code>compression-level</code></a></span></p>
 <p>The <em>preset level</em> to be used when compressing NARs.
 The meaning and accepted values depend on the compression method selected.
 <code>-1</code> specifies that the default compression level should be used.</p>
 <p><strong>Default:</strong> <code>-1</code></p>
 </li>
 <li>
-<p><code>index-debug-info</code></p>
+<p><span id="conf-index-debug-info"><a href="#conf-index-debug-info"><code>index-debug-info</code></a></span></p>
 <p>Whether to index DWARF debug info files by build ID. This allows <a href="https://github.com/edolstra/dwarffs"><code>dwarffs</code></a> to
 fetch debug info on demand</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>local-nar-cache</code></p>
+<p><span id="conf-local-nar-cache"><a href="#conf-local-nar-cache"><code>local-nar-cache</code></a></span></p>
 <p>Path to a local cache of NARs fetched from this binary cache, used by commands such as <code>nix store cat</code>.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>parallel-compression</code></p>
+<p><span id="conf-parallel-compression"><a href="#conf-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>secret-key</code></p>
+<p><span id="conf-secret-key"><a href="#conf-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -508,13 +508,13 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>write-nar-listing</code></p>
+<p><span id="conf-write-nar-listing"><a href="#conf-write-nar-listing"><code>write-nar-listing</code></a></span></p>
 <p>Whether to write a JSON file that lists the files in each NAR.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
@@ -527,59 +527,59 @@ listening on the Unix domain socket <em>path</em>. The store pseudo-URL
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>log</code></p>
+<p><span id="conf-log"><a href="#conf-log"><code>log</code></a></span></p>
 <p>directory where Nix will store log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
-<p><code>max-connection-age</code></p>
+<p><span id="conf-max-connection-age"><a href="#conf-max-connection-age"><code>max-connection-age</code></a></span></p>
 <p>Maximum age of a connection before it is closed.</p>
 <p><strong>Default:</strong> <code>4294967295</code></p>
 </li>
 <li>
-<p><code>max-connections</code></p>
+<p><span id="conf-max-connections"><a href="#conf-max-connections"><code>max-connections</code></a></span></p>
 <p>Maximum number of concurrent connections to the Nix daemon.</p>
 <p><strong>Default:</strong> <code>1</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>real</code></p>
+<p><span id="conf-real"><a href="#conf-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>root</code></p>
+<p><span id="conf-root"><a href="#conf-root"><code>root</code></a></span></p>
 <p>Directory prefixed to all other paths.</p>
 <p><strong>Default:</strong> ``</p>
 </li>
 <li>
-<p><code>state</code></p>
+<p><span id="conf-state"><a href="#conf-state"><code>state</code></a></span></p>
 <p>Directory where Nix will store state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -587,7 +587,7 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
@@ -601,7 +601,7 @@ prefixed to other directories such as the Nix store directory. The
 store pseudo-URL <code>local</code> denotes a store that uses <code>/</code> as its root
 directory.</p>
 <p>A store that uses a <em>root</em> other than <code>/</code> is called a <em>chroot
-store</em>. With such stores, the store directory is &quot;logically&quot; still
+store</em>. With such stores, the store directory is "logically" still
 <code>/nix/store</code>, so programs stored in them can only be built and
 executed by <code>chroot</code>-ing into <em>root</em>. Chroot stores only support
 building and running on Linux when <a href="https://man7.org/linux/man-pages/man7/mount_namespaces.7.html"><code>mount namespaces</code></a> and <a href="https://man7.org/linux/man-pages/man7/user_namespaces.7.html"><code>user namespaces</code></a> are
@@ -611,9 +611,9 @@ to build or download <code>nixpkgs#hello</code> and then execute it:</p>
 <pre><code class="language-console"># nix run --store /tmp/root nixpkgs#hello
 Hello, world!
 </code></pre>
-<p>Here, the &quot;physical&quot; store location is <code>/tmp/root/nix/store</code>, and
+<p>Here, the "physical" store location is <code>/tmp/root/nix/store</code>, and
 Nix's store metadata is in <code>/tmp/root/nix/var/nix/db</code>.</p>
-<p>It is also possible, but not recommended, to change the &quot;logical&quot;
+<p>It is also possible, but not recommended, to change the "logical"
 location of the Nix store from its default of <code>/nix/store</code>. This makes
 it impossible to use default substituters such as
 <code>https://cache.nixos.org/</code>, and thus you may have to build everything
@@ -623,22 +623,22 @@ locally. Here is an example:</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>log</code></p>
+<p><span id="conf-log"><a href="#conf-log"><code>log</code></a></span></p>
 <p>directory where Nix will store log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>read-only</code></p>
+<p><span id="conf-read-only"><a href="#conf-read-only"><code>read-only</code></a></span></p>
 <p>Allow this store to be opened when its <a href="../../glossary.html#gloss-nix-database">database</a> is on a read-only filesystem.</p>
 <p>Normally Nix will attempt to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
 <p>Enable read-only mode to disable locking and open the SQLite database with the <a href="https://www.sqlite.org/c3ref/open.html"><code>immutable</code> parameter</a> set.</p>
@@ -651,39 +651,39 @@ While the filesystem the database resides on might appear to be read-only, consi
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>real</code></p>
+<p><span id="conf-real"><a href="#conf-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>require-sigs</code></p>
+<p><span id="conf-require-sigs"><a href="#conf-require-sigs"><code>require-sigs</code></a></span></p>
 <p>Whether store paths copied into this store should have a trusted signature.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
 <li>
-<p><code>root</code></p>
+<p><span id="conf-root"><a href="#conf-root"><code>root</code></a></span></p>
 <p>Directory prefixed to all other paths.</p>
 <p><strong>Default:</strong> ``</p>
 </li>
 <li>
-<p><code>state</code></p>
+<p><span id="conf-state"><a href="#conf-state"><code>state</code></a></span></p>
 <p>Directory where Nix will store state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -691,7 +691,7 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
@@ -704,24 +704,24 @@ S3 bucket.</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>buffer-size</code></p>
+<p><span id="conf-buffer-size"><a href="#conf-buffer-size"><code>buffer-size</code></a></span></p>
 <p>Size (in bytes) of each part in multi-part uploads.</p>
 <p><strong>Default:</strong> <code>5242880</code></p>
 </li>
 <li>
-<p><code>compression</code></p>
+<p><span id="conf-compression"><a href="#conf-compression"><code>compression</code></a></span></p>
 <p>NAR compression method (<code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, or <code>none</code>).</p>
 <p><strong>Default:</strong> <code>xz</code></p>
 </li>
 <li>
-<p><code>compression-level</code></p>
+<p><span id="conf-compression-level"><a href="#conf-compression-level"><code>compression-level</code></a></span></p>
 <p>The <em>preset level</em> to be used when compressing NARs.
 The meaning and accepted values depend on the compression method selected.
 <code>-1</code> specifies that the default compression level should be used.</p>
 <p><strong>Default:</strong> <code>-1</code></p>
 </li>
 <li>
-<p><code>endpoint</code></p>
+<p><span id="conf-endpoint"><a href="#conf-endpoint"><code>endpoint</code></a></span></p>
 <p>The URL of the endpoint of an S3-compatible service such as MinIO.
 Do not specify this setting if you're using Amazon S3.</p>
 <blockquote>
@@ -732,68 +732,68 @@ addressing instead of virtual host based addressing.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>index-debug-info</code></p>
+<p><span id="conf-index-debug-info"><a href="#conf-index-debug-info"><code>index-debug-info</code></a></span></p>
 <p>Whether to index DWARF debug info files by build ID. This allows <a href="https://github.com/edolstra/dwarffs"><code>dwarffs</code></a> to
 fetch debug info on demand</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>local-nar-cache</code></p>
+<p><span id="conf-local-nar-cache"><a href="#conf-local-nar-cache"><code>local-nar-cache</code></a></span></p>
 <p>Path to a local cache of NARs fetched from this binary cache, used by commands such as <code>nix store cat</code>.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>log-compression</code></p>
+<p><span id="conf-log-compression"><a href="#conf-log-compression"><code>log-compression</code></a></span></p>
 <p>Compression method for <code>log/*</code> files. It is recommended to
 use a compression method supported by most web browsers
 (e.g. <code>brotli</code>).</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>ls-compression</code></p>
+<p><span id="conf-ls-compression"><a href="#conf-ls-compression"><code>ls-compression</code></a></span></p>
 <p>Compression method for <code>.ls</code> files.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>multipart-upload</code></p>
+<p><span id="conf-multipart-upload"><a href="#conf-multipart-upload"><code>multipart-upload</code></a></span></p>
 <p>Whether to use multi-part uploads.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>narinfo-compression</code></p>
+<p><span id="conf-narinfo-compression"><a href="#conf-narinfo-compression"><code>narinfo-compression</code></a></span></p>
 <p>Compression method for <code>.narinfo</code> files.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>parallel-compression</code></p>
+<p><span id="conf-parallel-compression"><a href="#conf-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>profile</code></p>
+<p><span id="conf-profile"><a href="#conf-profile"><code>profile</code></a></span></p>
 <p>The name of the AWS configuration profile to use. By default
 Nix will use the <code>default</code> profile.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>region</code></p>
+<p><span id="conf-region"><a href="#conf-region"><code>region</code></a></span></p>
 <p>The region of the S3 bucket. If your bucket is not in
 <code>us–east-1</code>, you should always explicitly specify the region
 parameter.</p>
 <p><strong>Default:</strong> <code>us-east-1</code></p>
 </li>
 <li>
-<p><code>scheme</code></p>
+<p><span id="conf-scheme"><a href="#conf-scheme"><code>scheme</code></a></span></p>
 <p>The scheme used for S3 requests, <code>https</code> (default) or <code>http</code>. This
 option allows you to disable HTTPS for binary caches which don't
 support it.</p>
@@ -805,24 +805,24 @@ information.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>secret-key</code></p>
+<p><span id="conf-secret-key"><a href="#conf-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -830,13 +830,13 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>write-nar-listing</code></p>
+<p><span id="conf-write-nar-listing"><a href="#conf-write-nar-listing"><code>write-nar-listing</code></a></span></p>
 <p>Whether to write a JSON file that lists the files in each NAR.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
@@ -848,61 +848,61 @@ machine via SSH.</p>
 <p><strong>Settings</strong>:</p>
 <ul>
 <li>
-<p><code>base64-ssh-public-host-key</code></p>
+<p><span id="conf-base64-ssh-public-host-key"><a href="#conf-base64-ssh-public-host-key"><code>base64-ssh-public-host-key</code></a></span></p>
 <p>The public host key of the remote machine.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>compress</code></p>
+<p><span id="conf-compress"><a href="#conf-compress"><code>compress</code></a></span></p>
 <p>Whether to enable SSH compression.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>max-connections</code></p>
+<p><span id="conf-max-connections"><a href="#conf-max-connections"><code>max-connections</code></a></span></p>
 <p>Maximum number of concurrent SSH connections.</p>
 <p><strong>Default:</strong> <code>1</code></p>
 </li>
 <li>
-<p><code>path-info-cache-size</code></p>
+<p><span id="conf-path-info-cache-size"><a href="#conf-path-info-cache-size"><code>path-info-cache-size</code></a></span></p>
 <p>Size of the in-memory store path metadata cache.</p>
 <p><strong>Default:</strong> <code>65536</code></p>
 </li>
 <li>
-<p><code>priority</code></p>
+<p><span id="conf-priority"><a href="#conf-priority"><code>priority</code></a></span></p>
 <p>Priority of this store when used as a substituter. A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
-<p><code>remote-program</code></p>
+<p><span id="conf-remote-program"><a href="#conf-remote-program"><code>remote-program</code></a></span></p>
 <p>Path to the <code>nix-store</code> executable on the remote machine.</p>
 <p><strong>Default:</strong> <code>nix-store</code></p>
 </li>
 <li>
-<p><code>remote-store</code></p>
+<p><span id="conf-remote-store"><a href="#conf-remote-store"><code>remote-store</code></a></span></p>
 <p><a href="../../command-ref/new-cli/nix3-help-stores.html#store-url-format">Store URL</a>
 to be used on the remote machine. The default is <code>auto</code>
 (i.e. use the Nix daemon or <code>/nix/store</code> directly).</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>ssh-key</code></p>
+<p><span id="conf-ssh-key"><a href="#conf-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
-<p><code>store</code></p>
+<p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
 between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
-<p><code>system-features</code></p>
-<p>Optional features that the system this store builds on implements (like &quot;kvm&quot;).</p>
+<p><span id="conf-system-features"><a href="#conf-system-features"><code>system-features</code></a></span></p>
+<p>Optional features that the system this store builds on implements (like "kvm").</p>
 <p><strong>Default:</strong> <code>benchmark big-parallel kvm nixos-test uid-range</code></p>
 </li>
 <li>
-<p><code>trusted</code></p>
+<p><span id="conf-trusted"><a href="#conf-trusted"><code>trusted</code></a></span></p>
 <p>Whether paths from this store can be used as substitutes
 even if they are not signed by a key listed in the
 <a href="../../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a>
@@ -910,7 +910,7 @@ setting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
-<p><code>want-mass-query</code></p>
+<p><span id="conf-want-mass-query"><a href="#conf-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store (when used as a substituter) can be
 queried efficiently for path validity.</p>
 <p><strong>Default:</strong> <code>false</code></p>

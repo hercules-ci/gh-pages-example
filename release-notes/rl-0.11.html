@@ -207,18 +207,18 @@ machine via <code>ssh</code>.</p>
 strings (such as shell scripts or configuration file fragments in
 NixOS) to cleanly follow the indentation of the surrounding
 expression. It also requires much less escaping, since <code>''</code> is less
-common in most languages than <code>&quot;</code>.</p>
+common in most languages than <code>"</code>.</p>
 </li>
 <li>
 <p><code>nix-env</code> <code>--set</code> modifies the current generation of a profile so
 that it contains exactly the specified derivation, and nothing else.
-For example, <code>nix-env -p /nix/var/nix/profiles/browser --set firefox</code> lets the profile named <code>browser</code> contain just Firefox.</p>
+For example, <code>nix-env -p /nix/var/nix/profiles/browser --set         firefox</code> lets the profile named <code>browser</code> contain just Firefox.</p>
 </li>
 <li>
 <p><code>nix-env</code> now maintains meta-information about installed packages in
 profiles. The meta-information is the contents of the <code>meta</code>
 attribute of derivations, such as <code>description</code> or <code>homepage</code>. The
-command <code>nix-env -q --xml --meta</code> shows all meta-information.</p>
+command <code>nix-env -q --xml         --meta</code> shows all meta-information.</p>
 </li>
 <li>
 <p><code>nix-env</code> now uses the <code>meta.priority</code> attribute of derivations to
@@ -240,7 +240,7 @@ packages with the same priority.</p>
 more or less desirable than others. A typical example would be a
 beta version of some package (e.g., <code>gcc-4.2.0rc1</code>) which should not
 be installed even though it is the highest version, except when it
-is explicitly selected (e.g., <code>nix-env -i gcc-4.2.0rc1</code>).</p>
+is explicitly selected (e.g., <code>nix-env -i         gcc-4.2.0rc1</code>).</p>
 </li>
 <li>
 <p><code>nix-env --set-flag</code> allows meta attributes of installed packages to
@@ -278,7 +278,7 @@ filter out derivations for which no pre-built binary is available.</p>
 <li>
 <p>The new option <code>--argstr</code> (in <code>nix-env</code>, <code>nix-instantiate</code> and
 <code>nix-build</code>) is like <code>--arg</code>, except that the value is a string. For
-example, <code>--argstr system i686-linux</code> is equivalent to <code>--arg system &quot;i686-linux&quot;</code> (note that <code>--argstr</code> prevents annoying quoting
+example, <code>--argstr system         i686-linux</code> is equivalent to <code>--arg system         \"i686-linux\"</code> (note that <code>--argstr</code> prevents annoying quoting
 around shell arguments).</p>
 </li>
 <li>
@@ -301,7 +301,7 @@ loop.</p>
 <li>
 <p><code>nix-channel</code>: each subscribed channel is its own attribute in the
 top-level expression generated for the channel. This allows
-disambiguation (e.g. <code>nix-env -i -A nixpkgs_unstable.firefox</code>).</p>
+disambiguation (e.g. <code>nix-env         -i -A nixpkgs_unstable.firefox</code>).</p>
 </li>
 <li>
 <p>The substitutes table has been removed from the database. This makes
@@ -330,7 +330,7 @@ store, and thus helps ensure purity. This is an experimental
 feature.</p>
 </li>
 <li>
-<p>The new command <code>nix-store --optimise</code> reduces Nix store disk space usage by finding identical
+<p>The new command <code>nix-store         --optimise</code> reduces Nix store disk space usage by finding identical
 files in the store and hard-linking them to each other. It typically
 reduces the size of the store by something like 25-35%.</p>
 </li>
@@ -338,7 +338,7 @@ reduces the size of the store by something like 25-35%.</p>
 <p><code>~/.nix-defexpr</code> can now be a directory, in which case the Nix
 expressions in that directory are combined into an attribute set,
 with the file names used as the names of the attributes. The command
-<code>nix-env --import</code> (which set the <code>~/.nix-defexpr</code> symlink) is removed.</p>
+<code>nix-env         --import</code> (which set the <code>~/.nix-defexpr</code> symlink) is removed.</p>
 </li>
 <li>
 <p>Derivations can specify the new special attribute
