@@ -443,7 +443,7 @@ a string), that attribute is simply not added to the set:</p>
 <pre><code class="language-nix">{ ${if foo then "bar" else null} = true; }
 </code></pre>
 <p>This will evaluate to <code>{}</code> if <code>foo</code> evaluates to <code>false</code>.</p>
-<p>A set that has a <code>__functor</code> attribute whose value is callable (i.e. is
+<p>A set that has a <a href="#attr-__functor" id="attr-__functor"><code>__functor</code></a> attribute whose value is callable (i.e. is
 itself a function or a set with a <code>__functor</code> attribute whose value is
 callable) can be applied as if it were a function, with the set itself
 passed in first , e.g.,</p>

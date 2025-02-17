@@ -228,7 +228,7 @@ While it is possible for a JSON parser to preserve the order of fields, we can n
 <pre><code class="language-json">{ "outputs": [ { "outputName": "out" }, { "outputName": "bin" } ] }
 </code></pre>
 <h2 id="self-describing-values"><a class="header" href="#self-describing-values">Self-describing values</a></h2>
-<p>As described in the previous section, it's crucial that schemas can be extended with with new fields without breaking compatibility.
+<p>As described in the previous section, it's crucial that schemas can be extended with new fields without breaking compatibility.
 However, that should <em>not</em> mean we use the presence/absence of fields to indicate optional information <em>within</em> a version of the schema.
 Instead, always include the field, and use <code>null</code> to indicate the "nothing" case.</p>
 <h3 id="examples-1"><a class="header" href="#examples-1">Examples</a></h3>

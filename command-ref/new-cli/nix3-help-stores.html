@@ -279,7 +279,7 @@ For example, include the following in <a href="../../command-ref/conf-file.html"
 <p><strong>Store URL format</strong>: <code>local-overlay</code></p>
 <p>This store type is a variation of the [local store] designed to leverage Linux's <a href="https://docs.kernel.org/filesystems/overlayfs.html">Overlay Filesystem</a> (OverlayFS for short).
 Just as OverlayFS combines a lower and upper filesystem by treating the upper one as a patch against the lower, the local overlay store combines a lower store with an upper almost-[local store].
-("almost" because while the upper fileystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
+("almost" because while the upper filesystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
 To use this store, you will first need to configure an OverlayFS mountpoint <a href="#example-filesystem-layout">appropriately</a> as Nix will not do this for you (though it will verify the mountpoint is configured correctly).</p>
 <h3 id="conceptual-parts-of-a-local-overlay-store"><a class="header" href="#conceptual-parts-of-a-local-overlay-store">Conceptual parts of a local overlay store</a></h3>
 <p><em>This is a more abstract/conceptual description of the parts of a layered store, an authoritative reference.
@@ -352,14 +352,14 @@ This the same as the base local store setting, and can also be indirectly specif
 <p>This contains all the store objects from each of the two directories.</p>
 <p>The lower store directory and upper layer directory are combined via OverlayFS to create this directory.
 Nix doesn't do this itself, because it typically wouldn't have the permissions to do so, so it is the responsibility of the user to set this up first.
-Nix can, however, optionally check that that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
+Nix can, however, optionally check that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
 </li>
 <li>
 <p><strong>Upper SQLite database</strong>:</p>
 <blockquote>
 <p>Not directly specified.
 The location of the database instead depends on the <a href="#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
-It is is always <code>${state}/db</code>.</p>
+It is always <code>${state}/db</code>.</p>
 </blockquote>
 <p>This contains the metadata of all of the upper layer <a href="../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
 The duplication is so the metadata for the <a href="../../glossary.html#gloss-closure">closure</a> of upper layer <a href="../../store/store-object.html">store objects</a> can be found entirely within the upper layer.

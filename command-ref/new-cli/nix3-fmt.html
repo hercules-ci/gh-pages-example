@@ -169,6 +169,10 @@ and its interface is subject to change.</p>
 <p><code>nix fmt</code> - reformat your code in the standard style</p>
 <h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
 <p><code>nix fmt</code> [<em>option</em>...] <em>args</em>...</p>
+<h1 id="description"><a class="header" href="#description">Description</a></h1>
+<p><code>nix fmt</code> calls the formatter specified in the flake.</p>
+<p>Flags can be forwarded to the formatter by using <code>--</code> followed by the flags.</p>
+<p>Any arguments will be forwarded to the formatter. Typically these are the files to format.</p>
 <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <p>With <a href="https://github.com/nix-community/nixpkgs-fmt">nixpkgs-fmt</a>:</p>
 <pre><code class="language-nix"># flake.nix
@@ -178,14 +182,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>
-<p>Format the current flake: <code>$ nix fmt</code></p>
-</li>
-<li>
-<p>Format a specific folder or file: <code>$ nix fmt ./folder ./file.nix</code></p>
-</li>
-</ul>
 <p>With <a href="https://github.com/serokell/nixfmt">nixfmt</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
@@ -194,9 +190,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>Format specific files: <code>$ nix fmt ./file1.nix ./file2.nix</code></li>
-</ul>
 <p>With <a href="https://github.com/kamadorueda/alejandra">Alejandra</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
@@ -205,17 +198,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>
-<p>Format the current flake: <code>$ nix fmt</code></p>
-</li>
-<li>
-<p>Format a specific folder or file: <code>$ nix fmt ./folder ./file.nix</code></p>
-</li>
-</ul>
-<h1 id="description"><a class="header" href="#description">Description</a></h1>
-<p><code>nix fmt</code> will rewrite all Nix files (*.nix) to a canonical format
-using the formatter specified in your flake.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <h2 id="common-evaluation-options"><a class="header" href="#common-evaluation-options">Common evaluation options</a></h2>
 <ul>
@@ -274,7 +256,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>

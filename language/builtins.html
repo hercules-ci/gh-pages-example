@@ -811,7 +811,7 @@ The remote source will be fetched from the network if both are true:</p>
 <h2 id="source-types"><a class="header" href="#source-types">Source types</a></h2>
 <p>The following source types and associated input attributes are supported.</p>
  <!-- TODO: It would be soooo much more predictable to work with (and
- document) if `fetchTree` was a curried call with the first paramter for
+ document) if `fetchTree` was a curried call with the first parameter for
  `type` or an attribute like `builtins.fetchTree.git`! -->
 <ul>
 <li>
@@ -1943,7 +1943,7 @@ evaluation is aborted.</p>
   <a href="#builtins-substring"><code>substring <var>start</var> <var>len</var> <var>s</var></code></a>
 </dt>
 <dd>
-<p>Return the substring of <em>s</em> from character position <em>start</em>
+<p>Return the substring of <em>s</em> from byte position <em>start</em>
 (zero-based) up to but not including <em>start + len</em>. If <em>start</em> is
 greater than the length of the string, an empty string is returned.
 If <em>start + len</em> lies beyond the end of the string or <em>len</em> is <code>-1</code>,
@@ -2224,6 +2224,8 @@ this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in 
 <code>builtins.deepSeq</code> one can get the expected result:
 <code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
 <code>false</code>.</p>
+<p><code>tryEval</code> intentionally does not return the error message, because that risks bringing non-determinism into the evaluation result, and it would become very difficult to improve error reporting without breaking existing expressions.
+Instead, use <a href="../language/builtins.html#builtins-addErrorContext"><code>builtins.addErrorContext</code></a> to add context to the error message, and use a Nix unit testing tool for testing.</p>
 </dd>
 <dt id="builtins-typeOf">
   <a href="#builtins-typeOf"><code>typeOf <var>e</var></code></a>
@@ -2243,7 +2245,7 @@ string context element is turned into a
 <a href="../language/string-context.html#string-context-element-constant">constant</a>
 string context element.</p>
 <p>This is the opposite of <a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a>.</p>
-<p>This is unsafe because it allows us to "forget" store objects we would have otherwise refered to with the string context,
+<p>This is unsafe because it allows us to "forget" store objects we would have otherwise referred to with the string context,
 whereas Nix normally tracks all dependencies consistently.
 Safe operations "grow" but never "shrink" string contexts.
 <a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a> in contrast is safe because "derivation deep" string context element always refers to the underlying derivation (among many more things).

@@ -166,6 +166,8 @@
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
 <p>The operation <code>--add</code> adds the specified paths to the Nix store. It
 prints the resulting paths in the Nix store on standard output.</p>
+<p><em>paths</em> that refer to symlinks are not dereferenced, but added to the store
+as symlinks with the same target.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <p>The following options are allowed for all <code>nix-store</code> operations, but may not always have an effect.</p>
 <ul>

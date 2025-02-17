@@ -228,7 +228,7 @@ Future commands may include <code>nix env run</code> and <code>nix env print-env
 <li>
 <p>Store object info JSON format now uses <code>null</code> rather than omitting fields <a href="https://github.com/NixOS/nix/pull/9995">#9995</a></p>
 <p>The <a href="../protocols/json/store-object-info.html">store object info JSON format</a>, used for e.g. <code>nix path-info</code>, no longer omits fields to indicate absent information, but instead includes the fields with a <code>null</code> value.
-For example, <code>"ca": null</code> is used to to indicate a store object that isn't content-addressed rather than omitting the <code>ca</code> field entirely.
+For example, <code>"ca": null</code> is used to indicate a store object that isn't content-addressed rather than omitting the <code>ca</code> field entirely.
 This makes records of this sort more self-describing, and easier to consume programmatically.</p>
 <p>We will follow this design principle going forward;
 the <a href="../development/json-guideline.html">JSON guidelines</a> in the contributing section have been updated accordingly.</p>
@@ -237,7 +237,7 @@ the <a href="../development/json-guideline.html">JSON guidelines</a> in the cont
 <p>Large path warnings <a href="https://github.com/NixOS/nix/pull/10661">#10661</a></p>
 <p>Nix can now warn when evaluation of a Nix expression causes a large
 path to be copied to the Nix store. The threshold for this warning can
-be configured using <a href="../command-ref/conf-file.html#warn-large-path-threshold">the <code>warn-large-path-threshold</code>
+be configured using <a href="../command-ref/conf-file.html#conf-warn-large-path-threshold">the <code>warn-large-path-threshold</code>
 setting</a>,
 e.g. <code>--warn-large-path-threshold 100M</code> will warn about paths larger
 than 100 MiB.</p>

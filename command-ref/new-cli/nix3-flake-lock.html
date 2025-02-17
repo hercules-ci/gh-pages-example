@@ -197,9 +197,9 @@ Otherwise Nix will try to look up the flake in the registry.</p>
 </li>
 </ul>
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
-<p>This command adds inputs to the lock file of a flake (<code>flake.lock</code>)
-so that it contains a lock for every flake input specified in
-<code>flake.nix</code>. Existing lock file entries are not updated.</p>
+<p>This command updates the lock file of a flake (<code>flake.lock</code>)
+so that it contains an up-to-date lock for every flake input specified in
+<code>flake.nix</code>. Lock file entries are aready up-to-date are not modified.</p>
 <p>If you want to update existing lock entries, use
 <a href="../../command-ref/new-cli/nix3-flake-update.html"><code>nix flake update</code></a></p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
@@ -260,7 +260,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>

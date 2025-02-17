@@ -188,9 +188,17 @@ fetching them:</p>
 <pre><code class="language-console"># nix flake archive --json --dry-run nixops
 </code></pre>
 </li>
+<li>
+<p>Upload all flake inputs to a different machine for remote evaluation</p>
+<pre><code># nix flake archive --to ssh://some-machine
+</code></pre>
+<p>On the remote machine the flake can then be accessed via its store path. That's computed like this:</p>
+<pre><code># nix flake metadata --json | jq -r '.path'
+</code></pre>
+</li>
 </ul>
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
-<p>FIXME</p>
+<p>Copy a flake and all its inputs to a store. This is useful i.e. to evaluate flakes on a different host.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <ul>
 <li>
@@ -263,7 +271,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>

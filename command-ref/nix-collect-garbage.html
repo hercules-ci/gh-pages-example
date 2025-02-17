@@ -211,8 +211,16 @@ These deprecated paths remain a private implementation detail of Nix.</p>
 <em>period</em> is a value such as <code>30d</code>, which would mean 30 days.</p>
 <p>This is the equivalent of invoking <a href="../command-ref/nix-env/delete-generations.html#generations-time"><code>nix-env --delete-generations &lt;period&gt;</code></a> on each found profile.
 See the documentation of that command for additional information about the <em>period</em> argument.</p>
+<ul>
+<li><span id="opt-max-freed"><a href="#opt-max-freed"><code>--max-freed</code></a></span> <em>bytes</em></li>
+</ul>
 </li>
 </ul>
+<!-- duplication from https://github.com/NixOS/nix/blob/442a2623e48357ff72c77bb11cf2cf06d94d2f90/doc/manual/source/command-ref/nix-store/gc.md?plain=1#L39-L44 -->
+<p>Keep deleting paths until at least <em>bytes</em> bytes have been deleted,
+then stop. The argument <em>bytes</em> can be followed by the
+multiplicative suffix <code>K</code>, <code>M</code>, <code>G</code> or <code>T</code>, denoting KiB, MiB, GiB
+or TiB units.</p>
 <h1 id="common-options"><a class="header" href="#common-options">Common Options</a></h1>
 <p>Most Nix commands accept the following command-line options:</p>
 <ul>

@@ -250,7 +250,7 @@ derivation {
 <h3 id="optional"><a class="header" href="#optional">Optional</a></h3>
 <ul>
 <li>
-<p><a href="#attr-args" id="attr-args"><code>args</code></a> (<a href="../language/types.html#list">List</a> of <a href="../language/types.html#type-string">String</a>)</p>
+<p><a href="#attr-args" id="attr-args"><code>args</code></a> (<a href="../language/types.html#type-list">List</a> of <a href="../language/types.html#type-string">String</a>)</p>
 <p>Default: <code>[ ]</code></p>
 <p>Command-line arguments to be passed to the <a href="#attr-builder"><code>builder</code></a> executable.</p>
 <blockquote>
@@ -266,7 +266,7 @@ derivation {
 </blockquote>
 </li>
 <li>
-<p><a href="#attr-outputs" id="attr-outputs"><code>outputs</code></a> (<a href="../language/types.html#list">List</a> of <a href="../language/types.html#type-string">String</a>)</p>
+<p><a href="#attr-outputs" id="attr-outputs"><code>outputs</code></a> (<a href="../language/types.html#type-list">List</a> of <a href="../language/types.html#type-string">String</a>)</p>
 <p>Default: <code>[ "out" ]</code></p>
 <p>Symbolic outputs of the derivation.
 Each output name is passed to the <a href="#attr-builder"><code>builder</code></a> executable as an environment variable with its value set to the corresponding <a href="../store/store-path.html">store path</a>.</p>

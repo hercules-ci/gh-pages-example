@@ -162,7 +162,7 @@
                         <h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Syntax</th><th>Associativity</th><th>Precedence</th></tr></thead><tbody>
 <tr><td><a href="#attribute-selection">Attribute selection</a></td><td><em>attrset</em> <code>.</code> <em>attrpath</em> [ <code>or</code> <em>expr</em> ]</td><td>none</td><td>1</td></tr>
-<tr><td>Function application</td><td><em>func</em> <em>expr</em></td><td>left</td><td>2</td></tr>
+<tr><td><a href="#function-application">Function application</a></td><td><em>func</em> <em>expr</em></td><td>left</td><td>2</td></tr>
 <tr><td><a href="#arithmetic">Arithmetic negation</a></td><td><code>-</code> <em>number</em></td><td>none</td><td>3</td></tr>
 <tr><td><a href="#has-attribute">Has attribute</a></td><td><em>attrset</em> <code>?</code> <em>attrpath</em></td><td>none</td><td>4</td></tr>
 <tr><td>List concatenation</td><td><em>list</em> <code>++</code> <em>list</em></td><td>right</td><td>5</td></tr>
@@ -194,15 +194,31 @@
 <p><strong>Syntax</strong></p>
 <p><em>attrset</em> <code>.</code> <em>attrpath</em> [ <code>or</code> <em>expr</em> ]</p>
 </blockquote>
-<p>Select the attribute denoted by attribute path <em>attrpath</em> from <a href="./types.html#attribute-set">attribute set</a> <em>attrset</em>.
+<p>Select the attribute denoted by attribute path <em>attrpath</em> from <a href="./types.html#type-attrs">attribute set</a> <em>attrset</em>.
 If the attribute doesn’t exist, return the <em>expr</em> after <code>or</code> if provided, otherwise abort evaluation.</p>
+<h2 id="function-application"><a class="header" href="#function-application">Function application</a></h2>
+<blockquote>
+<p><strong>Syntax</strong></p>
+<p><em>func</em> <em>expr</em></p>
+</blockquote>
+<p>Apply the callable value <em>func</em> to the argument <em>expr</em>. Note the absence of any visible operator symbol.
+A callable value is either:</p>
+<ul>
+<li>a <a href="./syntax.html#functions">user-defined function</a></li>
+<li>a <a href="./builtins.html">built-in</a> function</li>
+<li>an attribute set with a <a href="./syntax.html#attr-__functor"><code>__functor</code> attribute</a></li>
+</ul>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><a href="./types.html#type-list">List</a> items are also separated by whitespace, which means that function calls in list items must be enclosed by parentheses.</p>
+</blockquote>
 <h2 id="has-attribute"><a class="header" href="#has-attribute">Has attribute</a></h2>
 <blockquote>
 <p><strong>Syntax</strong></p>
 <p><em>attrset</em> <code>?</code> <em>attrpath</em></p>
 </blockquote>
-<p>Test whether <a href="./types.html#attribute-set">attribute set</a> <em>attrset</em> contains the attribute denoted by <em>attrpath</em>.
-The result is a <a href="./types.html#type-boolean">Boolean</a> value.</p>
+<p>Test whether <a href="./types.html#type-attrs">attribute set</a> <em>attrset</em> contains the attribute denoted by <em>attrpath</em>.
+The result is a <a href="./types.html#type-bool">Boolean</a> value.</p>
 <p>See also: <a href="../language/builtins.html#builtins-hasAttr"><code>builtins.hasAttr</code></a></p>
 <p>After evaluating <em>attrset</em> and <em>attrpath</em>, the computational complexity is O(log(<em>n</em>)) for <em>n</em> attributes in the <em>attrset</em></p>
 <h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
@@ -251,7 +267,7 @@ The path appears in the result as the corresponding <a href="../store/store-path
 <p><strong>Syntax</strong></p>
 <p><em>attrset1</em> // <em>attrset2</em></p>
 </blockquote>
-<p>Update <a href="./types.html#attribute-set">attribute set</a> <em>attrset1</em> with names and values from <em>attrset2</em>.</p>
+<p>Update <a href="./types.html#type-attrs">attribute set</a> <em>attrset1</em> with names and values from <em>attrset2</em>.</p>
 <p>The returned attribute set will have all of the attributes in <em>attrset1</em> and <em>attrset2</em>.
 If an attribute name is present in both, the attribute value from the latter is taken.</p>
 <h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
@@ -259,7 +275,7 @@ If an attribute name is present in both, the attribute value from the latter is 
 <ul>
 <li><a href="#arithmetic">arithmetic</a> for <a href="./types.html#type-float">numbers</a></li>
 <li>lexicographic for <a href="./types.html#type-string">strings</a> and <a href="./types.html#type-path">paths</a></li>
-<li>item-wise lexicographic for <a href="./types.html#list">lists</a>:
+<li>item-wise lexicographic for <a href="./types.html#type-list">lists</a>:
 elements at the same index in both lists are compared according to their type and skipped if they are equal.</li>
 </ul>
 <p>All comparison operators are implemented in terms of <code>&lt;</code>, and the following equivalencies hold:</p>
@@ -271,7 +287,7 @@ elements at the same index in both lists are compared according to their type an
 </div>
 <h2 id="equality"><a class="header" href="#equality">Equality</a></h2>
 <ul>
-<li><a href="./types.html#attribute-set">Attribute sets</a> and <a href="./types.html#list">lists</a> are compared recursively, and therefore are fully evaluated.</li>
+<li><a href="./types.html#type-attrs">Attribute sets</a> and <a href="./types.html#type-list">lists</a> are compared recursively, and therefore are fully evaluated.</li>
 <li>Comparison of <a href="./syntax.html#functions">functions</a> always returns <code>false</code>.</li>
 <li>Numbers are type-compatible, see <a href="#arithmetic">arithmetic</a> operators.</li>
 <li>Floating point numbers only differ up to a limited precision.</li>

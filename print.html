@@ -858,7 +858,7 @@ sudo systemctl daemon-reload
 </li>
 </ol>
 <p>Remove files created by Nix:</p>
-<pre><code class="language-console">sudo rm -rf /etc/nix /etc/profile.d/nix.sh /etc/tmpfiles.d/nix-daemon.conf /nix ~root/.nix-channels ~root/.nix-defexpr ~root/.nix-profile
+<pre><code class="language-console">sudo rm -rf /etc/nix /etc/profile.d/nix.sh /etc/tmpfiles.d/nix-daemon.conf /nix ~root/.nix-channels ~root/.nix-defexpr ~root/.nix-profile ~root/.cache/nix
 </code></pre>
 <p>Remove build users and their group:</p>
 <pre><code class="language-console">for i in $(seq 1 32); do
@@ -951,7 +951,8 @@ fi
 Look for a "Nix Store" volume in the output of the following command:</p>
 <pre><code class="language-console">diskutil list
 </code></pre>
-<p>If you <em>do</em> find a "Nix Store" volume, delete it by running <code>diskutil deleteVolume</code> with the store volume's <code>diskXsY</code> identifier.</p>
+<p>If you <em>do</em> find a "Nix Store" volume, delete it by running <code>diskutil apfs deleteVolume</code> with the store volume's <code>diskXsY</code> identifier.</p>
+<p>If you get an error that the volume is in use by the kernel, reboot and immediately delete the volume before starting any other process.</p>
 </li>
 </ol>
 <blockquote>
@@ -1330,7 +1331,7 @@ For example, include the following in <a href="store/types/../../command-ref/con
 <p><strong>Store URL format</strong>: <code>local-overlay</code></p>
 <p>This store type is a variation of the [local store] designed to leverage Linux's <a href="https://docs.kernel.org/filesystems/overlayfs.html">Overlay Filesystem</a> (OverlayFS for short).
 Just as OverlayFS combines a lower and upper filesystem by treating the upper one as a patch against the lower, the local overlay store combines a lower store with an upper almost-[local store].
-("almost" because while the upper fileystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
+("almost" because while the upper filesystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
 To use this store, you will first need to configure an OverlayFS mountpoint <a href="store/types/experimental-local-overlay-store.html#example-filesystem-layout">appropriately</a> as Nix will not do this for you (though it will verify the mountpoint is configured correctly).</p>
 <h3 id="conceptual-parts-of-a-local-overlay-store"><a class="header" href="#conceptual-parts-of-a-local-overlay-store">Conceptual parts of a local overlay store</a></h3>
 <p><em>This is a more abstract/conceptual description of the parts of a layered store, an authoritative reference.
@@ -1403,14 +1404,14 @@ This the same as the base local store setting, and can also be indirectly specif
 <p>This contains all the store objects from each of the two directories.</p>
 <p>The lower store directory and upper layer directory are combined via OverlayFS to create this directory.
 Nix doesn't do this itself, because it typically wouldn't have the permissions to do so, so it is the responsibility of the user to set this up first.
-Nix can, however, optionally check that that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
+Nix can, however, optionally check that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
 </li>
 <li>
 <p><strong>Upper SQLite database</strong>:</p>
 <blockquote>
 <p>Not directly specified.
 The location of the database instead depends on the <a href="store/types/experimental-local-overlay-store.html#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
-It is is always <code>${state}/db</code>.</p>
+It is always <code>${state}/db</code>.</p>
 </blockquote>
 <p>This contains the metadata of all of the upper layer <a href="store/types/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
 The duplication is so the metadata for the <a href="store/types/../../glossary.html#gloss-closure">closure</a> of upper layer <a href="store/types/../../store/store-object.html">store objects</a> can be found entirely within the upper layer.
@@ -3308,7 +3309,7 @@ a string), that attribute is simply not added to the set:</p>
 <pre><code class="language-nix">{ ${if foo then "bar" else null} = true; }
 </code></pre>
 <p>This will evaluate to <code>{}</code> if <code>foo</code> evaluates to <code>false</code>.</p>
-<p>A set that has a <code>__functor</code> attribute whose value is callable (i.e. is
+<p>A set that has a <a href="language/syntax.html#attr-__functor" id="attr-__functor"><code>__functor</code></a> attribute whose value is callable (i.e. is
 itself a function or a set with a <code>__functor</code> attribute whose value is
 callable) can be applied as if it were a function, with the set itself
 passed in first , e.g.,</p>
@@ -3944,7 +3945,7 @@ in
 <div style="break-before: page; page-break-before: always;"></div><h1 id="operators"><a class="header" href="#operators">Operators</a></h1>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Syntax</th><th>Associativity</th><th>Precedence</th></tr></thead><tbody>
 <tr><td><a href="language/operators.html#attribute-selection">Attribute selection</a></td><td><em>attrset</em> <code>.</code> <em>attrpath</em> [ <code>or</code> <em>expr</em> ]</td><td>none</td><td>1</td></tr>
-<tr><td>Function application</td><td><em>func</em> <em>expr</em></td><td>left</td><td>2</td></tr>
+<tr><td><a href="language/operators.html#function-application">Function application</a></td><td><em>func</em> <em>expr</em></td><td>left</td><td>2</td></tr>
 <tr><td><a href="language/operators.html#arithmetic">Arithmetic negation</a></td><td><code>-</code> <em>number</em></td><td>none</td><td>3</td></tr>
 <tr><td><a href="language/operators.html#has-attribute">Has attribute</a></td><td><em>attrset</em> <code>?</code> <em>attrpath</em></td><td>none</td><td>4</td></tr>
 <tr><td>List concatenation</td><td><em>list</em> <code>++</code> <em>list</em></td><td>right</td><td>5</td></tr>
@@ -3976,15 +3977,31 @@ in
 <p><strong>Syntax</strong></p>
 <p><em>attrset</em> <code>.</code> <em>attrpath</em> [ <code>or</code> <em>expr</em> ]</p>
 </blockquote>
-<p>Select the attribute denoted by attribute path <em>attrpath</em> from <a href="language/./types.html#attribute-set">attribute set</a> <em>attrset</em>.
+<p>Select the attribute denoted by attribute path <em>attrpath</em> from <a href="language/./types.html#type-attrs">attribute set</a> <em>attrset</em>.
 If the attribute doesn’t exist, return the <em>expr</em> after <code>or</code> if provided, otherwise abort evaluation.</p>
+<h2 id="function-application"><a class="header" href="#function-application">Function application</a></h2>
+<blockquote>
+<p><strong>Syntax</strong></p>
+<p><em>func</em> <em>expr</em></p>
+</blockquote>
+<p>Apply the callable value <em>func</em> to the argument <em>expr</em>. Note the absence of any visible operator symbol.
+A callable value is either:</p>
+<ul>
+<li>a <a href="language/./syntax.html#functions">user-defined function</a></li>
+<li>a <a href="language/./builtins.html">built-in</a> function</li>
+<li>an attribute set with a <a href="language/./syntax.html#attr-__functor"><code>__functor</code> attribute</a></li>
+</ul>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><a href="language/./types.html#type-list">List</a> items are also separated by whitespace, which means that function calls in list items must be enclosed by parentheses.</p>
+</blockquote>
 <h2 id="has-attribute"><a class="header" href="#has-attribute">Has attribute</a></h2>
 <blockquote>
 <p><strong>Syntax</strong></p>
 <p><em>attrset</em> <code>?</code> <em>attrpath</em></p>
 </blockquote>
-<p>Test whether <a href="language/./types.html#attribute-set">attribute set</a> <em>attrset</em> contains the attribute denoted by <em>attrpath</em>.
-The result is a <a href="language/./types.html#type-boolean">Boolean</a> value.</p>
+<p>Test whether <a href="language/./types.html#type-attrs">attribute set</a> <em>attrset</em> contains the attribute denoted by <em>attrpath</em>.
+The result is a <a href="language/./types.html#type-bool">Boolean</a> value.</p>
 <p>See also: <a href="language/../language/builtins.html#builtins-hasAttr"><code>builtins.hasAttr</code></a></p>
 <p>After evaluating <em>attrset</em> and <em>attrpath</em>, the computational complexity is O(log(<em>n</em>)) for <em>n</em> attributes in the <em>attrset</em></p>
 <h2 id="arithmetic"><a class="header" href="#arithmetic">Arithmetic</a></h2>
@@ -4033,7 +4050,7 @@ The path appears in the result as the corresponding <a href="language/../store/s
 <p><strong>Syntax</strong></p>
 <p><em>attrset1</em> // <em>attrset2</em></p>
 </blockquote>
-<p>Update <a href="language/./types.html#attribute-set">attribute set</a> <em>attrset1</em> with names and values from <em>attrset2</em>.</p>
+<p>Update <a href="language/./types.html#type-attrs">attribute set</a> <em>attrset1</em> with names and values from <em>attrset2</em>.</p>
 <p>The returned attribute set will have all of the attributes in <em>attrset1</em> and <em>attrset2</em>.
 If an attribute name is present in both, the attribute value from the latter is taken.</p>
 <h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
@@ -4041,7 +4058,7 @@ If an attribute name is present in both, the attribute value from the latter is 
 <ul>
 <li><a href="language/operators.html#arithmetic">arithmetic</a> for <a href="language/./types.html#type-float">numbers</a></li>
 <li>lexicographic for <a href="language/./types.html#type-string">strings</a> and <a href="language/./types.html#type-path">paths</a></li>
-<li>item-wise lexicographic for <a href="language/./types.html#list">lists</a>:
+<li>item-wise lexicographic for <a href="language/./types.html#type-list">lists</a>:
 elements at the same index in both lists are compared according to their type and skipped if they are equal.</li>
 </ul>
 <p>All comparison operators are implemented in terms of <code>&lt;</code>, and the following equivalencies hold:</p>
@@ -4053,7 +4070,7 @@ elements at the same index in both lists are compared according to their type an
 </div>
 <h2 id="equality"><a class="header" href="#equality">Equality</a></h2>
 <ul>
-<li><a href="language/./types.html#attribute-set">Attribute sets</a> and <a href="language/./types.html#list">lists</a> are compared recursively, and therefore are fully evaluated.</li>
+<li><a href="language/./types.html#type-attrs">Attribute sets</a> and <a href="language/./types.html#type-list">lists</a> are compared recursively, and therefore are fully evaluated.</li>
 <li>Comparison of <a href="language/./syntax.html#functions">functions</a> always returns <code>false</code>.</li>
 <li>Numbers are type-compatible, see <a href="language/operators.html#arithmetic">arithmetic</a> operators.</li>
 <li>Floating point numbers only differ up to a limited precision.</li>
@@ -4738,7 +4755,7 @@ The remote source will be fetched from the network if both are true:</p>
 <h2 id="source-types"><a class="header" href="#source-types">Source types</a></h2>
 <p>The following source types and associated input attributes are supported.</p>
  <!-- TODO: It would be soooo much more predictable to work with (and
- document) if `fetchTree` was a curried call with the first paramter for
+ document) if `fetchTree` was a curried call with the first parameter for
  `type` or an attribute like `builtins.fetchTree.git`! -->
 <ul>
 <li>
@@ -5870,7 +5887,7 @@ evaluation is aborted.</p>
   <a href="language/builtins.html#builtins-substring"><code>substring <var>start</var> <var>len</var> <var>s</var></code></a>
 </dt>
 <dd>
-<p>Return the substring of <em>s</em> from character position <em>start</em>
+<p>Return the substring of <em>s</em> from byte position <em>start</em>
 (zero-based) up to but not including <em>start + len</em>. If <em>start</em> is
 greater than the length of the string, an empty string is returned.
 If <em>start + len</em> lies beyond the end of the string or <em>len</em> is <code>-1</code>,
@@ -6151,6 +6168,8 @@ this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in 
 <code>builtins.deepSeq</code> one can get the expected result:
 <code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
 <code>false</code>.</p>
+<p><code>tryEval</code> intentionally does not return the error message, because that risks bringing non-determinism into the evaluation result, and it would become very difficult to improve error reporting without breaking existing expressions.
+Instead, use <a href="language/../language/builtins.html#builtins-addErrorContext"><code>builtins.addErrorContext</code></a> to add context to the error message, and use a Nix unit testing tool for testing.</p>
 </dd>
 <dt id="builtins-typeOf">
   <a href="language/builtins.html#builtins-typeOf"><code>typeOf <var>e</var></code></a>
@@ -6170,7 +6189,7 @@ string context element is turned into a
 <a href="language/../language/string-context.html#string-context-element-constant">constant</a>
 string context element.</p>
 <p>This is the opposite of <a href="language/builtins.html#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a>.</p>
-<p>This is unsafe because it allows us to "forget" store objects we would have otherwise refered to with the string context,
+<p>This is unsafe because it allows us to "forget" store objects we would have otherwise referred to with the string context,
 whereas Nix normally tracks all dependencies consistently.
 Safe operations "grow" but never "shrink" string contexts.
 <a href="language/builtins.html#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a> in contrast is safe because "derivation deep" string context element always refers to the underlying derivation (among many more things).
@@ -6314,7 +6333,7 @@ derivation {
 <h3 id="optional"><a class="header" href="#optional">Optional</a></h3>
 <ul>
 <li>
-<p><a href="language/derivations.html#attr-args" id="attr-args"><code>args</code></a> (<a href="language/../language/types.html#list">List</a> of <a href="language/../language/types.html#type-string">String</a>)</p>
+<p><a href="language/derivations.html#attr-args" id="attr-args"><code>args</code></a> (<a href="language/../language/types.html#type-list">List</a> of <a href="language/../language/types.html#type-string">String</a>)</p>
 <p>Default: <code>[ ]</code></p>
 <p>Command-line arguments to be passed to the <a href="language/derivations.html#attr-builder"><code>builder</code></a> executable.</p>
 <blockquote>
@@ -6330,7 +6349,7 @@ derivation {
 </blockquote>
 </li>
 <li>
-<p><a href="language/derivations.html#attr-outputs" id="attr-outputs"><code>outputs</code></a> (<a href="language/../language/types.html#list">List</a> of <a href="language/../language/types.html#type-string">String</a>)</p>
+<p><a href="language/derivations.html#attr-outputs" id="attr-outputs"><code>outputs</code></a> (<a href="language/../language/types.html#type-list">List</a> of <a href="language/../language/types.html#type-string">String</a>)</p>
 <p>Default: <code>[ "out" ]</code></p>
 <p>Symbolic outputs of the derivation.
 Each output name is passed to the <a href="language/derivations.html#attr-builder"><code>builder</code></a> executable as an environment variable with its value set to the corresponding <a href="language/../store/store-path.html">store path</a>.</p>
@@ -8902,6 +8921,8 @@ public url or broke since the download expression was written.</p>
 <p><code>--recursive</code></p>
 <p>Use recursive instead of flat hashing mode, used when adding
 directories to the store.</p>
+<p><em>paths</em> that refer to symlinks are not dereferenced, but added to the store
+as symlinks with the same target.</p>
 </li>
 </ul>
 <h1 id="options-2"><a class="header" href="#options-2">Options</a></h1>
@@ -9276,6 +9297,8 @@ will increase runtime due to the overhead of garbage collection.</p>
 <h1 id="description-4"><a class="header" href="#description-4">Description</a></h1>
 <p>The operation <code>--add</code> adds the specified paths to the Nix store. It
 prints the resulting paths in the Nix store on standard output.</p>
+<p><em>paths</em> that refer to symlinks are not dereferenced, but added to the store
+as symlinks with the same target.</p>
 <h1 id="options-3"><a class="header" href="#options-3">Options</a></h1>
 <p>The following options are allowed for all <code>nix-store</code> operations, but may not always have an effect.</p>
 <ul>
@@ -13575,7 +13598,7 @@ Use <code>--valid-derivers</code> instead to obtain valid paths only.</p>
 <p><code>--valid-derivers</code></p>
 <p>Prints a set of derivation files (<code>.drv</code>) which are supposed produce
 said paths when realized. Might print nothing, for example for source paths
-or paths subsituted from a binary cache.</p>
+or paths substituted from a binary cache.</p>
 </li>
 <li>
 <p><code>--graph</code></p>
@@ -16492,7 +16515,7 @@ subcommand to be performed. The following operations are available:</p>
 </ul>
 <h1 id="selectors"><a class="header" href="#selectors">Selectors</a></h1>
 <p>Several operations, such as <a href="command-ref/./nix-env/query.html"><code>nix-env --query</code></a> and <a href="command-ref/./nix-env/install.html"><code>nix-env --install</code></a>, take a list of <em>arguments</em> that specify the packages on which to operate.</p>
-<p>Packages are identified based on a <code>name</code> part and a <code>version</code> part of a <a href="command-ref/../language/derivations.html#attr-names">symbolic derivation name</a>:</p>
+<p>Packages are identified based on a <code>name</code> part and a <code>version</code> part of a <a href="command-ref/../language/derivations.html#attr-name">symbolic derivation name</a>:</p>
 <ul>
 <li><code>name</code>: Everything up to but not including the first dash (<code>-</code>) that is <em>not</em> followed by a letter.</li>
 <li><code>version</code>: The rest, excluding the separating dash.</li>
@@ -21939,8 +21962,16 @@ These deprecated paths remain a private implementation detail of Nix.</p>
 <em>period</em> is a value such as <code>30d</code>, which would mean 30 days.</p>
 <p>This is the equivalent of invoking <a href="command-ref/../command-ref/nix-env/delete-generations.html#generations-time"><code>nix-env --delete-generations &lt;period&gt;</code></a> on each found profile.
 See the documentation of that command for additional information about the <em>period</em> argument.</p>
+<ul>
+<li><span id="opt-max-freed"><a href="command-ref/nix-collect-garbage.html#opt-max-freed"><code>--max-freed</code></a></span> <em>bytes</em></li>
+</ul>
 </li>
 </ul>
+<!-- duplication from https://github.com/NixOS/nix/blob/442a2623e48357ff72c77bb11cf2cf06d94d2f90/doc/manual/source/command-ref/nix-store/gc.md?plain=1#L39-L44 -->
+<p>Keep deleting paths until at least <em>bytes</em> bytes have been deleted,
+then stop. The argument <em>bytes</em> can be followed by the
+multiplicative suffix <code>K</code>, <code>M</code>, <code>G</code> or <code>T</code>, denoting KiB, MiB, GiB
+or TiB units.</p>
 <h1 id="common-options-34"><a class="header" href="#common-options-34">Common Options</a></h1>
 <p>Most Nix commands accept the following command-line options:</p>
 <ul>
@@ -23699,7 +23730,7 @@ hello | cowsay
 
 terraform "$@"
 </code></pre>
-<p>or with cascading interpreters. Note that the <code>#! nix</code> lines don't need to follow after the first line, to accomodate other interpreters.</p>
+<p>or with cascading interpreters. Note that the <code>#! nix</code> lines don't need to follow after the first line, to accommodate other interpreters.</p>
 <pre><code>#!/usr/bin/env nix
 //! ```cargo
 //! [dependencies]
@@ -23964,7 +23995,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-build.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -24204,7 +24235,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-bundle.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -24645,7 +24676,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-copy.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -24960,7 +24991,7 @@ and its interface is subject to change.</p>
 <p><code>nix derivation add</code> [<em>option</em>...]</p>
 <h1 id="description-47"><a class="header" href="#description-47">Description</a></h1>
 <p>This command reads from standard input a JSON representation of a
-<a href="command-ref/new-cli/../../glossary.html#gloss-store-derivation">store derivation</a> to which an <a href="command-ref/new-cli/./nix.html#installables"><em>installable</em></a> evaluates.</p>
+<a href="command-ref/new-cli/../../glossary.html#gloss-store-derivation">store derivation</a>.</p>
 <p>Store derivations are used internally by Nix. They are store paths with
 extension <code>.drv</code> that represent the build-time dependency graph to which
 a Nix expression evaluates.</p>
@@ -25348,7 +25379,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-derivation-show.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -25671,7 +25702,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-develop.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -25868,7 +25899,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-edit.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -26089,7 +26120,7 @@ chroot.</p>
 </ul>
 <h1 id="description-51"><a class="header" href="#description-51">Description</a></h1>
 <p><code>nix shell</code> runs a command in an environment in which the <code>$PATH</code> variable
-provides the specified <a href="command-ref/new-cli/./nix.html#installable"><em>installables</em></a>. If no command is specified, it starts the
+provides the specified <a href="command-ref/new-cli/./nix.html#installables"><em>installables</em></a>. If no command is specified, it starts the
 default shell of your user account specified by <code>$SHELL</code>.</p>
 <h1 id="use-as-a--interpreter-1"><a class="header" href="#use-as-a--interpreter-1">Use as a <code>#!</code>-interpreter</a></h1>
 <p>You can use <code>nix</code> as a script interpreter to allow scripts written
@@ -26261,7 +26292,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-env-shell.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -26525,7 +26556,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-eval.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -26746,7 +26777,7 @@ which will cause error messages like this:</p>
 <p>Contrary to URL-like references, path-like flake references can contain arbitrary unicode characters (except <code>#</code> and <code>?</code>).</p>
 <h3 id="examples-37"><a class="header" href="#examples-37">Examples</a></h3>
 <ul>
-<li><code>.</code>: The flake to which the current directory belongs to.</li>
+<li><code>.</code>: The flake to which the current directory belongs.</li>
 <li><code>/home/alice/src/patchelf</code>: A flake in some other directory.</li>
 <li><code>./../sub directory/with Ûñî©ôδ€</code>: A flake in another relative directory that
 has Unicode characters in its name.</li>
@@ -27377,9 +27408,17 @@ fetching them:</p>
 <pre><code class="language-console"># nix flake archive --json --dry-run nixops
 </code></pre>
 </li>
+<li>
+<p>Upload all flake inputs to a different machine for remote evaluation</p>
+<pre><code># nix flake archive --to ssh://some-machine
+</code></pre>
+<p>On the remote machine the flake can then be accessed via its store path. That's computed like this:</p>
+<pre><code># nix flake metadata --json | jq -r '.path'
+</code></pre>
+</li>
 </ul>
 <h1 id="description-54"><a class="header" href="#description-54">Description</a></h1>
-<p>FIXME</p>
+<p>Copy a flake and all its inputs to a store. This is useful i.e. to evaluate flakes on a different host.</p>
 <h1 id="options-56"><a class="header" href="#options-56">Options</a></h1>
 <ul>
 <li>
@@ -27452,7 +27491,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-archive.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -27688,7 +27727,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-check.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -27869,7 +27908,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-clone.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -28161,7 +28200,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-info.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -28466,9 +28505,9 @@ Otherwise Nix will try to look up the flake in the registry.</p>
 </li>
 </ul>
 <h1 id="description-59"><a class="header" href="#description-59">Description</a></h1>
-<p>This command adds inputs to the lock file of a flake (<code>flake.lock</code>)
-so that it contains a lock for every flake input specified in
-<code>flake.nix</code>. Existing lock file entries are not updated.</p>
+<p>This command updates the lock file of a flake (<code>flake.lock</code>)
+so that it contains an up-to-date lock for every flake input specified in
+<code>flake.nix</code>. Lock file entries are aready up-to-date are not modified.</p>
 <p>If you want to update existing lock entries, use
 <a href="command-ref/new-cli/../../command-ref/new-cli/nix3-flake-update.html"><code>nix flake update</code></a></p>
 <h1 id="options-61"><a class="header" href="#options-61">Options</a></h1>
@@ -28529,7 +28568,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-lock.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -28817,7 +28856,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-metadata.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -29145,7 +29184,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-prefetch.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -29359,7 +29398,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-show.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -29487,6 +29526,18 @@ warning: updating lock file '/home/myself/repos/testflake/flake.lock':
 </code></pre>
 </li>
 <li>
+<p>Update multiple inputs:</p>
+<pre><code class="language-console"># nix flake update nixpkgs nixpkgs-unstable
+warning: updating lock file '/home/myself/repos/testflake/flake.lock':
+• Updated input 'nixpkgs':
+    'github:nixos/nixpkgs/8f7492cce28977fbf8bd12c72af08b1f6c7c3e49' (2024-09-14)
+  → 'github:nixos/nixpkgs/086b448a5d54fd117f4dc2dee55c9f0ff461bdc1' (2024-09-16)
+• Updated input 'nixpkgs-unstable':
+    'github:nixos/nixpkgs/345c263f2f53a3710abe117f28a5cb86d0ba4059' (2024-09-13)
+  → 'github:nixos/nixpkgs/99dc8785f6a0adac95f5e2ab05cc2e1bf666d172' (2024-09-16)
+</code></pre>
+</li>
+<li>
 <p>Update only a single input of a flake in a different directory:</p>
 <pre><code class="language-console"># nix flake update nixpkgs --flake ~/repos/another
 warning: updating lock file '/home/myself/repos/another/flake.lock':
@@ -29576,7 +29627,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-flake-update.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -29672,6 +29723,10 @@ and its interface is subject to change.</p>
 <p><code>nix fmt</code> - reformat your code in the standard style</p>
 <h1 id="synopsis-70"><a class="header" href="#synopsis-70">Synopsis</a></h1>
 <p><code>nix fmt</code> [<em>option</em>...] <em>args</em>...</p>
+<h1 id="description-65"><a class="header" href="#description-65">Description</a></h1>
+<p><code>nix fmt</code> calls the formatter specified in the flake.</p>
+<p>Flags can be forwarded to the formatter by using <code>--</code> followed by the flags.</p>
+<p>Any arguments will be forwarded to the formatter. Typically these are the files to format.</p>
 <h1 id="examples-49"><a class="header" href="#examples-49">Examples</a></h1>
 <p>With <a href="https://github.com/nix-community/nixpkgs-fmt">nixpkgs-fmt</a>:</p>
 <pre><code class="language-nix"># flake.nix
@@ -29681,14 +29736,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>
-<p>Format the current flake: <code>$ nix fmt</code></p>
-</li>
-<li>
-<p>Format a specific folder or file: <code>$ nix fmt ./folder ./file.nix</code></p>
-</li>
-</ul>
 <p>With <a href="https://github.com/serokell/nixfmt">nixfmt</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
@@ -29697,9 +29744,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>Format specific files: <code>$ nix fmt ./file1.nix ./file2.nix</code></li>
-</ul>
 <p>With <a href="https://github.com/kamadorueda/alejandra">Alejandra</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
@@ -29708,17 +29752,6 @@ and its interface is subject to change.</p>
   };
 }
 </code></pre>
-<ul>
-<li>
-<p>Format the current flake: <code>$ nix fmt</code></p>
-</li>
-<li>
-<p>Format a specific folder or file: <code>$ nix fmt ./folder ./file.nix</code></p>
-</li>
-</ul>
-<h1 id="description-65"><a class="header" href="#description-65">Description</a></h1>
-<p><code>nix fmt</code> will rewrite all Nix files (*.nix) to a canonical format
-using the formatter specified in your flake.</p>
 <h1 id="options-67"><a class="header" href="#options-67">Options</a></h1>
 <h2 id="common-evaluation-options-19"><a class="header" href="#common-evaluation-options-19">Common evaluation options</a></h2>
 <ul>
@@ -29777,7 +29810,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-fmt.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -30717,7 +30750,7 @@ For example, include the following in <a href="command-ref/new-cli/../../command
 <p><strong>Store URL format</strong>: <code>local-overlay</code></p>
 <p>This store type is a variation of the [local store] designed to leverage Linux's <a href="https://docs.kernel.org/filesystems/overlayfs.html">Overlay Filesystem</a> (OverlayFS for short).
 Just as OverlayFS combines a lower and upper filesystem by treating the upper one as a patch against the lower, the local overlay store combines a lower store with an upper almost-[local store].
-("almost" because while the upper fileystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
+("almost" because while the upper filesystems for OverlayFS is valid on its own, the upper almost-store is not a valid local store on its own because some references will dangle.)
 To use this store, you will first need to configure an OverlayFS mountpoint <a href="command-ref/new-cli/nix3-help-stores.html#example-filesystem-layout">appropriately</a> as Nix will not do this for you (though it will verify the mountpoint is configured correctly).</p>
 <h3 id="conceptual-parts-of-a-local-overlay-store-1"><a class="header" href="#conceptual-parts-of-a-local-overlay-store-1">Conceptual parts of a local overlay store</a></h3>
 <p><em>This is a more abstract/conceptual description of the parts of a layered store, an authoritative reference.
@@ -30790,14 +30823,14 @@ This the same as the base local store setting, and can also be indirectly specif
 <p>This contains all the store objects from each of the two directories.</p>
 <p>The lower store directory and upper layer directory are combined via OverlayFS to create this directory.
 Nix doesn't do this itself, because it typically wouldn't have the permissions to do so, so it is the responsibility of the user to set this up first.
-Nix can, however, optionally check that that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
+Nix can, however, optionally check that the OverlayFS mount settings appear as expected, matching Nix's own settings.</p>
 </li>
 <li>
 <p><strong>Upper SQLite database</strong>:</p>
 <blockquote>
 <p>Not directly specified.
 The location of the database instead depends on the <a href="command-ref/new-cli/nix3-help-stores.html#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
-It is is always <code>${state}/db</code>.</p>
+It is always <code>${state}/db</code>.</p>
 </blockquote>
 <p>This contains the metadata of all of the upper layer <a href="command-ref/new-cli/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
 The duplication is so the metadata for the <a href="command-ref/new-cli/../../glossary.html#gloss-closure">closure</a> of upper layer <a href="command-ref/new-cli/../../store/store-object.html">store objects</a> can be found entirely within the upper layer.
@@ -32191,7 +32224,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-log.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -32864,7 +32897,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-path-info.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -33103,7 +33136,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-print-dev-env.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -33691,7 +33724,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-profile-install.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -34321,7 +34354,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-profile-upgrade.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -34666,7 +34699,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-realisation-info.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -35543,7 +35576,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-repl.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -35801,7 +35834,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-run.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -36061,7 +36094,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-search.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -36759,7 +36792,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-copy-log.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -36942,7 +36975,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-copy-sigs.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -37153,7 +37186,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-delete.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -37376,7 +37409,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-diff-closures.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -37576,7 +37609,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-dump-path.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -38101,7 +38134,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-make-content-addressed.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -38677,7 +38710,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-repair.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -38872,7 +38905,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-sign.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -39128,7 +39161,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-store-verify.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -39491,7 +39524,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 <p>Don't allow lookups in the flake registries.</p>
 <blockquote>
 <p><strong>DEPRECATED</strong></p>
-<p>Use <a href="command-ref/new-cli/nix3-why-depends.html#opt-no-use-registries"><code>--no-use-registries</code></a> instead.</p>
+<p>Use <a href="command-ref/new-cli/../../command-ref/conf-file.html#conf-use-registries"><code>--no-use-registries</code></a> instead.</p>
 </blockquote>
 </li>
 <li>
@@ -41847,7 +41880,7 @@ For content-addressed store objects, <code>id</code>, is always "out".</p>
 </li>
 <li>
 <p>if <code>type</code> = <code>"source:" ...</code>:</p>
-<p>the the hash of the <a href="protocols/../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive (NAR)</a> serialization of the <a href="protocols/../store/file-system-object.html">file system object</a> of the store object.</p>
+<p>the hash of the <a href="protocols/../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive (NAR)</a> serialization of the <a href="protocols/../store/file-system-object.html">file system object</a> of the store object.</p>
 </li>
 <li>
 <p>if <code>type</code> = <code>"output:" id</code>:</p>
@@ -42734,7 +42767,7 @@ Because these tests are expensive and require more than what the standard github
 </ul>
 </li>
 <li>
-<p>The <code>installer_test</code> job (which runs on <code>ubuntu-latest</code> and <code>macos-latest</code>) will try to install Nix with the cached installer and run a trivial Nix command.</p>
+<p>The <code>installer_test</code> job (which runs on <code>ubuntu-24.04</code> and <code>macos-14</code>) will try to install Nix with the cached installer and run a trivial Nix command.</p>
 </li>
 </ul>
 <h3 id="one-time-setup"><a class="header" href="#one-time-setup">One-time setup</a></h3>
@@ -43505,7 +43538,7 @@ While it is possible for a JSON parser to preserve the order of fields, we can n
 <pre><code class="language-json">{ "outputs": [ { "outputName": "out" }, { "outputName": "bin" } ] }
 </code></pre>
 <h2 id="self-describing-values"><a class="header" href="#self-describing-values">Self-describing values</a></h2>
-<p>As described in the previous section, it's crucial that schemas can be extended with with new fields without breaking compatibility.
+<p>As described in the previous section, it's crucial that schemas can be extended with new fields without breaking compatibility.
 However, that should <em>not</em> mean we use the presence/absence of fields to indicate optional information <em>within</em> a version of the schema.
 Instead, always include the field, and use <code>null</code> to indicate the "nothing" case.</p>
 <h3 id="examples-97"><a class="header" href="#examples-97">Examples</a></h3>
@@ -44227,7 +44260,7 @@ Future commands may include <code>nix env run</code> and <code>nix env print-env
 <li>
 <p>Store object info JSON format now uses <code>null</code> rather than omitting fields <a href="https://github.com/NixOS/nix/pull/9995">#9995</a></p>
 <p>The <a href="release-notes/../protocols/json/store-object-info.html">store object info JSON format</a>, used for e.g. <code>nix path-info</code>, no longer omits fields to indicate absent information, but instead includes the fields with a <code>null</code> value.
-For example, <code>"ca": null</code> is used to to indicate a store object that isn't content-addressed rather than omitting the <code>ca</code> field entirely.
+For example, <code>"ca": null</code> is used to indicate a store object that isn't content-addressed rather than omitting the <code>ca</code> field entirely.
 This makes records of this sort more self-describing, and easier to consume programmatically.</p>
 <p>We will follow this design principle going forward;
 the <a href="release-notes/../development/json-guideline.html">JSON guidelines</a> in the contributing section have been updated accordingly.</p>
@@ -44236,7 +44269,7 @@ the <a href="release-notes/../development/json-guideline.html">JSON guidelines</
 <p>Large path warnings <a href="https://github.com/NixOS/nix/pull/10661">#10661</a></p>
 <p>Nix can now warn when evaluation of a Nix expression causes a large
 path to be copied to the Nix store. The threshold for this warning can
-be configured using <a href="release-notes/../command-ref/conf-file.html#warn-large-path-threshold">the <code>warn-large-path-threshold</code>
+be configured using <a href="release-notes/../command-ref/conf-file.html#conf-warn-large-path-threshold">the <code>warn-large-path-threshold</code>
 setting</a>,
 e.g. <code>--warn-large-path-threshold 100M</code> will warn about paths larger
 than 100 MiB.</p>
