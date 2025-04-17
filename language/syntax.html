@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Syntax and semantics - Nix Reference Manual</title>
+        <title>Syntax and semantics - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/language/syntax.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/language/syntax.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -163,156 +166,14 @@
 <p>This section covers syntax and semantics of the Nix language.</p>
 <h2 id="basic-literals"><a class="header" href="#basic-literals">Basic Literals</a></h2>
 <h3 id="string-literal"><a class="header" href="#string-literal">String</a></h3>
-<p><em>Strings</em> can be written in three ways.</p>
-<p>The most common way is to enclose the string between double quotes, e.g., <code>"foo bar"</code>.
-Strings can span multiple lines.
-The results of other expressions can be included into a string by enclosing them in <code>${ }</code>, a feature known as <a href="./string-interpolation.html">string interpolation</a>.</p>
-<p>The following must be escaped to represent them within a string, by prefixing with a backslash (<code>\</code>):</p>
-<ul>
-<li>
-<p>Double quote (<code>"</code>)</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">"\""
-</code></pre>
-<p>"""</p>
-</blockquote>
-</li>
-<li>
-<p>Backslash (<code>\</code>)</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">"\\"
-</code></pre>
-<p>"\"</p>
-</blockquote>
-</li>
-<li>
-<p>Dollar sign followed by an opening curly bracket (<code>${</code>) – "dollar-curly"</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">"\${"
-</code></pre>
-<p>"${"</p>
-</blockquote>
-</li>
-</ul>
-<p>The newline, carriage return, and tab characters can be written as <code>\n</code>, <code>\r</code> and <code>\t</code>, respectively.</p>
-<p>A "double-dollar-curly" (<code>$${</code>) can be written literally.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">"$${"
-</code></pre>
-<p>"$${"</p>
-</blockquote>
-<p>String values are output on the terminal with Nix-specific escaping.
-Strings written to files will contain the characters encoded by the escaping.</p>
-<p>The second way to write string literals is as an <em>indented string</em>, which is enclosed between pairs of <em>double single-quotes</em> (<code>''</code>), like so:</p>
-<pre><code class="language-nix">''
-  This is the first line.
-  This is the second line.
-    This is the third line.
-''
-</code></pre>
-<p>This kind of string literal intelligently strips indentation from
-the start of each line. To be precise, it strips from each line a
-number of spaces equal to the minimal indentation of the string as a
-whole (disregarding the indentation of empty lines). For instance,
-the first and second line are indented two spaces, while the third
-line is indented four spaces. Thus, two spaces are stripped from
-each line, so the resulting string is</p>
-<pre><code class="language-nix">"This is the first line.\nThis is the second line.\n  This is the third line.\n"
-</code></pre>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>Whitespace and newline following the opening <code>''</code> is ignored if there is no non-whitespace text on the initial line.</p>
-</blockquote>
-<blockquote>
-<p><strong>Warning</strong></p>
-<p>Prefixed tab characters are not stripped.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<p>The following indented string is prefixed with tabs:</p>
-<p>''
-all:
-@echo hello
-''</p>
-<pre><code>"\tall:\n\t\t@echo hello\n"
-</code></pre>
-</blockquote>
-</blockquote>
-<p>Indented strings support <a href="./string-interpolation.html">string interpolation</a>.</p>
-<p>The following must be escaped to represent them in an indented string:</p>
-<ul>
-<li>
-<p><code>$</code> is escaped by prefixing it with two single quotes (<code>''</code>)</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">''
-  ''$
-''
-</code></pre>
-<pre><code>"$\n"
-</code></pre>
-</blockquote>
-</li>
-<li>
-<p><code>''</code> is escaped by prefixing it with one single quote (<code>'</code>)</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">''
-  '''
-''
-</code></pre>
-<pre><code>"''\n"
-</code></pre>
-</blockquote>
-</li>
-</ul>
-<p>These special characters are escaped as follows:</p>
-<ul>
-<li>Linefeed (<code>\n</code>): <code>''\n</code></li>
-<li>Carriage return (<code>\r</code>): <code>''\r</code></li>
-<li>Tab (<code>\t</code>): <code>''\t</code></li>
-</ul>
-<p><code>''\</code> escapes any other character.</p>
-<p>A "double-dollar-curly" (<code>$${</code>) can be written literally.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">''
-  $${
-''
-</code></pre>
-<pre><code>"$\${\n"
-</code></pre>
-</blockquote>
-<p>Indented strings are primarily useful in that they allow multi-line
-string literals to follow the indentation of the enclosing Nix
-expression, and that less escaping is typically necessary for
-strings representing languages such as shell scripts and
-configuration files because <code>''</code> is much less common than <code>"</code>.
-Example:</p>
-<pre><code class="language-nix">stdenv.mkDerivation {
-  ...
-  postInstall =
-    ''
-      mkdir $out/bin $out/etc
-      cp foo $out/bin
-      echo "Hello World" &gt; $out/etc/foo.conf
-      ${if enableBar then "cp bar $out/bin" else ""}
-    '';
-  ...
-}
-</code></pre>
-<p>Finally, as a convenience, <em>URIs</em> as defined in appendix B of
-<a href="http://www.ietf.org/rfc/rfc2396.txt">RFC 2396</a> can be written <em>as
-is</em>, without quotes. For instance, the string
-<code>"http://example.org/foo.tar.bz2"</code> can also be written as
-<code>http://example.org/foo.tar.bz2</code>.</p>
+<p>See <a href="string-literals.html">String literals</a>.</p>
 <h3 id="number-literal"><a class="header" href="#number-literal">Number</a></h3>
 <!-- TODO(@rhendric, #10970): split this into int and float -->
 <p>Numbers, which can be <em>integers</em> (like <code>123</code>) or <em>floating point</em>
 (like <code>123.43</code> or <code>.27e13</code>).</p>
+<p>Integers in the Nix language are 64-bit <a href="https://en.wikipedia.org/wiki/Two%27s_complement">two's complement</a> signed integers, with a range of -9223372036854775808 to 9223372036854775807, inclusive.</p>
+<p>Note that negative numeric literals are actually parsed as unary negation of positive numeric literals.
+This means that the minimum integer <code>-9223372036854775808</code> cannot be written as-is as a literal, since the positive number <code>9223372036854775808</code> is one past the maximum range.</p>
 <p>See <a href="./operators.html#arithmetic">arithmetic</a> and <a href="./operators.html#comparison">comparison</a> operators for semantics.</p>
 <h3 id="path-literal"><a class="header" href="#path-literal">Path</a></h3>
 <p><em>Paths</em> can be expressed by path literals such as <code>./builder.sh</code>.</p>
@@ -331,7 +192,7 @@ It also avoids unintentional situations where some function might try to copy ev
 <p>If the first component of a path is a <code>~</code>, it is interpreted such that the rest of the path were relative to the user's home directory.
 For example, <code>~/foo</code> would be equivalent to <code>/home/edolstra/foo</code> for a user whose home directory is <code>/home/edolstra</code>.
 Path literals that start with <code>~</code> are not allowed in <a href="../command-ref/conf-file.html#conf-pure-eval">pure</a> evaluation.</p>
-<p>Path literals can also include <a href="./string-interpolation.html">string interpolation</a>, besides being <a href="./string-interpolation.html#interpolated-expressions">interpolated into other expressions</a>.</p>
+<p>Path literals can also include [string interpolation], besides being <a href="./string-interpolation.html#interpolated-expressions">interpolated into other expressions</a>.</p>
 <p>At least one slash (<code>/</code>) must appear <em>before</em> any interpolated expression for the result to be recognized as a path.</p>
 <p><code>a.${foo}/b.${bar}</code> is a syntactically valid number division operation.
 <code>./a.${foo}/b.${bar}</code> is a path.</p>
@@ -355,7 +216,7 @@ function and the fifth being a set.</p>
 <p>Attribute sets are written enclosed in curly brackets (<code>{ }</code>).
 Attribute names and attribute values are separated by an equal sign (<code>=</code>).
 Each value can be an arbitrary expression, terminated by a semicolon (<code>;</code>)</p>
-<p>An attribute name is a string without context, and is denoted by a <a href="./identifiers.html#names">name</a> (an <a href="./identifiers.html#identifiers">identifier</a> or <a href="#string-literal">string literal</a>).</p>
+<p>An attribute name is a string without context, and is denoted by a <a href="./identifiers.html#names">name</a> (an <a href="./identifiers.html#identifiers">identifier</a> or <a href="string-literals.html">string literal</a>).</p>
 <blockquote>
 <p><strong>Syntax</strong></p>
 <p><em>attrset</em> → <code>{</code> { <em>name</em> <code>=</code> <em>expr</em> <code>;</code> } <code>}</code></p>
@@ -429,7 +290,7 @@ An attribute name may only occur once in each attribute set.</p>
 { "foo ${bar}" = 123; }."foo ${bar}"
 </code></pre>
 <p>Both will evaluate to <code>123</code>.</p>
-<p>Attribute names support <a href="./string-interpolation.html">string interpolation</a>:</p>
+<p>Attribute names support [string interpolation]:</p>
 <pre><code class="language-nix">let bar = "foo"; in
 { foo = 123; }.${bar}
 </code></pre>
@@ -604,6 +465,8 @@ additional arguments, you can use an ellipsis (<code>...</code>):</p>
 </code></pre>
 <p>This works on any set that contains at least the three named
 attributes.</p>
+</li>
+<li>
 <p>It is possible to provide <em>default values</em> for attributes, in
 which case they are allowed to be missing. A default value is
 specified by writing <code>name ?  e</code>, where <em>e</em> is an arbitrary
@@ -644,6 +507,36 @@ in
 </code></pre>
 <p>and both expressions will evaluate to:</p>
 <pre><code class="language-nix">[ 23 {} ]
+</code></pre>
+</blockquote>
+</li>
+<li>
+<p>All bindings introduced by the function are in scope in the entire function expression; not just in the body.
+It can therefore be used in default values.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<p>A parameter (<code>x</code>), is used in the default value for another parameter (<code>y</code>):</p>
+<pre><code class="language-nix">let
+  f = { x, y ? [x] }: { inherit y; };
+in
+  f { x = 3; }
+</code></pre>
+<p>This evaluates to:</p>
+<pre><code class="language-nix">{
+  y = [ 3 ];
+}
+</code></pre>
+</blockquote>
+<blockquote>
+<p><strong>Example</strong></p>
+<p>The binding of an <code>@</code> pattern, <code>args</code>, is used in the default value for a parameter, <code>x</code>:</p>
+<pre><code class="language-nix">let
+  f = args@{ x ? args.a, ... }: x;
+in
+  f { a = 1; }
+</code></pre>
+<p>This evaluates to:</p>
+<pre><code class="language-nix">1
 </code></pre>
 </blockquote>
 </li>
@@ -814,7 +707,7 @@ can span multiple lines.
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../language/identifiers.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../language/variables.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -828,7 +721,7 @@ can span multiple lines.
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../language/identifiers.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../language/variables.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

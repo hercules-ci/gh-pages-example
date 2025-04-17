@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced Attributes - Nix Reference Manual</title>
+        <title>Advanced Attributes - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/language/advanced-attributes.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/language/advanced-attributes.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -161,6 +164,75 @@
                     <main>
                         <h1 id="advanced-attributes"><a class="header" href="#advanced-attributes">Advanced Attributes</a></h1>
 <p>Derivations can declare some infrequently used optional attributes.</p>
+<h2 id="inputs"><a class="header" href="#inputs">Inputs</a></h2>
+<ul>
+<li>
+<p><a href="#adv-attr-exportReferencesGraph" id="adv-attr-exportReferencesGraph"><code>exportReferencesGraph</code></a><br />
+This attribute allows builders access to the references graph of
+their inputs. The attribute is a list of inputs in the Nix store
+whose references graph the builder needs to know. The value of
+this attribute should be a list of pairs <code>[ name1 path1 name2 path2 ...  ]</code>. The references graph of each <em>pathN</em> will be stored
+in a text file <em>nameN</em> in the temporary build directory. The text
+files have the format used by <code>nix-store --register-validity</code>
+(with the deriver fields left empty). For example, when the
+following derivation is built:</p>
+<pre><code class="language-nix">derivation {
+  ...
+  exportReferencesGraph = [ "libfoo-graph" libfoo ];
+};
+</code></pre>
+<p>the references graph of <code>libfoo</code> is placed in the file
+<code>libfoo-graph</code> in the temporary build directory.</p>
+<p><code>exportReferencesGraph</code> is useful for builders that want to do
+something with the closure of a store path. Examples include the
+builders in NixOS that generate the initial ramdisk for booting
+Linux (a <code>cpio</code> archive containing the closure of the boot script)
+and the ISO-9660 image for the installation CD (which is populated
+with a Nix store containing the closure of a bootable NixOS
+configuration).</p>
+</li>
+<li>
+<p><a href="#adv-attr-passAsFile" id="adv-attr-passAsFile"><code>passAsFile</code></a><br />
+A list of names of attributes that should be passed via files rather
+than environment variables. For example, if you have</p>
+<pre><code class="language-nix">passAsFile = ["big"];
+big = "a very long string";
+</code></pre>
+<p>then when the builder runs, the environment variable <code>bigPath</code>
+will contain the absolute path to a temporary file containing <code>a very long string</code>. That is, for any attribute <em>x</em> listed in
+<code>passAsFile</code>, Nix will pass an environment variable <code>xPath</code>
+holding the path of the file containing the value of attribute
+<em>x</em>. This is useful when you need to pass large strings to a
+builder, since most operating systems impose a limit on the size
+of the environment (typically, a few hundred kilobyte).</p>
+</li>
+<li>
+<p><a href="#adv-attr-structuredAttrs" id="adv-attr-structuredAttrs"><code>__structuredAttrs</code></a><br />
+If the special attribute <code>__structuredAttrs</code> is set to <code>true</code>, the other derivation
+attributes are serialised into a file in JSON format. The environment variable
+<code>NIX_ATTRS_JSON_FILE</code> points to the exact location of that file both in a build
+and a <a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This obviates the need for
+<a href="#adv-attr-passAsFile"><code>passAsFile</code></a> since JSON files have no size restrictions,
+unlike process environments.</p>
+<p>It also makes it possible to tweak derivation settings in a structured way; see
+<a href="#adv-attr-outputChecks"><code>outputChecks</code></a> for example.</p>
+<p>As a convenience to Bash builders,
+Nix writes a script that initialises shell variables
+corresponding to all attributes that are representable in Bash. The
+environment variable <code>NIX_ATTRS_SH_FILE</code> points to the exact
+location of the script, both in a build and a
+<a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This includes non-nested
+(associative) arrays. For example, the attribute <code>hardening.format = true</code>
+ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>If set to <code>true</code>, other advanced attributes such as <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
+<a href="#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>, maxSize, and maxClosureSize.
+will have no effect.</p>
+</blockquote>
+</li>
+</ul>
+<h2 id="output-checks"><a class="header" href="#output-checks">Output checks</a></h2>
 <ul>
 <li>
 <p><a href="#adv-attr-allowedReferences" id="adv-attr-allowedReferences"><code>allowedReferences</code></a><br />
@@ -208,30 +280,81 @@ dependency on <code>foobar</code> or any other derivation depending recursively
 on <code>foobar</code>.</p>
 </li>
 <li>
-<p><a href="#adv-attr-exportReferencesGraph" id="adv-attr-exportReferencesGraph"><code>exportReferencesGraph</code></a><br />
-This attribute allows builders access to the references graph of
-their inputs. The attribute is a list of inputs in the Nix store
-whose references graph the builder needs to know. The value of
-this attribute should be a list of pairs <code>[ name1 path1 name2 path2 ...  ]</code>. The references graph of each <em>pathN</em> will be stored
-in a text file <em>nameN</em> in the temporary build directory. The text
-files have the format used by <code>nix-store --register-validity</code>
-(with the deriver fields left empty). For example, when the
-following derivation is built:</p>
-<pre><code class="language-nix">derivation {
-  ...
-  exportReferencesGraph = [ "libfoo-graph" libfoo ];
+<p><a href="#adv-attr-outputChecks" id="adv-attr-outputChecks"><code>outputChecks</code></a><br />
+When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the <code>outputChecks</code>
+attribute allows defining checks per-output.</p>
+<p>In addition to
+<a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
+<a href="#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>,
+the following attributes are available:</p>
+<ul>
+<li><code>maxSize</code> defines the maximum size of the resulting <a href="../store/store-object.html">store object</a>.</li>
+<li><code>maxClosureSize</code> defines the maximum size of the output's closure.</li>
+<li><code>ignoreSelfRefs</code> controls whether self-references should be considered when
+checking for allowed references/requisites.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="language-nix">__structuredAttrs = true;
+
+outputChecks.out = {
+  # The closure of 'out' must not be larger than 256 MiB.
+  maxClosureSize = 256 * 1024 * 1024;
+
+  # It must not refer to the C compiler or to the 'dev' output.
+  disallowedRequisites = [ stdenv.cc "dev" ];
+};
+
+outputChecks.dev = {
+  # The 'dev' output must not be larger than 128 KiB.
+  maxSize = 128 * 1024;
 };
 </code></pre>
-<p>the references graph of <code>libfoo</code> is placed in the file
-<code>libfoo-graph</code> in the temporary build directory.</p>
-<p><code>exportReferencesGraph</code> is useful for builders that want to do
-something with the closure of a store path. Examples include the
-builders in NixOS that generate the initial ramdisk for booting
-Linux (a <code>cpio</code> archive containing the closure of the boot script)
-and the ISO-9660 image for the installation CD (which is populated
-with a Nix store containing the closure of a bootable NixOS
-configuration).</p>
 </li>
+</ul>
+<h2 id="other-output-modifications"><a class="header" href="#other-output-modifications">Other output modifications</a></h2>
+<ul>
+<li>
+<p><a href="#adv-attr-unsafeDiscardReferences" id="adv-attr-unsafeDiscardReferences"><code>unsafeDiscardReferences</code></a>\</p>
+<p>When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the
+attribute <code>unsafeDiscardReferences</code> is an attribute set with a boolean value for each output name.
+If set to <code>true</code>, it disables scanning the output for runtime dependencies.</p>
+<p>Example:</p>
+<pre><code class="language-nix">__structuredAttrs = true;
+unsafeDiscardReferences.out = true;
+</code></pre>
+<p>This is useful, for example, when generating self-contained filesystem images with
+their own embedded Nix store: hashes found inside such an image refer
+to the embedded store and not to the host's Nix store.</p>
+</li>
+</ul>
+<h2 id="build-scheduling"><a class="header" href="#build-scheduling">Build scheduling</a></h2>
+<ul>
+<li>
+<p><a href="#adv-attr-preferLocalBuild" id="adv-attr-preferLocalBuild"><code>preferLocalBuild</code></a><br />
+If this attribute is set to <code>true</code> and <a href="../command-ref/conf-file.html#conf-builders">distributed building is enabled</a>, then, if possible, the derivation will be built locally instead of being forwarded to a remote machine.
+This is useful for derivations that are cheapest to build locally.</p>
+</li>
+<li>
+<p><a href="#adv-attr-allowSubstitutes" id="adv-attr-allowSubstitutes"><code>allowSubstitutes</code></a><br />
+If this attribute is set to <code>false</code>, then Nix will always build this derivation (locally or remotely); it will not try to substitute its outputs.
+This is useful for derivations that are cheaper to build than to substitute.</p>
+<p>This attribute can be ignored by setting <a href="../command-ref/conf-file.html#conf-always-allow-substitutes"><code>always-allow-substitutes</code></a> to <code>true</code>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If set to <code>false</code>, the <a href="./derivations.html#attr-builder"><code>builder</code></a> should be able to run on the system type specified in the <a href="./derivations.html#attr-system"><code>system</code> attribute</a>, since the derivation cannot be substituted.</p>
+</blockquote>
+</li>
+<li>
+<p><a href="#adv-attr-requiredSystemFeatures" id="adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a>\</p>
+<p>If a derivation has the <code>requiredSystemFeatures</code> attribute, then Nix will only build it on a machine that has the corresponding features set in its <a href="../command-ref/conf-file.html#conf-system-features"><code>system-features</code> configuration</a>.</p>
+<p>For example, setting</p>
+<pre><code class="language-nix">requiredSystemFeatures = [ "kvm" ];
+</code></pre>
+<p>ensures that the derivation can only be built on a machine with the <code>kvm</code> feature.</p>
+</li>
+</ul>
+<h1 id="impure-builder-configuration"><a class="header" href="#impure-builder-configuration">Impure builder configuration</a></h1>
+<ul>
 <li>
 <p><a href="#adv-attr-impureEnvVars" id="adv-attr-impureEnvVars"><code>impureEnvVars</code></a><br />
 This attribute allows you to specify a list of environment variables
@@ -244,8 +367,8 @@ environment variables to be passed unmodified. For example,
 </code></pre>
 <p>to make it use the proxy server configuration specified by the user
 in the environment variables <code>http_proxy</code> and friends.</p>
-<p>This attribute is only allowed in <em>fixed-output derivations</em> (see
-below), where impurities such as these are okay since (the hash
+<p>This attribute is only allowed in <a href="../glossary.html#gloss-fixed-output-derivation">fixed-output derivations</a>,
+where impurities such as these are okay since (the hash
 of) the output is known in advance. It is ignored for all other
 derivations.</p>
 <blockquote>
@@ -263,68 +386,57 @@ through the
 <a href="../command-ref/conf-file.html#conf-impure-env"><code>impure-env</code></a>
 configuration setting.</p>
 </li>
+</ul>
+<h2 id="setting-the-derivation-type"><a class="header" href="#setting-the-derivation-type">Setting the derivation type</a></h2>
+<p>As discussed in <a href="../store/derivation/outputs/index.html">Derivation Outputs and Types of Derivations</a>, there are multiples kinds of derivations / kinds of derivation outputs.
+The choice of the following attributes determines which kind of derivation we are making.</p>
+<ul>
 <li>
-<p><a href="#adv-attr-outputHash" id="adv-attr-outputHash"><code>outputHash</code></a>; <a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>; <a href="#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHashMode</code></a><br />
-These attributes declare that the derivation is a so-called <em>fixed-output derivation</em> (FOD), which means that a cryptographic hash of the output is already known in advance.</p>
-<p>As opposed to regular derivations, the <a href="./derivations.html#attr-builder"><code>builder</code></a> executable of a fixed-output derivation has access to the network.
-Nix computes a cryptographic hash of its output and compares that to the hash declared with these attributes.
-If there is a mismatch, the derivation fails.</p>
-<p>The rationale for fixed-output derivations is derivations such as
-those produced by the <code>fetchurl</code> function. This function downloads a
-file from a given URL. To ensure that the downloaded file has not
-been modified, the caller must also specify a cryptographic hash of
-the file. For example,</p>
-<pre><code class="language-nix">fetchurl {
-  url = "http://ftp.gnu.org/pub/gnu/hello/hello-2.1.1.tar.gz";
-  sha256 = "1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465";
-}
-</code></pre>
-<p>It sometimes happens that the URL of the file changes, e.g., because
-servers are reorganised or no longer available. We then must update
-the call to <code>fetchurl</code>, e.g.,</p>
-<pre><code class="language-nix">fetchurl {
-  url = "ftp://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz";
-  sha256 = "1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465";
-}
-</code></pre>
-<p>If a <code>fetchurl</code> derivation was treated like a normal derivation, the
-output paths of the derivation and <em>all derivations depending on it</em>
-would change. For instance, if we were to change the URL of the
-Glibc source distribution in Nixpkgs (a package on which almost all
-other packages depend) massive rebuilds would be needed. This is
-unfortunate for a change which we know cannot have a real effect as
-it propagates upwards through the dependency graph.</p>
-<p>For fixed-output derivations, on the other hand, the name of the
-output path only depends on the <code>outputHash*</code> and <code>name</code> attributes,
-while all other attributes are ignored for the purpose of computing
-the output path. (The <code>name</code> attribute is included because it is
-part of the path.)</p>
-<p>As an example, here is the (simplified) Nix expression for
-<code>fetchurl</code>:</p>
-<pre><code class="language-nix">{ stdenv, curl }: # The curl program is used for downloading.
+<p><a href="#adv-attr-__contentAddressed"><code>__contentAddressed</code></a></p>
+</li>
+<li>
+<p><a href="#adv-attr-outputHash"><code>outputHash</code></a></p>
+</li>
+<li>
+<p><a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a></p>
+</li>
+<li>
+<p><a href="#adv-attr-outputHashMode"><code>outputHashMode</code></a></p>
+</li>
+</ul>
+<p>The three types of derivations are chosen based on the following combinations of these attributes.
+All other combinations are invalid.</p>
+<ul>
+<li>
+<p><a href="../store/derivation/outputs/input-address.html">Input-addressing derivations</a></p>
+<p>This is the default for <code>builtins.derivation</code>.
+Nix only currently supports one kind of input-addressing, so no other information is needed.</p>
+<p><code>__contentAddressed = false;</code> may also be included, but is not needed, and will trigger the experimental feature check.</p>
+</li>
+<li>
+<p><a href="../glossary.html#gloss-fixed-output-derivation">Fixed-output derivations</a></p>
+<p>All of <a href="#adv-attr-outputHash"><code>outputHash</code></a>, <a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>, and <a href="#adv-attr-outputHashMode"><code>outputHashMode</code></a>.</p>
+<!--
 
-{ url, sha256 }:
+`__contentAddressed` is ignored, becaused fixed-output derivations always content-address their outputs, by definition.
 
-stdenv.mkDerivation {
-  name = baseNameOf (toString url);
-  builder = ./builder.sh;
-  buildInputs = [ curl ];
+**TODO CHECK**
 
-  # This is a fixed-output derivation; the output must be a regular
-  # file with SHA256 hash sha256.
-  outputHashMode = "flat";
-  outputHashAlgo = "sha256";
-  outputHash = sha256;
-
-  inherit url;
-}
-</code></pre>
-<p>The <code>outputHash</code> attribute must be a string containing the hash in either hexadecimal or "nix32" encoding, or following the format for integrity metadata as defined by <a href="https://www.w3.org/TR/SRI/">SRI</a>.
-The "nix32" encoding is an adaptation of base-32 encoding.
-The <a href="../language/builtins.html#builtins-convertHash"><code>convertHash</code></a> function shows how to convert between different encodings, and the <a href="../command-ref/nix-hash.html"><code>nix-hash</code> command</a> has information about obtaining the hash for some contents, as well as converting to and from encodings.</p>
-<p>The <code>outputHashAlgo</code> attribute specifies the hash algorithm used to compute the hash.
-It can currently be <code>"sha1"</code>, <code>"sha256"</code>, <code>"sha512"</code>, or <code>null</code>.
-<code>outputHashAlgo</code> can only be <code>null</code> when <code>outputHash</code> follows the SRI format.</p>
+-->
+</li>
+<li>
+<p><a href="../store/derivation/outputs/content-address.html">(Floating) content-addressing derivations</a></p>
+<p>Both <a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a> and <a href="#adv-attr-outputHashMode"><code>outputHashMode</code></a>, <code>__contentAddressed = true;</code>, and <em>not</em> <code>outputHash</code>.</p>
+<p>If an output hash was given, then the derivation output would be "fixed" not "floating".</p>
+</li>
+</ul>
+<p>Here is more information on the <code>output*</code> attributes, and what values they may be set to:</p>
+<ul>
+<li>
+<p><a href="#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHashMode</code></a></p>
+<p>This specifies how the files of a content-addressing derivation output are digested to produce a content address.</p>
+<p>This works in conjunction with <a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>.
+Specifying one without the other is an error (unless [<code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
 <p>The <code>outputHashMode</code> attribute determines how the hash is computed.
 It must be one of the following values:</p>
 <ul>
@@ -357,134 +469,41 @@ however support for it is only added in Nix version 2.21.</p>
 </blockquote>
 </li>
 </ul>
+<p>See <a href="../store/store-object/content-address.html">content-addressing store objects</a> for more information about the process this flag controls.</p>
+</li>
+<li>
+<p><a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a></p>
+<p>This specifies the hash alorithm used to digest the <a href="../store/file-system-object.html">file system object</a> data of a content-addressing derivation output.</p>
+<p>This works in conjunction with <a href="#adv-attr-outputHashAlgo"><code>outputHashMode</code></a>.
+Specifying one without the other is an error (unless <a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
+<p>The <code>outputHashAlgo</code> attribute specifies the hash algorithm used to compute the hash.
+It can currently be <code>"blake3"</code>, "sha1"<code>, </code>"sha256"<code>, </code>"sha512"<code>, or </code>null`.</p>
+<p><code>outputHashAlgo</code> can only be <code>null</code> when <code>outputHash</code> follows the SRI format, because in that case the choice of hash algorithm is determined by <code>outputHash</code>.</p>
+</li>
+<li>
+<p>[<code>outputHash</code></a>; <a href="#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHash</code></a>\</p>
+<p>This will specify the output hash of the single output of a <a href="../glossary.html#gloss-fixed-output-derivation">fixed-output derivation</a>.</p>
+<p>The <code>outputHash</code> attribute must be a string containing the hash in either hexadecimal or "nix32" encoding, or following the format for integrity metadata as defined by <a href="https://www.w3.org/TR/SRI/">SRI</a>.
+The "nix32" encoding is an adaptation of base-32 encoding.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <a href="../language/builtins.html#builtins-convertHash"><code>convertHash</code></a> function shows how to convert between different encodings.
+The <a href="../command-ref/nix-hash.html"><code>nix-hash</code> command</a> has information about obtaining the hash for some contents, as well as converting to and from encodings.</p>
+</blockquote>
 </li>
 <li>
 <p><a href="#adv-attr-__contentAddressed" id="adv-attr-__contentAddressed"><code>__contentAddressed</code></a></p>
 <blockquote>
-<p><strong>Warning</strong>
-This attribute is part of an <a href="../development/experimental-features.html">experimental feature</a>.</p>
+<p><strong>Warning</strong></p>
+<p>This attribute is part of an <a href="../development/experimental-features.html">experimental feature</a>.</p>
 <p>To use this attribute, you must enable the
-<a href="../development/experimental-features.html#xp-feature-ca-derivations"><code>ca-derivations</code></a> experimental feature.
+[<code>ca-derivations</code>][xp-feature-ca-derivations] experimental feature.
 For example, in <a href="../command-ref/conf-file.html">nix.conf</a> you could add:</p>
 <pre><code>extra-experimental-features = ca-derivations
 </code></pre>
 </blockquote>
-<p>If this attribute is set to <code>true</code>, then the derivation
-outputs will be stored in a content-addressed location rather than the
-traditional input-addressed one.</p>
-<p>Setting this attribute also requires setting
-<a href="#adv-attr-outputHashMode"><code>outputHashMode</code></a>
-and
-<a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>
-like for <em>fixed-output derivations</em> (see above).</p>
-<p>It also implicitly requires that the machine to build the derivation must have the <code>ca-derivations</code> <a href="../command-ref/conf-file.html#conf-system-features">system feature</a>.</p>
-</li>
-<li>
-<p><a href="#adv-attr-passAsFile" id="adv-attr-passAsFile"><code>passAsFile</code></a><br />
-A list of names of attributes that should be passed via files rather
-than environment variables. For example, if you have</p>
-<pre><code class="language-nix">passAsFile = ["big"];
-big = "a very long string";
-</code></pre>
-<p>then when the builder runs, the environment variable <code>bigPath</code>
-will contain the absolute path to a temporary file containing <code>a very long string</code>. That is, for any attribute <em>x</em> listed in
-<code>passAsFile</code>, Nix will pass an environment variable <code>xPath</code>
-holding the path of the file containing the value of attribute
-<em>x</em>. This is useful when you need to pass large strings to a
-builder, since most operating systems impose a limit on the size
-of the environment (typically, a few hundred kilobyte).</p>
-</li>
-<li>
-<p><a href="#adv-attr-preferLocalBuild" id="adv-attr-preferLocalBuild"><code>preferLocalBuild</code></a><br />
-If this attribute is set to <code>true</code> and <a href="../command-ref/conf-file.html#conf-builders">distributed building is enabled</a>, then, if possible, the derivation will be built locally instead of being forwarded to a remote machine.
-This is useful for derivations that are cheapest to build locally.</p>
-</li>
-<li>
-<p><a href="#adv-attr-allowSubstitutes" id="adv-attr-allowSubstitutes"><code>allowSubstitutes</code></a><br />
-If this attribute is set to <code>false</code>, then Nix will always build this derivation (locally or remotely); it will not try to substitute its outputs.
-This is useful for derivations that are cheaper to build than to substitute.</p>
-<p>This attribute can be ignored by setting <a href="../command-ref/conf-file.html#conf-always-allow-substitutes"><code>always-allow-substitutes</code></a> to <code>true</code>.</p>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>If set to <code>false</code>, the <a href="./derivations.html#attr-builder"><code>builder</code></a> should be able to run on the system type specified in the <a href="./derivations.html#attr-system"><code>system</code> attribute</a>, since the derivation cannot be substituted.</p>
-</blockquote>
-</li>
-<li>
-<p><a href="#adv-attr-structuredAttrs" id="adv-attr-structuredAttrs"><code>__structuredAttrs</code></a><br />
-If the special attribute <code>__structuredAttrs</code> is set to <code>true</code>, the other derivation
-attributes are serialised into a file in JSON format. The environment variable
-<code>NIX_ATTRS_JSON_FILE</code> points to the exact location of that file both in a build
-and a <a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This obviates the need for
-<a href="#adv-attr-passAsFile"><code>passAsFile</code></a> since JSON files have no size restrictions,
-unlike process environments.</p>
-<p>It also makes it possible to tweak derivation settings in a structured way; see
-<a href="#adv-attr-outputChecks"><code>outputChecks</code></a> for example.</p>
-<p>As a convenience to Bash builders,
-Nix writes a script that initialises shell variables
-corresponding to all attributes that are representable in Bash. The
-environment variable <code>NIX_ATTRS_SH_FILE</code> points to the exact
-location of the script, both in a build and a
-<a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This includes non-nested
-(associative) arrays. For example, the attribute <code>hardening.format = true</code>
-ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
-<blockquote>
-<p><strong>Warning</strong></p>
-<p>If set to <code>true</code>, other advanced attributes such as <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
-<a href="#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>, maxSize, and maxClosureSize.
-will have no effect.</p>
-</blockquote>
-</li>
-<li>
-<p><a href="#adv-attr-outputChecks" id="adv-attr-outputChecks"><code>outputChecks</code></a><br />
-When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the <code>outputChecks</code>
-attribute allows defining checks per-output.</p>
-<p>In addition to
-<a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
-<a href="#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>,
-the following attributes are available:</p>
-<ul>
-<li><code>maxSize</code> defines the maximum size of the resulting <a href="../store/store-object.html">store object</a>.</li>
-<li><code>maxClosureSize</code> defines the maximum size of the output's closure.</li>
-<li><code>ignoreSelfRefs</code> controls whether self-references should be considered when
-checking for allowed references/requisites.</li>
-</ul>
-<p>Example:</p>
-<pre><code class="language-nix">__structuredAttrs = true;
-
-outputChecks.out = {
-  # The closure of 'out' must not be larger than 256 MiB.
-  maxClosureSize = 256 * 1024 * 1024;
-
-  # It must not refer to the C compiler or to the 'dev' output.
-  disallowedRequisites = [ stdenv.cc "dev" ];
-};
-
-outputChecks.dev = {
-  # The 'dev' output must not be larger than 128 KiB.
-  maxSize = 128 * 1024;
-};
-</code></pre>
-</li>
-<li>
-<p><a href="#adv-attr-unsafeDiscardReferences" id="adv-attr-unsafeDiscardReferences"><code>unsafeDiscardReferences</code></a>\</p>
-<p>When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the
-attribute <code>unsafeDiscardReferences</code> is an attribute set with a boolean value for each output name.
-If set to <code>true</code>, it disables scanning the output for runtime dependencies.</p>
-<p>Example:</p>
-<pre><code class="language-nix">__structuredAttrs = true;
-unsafeDiscardReferences.out = true;
-</code></pre>
-<p>This is useful, for example, when generating self-contained filesystem images with
-their own embedded Nix store: hashes found inside such an image refer
-to the embedded store and not to the host's Nix store.</p>
-</li>
-<li>
-<p><a href="#adv-attr-requiredSystemFeatures" id="adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a>\</p>
-<p>If a derivation has the <code>requiredSystemFeatures</code> attribute, then Nix will only build it on a machine that has the corresponding features set in its <a href="../command-ref/conf-file.html#conf-system-features"><code>system-features</code> configuration</a>.</p>
-<p>For example, setting</p>
-<pre><code class="language-nix">requiredSystemFeatures = [ "kvm" ];
-</code></pre>
-<p>ensures that the derivation can only be built on a machine with the <code>kvm</code> feature.</p>
+<p>This is a boolean with a default of <code>false</code>.
+It determines whether the derivation is floating content-addressing.</p>
 </li>
 </ul>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.24 (2024-07-31) - Nix Reference Manual</title>
+        <title>Release 2.24 (2024-07-31) - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/release-notes/rl-2.24.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/release-notes/rl-2.24.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -365,28 +368,11 @@ This option will be removed in a future release.</p>
 <p>Author: <a href="https://github.com/edolstra"><strong>Eelco Dolstra (@edolstra)</strong></a></p>
 </li>
 <li>
-<p>Improve handling of tarballs that don't consist of a single top-level directory <a href="https://github.com/NixOS/nix/pull/11195">#11195</a></p>
-<p>In previous Nix releases, the tarball fetcher (used by <code>builtins.fetchTarball</code>) erroneously merged top-level directories into a single directory, and silently discarded top-level files that are not directories. This is no longer the case.</p>
-<p>Author: <a href="https://github.com/edolstra"><strong>Eelco Dolstra (@edolstra)</strong></a></p>
-</li>
-<li>
 <p>Setting to warn about large paths <a href="https://github.com/NixOS/nix/pull/10778">#10778</a></p>
 <p>Nix can now warn when evaluation of a Nix expression causes a large
 path to be copied to the Nix store. The threshold for this warning can
 be configured using the <code>warn-large-path-threshold</code> setting,
 e.g. <code>--warn-large-path-threshold 100M</code>.</p>
-</li>
-<li>
-<p>Wrap filesystem exceptions more correctly <a href="https://github.com/NixOS/nix/pull/11378">#11378</a></p>
-<p>With the switch to <code>std::filesystem</code> in different places, Nix started to throw <code>std::filesystem::filesystem_error</code> in many places instead of its own exceptions.</p>
-<p>This led to no longer generating error traces, for example when listing a non-existing directory.</p>
-<p>This version catches these types of exception correctly and wraps them into Nix's own exeception type.</p>
-<p>Author: <a href="https://github.com/Mic92"><strong>@Mic92</strong></a></p>
-</li>
-<li>
-<p><code>&lt;nix/fetchurl.nix&gt;</code> uses TLS verification <a href="https://github.com/NixOS/nix/pull/11585">#11585</a></p>
-<p>Previously <code>&lt;nix/fetchurl.nix&gt;</code> did not do TLS verification. This was because the Nix sandbox in the past did not have access to TLS certificates, and Nix checks the hash of the fetched file anyway. However, this can expose authentication data from <code>netrc</code> and URLs to man-in-the-middle attackers. In addition, Nix now in some cases (such as when using impure derivations) does <em>not</em> check the hash. Therefore we have now enabled TLS verification. This means that downloads by <code>&lt;nix/fetchurl.nix&gt;</code> will now fail if you're fetching from a HTTPS server that does not have a valid certificate.</p>
-<p><code>&lt;nix/fetchurl.nix&gt;</code> is also known as the builtin derivation builder <code>builtin:fetchurl</code>. It's not to be confused with the evaluation-time function <code>builtins.fetchurl</code>, which was not affected by this issue.</p>
 </li>
 </ul>
 <h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>
@@ -441,7 +427,7 @@ e.g. <code>--warn-large-path-threshold 100M</code>.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../release-notes/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../release-notes/rl-2.25.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -455,7 +441,7 @@ e.g. <code>--warn-large-path-threshold 100M</code>.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../release-notes/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../release-notes/rl-2.25.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

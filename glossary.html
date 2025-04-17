@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Glossary - Nix Reference Manual</title>
+        <title>Glossary - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="highlight.css">
-        <link rel="stylesheet" href="tomorrow-night.css">
-        <link rel="stylesheet" href="ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/glossary.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/glossary.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -162,6 +165,13 @@
                         <h1 id="glossary"><a class="header" href="#glossary">Glossary</a></h1>
 <ul>
 <li>
+<p><a href="#gloss-build-system" id="gloss-build-system">build system</a></p>
+<p>Generic term for software that facilitates the building of software by automating the invocation of compilers, linkers, and other tools.</p>
+<p>Nix can be used as a generic build system.
+It has no knowledge of any particular programming language or toolchain.
+These details are specified in <a href="#gloss-derivation-expression">derivation expressions</a>.</p>
+</li>
+<li>
 <p><a href="#gloss-content-address" id="gloss-content-address">content address</a></p>
 <p>A
 <a href="https://en.wikipedia.org/wiki/Content-addressable_storage"><em>content address</em></a>
@@ -173,30 +183,36 @@ The reference is calculated directly from the content of the data being referenc
 <ul>
 <li><a href="./store/file-system-object/content-address.html">Content-Addressing File System Objects</a></li>
 <li><a href="./store/store-object/content-address.html">Content-Addressing Store Objects</a></li>
-<li><a href="#gloss-content-addressed-derivation">content-addressed derivation</a></li>
+<li><a href="#gloss-content-addressing-derivation">content-addressing derivation</a></li>
 </ul>
 <p>Software Heritage's writing on <a href="https://www.softwareheritage.org/2020/07/09/intrinsic-vs-extrinsic-identifiers"><em>Intrinsic and Extrinsic identifiers</em></a> is also a good introduction to the value of content-addressing over other referencing schemes.</p>
 <p>Besides content addressing, the Nix store also uses <a href="#gloss-input-addressed-store-object">input addressing</a>.</p>
 </li>
 <li>
-<p><a href="#gloss-derivation" id="gloss-derivation">derivation</a></p>
-<p>A description of a build task. The result of a derivation is a
-store object. Derivations declared in Nix expressions are specified
-using the <a href="./language/derivations.html"><code>derivation</code> primitive</a>. These are
-translated into low-level <em>store derivations</em> (implicitly by
-<code>nix-build</code>, or explicitly by <code>nix-instantiate</code>).</p>
+<p><a href="#gloss-content-addressed-store" id="gloss-content-addressed-store">content-addressed storage</a></p>
+<p>The industry term for storage and retrieval systems using <a href="#gloss-content-address">content addressing</a>. A Nix store also has <a href="#gloss-input-addressed-store-object">input addressing</a>, and metadata.</p>
 </li>
 <li>
 <p><a href="#gloss-store-derivation" id="gloss-store-derivation">store derivation</a></p>
-<p>A <a href="#gloss-derivation">derivation</a> represented as a <code>.drv</code> file in the <a href="#gloss-store">store</a>.
-It has a <a href="#gloss-store-path">store path</a>, like any <a href="#gloss-store-object">store object</a>.
-It is the <a href="#gloss-instantiate">instantiated</a> form of a derivation.</p>
-<p>Example: <code>/nix/store/g946hcz4c8mdvq2g8vxx42z51qb71rvp-git-2.38.1.drv</code></p>
-<p>See <a href="./command-ref/new-cli/nix3-derivation-show.html"><code>nix derivation show</code></a> (experimental) for displaying the contents of store derivations.</p>
+<p>A single build task.
+See <a href="./store/derivation/index.html#store-derivation">Store Derivation</a> for details.</p>
+</li>
+<li>
+<p><a href="#gloss-derivation-path" id="gloss-derivation-path">derivation path</a></p>
+<p>A <a href="#gloss-store-path">store path</a> which uniquely identifies a <a href="#gloss-store-derivation">store derivation</a>.</p>
+<p>See <a href="./store/derivation/index.html#derivation-path">Referencing Store Derivations</a> for details.</p>
+<p>Not to be confused with [deriving path].</p>
+</li>
+<li>
+<p><a href="#gloss-derivation-expression" id="gloss-derivation-expression">derivation expression</a></p>
+<p>A description of a <a href="#gloss-store-derivation">store derivation</a> in the Nix language.
+The output(s) of a derivation are store objects.
+Derivations are typically specified in Nix expressions using the <a href="./language/derivations.html"><code>derivation</code> primitive</a>.
+These are translated into store layer <em>derivations</em> (implicitly by <code>nix-env</code> and <code>nix-build</code>, or explicitly by <code>nix-instantiate</code>).</p>
 </li>
 <li>
 <p><a href="#gloss-instantiate" id="gloss-instantiate">instantiate</a>, instantiation</p>
-<p>Save an evaluated <a href="#gloss-derivation">derivation</a> as a <a href="#gloss-store-derivation">store derivation</a> in the Nix <a href="#gloss-store">store</a>.</p>
+<p>Translate a <a href="#gloss-derivation-expression">derivation expression</a> into a <a href="#gloss-store-derivation">store derivation</a>.</p>
 <p>See <a href="./command-ref/nix-instantiate.html"><code>nix-instantiate</code></a>, which produces a store derivation from a Nix expression that evaluates to a derivation.</p>
 </li>
 <li>
@@ -205,7 +221,7 @@ It is the <a href="#gloss-instantiate">instantiated</a> form of a derivation.</p
 <p>This can be achieved by:</p>
 <ul>
 <li>Fetching a pre-built <a href="#gloss-store-object">store object</a> from a <a href="#gloss-substituter">substituter</a></li>
-<li>Running the <a href="./language/derivations.html#attr-builder"><code>builder</code></a> executable as specified in the corresponding <a href="#gloss-derivation">derivation</a></li>
+<li>Running the <a href="./language/derivations.html#attr-builder"><code>builder</code></a> executable as specified in the corresponding <a href="#gloss-store-derivation">store derivation</a></li>
 <li>Delegating to a <a href="./command-ref/conf-file.html#conf-builders">remote machine</a> and retrieving the outputs</li>
 </ul>
 <!-- TODO: link [running] to build process page, #8888 -->
@@ -213,20 +229,29 @@ It is the <a href="#gloss-instantiate">instantiated</a> form of a derivation.</p
 <p>See also <a href="./command-ref/nix-build.html"><code>nix-build</code></a> and <a href="./command-ref/new-cli/nix3-build.html"><code>nix build</code></a> (experimental).</p>
 </li>
 <li>
-<p><a href="#gloss-content-addressed-derivation" id="gloss-content-addressed-derivation">content-addressed derivation</a></p>
+<p><a href="#gloss-content-addressing-derivation" id="gloss-content-addressing-derivation">content-addressing derivation</a></p>
 <p>A derivation which has the
 <a href="./language/advanced-attributes.html#adv-attr-__contentAddressed"><code>__contentAddressed</code></a>
 attribute set to <code>true</code>.</p>
 </li>
 <li>
 <p><a href="#gloss-fixed-output-derivation" id="gloss-fixed-output-derivation">fixed-output derivation</a> (FOD)</p>
-<p>A <a href="#gloss-derivation">derivation</a> where a cryptographic hash of the <a href="#gloss-output">output</a> is determined in advance using the <a href="./language/advanced-attributes.html#adv-attr-outputHash"><code>outputHash</code></a> attribute, and where the <a href="./language/derivations.html#attr-builder"><code>builder</code></a> executable has access to the network.</p>
+<p>A <a href="#gloss-store-derivation">store derivation</a> where a cryptographic hash of the <a href="#gloss-output">output</a> is determined in advance using the <a href="./language/advanced-attributes.html#adv-attr-outputHash"><code>outputHash</code></a> attribute, and where the <a href="./language/derivations.html#attr-builder"><code>builder</code></a> executable has access to the network.</p>
 </li>
 <li>
 <p><a href="#gloss-store" id="gloss-store">store</a></p>
 <p>A collection of <a href="#gloss-store-object">store objects</a>, with operations to manipulate that collection.
 See <a href="./store/index.html">Nix Store</a> for details.</p>
 <p>There are many types of stores, see <a href="./store/types/index.html">Store Types</a> for details.</p>
+</li>
+<li>
+<p><a href="#gloss-nix-instance" id="gloss-nix-instance">Nix instance</a></p>
+<!-- ambiguous -->
+<ol>
+<li>An installation of Nix, which includes the presence of a <a href="#gloss-store">store</a>, and the Nix package manager which operates on that store.
+A local Nix installation and a <a href="./advanced-topics/distributed-builds.html">remote builder</a> are two examples of Nix instances.</li>
+<li>A running Nix process, such as the <code>nix</code> command.</li>
+</ol>
 </li>
 <li>
 <p><a href="#gloss-binary-cache" id="gloss-binary-cache">binary cache</a></p>
@@ -255,7 +280,7 @@ include S3 buckets and the <a href="https://cache.nixos.org">NixOS binary cache<
 <p>Part of the contents of a <a href="#gloss-store">store</a>.</p>
 <p>A store object consists of a <a href="#gloss-file-system-object">file system object</a>, <a href="#gloss-reference">references</a> to other store objects, and other metadata.
 It can be referred to by a <a href="#gloss-store-path">store path</a>.</p>
-<p>See <a href="./store/index.html#store-object">Store Object</a> for details.</p>
+<p>See <a href="./store/store-object.html">Store Object</a> for details.</p>
 </li>
 <li>
 <p><a href="#gloss-ifd" id="gloss-ifd">IFD</a></p>
@@ -264,7 +289,7 @@ It can be referred to by a <a href="#gloss-store-path">store path</a>.</p>
 <li>
 <p><a href="#gloss-input-addressed-store-object" id="gloss-input-addressed-store-object">input-addressed store object</a></p>
 <p>A store object produced by building a
-non-<a href="#gloss-content-addressed-derivation">content-addressed</a>,
+non-<a href="#gloss-content-addressing-derivation">content-addressed</a>,
 non-<a href="#gloss-fixed-output-derivation">fixed-output</a>
 derivation.</p>
 </li>
@@ -272,7 +297,7 @@ derivation.</p>
 <p><a href="#gloss-content-addressed-store-object" id="gloss-content-addressed-store-object">content-addressed store object</a></p>
 <p>A <a href="#gloss-store-object">store object</a> which is <a href="#gloss-content-address">content-addressed</a>,
 i.e. whose <a href="#gloss-store-path">store path</a> is determined by its contents.
-This includes derivations, the outputs of <a href="#gloss-content-addressed-derivation">content-addressed derivations</a>, and the outputs of <a href="#gloss-fixed-output-derivation">fixed-output derivations</a>.</p>
+This includes derivations, the outputs of <a href="#gloss-content-addressing-derivation">content-addressing derivations</a>, and the outputs of <a href="#gloss-fixed-output-derivation">fixed-output derivations</a>.</p>
 <p>See <a href="./store/store-object/content-address.html">Content-Addressing Store Objects</a> for details.</p>
 </li>
 <li>
@@ -309,18 +334,17 @@ This is an implementation detail of the <a href="./store/types/local-store.html"
 </li>
 <li>
 <p><a href="#gloss-nix-expression" id="gloss-nix-expression">Nix expression</a></p>
-<ol>
-<li>
-<p>Commonly, a high-level description of software packages and compositions
-thereof. Deploying software using Nix entails writing Nix
-expressions for your packages. Nix expressions specify <a href="#gloss-derivation">derivations</a>,
-which are <a href="#gloss-instantiate">instantiated</a> into the Nix store as <a href="#gloss-store-derivation">store derivations</a>.
+<p>A syntactically valid use of the <a href="./language/index.html">Nix language</a>.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<p>The contents of a <code>.nix</code> file form a Nix expression.</p>
+</blockquote>
+<p>Nix expressions specify <a href="#gloss-derivation-expression">derivation expressions</a>, which are <a href="#gloss-instantiate">instantiated</a> into the Nix store as <a href="#gloss-store-derivation">store derivations</a>.
 These derivations can then be <a href="#gloss-realise">realised</a> to produce <a href="#gloss-output">outputs</a>.</p>
-</li>
-<li>
-<p>A syntactically valid use of the <a href="./language/index.html">Nix language</a>. For example, the contents of a <code>.nix</code> file form an expression.</p>
-</li>
-</ol>
+<blockquote>
+<p><strong>Example</strong></p>
+<p>Building and deploying software using Nix entails writing Nix expressions as a high-level description of packages and compositions thereof.</p>
+</blockquote>
 </li>
 <li>
 <p><a href="#gloss-reference" id="gloss-reference">reference</a></p>
@@ -340,7 +364,7 @@ is in the <em>closure</em> of the <em>references</em> relation.</p>
 directly or indirectly “reachable” from that store path; that is,
 it’s the closure of the path under the <em>references</em> relation. For
 a package, the closure of its derivation is equivalent to the
-build-time dependencies, while the closure of its output path is
+build-time dependencies, while the closure of its <a href="#gloss-output-path">output path</a> is
 equivalent to its runtime dependencies. For correct deployment it
 is necessary to deploy whole closures, since otherwise at runtime
 files could be missing. The command <code>nix-store --query --requisites </code> prints out
@@ -351,12 +375,12 @@ references <code>R</code> then <code>R</code> is also in the closure of <code>P<
 </li>
 <li>
 <p><a href="#gloss-output" id="gloss-output">output</a></p>
-<p>A <a href="#gloss-store-object">store object</a> produced by a <a href="#gloss-derivation">derivation</a>.
+<p>A <a href="#gloss-store-object">store object</a> produced by a <a href="#gloss-store-derivation">store derivation</a>.
 See <a href="./language/derivations.html#attr-outputs">the <code>outputs</code> argument to the <code>derivation</code> function</a> for details.</p>
 </li>
 <li>
 <p><a href="#gloss-output-path" id="gloss-output-path">output path</a></p>
-<p>The <a href="#gloss-store-path">store path</a> to the <a href="#gloss-output">output</a> of a <a href="#gloss-derivation">derivation</a>.</p>
+<p>The <a href="#gloss-store-path">store path</a> to the <a href="#gloss-output">output</a> of a <a href="#gloss-store-derivation">store derivation</a>.</p>
 </li>
 <li>
 <p><a href="#gloss-output-closure" id="gloss-output-closure">output closure</a><br />
@@ -364,18 +388,9 @@ The <a href="#gloss-closure">closure</a> of an <a href="#gloss-output-path">outp
 </li>
 <li>
 <p><a href="#gloss-deriving-path" id="gloss-deriving-path">deriving path</a></p>
-<p>Deriving paths are a way to refer to <a href="#gloss-store-object">store objects</a> that ar not yet <a href="#gloss-realise">realised</a>.
-This is necessary because, in general and particularly for [content-addressed derivations][content-addressed derivation], the <a href="#gloss-output-path">output path</a> of an <a href="#gloss-output">output</a> is not known in advance.
-There are two forms:</p>
-<ul>
-<li>
-<p><em>constant</em>: just a <a href="#gloss-store-path">store path</a>
-It can be made <a href="#gloss-validity">valid</a> by copying it into the store: from the evaluator, command line interface or another store.</p>
-</li>
-<li>
-<p><em>output</em>: a pair of a <a href="#gloss-store-path">store path</a> to a <a href="#gloss-derivation">derivation</a> and an <a href="#gloss-output">output</a> name.</p>
-</li>
-</ul>
+<p>Deriving paths are a way to refer to <a href="#gloss-store-object">store objects</a> that might not yet be <a href="#gloss-realise">realised</a>.</p>
+<p>See <a href="./store/derivation/index.html#deriving-path">Deriving Path</a> for details.</p>
+<p>Not to be confused with <a href="#gloss-derivation-path">derivation path</a>.</p>
 </li>
 <li>
 <p><a href="#gloss-deriver" id="gloss-deriver">deriver</a></p>

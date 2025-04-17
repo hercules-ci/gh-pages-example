@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Documentation - Nix Reference Manual</title>
+        <title>Documentation - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/development/documentation.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/development/documentation.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -169,17 +172,17 @@
 <p>Incremental refactorings of the documentation build setup to make it faster or easier to understand and maintain are also welcome.</p>
 <h2 id="building-the-manual"><a class="header" href="#building-the-manual">Building the manual</a></h2>
 <p>Build the manual from scratch:</p>
-<pre><code class="language-console">nix-build $(nix-instantiate)'!doc'
+<pre><code class="language-console">nix-build -E '(import ./.).packages.${builtins.currentSystem}.nix.doc'
 </code></pre>
 <p>or</p>
-<pre><code class="language-console">nix build .#^doc
+<pre><code class="language-console">nix build .#nix-manual
 </code></pre>
-<p>and open <code>./result-doc/share/doc/nix/manual/index.html</code>.</p>
+<p>and open <code>./result/share/doc/nix/manual/index.html</code>.</p>
 <p>To build the manual incrementally, <a href="./building.html">enter the development shell</a> and run:</p>
 <pre><code class="language-console">make manual-html-open -j $NIX_BUILD_CORES
 </code></pre>
 <p>In order to reflect changes to the <a href="https://github.com/NixOS/nix/blob/master/doc/manual/local.mk">Makefile for the manual</a>, clear all generated files before re-building:</p>
-<pre><code class="language-console">rm $(git ls-files doc/manual/ -o | grep -F '.md') &amp;&amp; rmdir doc/manual/src/command-ref/new-cli &amp;&amp; make manual-html -j $NIX_BUILD_CORES
+<pre><code class="language-console">rm $(git ls-files doc/manual/ -o | grep -F '.md') &amp;&amp; rmdir doc/manual/source/command-ref/new-cli &amp;&amp; make manual-html -j $NIX_BUILD_CORES
 </code></pre>
 <h2 id="style-guide"><a class="header" href="#style-guide">Style guide</a></h2>
 <p>The goal of this style guide is to make it such that</p>
@@ -280,9 +283,9 @@ Put definitions close to their first use.</p>
 <p>Example:</p>
 <pre><code>A [store object] contains a [file system object] and [references] to other store objects.
 
-[store object]: @docroot@/store/store-object.md
-[file system object]: @docroot@/architecture/file-system-object.md
-[references]: @docroot@/glossary.md#gloss-reference
+[store object]: ../store/store-object.md
+[file system object]: ../architecture/file-system-object.md
+[references]: ../glossary.md#gloss-reference
 </code></pre>
 </li>
 <li>
@@ -305,12 +308,12 @@ Put definitions close to their first use.</p>
 </code></pre>
 </li>
 </ul>
-<h3 id="the-docroot-variable"><a class="header" href="#the-docroot-variable">The <code>@docroot@</code> variable</a></h3>
-<p><code>@docroot@</code> provides a base path for links that occur in reusable snippets or other documentation that doesn't have a base path of its own.</p>
-<p>If a broken link occurs in a snippet that was inserted into multiple generated files in different directories, use <code>@docroot@</code> to reference the <code>doc/manual/src</code> directory.</p>
-<p>If the <code>@docroot@</code> literal appears in an error message from the <a href="https://github.com/Michael-F-Bryan/mdbook-linkcheck"><code>mdbook-linkcheck</code></a> tool, the <code>@docroot@</code> replacement needs to be applied to the generated source file that mentions it.
-See existing <code>@docroot@</code> logic in the <a href="https://github.com/NixOS/nix/blob/master/doc/manual/local.mk">Makefile for the manual</a>.
-Regular markdown files used for the manual have a base path of their own and they can use relative paths instead of <code>@docroot@</code>.</p>
+<h3 id="the--variable"><a class="header" href="#the--variable">The <code>..</code> variable</a></h3>
+<p><code>..</code> provides a base path for links that occur in reusable snippets or other documentation that doesn't have a base path of its own.</p>
+<p>If a broken link occurs in a snippet that was inserted into multiple generated files in different directories, use <code>..</code> to reference the <code>doc/manual/source</code> directory.</p>
+<p>If the <code>..</code> literal appears in an error message from the <a href="https://github.com/Michael-F-Bryan/mdbook-linkcheck"><code>mdbook-linkcheck</code></a> tool, the <code>..</code> replacement needs to be applied to the generated source file that mentions it.
+See existing <code>..</code> logic in the <a href="https://github.com/NixOS/nix/blob/master/doc/manual/local.mk">Makefile for the manual</a>.
+Regular markdown files used for the manual have a base path of their own and they can use relative paths instead of <code>..</code>.</p>
 <h2 id="api-documentation"><a class="header" href="#api-documentation">API documentation</a></h2>
 <p><a href="https://hydra.nixos.org/job/nix/master/internal-api-docs/latest/download-by-type/doc/internal-api-docs">Doxygen API documentation</a> is available online.
 You can also build and view it yourself:</p>
@@ -318,7 +321,7 @@ You can also build and view it yourself:</p>
 $ xdg-open ./result/share/doc/nix/internal-api/html/index.html
 </code></pre>
 <p>or inside <code>nix-shell</code> or <code>nix develop</code>:</p>
-<pre><code class="language-console">$ mesonConfigurePhase
+<pre><code class="language-console">$ configurePhase
 $ ninja src/internal-api-docs/html
 $ xdg-open src/internal-api-docs/html/index.html
 </code></pre>
@@ -330,7 +333,7 @@ You can also build and view it yourself:</p>
 $ xdg-open ./result/share/doc/nix/external-api/html/index.html
 </code></pre>
 <p>or inside <code>nix-shell</code> or <code>nix develop</code>:</p>
-<pre><code>$ mesonConfigurePhase
+<pre><code>$ configurePhase
 $ ninja src/external-api-docs/html
 $ xdg-open src/external-api-docs/html/index.html
 </code></pre>
@@ -339,7 +342,7 @@ $ xdg-open src/external-api-docs/html/index.html
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../development/testing.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../development/debugging.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -353,7 +356,7 @@ $ xdg-open src/external-api-docs/html/index.html
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../development/testing.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../development/debugging.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

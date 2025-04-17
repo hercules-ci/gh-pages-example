@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix flake - Nix Reference Manual</title>
+        <title>nix flake - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../../highlight.css">
-        <link rel="stylesheet" href="../../tomorrow-night.css">
-        <link rel="stylesheet" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/command-ref/new-cli/nix3-flake.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/command-ref/new-cli/nix3-flake.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -241,6 +244,8 @@ specific value.</li>
 repository on GitHub.</li>
 <li><code>github:NixOS/nixpkgs/nixos-20.09</code>: The <code>nixos-20.09</code> branch of the
 <code>nixpkgs</code> repository.</li>
+<li><code>github:NixOS/nixpkgs/pull/357207/head</code>: The <code>357207</code> pull request
+of the nixpkgs repository.</li>
 <li><code>github:NixOS/nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293</code>: A
 specific revision of the <code>nixpkgs</code> repository.</li>
 <li><code>github:edolstra/nix-warez?dir=blender</code>: A flake in a subdirectory
@@ -308,7 +313,7 @@ reference types:</p>
 <p><code>ref</code>: A Git or Mercurial branch or tag name.</p>
 </li>
 </ul>
-<p>Finally, some attribute are typically not specified by the user, but
+<p>Finally, some attributes are typically not specified by the user, but
 can occur in <em>locked</em> flake references and are available to Nix code:</p>
 <ul>
 <li>
@@ -326,7 +331,8 @@ inside the tarball.</p>
 <p>Currently the <code>type</code> attribute can be one of the following:</p>
 <ul>
 <li>
-<p><code>indirect</code>: <em>The default</em>. Indirection through the flake registry.
+<p><code>indirect</code>: <em>The default</em>. These are symbolic references to flakes
+that are looked up in <a href="./nix3-registry.html">the flake registries</a>.
 These have the form</p>
 <pre><code>[flake:]&lt;flake-id&gt;(/&lt;rev-or-ref&gt;(/rev)?)?
 </code></pre>
@@ -345,7 +351,7 @@ details.</p>
 </ul>
 </li>
 <li>
-<p><code>path</code>: arbitrary local directories. The required attribute <code>path</code>
+<p><a name="path-fetcher"></a><code>path</code>: arbitrary local directories. The required attribute <code>path</code>
 specifies the path of the flake. The URL form is</p>
 <pre><code>path:&lt;path&gt;(\?&lt;params&gt;)?
 </code></pre>
@@ -353,17 +359,40 @@ specifies the path of the flake. The URL form is</p>
 containing a file named <code>flake.nix</code>.</p>
 <p>If the flake at <em>path</em> is not inside a git repository, the <code>path:</code>
 prefix is implied and can be omitted.</p>
-<p><em>path</em> generally must be an absolute path. However, on the command
-line, it can be a relative path (e.g. <code>.</code> or <code>./foo</code>) which is
-interpreted as relative to the current directory. In this case, it
-must start with <code>.</code> to avoid ambiguity with registry lookups
-(e.g. <code>nixpkgs</code> is a registry lookup; <code>./nixpkgs</code> is a relative
-path).</p>
+<p>If <em>path</em> is a relative path (i.e. if it does not start with <code>/</code>),
+it is interpreted as follows:</p>
+<ul>
+<li>
+<p>If <em>path</em> is a command line argument, it is interpreted relative
+to the current directory.</p>
+</li>
+<li>
+<p>If <em>path</em> is used in a <code>flake.nix</code>, it is interpreted relative to
+the directory containing that <code>flake.nix</code>. However, the resolved
+path must be in the same tree. For instance, a <code>flake.nix</code> in the
+root of a tree can use <code>path:./foo</code> to access the flake in
+subdirectory <code>foo</code>, but <code>path:../bar</code> is illegal. On the other
+hand, a flake in the <code>/foo</code> directory of a tree can use
+<code>path:../bar</code> to refer to the flake in <code>/bar</code>.</p>
+</li>
+</ul>
+<p>Path inputs can be specified with path values in <code>flake.nix</code>. Path values are a syntax for <code>path</code> inputs, and they are converted by</p>
+<ol>
+<li>resolving them into relative paths, relative to the base directory of <code>flake.nix</code></li>
+<li>escaping URL characters (refer to IETF RFC?)</li>
+<li>prepending <code>path:</code></li>
+</ol>
+<p>Note that the allowed syntax for path values in flake <code>inputs</code> may be more restrictive than general Nix, so you may need to use <code>path:</code> if your path contains certain special characters. See <a href="../../language/syntax.html#path-literal">Path literals</a></p>
+<p>Note that if you omit <code>path:</code>, relative paths must start with <code>.</code> to
+avoid ambiguity with registry lookups (e.g. <code>nixpkgs</code> is a registry
+lookup; <code>./nixpkgs</code> is a relative path).</p>
 <p>For example, these are valid path flake references:</p>
 <ul>
 <li><code>path:/home/user/sub/dir</code></li>
 <li><code>/home/user/sub/dir</code> (if <code>dir/flake.nix</code> is <em>not</em> in a git repository)</li>
-<li><code>./sub/dir</code> (when used on the command line and <code>dir/flake.nix</code> is <em>not</em> in a git repository)</li>
+<li><code>path:sub/dir</code></li>
+<li><code>./sub/dir</code></li>
+<li><code>path:../parent</code></li>
 </ul>
 </li>
 <li>
@@ -392,6 +421,9 @@ is treated as dirty and a warning is printed.</p>
 <li><code>./sub/dir</code> (when used on the command line and <code>dir/flake.nix</code> is in a git repository)</li>
 <li><code>git+https://example.org/my/repo</code></li>
 <li><code>git+https://example.org/my/repo?dir=flake1</code></li>
+<li><code>git+https://example.org/my/repo?shallow=1</code> A shallow clone of the repository.
+For large repositories, the shallow clone option can significantly speed up fresh clones compared
+to non-shallow clones, while still providing faster updates than other fetch methods such as <code>tarball:</code> or <code>github:</code>.</li>
 <li><code>git+ssh://git@github.com/NixOS/nix?ref=v1.2.3</code></li>
 <li><code>git://github.com/edolstra/dwarffs?ref=unstable&amp;rev=e486d8d40e626a20e06d792db8cc5ac5aba9a5b4</code></li>
 <li><code>git+file:///home/my-user/some-repo/some-repo</code></li>
@@ -692,8 +724,9 @@ or NixOS modules, which are composed into the top-level flake's
 <p>Inputs specified in <code>flake.nix</code> are typically "unlocked" in the sense
 that they don't specify an exact revision. To ensure reproducibility,
 Nix will automatically generate and use a <em>lock file</em> called
-<code>flake.lock</code> in the flake's directory. The lock file contains a graph
-structure isomorphic to the graph of dependencies of the root
+<code>flake.lock</code> in the flake's directory.
+The lock file is a UTF-8 JSON file.
+It contains a graph structure isomorphic to the graph of dependencies of the root
 flake. Each node in the graph (except the root node) maps the
 (usually) unlocked input specifications in <code>flake.nix</code> to locked input
 specifications. Each node also contains some metadata, such as the
@@ -772,7 +805,7 @@ following fields:</p>
 names (e.g. <code>nixpkgs</code>) to node labels (e.g. <code>n2</code>).</p>
 </li>
 <li>
-<p><code>original</code>: The original input specification from <code>flake.lock</code>, as a
+<p><code>original</code>: The original input specification from <code>flake.nix</code>, as a
 set of <code>builtins.fetchTree</code> arguments.</p>
 </li>
 <li>
@@ -788,6 +821,10 @@ attributes is to allow flake inputs to be substituted from a binary
 cache: <code>narHash</code> allows the store path to be computed, while the
 other attributes are necessary because they provide information not
 stored in the store path.</p>
+<p>The attributes in <code>locked</code> are considered "final", meaning that they are the only ones that are passed via the arguments of the <code>outputs</code> function of a flake.
+For instance, if <code>locked</code> contains a <code>lastModified</code> attribute while the fetcher does not return a <code>lastModified</code> attribute, then the <code>lastModified</code> attribute will be passed to the <code>outputs</code> function.
+Conversely, if <code>locked</code> does <em>not</em> contain a <code>lastModified</code> attribute while the fetcher <em>does</em> return a <code>lastModified</code> attribute, then no <code>lastModified</code> attribute will be passed.
+If <code>locked</code> contains a <code>lastModifed</code> attribute and the fetcher returns a <code>lastModified</code> attribute, then they must have the same value.</p>
 </li>
 <li>
 <p><code>flake</code>: A Boolean denoting whether this is a flake or non-flake

@@ -1,0 +1,365 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Content-addressing derivation outputs - Nix 2.28.1 Reference Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../../favicon.svg">
+        <link rel="shortcut icon" href="../../../favicon.png">
+        <link rel="stylesheet" href="../../../css/variables.css">
+        <link rel="stylesheet" href="../../../css/general.css">
+        <link rel="stylesheet" href="../../../css/chrome.css">
+        <link rel="stylesheet" href="../../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../../../custom.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/store/derivation/outputs/content-address.md" title="Suggest an edit" aria-label="Suggest an edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="content-addressing-derivation-outputs"><a class="header" href="#content-addressing-derivation-outputs">Content-addressing derivation outputs</a></h1>
+<p>The content-addressing of an output only depends on that store object itself, not any other information external (such has how it was made, when it was made, etc.).
+As a consequence, a store object will be content-addressed the same way regardless of whether it was manually inserted into the store, outputted by some derivation, or outputted by a some other derivation.</p>
+<p>The output spec for a content-addressed output must contains the following field:</p>
+<ul>
+<li><em>method</em>: how the data of the store object is digested into a content address</li>
+</ul>
+<p>The possible choices of <em>method</em> are described in the <a href="../../../store/store-object/content-address.html">section on content-addressing store objects</a>.
+Given the method, the output's name (computed from the derivation name and output spec mapping as described above), and the data of the store object, the output's store path will be computed as described in that section.</p>
+<h2 id="fixed"><a class="header" href="#fixed">Fixed-output content-addressing</a></h2>
+<p>In this case the content address of the <em>fixed</em> in advanced by the derivation itself.
+In other words, when the derivation has finished <a href="../../../store/building.html">building</a>, and the provisional output' content-address is computed as part of the process to turn it into a <em>bona fide</em> store object, the calculated content address must much that given in the derivation, or the build of that derivation will be deemed a failure.</p>
+<p>The output spec for an output with a fixed content addresses additionally contains:</p>
+<ul>
+<li><em>hash</em>, the hash expected from digesting the store object's file system objects.
+This hash may be of a freely-chosen hash algorithm (that Nix supports)</li>
+</ul>
+<blockquote>
+<p><strong>Design note</strong></p>
+<p>In principle, the output spec could also specify the references the store object should have, since the references and file system objects are equally parts of a content-addressed store object proper that contribute to its content-addressed.
+However, at this time, the references are not not done because all fixed content-addressed outputs are required to have no references (including no self-reference).</p>
+<p>Also in principle, rather than specifying the references and file system object data with separate hashes, a single hash that constraints both could be used.
+This could be done with the final store path's digest, or better yet, the hash that will become the store path's digest before it is truncated.</p>
+<p>These possible future extensions are included to elucidate the core property of fixed-output content addressing --- that all parts of the output must be cryptographically fixed with one or more hashes --- separate from the particulars of the currently-supported store object content-addressing schemes.</p>
+</blockquote>
+<h3 id="design-rationale"><a class="header" href="#design-rationale">Design rationale</a></h3>
+<p>What is the purpose of fixing an output's content address in advanced?
+In abstract terms, the answer is carefully controlled impurity.
+Unlike a regular derivation, the <a href="../../../store/derivation/index.html#builder">builder</a> executable of a derivation that produced fixed outputs has access to the network.
+The outputs' guaranteed content-addresses are supposed to mitigate the risk of the builder being given these capabilities;
+regardless of what the builder does <em>during</em> the build, it cannot influence downstream builds in unanticipated ways because all information it passed downstream flows through the outputs whose content-addresses are fixed.</p>
+<p>In concrete terms, the purpose of this feature is fetching fixed input data like source code from the network.
+For example, consider a family of "fetch URL" derivations.
+These derivations download files from given URL.
+To ensure that the downloaded file has not been modified, each derivation must also specify a cryptographic hash of the file.
+For example,</p>
+<pre><code class="language-jsonc">{
+  "outputs: {
+    "out": {
+      "method": "nar",
+      "hashAlgo": "sha256",
+      "hash: "1md7jsfd8pa45z73bz1kszpp01yw6x5ljkjk2hx7wl800any6465",
+    },
+  },
+  "env": {
+    "url": "http://ftp.gnu.org/pub/gnu/hello/hello-2.1.1.tar.gz"
+    // ...
+  },
+  // ...
+}
+</code></pre>
+<p>It sometimes happens that the URL of the file changes,
+e.g., because servers are reorganised or no longer available.
+In these cases, we then must update the call to <code>fetchurl</code>, e.g.,</p>
+<pre><code class="language-diff">   "env": {
+-    "url": "http://ftp.gnu.org/pub/gnu/hello/hello-2.1.1.tar.gz"
++    "url": "ftp://ftp.nluug.nl/pub/gnu/hello/hello-2.1.1.tar.gz"
+     // ...
+   },
+</code></pre>
+<p>If a <code>fetchurl</code> derivation's outputs were <a href="./input-address.html">input-addressed</a>, the output paths of the derivation and of <em>all derivations depending on it</em> would change.
+For instance, if we were to change the URL of the Glibc source distribution in Nixpkgs (a package on which almost all other packages depend on Linux) massive rebuilds would be needed.
+This is unfortunate for a change which we know cannot have a real effect as it propagates upwards through the dependency graph.</p>
+<p>For content-addressed outputs (fixed or floating), on the other hand, the outputs' store path only depends on the derivation's name, data, and the <code>method</code> of the outputs' specs.
+The rest of the derivation is ignored for the purpose of computing the output path.</p>
+<blockquote>
+<p><strong>History Note</strong></p>
+<p>Fixed content-addressing is especially important both today and historically as the <em>only</em> form of content-addressing that is stabilized.
+This is why the rationale above contrasts it with <a href="./input-address.html">input addressing</a>.</p>
+</blockquote>
+<h2 id="floating"><a class="header" href="#floating">(Floating) Content-Addressing</a></h2>
+<blockquote>
+<p><strong>Warning</strong>
+This is part of an <a href="../../../development/experimental-features.html">experimental feature</a>.</p>
+<p>To use this type of output addressing, you must enable the
+<a href="../../../development/experimental-features.html#xp-feature-ca-derivations"><code>ca-derivations</code></a> experimental feature.
+For example, in <a href="../../../command-ref/conf-file.html">nix.conf</a> you could add:</p>
+<pre><code>extra-experimental-features = ca-derivations
+</code></pre>
+</blockquote>
+<p>With this experimemental feature enabled, derivation outputs can also be content-addressed <em>without</em> fixing in the output spec what the outputs' content address must be.</p>
+<h3 id="purity"><a class="header" href="#purity">Purity</a></h3>
+<p>Because the derivation output is not fixed (just like with <a href="./input-address.html">input addressing</a>), the <a href="../../../store/derivation/index.html#builder">builder</a> is not given any impure capabilities [^purity].</p>
+<blockquote>
+<p><strong>Configuration note</strong></p>
+<p>Strictly speaking, the extent to which sandboxing and deprivilaging is possible varies with the environment Nix is running in.
+Nix's configuration settings indicate what level of sandboxing is required or enabled.
+Builds of derivations will fail if they request an absense of sandboxing which is not allowed.
+Builds of derivations will also fail if the level of sandboxing specified in the configure exceeds what is possible in teh given environment.</p>
+<p>(The "environment", in this case, consists of attributes such as the Operating System Nix runs atop, along with the operating-system-specific privilages that Nix has been granted.
+Because of how conventional operating systems like macos, Linux, etc. work, granting builders <em>fewer</em> privilages may ironically require that Nix be run with <em>more</em> privilages.)</p>
+</blockquote>
+<p>That said, derivations producing floating content-addressed outputs may declare their builders as impure (like the builders of derivations producing producing fixed outputs).
+This is provisionally supported as part of the <a href="../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature.</p>
+<h3 id="compatibility-negotiation"><a class="header" href="#compatibility-negotiation">Compatibility negotiation</a></h3>
+<p>Any derivation producing a floating content-addresssed output implicitly requires the <code>ca-derivations</code> <a href="../../../command-ref/conf-file.html#conf-system-features">system feature</a>.
+This prevents scheduling the building of the derivation on a machine without the experimental feature enabled.
+Even once the experimental feature is stabilized, this is still useful in order to be allow using remote builder running odler versions of Nix, or alternative implementations that do not support floating content addressing.</p>
+<h3 id="determinism"><a class="header" href="#determinism">Determinism</a></h3>
+<p>In the earlier <a href="../../../store/store-object/content-address.html#self-references">discussion of how self-references are handled when content-addressing store objects</a>, it was pointed out that methods of producing store objects ought to be deterministic regardless of the choice of provisional store path.
+For store objects produced by manually inserting into the store to create a store object, the "method of production" is an informally concept --- formally, Nix has no idea where the store object came from, and content-addressing is crucial in order to ensure that the derivation is <em>intrinsically</em> tamper-proof.
+But for store objects produced by derivation, the "method is quite formal" --- the whole point of derivations is to be a formal notion of building, after all.
+In this case, we can elevate this informal property to a formal one.</p>
+<p>A <em>determinstic</em> content-addressing derivation should produce outputs with the same content addresses:</p>
+<ol>
+<li>Every time the builder is run</li>
+</ol>
+<p>This is because either the builder is completely sandboxed, or because all any remaining impurities that leak inside the build sandbox are ignored by the builder and do not influence its behavior.</p>
+<ol start="2">
+<li>Regardless of the choice of any provisional outputs paths</li>
+</ol>
+<p>Provisional store paths must be chosen for any output that has a self-reference.
+The choice of provisional store path can be thought of as an impurity, since it is an arbitrary choice.</p>
+<p>If provisional outputs paths are deterministically chosen, we are in the first branch of part (1).
+The builder the data it produces based on it in arbitrary ways, but this gets us closer to to <a href="./input-address.html">input addressing</a>.
+Deterministically choosing the provisional path may be considered "complete sandboxing" by removing an impurity, but this is unsatisfactory</p>
+  <!--
+
+  TODO
+  (Both these points will be expanded-upon below.)
+
+  -->
+<p>If provisional outputs paths are randomly chosen, we are in the second branch of part (1).
+The builder <em>must</em> not let the random input affect the final outputs it produces, and multiple builds may be performed and the compared in order to ensure that this is in fact the case.</p>
+<h3 id="floating-versus-fixed"><a class="header" href="#floating-versus-fixed">Floating versus Fixed</a></h3>
+<p>While the distinction between content- and input-addressing is one of <em>mechanism</em>, the distinction between fixed and floating content addressing is more one of <em>policy</em>.
+A fixed output that passes its content address check is just like a floating output.
+It is only in the potential for that check to fail that they are different.</p>
+<blockquote>
+<p><strong>Design Note</strong></p>
+<p>In a future world where floating content-addressing is also stable, we in principle no longer need separate <a href="#fixed">fixed</a> content-addressing.
+Instead, we could always use floating content-addressing, and separately assert the precise value content address of a given store object to be used as an input (of another derivation).
+A stand-alone assertion object of this sort is not yet implemented, but its possible creation is tracked in <a href="https://github.com/NixOS/nix/issues/11955">Issue #11955</a>.</p>
+<p>In the current version of Nix, fixed outputs which fail their hash check are still registered as valid store objects, just not registered as outputs of the derivation which produced them.
+This is an optimization that means if the wrong output hash is specified in a derivation, and then the derivation is recreated with the right output hash, derivation does not need to be rebuilt --- avoiding downloading potentially large amounts of data twice.
+This optimisation prefigures the design above:
+If the output hash assertion was removed outside the derivation itself, Nix could additionally not only register that outputted store object like today, but could also make note that derivation did in fact successfully download some data.
+For example, for the "fetch URL" example above, making such a note is tantamount to recording what data is available at the time of download at the given URL.
+It would only be when Nix subsequently tries to build something with that (refining our example) downloaded source code that Nix would be forced to check the output hash assertion, preventing it from e.g. building compromised malware.</p>
+<p>Recapping, Nix would</p>
+<ol>
+<li>successfully download data</li>
+<li>insert that data into the store</li>
+<li>associate (presumably with some sort of expiration policy) the downloaded data with the derivation that downloaded it</li>
+</ol>
+<p>But only use the downloaded store object in subsequent derivations that depended upon the assertion if the assertion passed.</p>
+<p>This possible future extension is included to illustrate this distinction:</p>
+</blockquote>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../../store/derivation/outputs/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../../store/derivation/outputs/input-address.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../../store/derivation/outputs/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../../store/derivation/outputs/input-address.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../../elasticlunr.min.js"></script>
+        <script src="../../../mark.min.js"></script>
+        <script src="../../../searcher.js"></script>
+
+        <script src="../../../clipboard.min.js"></script>
+        <script src="../../../highlight.js"></script>
+        <script src="../../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../../redirects.js"></script>
+
+
+    </div>
+    </body>
+</html>

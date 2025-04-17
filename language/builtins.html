@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Built-ins - Nix Reference Manual</title>
+        <title>Built-ins - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/language/builtins.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/language/builtins.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -590,6 +593,10 @@ This approximates part of the <code>git archive</code> behavior.</p>
 When this is enabled, the options <code>ref</code> and <code>allRefs</code> have no effect anymore.</p>
 </li>
 <li>
+<p><code>lfs</code> (default: <code>false</code>)</p>
+<p>A boolean that when <code>true</code> specifies that <a href="https://git-lfs.com/">Git LFS</a> files should be fetched.</p>
+</li>
+<li>
 <p><code>allRefs</code></p>
 <p>Whether to fetch all references (eg. branches and tags) of the repository.
 With this argument being true, it's possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
@@ -918,6 +925,11 @@ When this is enabled, the options <code>ref</code> and <code>allRefs</code> have
 <li>
 <p><code>submodules</code> (Bool, optional)</p>
 <p>Also fetch submodules if available.</p>
+<p>Default: <code>false</code></p>
+</li>
+<li>
+<p><code>lfs</code> (Bool, optional)</p>
+<p>Fetch any <a href="https://git-lfs.com/">Git LFS</a> files.</p>
 <p>Default: <code>false</code></p>
 </li>
 <li>
@@ -1642,7 +1654,12 @@ in the list is a regex group.</p>
   <a href="#builtins-nixPath"><code>nixPath</code></a> (list)
 </dt>
 <dd>
-<p>The value of the <a href="../command-ref/conf-file.html#conf-nix-path"><code>nix-path</code> configuration setting</a>: a list of search path entries used to resolve <a href="../language/constructs/lookup-path.html">lookup paths</a>.</p>
+<p>A list of search path entries used to resolve <a href="../language/constructs/lookup-path.html">lookup paths</a>.
+Its value is primarily determined by the <a href="../command-ref/conf-file.html#conf-nix-path"><code>nix-path</code> configuration setting</a>, which are</p>
+<ul>
+<li>Overridden by the <a href="../command-ref/env-common.html#env-NIX_PATH"><code>NIX_PATH</code></a> environment variable or the <code>--nix-path</code> option</li>
+<li>Extended by the <a href="../command-ref/opt-common.html#opt-I"><code>-I</code> option</a> or <code>--extra-nix-path</code></li>
+</ul>
 <blockquote>
 <p><strong>Example</strong></p>
 <pre><code class="language-bash">$ NIX_PATH= nix-instantiate --eval --expr "builtins.nixPath" -I foo=bar --no-pure-eval
@@ -1692,18 +1709,21 @@ nix (Nix) 2.16.0
 <pre><code>extra-experimental-features = dynamic-derivations
 </code></pre>
 </blockquote>
-<p>Return the output path of a derivation, literally or using a placeholder if needed.</p>
+<p>Return the output path of a derivation, literally or using an
+<a href="../store/derivation/index.html#input-placeholder">input placeholder string</a>
+if needed.</p>
 <p>If the derivation has a statically-known output path (i.e. the derivation output is input-addressed, or fixed content-addresed), the output path will just be returned.
-But if the derivation is content-addressed or if the derivation is itself not-statically produced (i.e. is the output of another derivation), a placeholder will be returned instead.</p>
-<p><em><code>derivation reference</code></em> must be a string that may contain a regular store path to a derivation, or may be a placeholder reference. If the derivation is produced by a derivation, you must explicitly select <code>drv.outPath</code>.
+But if the derivation is content-addressed or if the derivation is itself not-statically produced (i.e. is the output of another derivation), an input placeholder will be returned instead.</p>
+<p><em><code>derivation reference</code></em> must be a string that may contain a regular store path to a derivation, or may be an input placeholder reference.
+If the derivation is produced by a derivation, you must explicitly select <code>drv.outPath</code>.
 This primop can be chained arbitrarily deeply.
 For instance,</p>
 <pre><code class="language-nix">builtins.outputOf
   (builtins.outputOf myDrv "out")
   "out"
 </code></pre>
-<p>will return a placeholder for the output of the output of <code>myDrv</code>.</p>
-<p>This primop corresponds to the <code>^</code> sigil for derivable paths, e.g. as part of installable syntax on the command line.</p>
+<p>will return a input placeholder for the output of the output of <code>myDrv</code>.</p>
+<p>This primop corresponds to the <code>^</code> sigil for <a href="../glossary.html#gloss-deriving-paths">deriving paths</a>, e.g. as part of installable syntax on the command line.</p>
 </dd>
 <dt id="builtins-parseDrvName">
   <a href="#builtins-parseDrvName"><code>parseDrvName <var>s</var></code></a>
@@ -1799,9 +1819,12 @@ providing a hash allows <code>builtins.path</code> to be used even when the
   <a href="#builtins-placeholder"><code>placeholder <var>output</var></code></a>
 </dt>
 <dd>
-<p>Return a placeholder string for the specified <em>output</em> that will be
-substituted by the corresponding output path at build time. Typical
-outputs would be <code>"out"</code>, <code>"bin"</code> or <code>"dev"</code>.</p>
+<p>Return at
+<a href="../store/derivation/index.html#output-placeholder">output placeholder string</a>
+for the specified <em>output</em> that will be substituted by the corresponding
+<a href="../glossary.html#gloss-output-path">output path</a>
+at build time.</p>
+<p>Typical outputs would be <code>"out"</code>, <code>"bin"</code> or <code>"dev"</code>.</p>
 </dd>
 <dt id="builtins-readDir">
   <a href="#builtins-readDir"><code>readDir <var>path</var></code></a>
@@ -1827,7 +1850,7 @@ directory <code>A</code> contains a regular file <code>B</code> and another dire
 </dt>
 <dd>
 <p>Determine the directory entry type of a filesystem node, being
-one of "directory", "regular", "symlink", or "unknown".</p>
+one of <code>"directory"</code>, <code>"regular"</code>, <code>"symlink"</code>, or <code>"unknown"</code>.</p>
 </dd>
 <dt id="builtins-removeAttrs">
   <a href="#builtins-removeAttrs"><code>removeAttrs <var>set</var> <var>list</var></code></a>
@@ -2261,7 +2284,7 @@ Replacing a constant string context element with a "derivation deep" element is 
   <a href="#builtins-warn"><code>warn <var>e1</var> <var>e2</var></code></a>
 </dt>
 <dd>
-<p>Evaluate <em>e1</em>, which must be a string and print iton standard error as a warning.
+<p>Evaluate <em>e1</em>, which must be a string, and print it on standard error as a warning.
 Then return <em>e2</em>.
 This function is useful for non-critical situations where attention is advisable.</p>
 <p>If the

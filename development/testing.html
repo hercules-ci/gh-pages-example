@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testing - Nix Reference Manual</title>
+        <title>Testing - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/development/testing.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/development/testing.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -174,44 +177,47 @@ You can build it yourself:</p>
 <p>An example of some files, demonstrating much of what is described below</p>
 <pre><code>src
 ├── libexpr
-│   ├── local.mk
-│   ├── value/context.hh
+│   ├── meson.build
+│   ├── include/nix/expr/value/context.hh
 │   ├── value/context.cc
 │   …
 │
 ├── tests
 │   │
 │   …
-│   └── unit
-│       ├── libutil
-│       │   ├── local.mk
-│       │   …
-│       │   └── data
-│       │       ├── git/tree.txt
-│       │       …
-│       │
-│       ├── libexpr-support
-│       │   ├── local.mk
-│       │   └── tests
-│       │       ├── value/context.hh
-│       │       ├── value/context.cc
-│       │       …
-│       │
-│       ├── libexpr
-│       …   ├── local.mk
-│           ├── value/context.cc
-│           …
+│   ├── libutil-tests
+│   │   ├── meson.build
+│   │   …
+│   │   └── data
+│   │       ├── git/tree.txt
+│   │       …
+│   │
+│   ├── libexpr-test-support
+│   │   ├── meson.build
+│   │   ├── include/nix/expr
+│   │   │   ├── meson.build
+│   │   │   └── tests
+│   │   │       ├── value/context.hh
+│   │   │       …
+│   │   └── tests
+│   │       ├── value/context.cc
+│   │       …
+│   │
+│   ├── libexpr-tests
+│   …   ├── meson.build
+│       ├── value/context.cc
+│       …
 …
 </code></pre>
 </blockquote>
 <p>The tests for each Nix library (<code>libnixexpr</code>, <code>libnixstore</code>, etc..) live inside a directory <code>src/${library_name_without-nix}-test</code>.
-Given an interface (header) and implementation pair in the original library, say, <code>src/libexpr/value/context.{hh,cc}</code>, we write tests for it in <code>src/nix-expr-tests/value/context.cc</code>, and (possibly) declare/define additional interfaces for testing purposes in <code>src/nix-expr-test-support/tests/value/context.{hh,cc}</code>.</p>
+Given an interface (header) and implementation pair in the original library, say, <code>src/libexpr/include/nix/expr/value/context.hh</code> and <code>src/libexpr/value/context.cc</code>, we write tests for it in <code>src/libexpr-tests/value/context.cc</code>, and (possibly) declare/define additional interfaces for testing purposes in <code>src/libexpr-test-support/include/nix/expr/tests/value/context.hh</code> and <code>src/libexpr-test-support/tests/value/context.cc</code>.</p>
 <p>Data for unit tests is stored in a <code>data</code> subdir of the directory for each unit test executable.
-For example, <code>libnixstore</code> code is in <code>src/libstore</code>, and its test data is in <code>src/nix-store-tests/data</code>.
+For example, <code>libnixstore</code> code is in <code>src/libstore</code>, and its test data is in <code>src/libstore-tests/data</code>.
 The path to the <code>src/${library_name_without-nix}-test/data</code> directory is passed to the unit test executable with the environment variable <code>_NIX_TEST_UNIT_DATA</code>.
 Note that each executable only gets the data for its tests.</p>
 <p>The unit test libraries are in <code>src/${library_name_without-nix}-test-support</code>.
-All headers are in a <code>tests</code> subdirectory so they are included with <code>#include "tests/"</code>.</p>
+All headers are in a <code>tests</code> subdirectory so they are included with <code>#include "nix/tests/"</code>.</p>
 <p>The use of all these separate directories for the unit tests might seem inconvenient, as for example the tests are not "right next to" the part of the code they are testing.
 But organizing the tests this way has one big benefit:
 there is no risk of any build-system wildcards for the library accidentally picking up test code that should not built and installed as part of the library.</p>
@@ -227,11 +233,31 @@ A environment variables that Google Test accepts are also worth knowing:</p>
 <p><a href="https://google.github.io/googletest/advanced.html#suppressing-test-passes"><code>GTEST_BRIEF</code></a></p>
 <p>This is used to avoid logging passing tests.</p>
 </li>
+<li>
+<p><a href="https://google.github.io/googletest/advanced.html#turning-assertion-failures-into-break-points"><code>GTEST_BREAK_ON_FAILURE</code></a></p>
+<p>This is used to create a debugger breakpoint when an assertion failure occurs.</p>
+</li>
 </ol>
-<p>Putting the two together, one might run</p>
+<p>Putting the first two together, one might run</p>
 <pre><code class="language-bash">GTEST_BRIEF=1 GTEST_FILTER='ErrorTraceTest.*' meson test nix-expr-tests -v
 </code></pre>
 <p>for short but comprensive output.</p>
+<h3 id="debugging-tests"><a class="header" href="#debugging-tests">Debugging tests</a></h3>
+<p>For debugging, it is useful to combine the third option above with Meson's <a href="https://mesonbuild.com/Unit-tests.html#other-test-options"><code>--gdb</code></a> flag:</p>
+<pre><code class="language-bash">GTEST_BRIEF=1 GTEST_FILTER='Group.my-failing-test' meson test nix-expr-tests --gdb
+</code></pre>
+<p>This will:</p>
+<ol>
+<li>
+<p>Run the unit test with GDB</p>
+</li>
+<li>
+<p>Run just <code>Group.my-failing-test</code></p>
+</li>
+<li>
+<p>Stop the program when the test fails, allowing the user to then issue arbitrary commands to GDB.</p>
+</li>
+</ol>
 <h3 id="characaterisation-testing-unit"><a class="header" href="#characaterisation-testing-unit">Characterisation testing</a></h3>
 <p>See <a href="#characterisation-testing-functional">functional characterisation testing</a> for a broader discussion of characterisation testing.</p>
 <p>Like with the functional characterisation, <code>_NIX_TEST_ACCEPT=1</code> is also used.
@@ -256,52 +282,51 @@ Downstream types frequently contain upstream types, so it is very important that
 On some platforms they would be run as part of every test executable that uses them, which is redundant.
 On other platforms they wouldn't be run at all.</p>
 <h2 id="functional-tests"><a class="header" href="#functional-tests">Functional tests</a></h2>
-<p>The functional tests reside under the <code>tests/functional</code> directory and are listed in <code>tests/functional/local.mk</code>.
+<p>The functional tests reside under the <code>tests/functional</code> directory and are listed in <code>tests/functional/meson.build</code>.
 Each test is a bash script.</p>
 <p>Functional tests are run during <code>installCheck</code> in the <code>nix</code> package build, as well as separately from the build, in VM tests.</p>
 <h3 id="running-the-whole-test-suite"><a class="header" href="#running-the-whole-test-suite">Running the whole test suite</a></h3>
-<p>The whole test suite can be run with:</p>
-<pre><code class="language-shell-session">$ make install &amp;&amp; make installcheck
-ran test tests/functional/foo.sh... [PASS]
-ran test tests/functional/bar.sh... [PASS]
-...
+<p>The whole test suite (functional and unit tests) can be run with:</p>
+<pre><code class="language-shell-session">$ checkPhase
 </code></pre>
 <h3 id="grouping-tests"><a class="header" href="#grouping-tests">Grouping tests</a></h3>
 <p>Sometimes it is useful to group related tests so they can be easily run together without running the entire test suite.
 Each test group is in a subdirectory of <code>tests</code>.
-For example, <code>tests/functional/ca/local.mk</code> defines a <code>ca</code> test group for content-addressed derivation outputs.</p>
+For example, <code>tests/functional/ca/meson.build</code> defines a <code>ca</code> test group for content-addressing derivation outputs.</p>
 <p>That test group can be run like this:</p>
-<pre><code class="language-shell-session">$ make ca.test-group -j50
-ran test tests/functional/ca/nix-run.sh... [PASS]
-ran test tests/functional/ca/import-derivation.sh... [PASS]
-...
-</code></pre>
-<p>The test group is defined in Make like this:</p>
-<pre><code class="language-makefile">$(test-group-name)-tests := \
-  $(d)/test0.sh \
-  $(d)/test1.sh \
-  ...
-
-install-tests-groups += $(test-group-name)
+<pre><code class="language-shell-session">$ meson test --suite ca
+ninja: Entering directory `/home/jcericson/src/nix/master/build'
+ninja: no work to do.
+[1-20/20] 🌑 nix-functional-tests:ca / ca/why-depends                                1/20 nix-functional-tests:ca / ca/nix-run                                  OK               0.16s
+[2-20/20] 🌒 nix-functional-tests:ca / ca/why-depends                                2/20 nix-functional-tests:ca / ca/import-derivation                        OK               0.17s
 </code></pre>
 <h3 id="running-individual-tests"><a class="header" href="#running-individual-tests">Running individual tests</a></h3>
-<p>Individual tests can be run with <code>make</code>:</p>
-<pre><code class="language-shell-session">$ make tests/functional/${testName}.sh.test
-ran test tests/functional/${testName}.sh... [PASS]
+<p>Individual tests can be run with <code>meson</code>:</p>
+<pre><code class="language-shell-session">$ meson test --verbose ${testName}
+ninja: Entering directory `/home/jcericson/src/nix/master/build'
+ninja: no work to do.
+1/1 nix-functional-tests:main / ${testName}        OK               0.41s
+
+Ok:                 1
+Expected Fail:      0
+Fail:               0
+Unexpected Pass:    0
+Skipped:            0
+Timeout:            0
+
+Full log written to /home/jcericson/src/nix/master/build/meson-logs/testlog.txt
 </code></pre>
-<p>or without <code>make</code>:</p>
-<pre><code class="language-shell-session">$ ./mk/run-test.sh tests/functional/${testName}.sh
-ran test tests/functional/${testName}.sh... [PASS]
-</code></pre>
-<p>To see the complete output, one can also run:</p>
-<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/functional/${testName}.sh
+<p>The <code>--verbose</code> flag will make Meson also show the console output of each test for easier debugging.
+The test script will then be traced with <code>set -x</code> and the output displayed as it happens,
+regardless of whether the test succeeds or fails.</p>
+<p>Tests can be also run directly without <code>meson</code>:</p>
+<pre><code class="language-shell-session">$ TEST_NAME=${testName} NIX_REMOTE='' PS4='+(${BASH_SOURCE[0]-$0}:$LINENO) tests/functional/${testName}.sh
 +(${testName}.sh:1) foo
 output from foo
 +(${testName}.sh:2) bar
 output from bar
 ...
 </code></pre>
-<p>The test script will then be traced with <code>set -x</code> and the output displayed as it happens, regardless of whether the test succeeds or fails.</p>
 <h3 id="debugging-failing-functional-tests"><a class="header" href="#debugging-failing-functional-tests">Debugging failing functional tests</a></h3>
 <p>When a functional test fails, it usually does so somewhere in the middle of the script.</p>
 <p>To figure out what's wrong, it is convenient to run the test regularly up to the failing <code>nix</code> command, and then run that command with a debugger like GDB.</p>
@@ -316,8 +341,8 @@ bar
 +gdb --args nix blah blub
  bar
 </code></pre>
-<p>Then, running the test with <code>./mk/debug-test.sh</code> will drop you into GDB once the script reaches that point:</p>
-<pre><code class="language-shell-session">$ ./mk/debug-test.sh tests/functional/${testName}.sh
+<p>Then, running the test with <a href="https://mesonbuild.com/Unit-tests.html#other-test-options"><code>--interactive</code></a> will prevent Meson from hijacking the terminal so you can drop you into GDB once the script reaches that point:</p>
+<pre><code class="language-shell-session">$ meson test ${testName} --interactive
 ...
 + gdb blash blub
 GNU gdb (GDB) 12.1
@@ -338,7 +363,7 @@ This technique is to include the exact output/behavior of a former version of Ni
 <p>It is frequently useful to regenerate the expected output.
 To do that, rerun the failed test(s) with <code>_NIX_TEST_ACCEPT=1</code>.
 For example:</p>
-<pre><code class="language-bash">_NIX_TEST_ACCEPT=1 make tests/functional/lang.sh.test
+<pre><code class="language-bash">_NIX_TEST_ACCEPT=1 meson test lang
 </code></pre>
 <p>This convention is shared with the <a href="#characterisation-testing-unit">characterisation unit tests</a> too.</p>
 <p>An interesting situation to document is the case when these tests are "overfitted".
@@ -354,17 +379,15 @@ Regressions are caught, and improvements always show up in code review.</p>
 <h3 id="running-functional-tests-on-nixos"><a class="header" href="#running-functional-tests-on-nixos">Running functional tests on NixOS</a></h3>
 <p>We run the functional tests not just in the build, but also in VM tests.
 This helps us ensure that Nix works correctly on NixOS, and environments that have similar characteristics that are hard to reproduce in a build environment.</p>
-<p>The recommended way to run these tests during development is:</p>
-<pre><code class="language-shell">nix build .#hydraJobs.tests.functional_user.quickBuild
+<p>These can be run with:</p>
+<pre><code class="language-shell">nix build .#hydraJobs.tests.functional_user
 </code></pre>
-<p>The <code>quickBuild</code> attribute configures the test to use a <code>nix</code> package that's built without integration tests, so that you can iterate on the tests without performing recompilations due to the changed sources for <code>installCheck</code>.</p>
 <p>Generally, this build is sufficient, but in nightly or CI we also test the attributes <code>functional_root</code> and <code>functional_trusted</code>, in which the test suite is run with different levels of authorization.</p>
 <h2 id="integration-tests"><a class="header" href="#integration-tests">Integration tests</a></h2>
 <p>The integration tests are defined in the Nix flake under the <code>hydraJobs.tests</code> attribute.
 These tests include everything that needs to interact with external services or run Nix in a non-trivial distributed setup.
 Because these tests are expensive and require more than what the standard github-actions setup provides, they only run on the master branch (on <a href="https://hydra.nixos.org/jobset/nix/master">https://hydra.nixos.org/jobset/nix/master</a>).</p>
 <p>You can run them manually with <code>nix build .#hydraJobs.tests.{testName}</code> or <code>nix-build -A hydraJobs.tests.{testName}</code>.</p>
-<p>If you are testing a build of <code>nix</code> that you haven't compiled yet, you may iterate faster by appending the <code>quickBuild</code> attribute: <code>nix build .#hydraJobs.tests.{testName}.quickBuild</code>.</p>
 <h2 id="installer-tests"><a class="header" href="#installer-tests">Installer tests</a></h2>
 <p>After a one-time setup, the Nix repository's GitHub Actions continuous integration (CI) workflow can test the installer each time you push to a branch.</p>
 <p>Creating a Cachix cache for your installer tests and adding its authorisation token to GitHub enables <a href="https://github.com/NixOS/nix/blob/88a45d6149c0e304f6eb2efcc2d7a4d0d569f8af/.github/workflows/ci.yml#L50-L91">two installer-specific jobs in the CI workflow</a>:</p>
@@ -460,7 +483,7 @@ solved this need?
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../development/documentation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../development/debugging.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -474,7 +497,7 @@ solved this need?
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../development/documentation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../development/debugging.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

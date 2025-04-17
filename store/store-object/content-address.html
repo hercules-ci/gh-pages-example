@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Content-Addressing Store Objects - Nix Reference Manual</title>
+        <title>Content-Addressing Store Objects - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../../highlight.css">
-        <link rel="stylesheet" href="../../tomorrow-night.css">
-        <link rel="stylesheet" href="../../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/store/store-object/content-address.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/store/store-object/content-address.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -175,10 +178,12 @@ In particular, the content-addressing scheme will ensure that the digest of the 
 <p>For the full specification of the algorithms involved, see the <a href="../../protocols/store-path.html">specification of store path digests</a>.</p>
 <h2 id="content-addressing-each-part-of-a-store-object"><a class="header" href="#content-addressing-each-part-of-a-store-object">Content addressing each part of a store object</a></h2>
 <h3 id="file-system-objects"><a class="header" href="#file-system-objects">File System Objects</a></h3>
-<p>With all currently supported store object content addressing methods, the file system object is always <a href="../file-system-object/content-address.html">content-addressed</a> first, and then that hash is incorporated into content address computation for the store object.</p>
+<p>With all currently-supported store object content-addressing methods, the file system object is always <a href="../file-system-object/content-address.html">content-addressed</a> first, and then that hash is incorporated into content address computation for the store object.</p>
 <h3 id="references"><a class="header" href="#references">References</a></h3>
+<h4 id="references-to-other-store-objects"><a class="header" href="#references-to-other-store-objects">References to other store objects</a></h4>
 <p>With all currently supported store object content addressing methods,
 other objects are referred to by their regular (string-encoded-) <a href="../store-path.html">store paths</a>.</p>
+<h4 id="self-references"><a class="header" href="#self-references">Self-references</a></h4>
 <p>Self-references however cannot be referred to by their path, because we are in the midst of describing how to compute that path!</p>
 <blockquote>
 <p>The alternative would require finding as hash function fixed point, i.e. the solution to an equation in the form</p>
@@ -187,7 +192,25 @@ other objects are referred to by their regular (string-encoded-) <a href="../sto
 <p>which is computationally infeasible.
 As far as we know, this is equivalent to finding a hash collision.</p>
 </blockquote>
-<p>Instead we just have a "has self reference" boolean, which will end up affecting the digest.</p>
+<p>Instead we have a "has self-reference" boolean, which ends up affecting the digest:
+In all currently-supported store object content-addressing methods, when hashing the file system object data, any occurence of store object's own store path in the digested data is replaced with a <a href="https://en.wikipedia.org/wiki/Sentinel_value">sentinel value</a>.
+The hashes of these modified input streams are used instead.</p>
+<p>When validating the content address of a store object after the fact, the above process works as written.
+However, when first creating the store object we don't know the store object's store path, as explained just above.
+We therefore, strictly speaking, do not know what value we will be replacing with the sentinel value in the inputs to hash functions.
+What instead happens is that the provisional store object --- the data from which we wish to create a store object --- is paired with a provisional "scratch" store path (that presumably was chosen when the data was created).
+That provisional store path is instead what is replaced with the sentinel value, rather than the final store object which we do not yet know.</p>
+<blockquote>
+<p><strong>Design note</strong></p>
+<p>It is an informal property of content-addressed store objects that the choice of provisional store path should not matter.
+In other words, if a provisional store object is prepared in the same way except for the choice of provision store path, the provisional data need not be identical.
+But, after the sentinel value is substituted in place of each provisional store object's provision store path, the final so-normalized data <em>should</em> be identical.</p>
+<p>If, conversely, the data after this normalization process is still different, we'll compute a different content-address.
+The method of preparing the provisional self-referenced data has <em>failed</em> to be deterministic in the sense of not <em>leaking</em> the choice of provisional store path --- a choice which is supposed to be arbitrary --- into the final store object.</p>
+<p>This property is informal because at this stage, we are just described store objects, which have no formal notion of their origin.
+Without such a formal notion, there is nothing to formally accuse of being insufficiently deterministic.
+Where we cover <a href="../../store/derivation/index.html">derivations</a>, we will have a chance to make this a formal property, not of content-addressed store objects themselves, but of derivations that <em>produce</em> content-addressed store objects.</p>
+</blockquote>
 <h3 id="name-and-store-directory"><a class="header" href="#name-and-store-directory">Name and Store Directory</a></h3>
 <p>These two items affect the digest in a way that is standard for store path digest computations and not specific to content-addressing.
 Consult the <a href="../../protocols/store-path.html">specification of store path digests</a> for further details.</p>
@@ -200,14 +223,14 @@ The names and store directories are unrestricted however.</p>
 <p>References are not supported: store objects with flat hashing <em>and</em> references can not be created.</p>
 <h3 id="method-text"><a class="header" href="#method-text">Text</a></h3>
 <p>This also uses the corresponding <a href="../file-system-object/content-address.html#serial-flat">Flat</a> method of file system object content addressing.</p>
-<p>References to other store objects are supported, but self references are not.</p>
+<p>References to other store objects are supported, but self-references are not.</p>
 <p>This is the only store-object content-addressing method that is not named identically with a corresponding file system object method.
 It is somewhat obscure, mainly used for "drv files"
 (derivations serialized as store objects in their <a href="../../protocols/derivation-aterm.html">"ATerm" file format</a>).
 Prefer another method if possible.</p>
 <h3 id="method-nix-archive"><a class="header" href="#method-nix-archive">Nix Archive</a></h3>
 <p>This uses the corresponding <a href="../file-system-object/content-address.html#serial-nix-archive">Nix Archive</a> method of file system object content addressing.</p>
-<p>References (to other store objects and self references alike) are supported so long as the hash algorithm is SHA-256, but not (neither kind) otherwise.</p>
+<p>References (to other store objects and self-references alike) are supported so long as the hash algorithm is SHA-256, but not (neither kind) otherwise.</p>
 <h3 id="method-git"><a class="header" href="#method-git">Git</a></h3>
 <blockquote>
 <p><strong>Warning</strong></p>

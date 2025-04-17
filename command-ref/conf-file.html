@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix.conf - Nix Reference Manual</title>
+        <title>nix.conf - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/command-ref/conf-file.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/command-ref/conf-file.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -241,7 +244,7 @@ For example, include the following in <a href="../command-ref/conf-file.html"><c
 accept-flake-config = ...
 </code></pre>
 </blockquote>
-<p>Whether to accept nix configuration from a flake without prompting.</p>
+<p>Whether to accept Nix configuration settings from a flake without prompting.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -251,9 +254,11 @@ other locations requiring token-based authentication.</p>
 <p>Access tokens are specified as a string made up of
 space-separated <code>host=token</code> values.  The specific token
 used is selected by matching the <code>host</code> portion against the
-"host" specification of the input. The actual use of the
-<code>token</code> value is determined by the type of resource being
-accessed:</p>
+"host" specification of the input. The <code>host</code> portion may
+contain a path element which will match against the prefix
+URL for the input. (eg: <code>github.com/org=token</code>). The actual use
+of the <code>token</code> value is determined by the type of resource
+being accessed:</p>
 <ul>
 <li>
 <p>Github: the token value is the OAUTH-TOKEN string obtained
@@ -292,6 +297,28 @@ value.</p>
 <p><span id="conf-allow-dirty"><a href="#conf-allow-dirty"><code>allow-dirty</code></a></span></p>
 <p>Whether to allow dirty Git/Mercurial trees.</p>
 <p><strong>Default:</strong> <code>true</code></p>
+</li>
+<li>
+<p><span id="conf-allow-dirty-locks"><a href="#conf-allow-dirty-locks"><code>allow-dirty-locks</code></a></span></p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This setting is part of an
+<a href="../development/experimental-features.html">experimental feature</a>.</p>
+<p>To change this setting, make sure the
+<a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code> experimental feature</a>
+is enabled.
+For example, include the following in <a href="../command-ref/conf-file.html"><code>nix.conf</code></a>:</p>
+<pre><code>extra-experimental-features = flakes
+allow-dirty-locks = ...
+</code></pre>
+</blockquote>
+<p>Whether to allow dirty inputs (such as dirty Git workdirs)
+to be locked via their NAR hash. This is generally bad
+practice since Nix has no way to obtain such inputs if they
+are subsequently modified. Therefore lock files with dirty
+locks should generally only be used for local testing, and
+should not be pushed to other users.</p>
+<p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="conf-allow-import-from-derivation"><a href="#conf-allow-import-from-derivation"><code>allow-import-from-derivation</code></a></span></p>
@@ -444,7 +471,7 @@ The default value is the internal Nix binary that implements remote building.</p
 <p><strong>Important</strong></p>
 <p>Change this setting only if you really know what you’re doing.</p>
 </blockquote>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> <code>nix __build-remote</code></p>
 </li>
 <li>
 <p><span id="conf-build-poll-interval"><a href="#conf-build-poll-interval"><code>build-poll-interval</code></a></span></p>
@@ -703,8 +730,9 @@ configuration file, and cannot be passed at the command line.</p>
 </li>
 <li>
 <p><span id="conf-download-buffer-size"><a href="#conf-download-buffer-size"><code>download-buffer-size</code></a></span></p>
-<p>The size of Nix's internal download buffer during <code>curl</code> transfers. If data is
-not processed quickly enough to exceed the size of this buffer, downloads may stall.</p>
+<p>The size of Nix's internal download buffer in bytes during <code>curl</code> transfers. If data is
+not processed quickly enough to exceed the size of this buffer, downloads may stall.
+The default is 67108864 (64 MiB).</p>
 <p><strong>Default:</strong> <code>67108864</code></p>
 </li>
 <li>
@@ -715,7 +743,9 @@ Nix to use for downloads.</p>
 </li>
 <li>
 <p><span id="conf-eval-cache"><a href="#conf-eval-cache"><code>eval-cache</code></a></span></p>
-<p>Whether to use the flake evaluation cache.</p>
+<p>Whether to use the flake evaluation cache.
+Certain commands won't have to evaluate when invoked for the second time with a particular version of a flake.
+Intermediate results are not cached.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
 <li>
@@ -739,6 +769,7 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 <p>The following experimental features are available:</p>
 <ul>
 <li><a href="../development/experimental-features.html#xp-feature-auto-allocate-uids"><code>auto-allocate-uids</code></a></li>
+<li><a href="../development/experimental-features.html#xp-feature-blake3-hashes"><code>blake3-hashes</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-ca-derivations"><code>ca-derivations</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-cgroups"><code>cgroups</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-configurable-impure-env"><code>configurable-impure-env</code></a></li>
@@ -765,7 +796,7 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 <li>
 <p><span id="conf-extra-platforms"><a href="#conf-extra-platforms"><code>extra-platforms</code></a></span></p>
 <p>System types of executables that can be run on this machine.</p>
-<p>Nix will only build a given <a href="../language/derivations.html">derivation</a> locally when its <code>system</code> attribute equals any of the values specified here or in the <a href="#conf-system"><code>system</code> option</a>.</p>
+<p>Nix will only build a given <a href="../glossary.html#gloss-store-derivation">store derivation</a> locally when its <code>system</code> attribute equals any of the values specified here or in the <a href="#conf-system"><code>system</code> option</a>.</p>
 <p>Setting this can be useful to build derivations locally on compatible machines:</p>
 <ul>
 <li><code>i686-linux</code> executables can be run on <code>x86_64-linux</code> machines (set by default)</li>
@@ -820,6 +851,13 @@ flake-registry = ...
 robustness in case of system crashes, but reduces performance. The
 default is <code>true</code>.</p>
 <p><strong>Default:</strong> <code>true</code></p>
+</li>
+<li>
+<p><span id="conf-fsync-store-paths"><a href="#conf-fsync-store-paths"><code>fsync-store-paths</code></a></span></p>
+<p>Whether to call <code>fsync()</code> on store paths before registering them, to
+flush them to disk. This improves robustness in case of system crashes,
+but reduces performance. The default is <code>false</code>.</p>
+<p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="conf-gc-reserved-space"><a href="#conf-gc-reserved-space"><code>gc-reserved-space</code></a></span></p>
@@ -902,7 +940,7 @@ impure-env = ...
 </ul>
 <p>If the user is trusted (see <code>trusted-users</code> option), when building
 a fixed-output derivation, environment variables set in this option
-will be passed to the builder if they are listed in <a href="../language/advanced-attributes.html##adv-attr-impureEnvVars"><code>impureEnvVars</code></a>.</p>
+will be passed to the builder if they are listed in <a href="../language/advanced-attributes.html#adv-attr-impureEnvVars"><code>impureEnvVars</code></a>.</p>
 <p>This option is useful for, e.g., setting <code>https_proxy</code> for
 fixed-output derivations and in a multi-user Nix installation, or
 setting private access tokens when fetching a private repository.</p>
@@ -996,7 +1034,7 @@ killed. A value of <code>0</code> (the default) means that there is no limit.</p
 <p>When a garbage collection is triggered by the <code>min-free</code> option, it
 stops as soon as <code>max-free</code> bytes are available. The default is
 infinity (i.e. delete all garbage).</p>
-<p><strong>Default:</strong> <code>-1</code></p>
+<p><strong>Default:</strong> <code>9223372036854775807</code></p>
 </li>
 <li>
 <p><span id="conf-max-jobs"><a href="#conf-max-jobs"><code>max-jobs</code></a></span></p>
@@ -1110,11 +1148,21 @@ environment variable.</li>
 </ul>
 <p>If the respective paths are accessible, the default values are:</p>
 <ul>
-<li><code>$HOME/.nix-defexpr/channels</code></li>
-<li><code>nixpkgs=$NIX_STATE_DIR/profiles/per-user/root/channels/nixpkgs</code></li>
-<li><code>$NIX_STATE_DIR/profiles/per-user/root/channels</code></li>
+<li>
+<p><code>$HOME/.nix-defexpr/channels</code></p>
+<p>The <a href="../command-ref/files/default-nix-expression.html#user-channel-link">user channel link</a>, pointing to the current state of <a href="../command-ref/files/channels.html">channels</a> for the current user.</p>
+</li>
+<li>
+<p><code>nixpkgs=$NIX_STATE_DIR/profiles/per-user/root/channels/nixpkgs</code></p>
+<p>The current state of the <code>nixpkgs</code> channel for the <code>root</code> user.</p>
+</li>
+<li>
+<p><code>$NIX_STATE_DIR/profiles/per-user/root/channels</code></p>
+<p>The current state of all channels for the <code>root</code> user.</p>
+</li>
 </ul>
-<p>See <a href="../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> for details.</p>
+<p>These files are set up by the <a href="../installation/installing-binary.html">Nix installer</a>.
+See <a href="../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> for details on the environment variable.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>If <a href="../command-ref/conf-file.html#conf-restrict-eval">restricted evaluation</a> is enabled, the default value is empty.</p>
@@ -1390,7 +1438,7 @@ variables, in order of precedence:</p>
 <li><code>NIX_SSL_CERT_FILE</code></li>
 <li><code>SSL_CERT_FILE</code></li>
 </ol>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> <em>machine-specific</em></p>
 </li>
 <li>
 <p><span id="conf-stalled-download-timeout"><a href="#conf-stalled-download-timeout"><code>stalled-download-timeout</code></a></span></p>
@@ -1445,7 +1493,7 @@ The default is <code>https://cache.nixos.org</code>, which has a priority of 40.
 <li>
 <p><span id="conf-system"><a href="#conf-system"><code>system</code></a></span></p>
 <p>The system type of the current Nix installation.
-Nix will only build a given <a href="../language/derivations.html">derivation</a> locally when its <code>system</code> attribute equals any of the values specified here or in <a href="#conf-extra-platforms"><code>extra-platforms</code></a>.</p>
+Nix will only build a given <a href="../glossary.html#gloss-store-derivation">store derivation</a> locally when its <code>system</code> attribute equals any of the values specified here or in <a href="#conf-extra-platforms"><code>extra-platforms</code></a>.</p>
 <p>The default value is set when Nix itself is compiled for the system it will run on.
 The following system types are widely used, as Nix is actively supported on these platforms:</p>
 <ul>
@@ -1678,8 +1726,10 @@ mv $HOME/.nix-channels $nix_state_home/channels
 <li>
 <p><span id="conf-warn-large-path-threshold"><a href="#conf-warn-large-path-threshold"><code>warn-large-path-threshold</code></a></span></p>
 <p>Warn when copying a path larger than this number of bytes to the Nix store
-(as determined by its NAR serialisation).</p>
-<p><strong>Default:</strong> <code>-1</code></p>
+(as determined by its NAR serialisation).
+Default is 0, which disables the warning.
+Set it to 1 to warn on all paths.</p>
+<p><strong>Default:</strong> <code>0</code></p>
 </li>
 </ul>
 

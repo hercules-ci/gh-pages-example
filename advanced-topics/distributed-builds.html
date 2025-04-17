@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Remote Builds - Nix Reference Manual</title>
+        <title>Remote Builds - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/advanced-topics/distributed-builds.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/advanced-topics/distributed-builds.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -160,42 +163,61 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="remote-builds"><a class="header" href="#remote-builds">Remote Builds</a></h1>
-<p>Nix supports remote builds, where a local Nix installation can forward
-Nix builds to other machines. This allows multiple builds to be
-performed in parallel and allows Nix to perform multi-platform builds in
-a semi-transparent way. For instance, if you perform a build for a
+<p>A local Nix installation can forward Nix builds to other machines,
+this allows multiple builds to be performed in parallel.</p>
+<p>Remote builds also allow Nix to perform multi-platform builds in a
+semi-transparent way. For example, if you perform a build for a
 <code>x86_64-darwin</code> on an <code>i686-linux</code> machine, Nix can automatically
-forward the build to a <code>x86_64-darwin</code> machine, if available.</p>
-<p>To forward a build to a remote machine, it’s required that the remote
-machine is accessible via SSH and that it has Nix installed. You can
-test whether connecting to the remote Nix instance works, e.g.</p>
-<pre><code class="language-console">$ nix store ping --store ssh://mac
+forward the build to a <code>x86_64-darwin</code> machine, if one is available.</p>
+<h2 id="requirements"><a class="header" href="#requirements">Requirements</a></h2>
+<p>For a local machine to forward a build to a remote machine, the remote machine must:</p>
+<ul>
+<li>Have Nix installed</li>
+<li>Be running an SSH server, e.g. <code>sshd</code></li>
+<li>Be accessible via SSH from the local machine over the network</li>
+<li>Have the local machine's public SSH key in <code>/etc/ssh/authorized_keys.d/&lt;username&gt;</code></li>
+<li>Have the username of the SSH user in the <code>trusted-users</code> setting in <code>nix.conf</code></li>
+</ul>
+<h2 id="testing"><a class="header" href="#testing">Testing</a></h2>
+<p>To test connecting to a remote <a href="../glossary.html#gloss-nix-instance">Nix instance</a> (in this case <code>mac</code>), run:</p>
+<pre><code class="language-console">nix store info --store ssh://username@mac
 </code></pre>
-<p>will try to connect to the machine named <code>mac</code>. It is possible to
-specify an SSH identity file as part of the remote store URI, e.g.</p>
-<pre><code class="language-console">$ nix store ping --store ssh://mac?ssh-key=/home/alice/my-key
+<p>To specify an SSH identity file as part of the remote store URI add a
+query paramater, e.g.</p>
+<pre><code class="language-console">nix store info --store ssh://username@mac?ssh-key=/home/alice/my-key
 </code></pre>
 <p>Since builds should be non-interactive, the key should not have a
 passphrase. Alternatively, you can load identities ahead of time into
 <code>ssh-agent</code> or <code>gpg-agent</code>.</p>
+<p>In a multi-user installation (default), builds are executed by the Nix
+Daemon. The Nix Daemon cannot prompt for a passphrase via the terminal
+or <code>ssh-agent</code>, so the SSH key must not have a passphrase.</p>
+<p>In addition, the Nix Daemon's user (typically root) needs to have SSH
+access to the remote builder.</p>
+<p>Access can be verified by running <code>sudo su</code>, and then validating SSH
+access, e.g. by running <code>ssh mac</code>. SSH identity files for root users
+are usually stored in <code>/root/.ssh/</code> (Linux) or <code>/var/root/.ssh</code> (MacOS).</p>
 <p>If you get the error</p>
-<pre><code class="language-console">bash: nix-store: command not found
+<pre><code class="language-console">bash: nix: command not found
 error: cannot connect to 'mac'
 </code></pre>
 <p>then you need to ensure that the <code>PATH</code> of non-interactive login shells
 contains Nix.</p>
 <p>The <a href="../command-ref/conf-file.html#conf-builders">list of remote build machines</a> can be specified on the command line or in the Nix configuration file.
 For example, the following command allows you to build a derivation for <code>x86_64-darwin</code> on a Linux machine:</p>
-<pre><code class="language-console">$ uname
-Linux
-
-$ nix build --impure \
-  --expr '(with import &lt;nixpkgs&gt; { system = "x86_64-darwin"; }; runCommand "foo" {} "uname &gt; $out")' \
-  --builders 'ssh://mac x86_64-darwin'
-[1/0/1 built, 0.0 MiB DL] building foo on ssh://mac
-
-$ cat ./result
-Darwin
+<pre><code class="language-console">uname
+</code></pre>
+<pre><code class="language-console">Linux
+</code></pre>
+<pre><code class="language-console">nix build --impure \
+ --expr '(with import &lt;nixpkgs&gt; { system = "x86_64-darwin"; }; runCommand "foo" {} "uname &gt; $out")' \
+ --builders 'ssh://mac x86_64-darwin'
+</code></pre>
+<pre><code class="language-console">[1/0/1 built, 0.0 MiB DL] building foo on ssh://mac
+</code></pre>
+<pre><code class="language-console">cat ./result
+</code></pre>
+<pre><code class="language-console">Darwin
 </code></pre>
 <p>It is possible to specify multiple build machines separated by a semicolon or a newline, e.g.</p>
 <pre><code class="language-console">  --builders 'ssh://mac x86_64-darwin ; ssh://beastie x86_64-freebsd'
@@ -203,6 +225,7 @@ Darwin
 <p>Remote build machines can also be configured in <a href="../command-ref/conf-file.html"><code>nix.conf</code></a>, e.g.</p>
 <pre><code>builders = ssh://mac x86_64-darwin ; ssh://beastie x86_64-freebsd
 </code></pre>
+<p>After making changes to <code>nix.conf</code>, restart the Nix daemon for changes to take effect.</p>
 <p>Finally, remote build machines can be configured in a separate configuration
 file included in <code>builders</code> via the syntax <code>@/path/to/file</code>. For example,</p>
 <pre><code>builders = @/etc/nix/machines

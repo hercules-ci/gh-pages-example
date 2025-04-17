@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Building - Nix Reference Manual</title>
+        <title>Building - Nix 2.28.1 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -24,18 +24,19 @@
         <link rel="stylesheet" href="../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom.css">
 
 
-        <!-- Provide site root to javascript -->
+        <!-- Provide site root and default themes to javascript -->
         <script>
-            var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -45,8 +46,8 @@
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
-                var theme = localStorage.getItem('mdbook-theme');
-                var sidebar = localStorage.getItem('mdbook-sidebar');
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
 
                 if (theme.startsWith('"') && theme.endsWith('"')) {
                     localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
@@ -60,7 +61,8 @@
 
         <!-- Set the theme before any content is loaded, prevents flash -->
         <script>
-            var theme;
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
@@ -73,8 +75,8 @@
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
-            var sidebar = null;
-            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -110,6 +112,7 @@
                             <i class="fa fa-paint-brush"></i>
                         </button>
                         <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
                             <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
@@ -121,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -130,7 +133,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/src/development/building.md" title="Suggest an edit" aria-label="Suggest an edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/development/building.md" title="Suggest an edit" aria-label="Suggest an edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -178,17 +181,19 @@ If you don't have it installed, follow the <a href="../installation/index.html">
 </code></pre>
 <blockquote>
 <p><strong>Note</strong></p>
-<p>You can use <code>native-ccacheStdenvPackages</code> to drastically improve rebuild time.
+<p>You can use <code>native-ccacheStdenv</code> to drastically improve rebuild time.
 By default, <a href="https://ccache.dev">ccache</a> keeps artifacts in <code>~/.cache/ccache/</code>.</p>
 </blockquote>
 <p>To build Nix itself in this shell:</p>
-<pre><code class="language-console">[nix-shell]$ autoreconfPhase
-[nix-shell]$ ./configure $configureFlags --prefix=$(pwd)/outputs/out
-[nix-shell]$ make -j $NIX_BUILD_CORES
+<pre><code class="language-console">[nix-shell]$ mesonFlags+=" --prefix=$(pwd)/outputs/out"
+[nix-shell]$ dontAddPrefix=1 configurePhase
+[nix-shell]$ buildPhase
 </code></pre>
-<p>To install it in <code>$(pwd)/outputs</code> and test it:</p>
-<pre><code class="language-console">[nix-shell]$ make install
-[nix-shell]$ make installcheck -j $NIX_BUILD_CORES
+<p>To test it:</p>
+<pre><code class="language-console">[nix-shell]$ checkPhase
+</code></pre>
+<p>To install it in <code>$(pwd)/outputs</code>:</p>
+<pre><code class="language-console">[nix-shell]$ installPhase
 [nix-shell]$ ./outputs/out/bin/nix --version
 nix (Nix) 2.12
 </code></pre>
@@ -203,7 +208,7 @@ nix (Nix) 2.12
 </code></pre>
 <p>This shell also adds <code>./outputs/bin/nix</code> to your <code>$PATH</code> so you can run <code>nix</code> immediately after building it.</p>
 <p>To get a shell with one of the other <a href="#compilation-environments">supported compilation environments</a>:</p>
-<pre><code class="language-console">$ nix develop .#native-clangStdenvPackages
+<pre><code class="language-console">$ nix develop .#native-clangStdenv
 </code></pre>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -211,13 +216,14 @@ nix (Nix) 2.12
 By default, <a href="https://ccache.dev">ccache</a> keeps artifacts in <code>~/.cache/ccache/</code>.</p>
 </blockquote>
 <p>To build Nix itself in this shell:</p>
-<pre><code class="language-console">[nix-shell]$ autoreconfPhase
-[nix-shell]$ configurePhase
-[nix-shell]$ make -j $NIX_BUILD_CORES OPTIMIZE=0
+<pre><code class="language-console">[nix-shell]$ configurePhase
+[nix-shell]$ buildPhase
 </code></pre>
-<p>To install it in <code>$(pwd)/outputs</code> and test it:</p>
-<pre><code class="language-console">[nix-shell]$ make install OPTIMIZE=0
-[nix-shell]$ make installcheck check -j $NIX_BUILD_CORES
+<p>To test it:</p>
+<pre><code class="language-console">[nix-shell]$ checkPhase
+</code></pre>
+<p>To install it in <code>$(pwd)/outputs</code>:</p>
+<pre><code class="language-console">[nix-shell]$ installPhase
 [nix-shell]$ nix --version
 nix (Nix) 2.12
 </code></pre>
@@ -227,32 +233,6 @@ nix (Nix) 2.12
 <pre><code class="language-console">$ nix build
 </code></pre>
 <p>You can also build Nix for one of the <a href="#platforms">supported platforms</a>.</p>
-<h2 id="makefile-variables"><a class="header" href="#makefile-variables">Makefile variables</a></h2>
-<p>You may need <code>profiledir=$out/etc/profile.d</code> and <code>sysconfdir=$out/etc</code> to run <code>make install</code>.</p>
-<p>Run <code>make</code> with <a href="https://www.gnu.org/software/make/manual/make.html#index-_002de"><code>-e</code> / <code>--environment-overrides</code></a> to allow environment variables to override <code>Makefile</code> variables:</p>
-<ul>
-<li>
-<p><code>ENABLE_BUILD=yes</code> to enable building the C++ code.</p>
-</li>
-<li>
-<p><code>ENABLE_DOC_GEN=yes</code> to enable building the documentation (manual, man pages, etc.).</p>
-<p>The docs can take a while to build, so you may want to disable this for local development.</p>
-</li>
-<li>
-<p><code>ENABLE_FUNCTIONAL_TESTS=yes</code> to enable building the functional tests.</p>
-</li>
-<li>
-<p><code>OPTIMIZE=1</code> to enable optimizations.</p>
-</li>
-<li>
-<p><code>libraries=libutil programs=</code> to only build a specific library.</p>
-<p>This will fail in the linking phase if the other libraries haven't been built, but is useful for checking types.</p>
-</li>
-<li>
-<p><code>libraries= programs=nix</code> to only build a specific program.</p>
-<p>This will not work in general, because the programs need the libraries.</p>
-</li>
-</ul>
 <h2 id="platforms"><a class="header" href="#platforms">Platforms</a></h2>
 <p>Nix can be built for various platforms, as specified in <a href="https://github.com/nixos/nix/blob/master/flake.nix"><code>flake.nix</code></a>:</p>
 <ul>
@@ -286,22 +266,22 @@ Add more <a href="#system-type">system types</a> to <code>crossSystems</code> in
 <h3 id="building-for-multiple-platforms-at-once"><a class="header" href="#building-for-multiple-platforms-at-once">Building for multiple platforms at once</a></h3>
 <p>It is useful to perform multiple cross and native builds on the same source tree,
 for example to ensure that better support for one platform doesn't break the build for another.
-In order to facilitate this, Nix has some support for being built out of tree â€“ that is, placing build artefacts in a different directory than the source code:</p>
+Meson thankfully makes this very easy by confining all build products to the build directory --- one simple shares the source directory between multiple build directories, each of which contains the build for Nix to a different platform.</p>
+<p>Here's how to do that:</p>
 <ol>
 <li>
-<p>Create a directory for the build, e.g.</p>
-<pre><code class="language-bash">mkdir build
+<p>Instruct Nixpkgs's infra where we want Meson to put its build directory</p>
+<pre><code class="language-bash">mesonBuildDir=build-my-variant-name
 </code></pre>
 </li>
 <li>
-<p>Run the configure script from that directory, e.g.</p>
-<pre><code class="language-bash">cd build
-../configure &lt;configure flags&gt;
+<p>Configure as usual</p>
+<pre><code class="language-bash">configurePhase
 </code></pre>
 </li>
 <li>
-<p>Run make from the source directory, but with the build directory specified, e.g.</p>
-<pre><code class="language-bash">make builddir=build &lt;make flags&gt;
+<p>Build as usual</p>
+<pre><code class="language-bash">buildPhase
 </code></pre>
 </li>
 </ol>
@@ -344,10 +324,10 @@ In order to facilitate this, Nix has some support for being built out of tree â€
 <h2 id="editor-integration"><a class="header" href="#editor-integration">Editor integration</a></h2>
 <p>The <code>clangd</code> LSP server is installed by default on the <code>clang</code>-based <code>devShell</code>s.
 See <a href="#compilation-environments">supported compilation environments</a> and instructions how to set up a shell <a href="#nix-with-flakes">with flakes</a> or in <a href="#classic-nix">classic Nix</a>.</p>
-<p>To use the LSP with your editor, you first need to <a href="https://clangd.llvm.org/installation#project-setup">set up <code>clangd</code></a> by running:</p>
-<pre><code class="language-console">make compile_commands.json
-</code></pre>
-<p>Configure your editor to use the <code>clangd</code> from the <code>.#native-clangStdenvPackages</code> shell. You can do that either by running it inside the development shell, or by using <a href="https://github.com/nix-community/nix-direnv">nix-direnv</a> and <a href="https://github.com/direnv/direnv/wiki#editor-integration">the appropriate editor plugin</a>.</p>
+<p>To use the LSP with your editor, you will want a <code>compile_commands.json</code> file telling <code>clangd</code> how we are compiling the code.
+Meson's configure always produces this inside the build directory.</p>
+<p>Configure your editor to use the <code>clangd</code> from the <code>.#native-clangStdenv</code> shell.
+You can do that either by running it inside the development shell, or by using <a href="https://github.com/nix-community/nix-direnv">nix-direnv</a> and <a href="https://github.com/direnv/direnv/wiki#editor-integration">the appropriate editor plugin</a>.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>For some editors (e.g. Visual Studio Code), you may need to install a <a href="https://open-vsx.org/extension/llvm-vs-code-extensions/vscode-clangd">special extension</a> for the editor to interact with <code>clangd</code>.
@@ -356,8 +336,9 @@ Editor-specific setup is typically opinionated, so we will not cover it here in 
 </blockquote>
 <h2 id="formatting-and-pre-commit-hooks"><a class="header" href="#formatting-and-pre-commit-hooks">Formatting and pre-commit hooks</a></h2>
 <p>You may run the formatters as a one-off using:</p>
-<pre><code class="language-console">make format
+<pre><code class="language-console">./maintainers/format.sh
 </code></pre>
+<h3 id="pre-commit-hooks"><a class="header" href="#pre-commit-hooks">Pre-commit hooks</a></h3>
 <p>If you'd like to run the formatters before every commit, install the hooks:</p>
 <pre><code>pre-commit-hooks-install
 </code></pre>
@@ -369,6 +350,29 @@ If it fails, run <code>git add --patch</code> to approve the suggestions <em>and
 <li>Exit the development shell and start it again by running <code>nix develop</code>.</li>
 <li>If you also use the pre-commit hook, also run <code>pre-commit-hooks-install</code> again.</li>
 </ol>
+<h3 id="vscode"><a class="header" href="#vscode">VSCode</a></h3>
+<p>Insert the following json into your <code>.vscode/settings.json</code> file to configure <code>nixfmt</code>.
+This will be picked up by the <em>Format Document</em> command, <code>"editor.formatOnSave"</code>, etc.</p>
+<pre><code class="language-json">{
+  "nix.formatterPath": "nixfmt",
+  "nix.serverSettings": {
+    "nixd": {
+      "formatting": {
+        "command": [
+          "nixfmt"
+        ],
+      },
+    },
+    "nil": {
+      "formatting": {
+        "command": [
+          "nixfmt"
+        ],
+      },
+    },
+  },
+}
+</code></pre>
 
                     </main>
 
