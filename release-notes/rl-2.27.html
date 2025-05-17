@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.27 (2025-03-03) - Nix 2.28.1 Reference Manual</title>
+        <title>Release 2.27 (2025-03-03) - Nix 2.28.3 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -124,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -196,6 +196,13 @@
 <li>
 <p>Set <code>FD_CLOEXEC</code> on sockets created by curl <a href="https://github.com/NixOS/nix/pull/12439">#12439</a></p>
 <p>Curl created sockets without setting <code>FD_CLOEXEC</code>/<code>SOCK_CLOEXEC</code>. This could previously cause connections to remain open forever when using commands like <code>nix shell</code>. This change sets the <code>FD_CLOEXEC</code> flag using a <code>CURLOPT_SOCKOPTFUNCTION</code> callback.</p>
+</li>
+<li>
+<p>Add BLAKE3 hash algorithm <a href="https://github.com/NixOS/nix/pull/12379">#12379</a></p>
+<p>Nix now supports the BLAKE3 hash algorithm as an experimental feature (<code>blake3-hashes</code>):</p>
+<pre><code class="language-console"># nix hash file ./file --type blake3 --extra-experimental-features blake3-hashes
+blake3-34P4p+iZXcbbyB1i4uoF7eWCGcZHjmaRn6Y7QdynLwU=
+</code></pre>
 </li>
 </ul>
 <h1 id="contributors"><a class="header" href="#contributors">Contributors</a></h1>

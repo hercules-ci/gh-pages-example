@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>String context - Nix 2.28.1 Reference Manual</title>
+        <title>String context - Nix 2.28.3 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -124,7 +124,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.1 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -255,7 +255,7 @@ Take a regular constant string context element pointing to a derivation, and tra
 <p>When more granular information is needed, <a href="./builtins.html#builtins-getContext"><code>builtins.getContext</code></a> can be used.
 It creates an <a href="./types.html#attribute-set">attribute set</a> representing the string context, which can be inspected as usual.</p>
 <h2 id="clearing-string-contexts"><a class="header" href="#clearing-string-contexts">Clearing string contexts</a></h2>
-<p><a href="./builtins.html#builtins-unsafeDiscardStringContext"><code>buitins.unsafeDiscardStringContext</code></a> will make a copy of a string, but with an empty string context.
+<p><a href="./builtins.html#builtins-unsafeDiscardStringContext"><code>builtins.unsafeDiscardStringContext</code></a> will make a copy of a string, but with an empty string context.
 The returned string can be used in more ways, e.g. by operators that require the string context to be empty.
 The requirement to explicitly discard the string context in such use cases helps ensure that string context elements are not lost by mistake.
 The "unsafe" marker is only there to remind that Nix normally guarantees that dependencies are tracked, whereas the returned string has lost them.</p>
