@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix fmt - Nix 2.28.3 Reference Manual</title>
+        <title>nix fmt - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -187,28 +187,12 @@ and its interface is subject to change.</p>
 <p><code>nix fmt</code> calls the formatter specified in the flake.</p>
 <p>Flags can be forwarded to the formatter by using <code>--</code> followed by the flags.</p>
 <p>Any arguments will be forwarded to the formatter. Typically these are the files to format.</p>
-<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
-<p>With <a href="https://github.com/nix-community/nixpkgs-fmt">nixpkgs-fmt</a>:</p>
+<h1 id="example"><a class="header" href="#example">Example</a></h1>
+<p>To use the <a href="https://github.com/NixOS/nixfmt">official Nix formatter</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
   outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-  };
-}
-</code></pre>
-<p>With <a href="https://github.com/NixOS/nixfmt">nixfmt</a>:</p>
-<pre><code class="language-nix"># flake.nix
-{
-  outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-  };
-}
-</code></pre>
-<p>With <a href="https://github.com/kamadorueda/alejandra">Alejandra</a>:</p>
-<pre><code class="language-nix"># flake.nix
-{
-  outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.${system}.nixfmt-tree;
   };
 }
 </code></pre>

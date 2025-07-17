@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.24 (2024-07-31) - Nix 2.28.3 Reference Manual</title>
+        <title>Release 2.24 (2024-07-31) - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -316,7 +316,7 @@ bugs (it hasn't been updated since its introduction in late 2021).</p>
 <a href="https://en.wikipedia.org/wiki/Base32">Base32</a>.</p>
 <p><strong>Deprecation</strong>: Use <code>nix32</code> instead of <code>base32</code> as <code>toHashFormat</code></p>
 <p>For the builtin <code>convertHash</code>, the <code>toHashFormat</code> parameter now accepts the same hash formats as the <code>--to</code>/<code>--from</code>
-parameters of the <code>nix hash conert</code> command: <code>"base16"</code>, <code>"nix32"</code>, <code>"base64"</code>, and <code>"sri"</code>. The former <code>"base32"</code> value
+parameters of the <code>nix hash convert</code> command: <code>"base16"</code>, <code>"nix32"</code>, <code>"base64"</code>, and <code>"sri"</code>. The former <code>"base32"</code> value
 remains as a deprecated alias for <code>"nix32"</code>. Please convert your code from:</p>
 <pre><code class="language-nix">builtins.convertHash { inherit hash hashAlgo; toHashFormat = "base32";}
 </code></pre>

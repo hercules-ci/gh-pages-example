@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Derivation Outputs and Types of Derivations - Nix 2.28.3 Reference Manual</title>
+        <title>Derivation Outputs and Types of Derivations - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../../print.html" title="Print this book" aria-label="Print this book">
@@ -176,7 +176,7 @@
                         <h1 id="derivation-outputs-and-types-of-derivations"><a class="header" href="#derivation-outputs-and-types-of-derivations">Derivation Outputs and Types of Derivations</a></h1>
 <p>As stated on the <a href="../index.html#store-derivation">main pages on derivations</a>,
 a derivation produces <a href="../../../store/store-object.html">store objects</a>, which are known as the <em>outputs</em> of the derivation.
-Indeed, the entire point of derivations is to produce these outputs, and to reliably and reproducably produce these derivations each time the derivation is run.</p>
+Indeed, the entire point of derivations is to produce these outputs, and to reliably and reproducibly produce these derivations each time the derivation is run.</p>
 <p>One of the parts of a derivation is its <em>outputs specification</em>, which specifies certain information about the outputs the derivation produces when run.
 The outputs specification is a map, from names to specifications for individual outputs.</p>
 <h2 id="outputs"><a class="header" href="#outputs">Output Names</a></h2>
@@ -273,13 +273,13 @@ Having only one output and calling its specification <code>out</code> means the 
 <p>A content-addressing derivation may be pure or impure</p>
 </li>
 <li>
-<p>If it is impure, it may be be fixed (typical), or it may be floating if the additional <a href="../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature is enabled.</p>
+<p>If it is impure, it may be fixed (typical), or it may be floating if the additional <a href="../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature is enabled.</p>
 </li>
 <li>
 <p>If it is pure, it must be floating.</p>
 </li>
 <li>
-<p>Pure, fixed content-addressing derivations are not suppported</p>
+<p>Pure, fixed content-addressing derivations are not supported</p>
 <blockquote>
 <p>There is no use for this forth combination.
 The sole purpose of an output's store path being fixed is to support the derivation being impure.</p>

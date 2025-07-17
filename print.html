@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Nix 2.28.3 Reference Manual</title>
+        <title>Nix 2.28.4 Reference Manual</title>
         <meta name="robots" content="noindex">
 
 
@@ -136,7 +136,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -1152,7 +1152,7 @@ other objects are referred to by their regular (string-encoded-) <a href="store/
 As far as we know, this is equivalent to finding a hash collision.</p>
 </blockquote>
 <p>Instead we have a "has self-reference" boolean, which ends up affecting the digest:
-In all currently-supported store object content-addressing methods, when hashing the file system object data, any occurence of store object's own store path in the digested data is replaced with a <a href="https://en.wikipedia.org/wiki/Sentinel_value">sentinel value</a>.
+In all currently-supported store object content-addressing methods, when hashing the file system object data, any occurrence of store object's own store path in the digested data is replaced with a <a href="https://en.wikipedia.org/wiki/Sentinel_value">sentinel value</a>.
 The hashes of these modified input streams are used instead.</p>
 <p>When validating the content address of a store object after the fact, the above process works as written.
 However, when first creating the store object we don't know the store object's store path, as explained just above.
@@ -1512,7 +1512,7 @@ innermost constant store path (usual encoding)                 output name
 <div style="break-before: page; page-break-before: always;"></div><h1 id="derivation-outputs-and-types-of-derivations"><a class="header" href="#derivation-outputs-and-types-of-derivations">Derivation Outputs and Types of Derivations</a></h1>
 <p>As stated on the <a href="store/derivation/outputs/../index.html#store-derivation">main pages on derivations</a>,
 a derivation produces <a href="store/derivation/outputs/../../../store/store-object.html">store objects</a>, which are known as the <em>outputs</em> of the derivation.
-Indeed, the entire point of derivations is to produce these outputs, and to reliably and reproducably produce these derivations each time the derivation is run.</p>
+Indeed, the entire point of derivations is to produce these outputs, and to reliably and reproducibly produce these derivations each time the derivation is run.</p>
 <p>One of the parts of a derivation is its <em>outputs specification</em>, which specifies certain information about the outputs the derivation produces when run.
 The outputs specification is a map, from names to specifications for individual outputs.</p>
 <h2 id="outputs"><a class="header" href="#outputs">Output Names</a></h2>
@@ -1609,13 +1609,13 @@ Having only one output and calling its specification <code>out</code> means the 
 <p>A content-addressing derivation may be pure or impure</p>
 </li>
 <li>
-<p>If it is impure, it may be be fixed (typical), or it may be floating if the additional <a href="store/derivation/outputs/../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature is enabled.</p>
+<p>If it is impure, it may be fixed (typical), or it may be floating if the additional <a href="store/derivation/outputs/../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature is enabled.</p>
 </li>
 <li>
 <p>If it is pure, it must be floating.</p>
 </li>
 <li>
-<p>Pure, fixed content-addressing derivations are not suppported</p>
+<p>Pure, fixed content-addressing derivations are not supported</p>
 <blockquote>
 <p>There is no use for this forth combination.
 The sole purpose of an output's store path being fixed is to support the derivation being impure.</p>
@@ -1644,7 +1644,7 @@ This hash may be of a freely-chosen hash algorithm (that Nix supports)</li>
 <blockquote>
 <p><strong>Design note</strong></p>
 <p>In principle, the output spec could also specify the references the store object should have, since the references and file system objects are equally parts of a content-addressed store object proper that contribute to its content-addressed.
-However, at this time, the references are not not done because all fixed content-addressed outputs are required to have no references (including no self-reference).</p>
+However, at this time, the references are not done because all fixed content-addressed outputs are required to have no references (including no self-reference).</p>
 <p>Also in principle, rather than specifying the references and file system object data with separate hashes, a single hash that constraints both could be used.
 This could be done with the final store path's digest, or better yet, the hash that will become the store path's digest before it is truncated.</p>
 <p>These possible future extensions are included to elucidate the core property of fixed-output content addressing --- that all parts of the output must be cryptographically fixed with one or more hashes --- separate from the particulars of the currently-supported store object content-addressing schemes.</p>
@@ -1711,15 +1711,15 @@ For example, in <a href="store/derivation/outputs/../../../command-ref/conf-file
 <p><strong>Configuration note</strong></p>
 <p>Strictly speaking, the extent to which sandboxing and deprivilaging is possible varies with the environment Nix is running in.
 Nix's configuration settings indicate what level of sandboxing is required or enabled.
-Builds of derivations will fail if they request an absense of sandboxing which is not allowed.
-Builds of derivations will also fail if the level of sandboxing specified in the configure exceeds what is possible in teh given environment.</p>
-<p>(The "environment", in this case, consists of attributes such as the Operating System Nix runs atop, along with the operating-system-specific privilages that Nix has been granted.
-Because of how conventional operating systems like macos, Linux, etc. work, granting builders <em>fewer</em> privilages may ironically require that Nix be run with <em>more</em> privilages.)</p>
+Builds of derivations will fail if they request an absence of sandboxing which is not allowed.
+Builds of derivations will also fail if the level of sandboxing specified in the configure exceeds what is possible in the given environment.</p>
+<p>(The "environment", in this case, consists of attributes such as the Operating System Nix runs atop, along with the operating-system-specific privileges that Nix has been granted.
+Because of how conventional operating systems like macos, Linux, etc. work, granting builders <em>fewer</em> privileges may ironically require that Nix be run with <em>more</em> privileges.)</p>
 </blockquote>
-<p>That said, derivations producing floating content-addressed outputs may declare their builders as impure (like the builders of derivations producing producing fixed outputs).
+<p>That said, derivations producing floating content-addressed outputs may declare their builders as impure (like the builders of derivations producing fixed outputs).
 This is provisionally supported as part of the <a href="store/derivation/outputs/../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature.</p>
 <h3 id="compatibility-negotiation"><a class="header" href="#compatibility-negotiation">Compatibility negotiation</a></h3>
-<p>Any derivation producing a floating content-addresssed output implicitly requires the <code>ca-derivations</code> <a href="store/derivation/outputs/../../../command-ref/conf-file.html#conf-system-features">system feature</a>.
+<p>Any derivation producing a floating content-addressed output implicitly requires the <code>ca-derivations</code> <a href="store/derivation/outputs/../../../command-ref/conf-file.html#conf-system-features">system feature</a>.
 This prevents scheduling the building of the derivation on a machine without the experimental feature enabled.
 Even once the experimental feature is stabilized, this is still useful in order to be allow using remote builder running odler versions of Nix, or alternative implementations that do not support floating content addressing.</p>
 <h3 id="determinism"><a class="header" href="#determinism">Determinism</a></h3>
@@ -1727,7 +1727,7 @@ Even once the experimental feature is stabilized, this is still useful in order 
 For store objects produced by manually inserting into the store to create a store object, the "method of production" is an informally concept --- formally, Nix has no idea where the store object came from, and content-addressing is crucial in order to ensure that the derivation is <em>intrinsically</em> tamper-proof.
 But for store objects produced by derivation, the "method is quite formal" --- the whole point of derivations is to be a formal notion of building, after all.
 In this case, we can elevate this informal property to a formal one.</p>
-<p>A <em>determinstic</em> content-addressing derivation should produce outputs with the same content addresses:</p>
+<p>A <em>deterministic</em> content-addressing derivation should produce outputs with the same content addresses:</p>
 <ol>
 <li>Every time the builder is run</li>
 </ol>
@@ -1738,7 +1738,7 @@ In this case, we can elevate this informal property to a formal one.</p>
 <p>Provisional store paths must be chosen for any output that has a self-reference.
 The choice of provisional store path can be thought of as an impurity, since it is an arbitrary choice.</p>
 <p>If provisional outputs paths are deterministically chosen, we are in the first branch of part (1).
-The builder the data it produces based on it in arbitrary ways, but this gets us closer to to <a href="store/derivation/outputs/./input-address.html">input addressing</a>.
+The builder the data it produces based on it in arbitrary ways, but this gets us closer to <a href="store/derivation/outputs/./input-address.html">input addressing</a>.
 Deterministically choosing the provisional path may be considered "complete sandboxing" by removing an impurity, but this is unsatisfactory</p>
   <!--
 
@@ -2098,7 +2098,7 @@ Nix can, however, optionally check that the OverlayFS mount settings appear as e
 The location of the database instead depends on the <a href="store/types/experimental-local-overlay-store.html#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
 It is always <code>${state}/db</code>.</p>
 </blockquote>
-<p>This contains the metadata of all of the upper layer <a href="store/types/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
+<p>This contains the metadata of all of the upper layer <a href="store/types/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadata.
 The duplication is so the metadata for the <a href="store/types/../../glossary.html#gloss-closure">closure</a> of upper layer <a href="store/types/../../store/store-object.html">store objects</a> can be found entirely within the upper layer.
 (This allows us to use the same SQL Schema as the [local store]'s SQLite database, as foreign keys in that schema enforce closure metadata to be self-contained in this way.)</p>
 </li>
@@ -7303,7 +7303,7 @@ location of the script, both in a build and a
 ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
-<p>If set to <code>true</code>, other advanced attributes such as <a href="language/advanced-attributes.html#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="language/advanced-attributes.html#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="language/advanced-attributes.html#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
+<p>If set to <code>true</code>, other advanced attributes such as <a href="language/advanced-attributes.html#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="language/advanced-attributes.html#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
 <a href="language/advanced-attributes.html#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="language/advanced-attributes.html#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>, maxSize, and maxClosureSize.
 will have no effect.</p>
 </blockquote>
@@ -7495,7 +7495,7 @@ Nix only currently supports one kind of input-addressing, so no other informatio
 <p>All of <a href="language/advanced-attributes.html#adv-attr-outputHash"><code>outputHash</code></a>, <a href="language/advanced-attributes.html#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>, and <a href="language/advanced-attributes.html#adv-attr-outputHashMode"><code>outputHashMode</code></a>.</p>
 <!--
 
-`__contentAddressed` is ignored, becaused fixed-output derivations always content-address their outputs, by definition.
+`__contentAddressed` is ignored, because fixed-output derivations always content-address their outputs, by definition.
 
 **TODO CHECK**
 
@@ -7550,15 +7550,15 @@ however support for it is only added in Nix version 2.21.</p>
 </li>
 <li>
 <p><a href="language/advanced-attributes.html#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a></p>
-<p>This specifies the hash alorithm used to digest the <a href="language/../store/file-system-object.html">file system object</a> data of a content-addressing derivation output.</p>
+<p>This specifies the hash algorithm used to digest the <a href="language/../store/file-system-object.html">file system object</a> data of a content-addressing derivation output.</p>
 <p>This works in conjunction with <a href="language/advanced-attributes.html#adv-attr-outputHashAlgo"><code>outputHashMode</code></a>.
-Specifying one without the other is an error (unless <a href="language/advanced-attributes.html#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
+Specifying one without the other is an error (unless <code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
 <p>The <code>outputHashAlgo</code> attribute specifies the hash algorithm used to compute the hash.
-It can currently be <code>"blake3"</code>, "sha1"<code>, </code>"sha256"<code>, </code>"sha512"<code>, or </code>null`.</p>
+It can currently be <code>"blake3"</code>, <code>"sha1"</code>, <code>"sha256"</code>, <code>"sha512"</code>, or <code>null</code>.</p>
 <p><code>outputHashAlgo</code> can only be <code>null</code> when <code>outputHash</code> follows the SRI format, because in that case the choice of hash algorithm is determined by <code>outputHash</code>.</p>
 </li>
 <li>
-<p>[<code>outputHash</code></a>; <a href="language/advanced-attributes.html#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHash</code></a>\</p>
+<p><a href="language/advanced-attributes.html#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHash</code></a>; <a href="language/advanced-attributes.html#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHash</code></a></p>
 <p>This will specify the output hash of the single output of a <a href="language/../glossary.html#gloss-fixed-output-derivation">fixed-output derivation</a>.</p>
 <p>The <code>outputHash</code> attribute must be a string containing the hash in either hexadecimal or "nix32" encoding, or following the format for integrity metadata as defined by <a href="https://www.w3.org/TR/SRI/">SRI</a>.
 The "nix32" encoding is an adaptation of base-32 encoding.</p>
@@ -7974,7 +7974,7 @@ forward the build to a <code>x86_64-darwin</code> machine, if one is available.<
 <pre><code class="language-console">nix store info --store ssh://username@mac
 </code></pre>
 <p>To specify an SSH identity file as part of the remote store URI add a
-query paramater, e.g.</p>
+query parameter, e.g.</p>
 <pre><code class="language-console">nix store info --store ssh://username@mac?ssh-key=/home/alice/my-key
 </code></pre>
 <p>Since builds should be non-interactive, the key should not have a
@@ -18155,7 +18155,7 @@ Deleting the current generation is not allowed.</p>
 <blockquote>
 <p><strong>WARNING</strong></p>
 <p>Older <em>and newer</em> generations will be deleted by this operation.</p>
-<p>One might expect this to just delete older generations than the curent one, but that is only true if the current generation is also the latest.
+<p>One might expect this to just delete older generations than the current one, but that is only true if the current generation is also the latest.
 Because one can roll back to a previous generation, it is possible to have generations newer than the current one.
 They will also be deleted.</p>
 </blockquote>
@@ -26989,7 +26989,7 @@ Otherwise, <code>null</code>.</p>
 </li>
 <li>
 <p><code>method</code>:
-For an output which will be [content addresed], a string representing the <a href="command-ref/new-cli/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
+For an output which will be [content addressed], a string representing the <a href="command-ref/new-cli/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
 Valid method strings are:</p>
 <ul>
 <li><a href="command-ref/new-cli/../../store/store-object/content-address.html#method-flat"><code>flat</code></a></li>
@@ -27001,7 +27001,7 @@ Valid method strings are:</p>
 </li>
 <li>
 <p><code>hashAlgo</code>:
-For an output which will be [content addresed], the name of the hash algorithm used.
+For an output which will be [content addressed], the name of the hash algorithm used.
 Valid algorithm strings are:</p>
 <ul>
 <li><code>blake3</code></li>
@@ -27201,7 +27201,7 @@ Otherwise, <code>null</code>.</p>
 </li>
 <li>
 <p><code>method</code>:
-For an output which will be [content addresed], a string representing the <a href="command-ref/new-cli/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
+For an output which will be [content addressed], a string representing the <a href="command-ref/new-cli/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
 Valid method strings are:</p>
 <ul>
 <li><a href="command-ref/new-cli/../../store/store-object/content-address.html#method-flat"><code>flat</code></a></li>
@@ -27213,7 +27213,7 @@ Valid method strings are:</p>
 </li>
 <li>
 <p><code>hashAlgo</code>:
-For an output which will be [content addresed], the name of the hash algorithm used.
+For an output which will be [content addressed], the name of the hash algorithm used.
 Valid algorithm strings are:</p>
 <ul>
 <li><code>blake3</code></li>
@@ -29304,7 +29304,7 @@ stored in the store path.</p>
 <p>The attributes in <code>locked</code> are considered "final", meaning that they are the only ones that are passed via the arguments of the <code>outputs</code> function of a flake.
 For instance, if <code>locked</code> contains a <code>lastModified</code> attribute while the fetcher does not return a <code>lastModified</code> attribute, then the <code>lastModified</code> attribute will be passed to the <code>outputs</code> function.
 Conversely, if <code>locked</code> does <em>not</em> contain a <code>lastModified</code> attribute while the fetcher <em>does</em> return a <code>lastModified</code> attribute, then no <code>lastModified</code> attribute will be passed.
-If <code>locked</code> contains a <code>lastModifed</code> attribute and the fetcher returns a <code>lastModified</code> attribute, then they must have the same value.</p>
+If <code>locked</code> contains a <code>lastModified</code> attribute and the fetcher returns a <code>lastModified</code> attribute, then they must have the same value.</p>
 </li>
 <li>
 <p><code>flake</code>: A Boolean denoting whether this is a flake or non-flake
@@ -30522,7 +30522,7 @@ Otherwise Nix will try to look up the flake in the registry.</p>
 <h1 id="description-59"><a class="header" href="#description-59">Description</a></h1>
 <p>This command updates the lock file of a flake (<code>flake.lock</code>)
 so that it contains an up-to-date lock for every flake input specified in
-<code>flake.nix</code>. Lock file entries are aready up-to-date are not modified.</p>
+<code>flake.nix</code>. Lock file entries are already up-to-date are not modified.</p>
 <p>If you want to update existing lock entries, use
 <a href="command-ref/new-cli/../../command-ref/new-cli/nix3-flake-update.html"><code>nix flake update</code></a></p>
 <h1 id="options-61"><a class="header" href="#options-61">Options</a></h1>
@@ -31750,28 +31750,12 @@ and its interface is subject to change.</p>
 <p><code>nix fmt</code> calls the formatter specified in the flake.</p>
 <p>Flags can be forwarded to the formatter by using <code>--</code> followed by the flags.</p>
 <p>Any arguments will be forwarded to the formatter. Typically these are the files to format.</p>
-<h1 id="examples-49"><a class="header" href="#examples-49">Examples</a></h1>
-<p>With <a href="https://github.com/nix-community/nixpkgs-fmt">nixpkgs-fmt</a>:</p>
+<h1 id="example-10"><a class="header" href="#example-10">Example</a></h1>
+<p>To use the <a href="https://github.com/NixOS/nixfmt">official Nix formatter</a>:</p>
 <pre><code class="language-nix"># flake.nix
 {
   outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
-  };
-}
-</code></pre>
-<p>With <a href="https://github.com/NixOS/nixfmt">nixfmt</a>:</p>
-<pre><code class="language-nix"># flake.nix
-{
-  outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
-  };
-}
-</code></pre>
-<p>With <a href="https://github.com/kamadorueda/alejandra">Alejandra</a>:</p>
-<pre><code class="language-nix"># flake.nix
-{
-  outputs = { nixpkgs, self }: {
-    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.alejandra;
+    formatter.x86_64-linux = nixpkgs.legacyPackages.${system}.nixfmt-tree;
   };
 }
 </code></pre>
@@ -32023,7 +32007,7 @@ and its interface is subject to change.</p>
 <p><code>nix hash convert</code> - convert between hash formats</p>
 <h1 id="synopsis-72"><a class="header" href="#synopsis-72">Synopsis</a></h1>
 <p><code>nix hash convert</code> [<em>option</em>...] <em>hashes</em>...</p>
-<h1 id="examples-50"><a class="header" href="#examples-50">Examples</a></h1>
+<h1 id="examples-49"><a class="header" href="#examples-49">Examples</a></h1>
 <ul>
 <li>
 <p>Convert a hash to <code>nix32</code> (a base-32 encoding with a Nix-specific character set).</p>
@@ -32589,7 +32573,7 @@ and its interface is subject to change.</p>
 <p><code>nix help</code> - show help about <code>nix</code> or a particular subcommand</p>
 <h1 id="synopsis-79"><a class="header" href="#synopsis-79">Synopsis</a></h1>
 <p><code>nix help</code> [<em>option</em>...] <em>subcommand</em>...</p>
-<h1 id="examples-51"><a class="header" href="#examples-51">Examples</a></h1>
+<h1 id="examples-50"><a class="header" href="#examples-50">Examples</a></h1>
 <ul>
 <li>
 <p>Show help about <code>nix</code> in general:</p>
@@ -32855,7 +32839,7 @@ Nix can, however, optionally check that the OverlayFS mount settings appear as e
 The location of the database instead depends on the <a href="command-ref/new-cli/nix3-help-stores.html#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
 It is always <code>${state}/db</code>.</p>
 </blockquote>
-<p>This contains the metadata of all of the upper layer <a href="command-ref/new-cli/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
+<p>This contains the metadata of all of the upper layer <a href="command-ref/new-cli/../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadata.
 The duplication is so the metadata for the <a href="command-ref/new-cli/../../glossary.html#gloss-closure">closure</a> of upper layer <a href="command-ref/new-cli/../../store/store-object.html">store objects</a> can be found entirely within the upper layer.
 (This allows us to use the same SQL Schema as the [local store]'s SQLite database, as foreign keys in that schema enforce closure metadata to be self-contained in this way.)</p>
 </li>
@@ -33621,7 +33605,7 @@ The <a href="command-ref/new-cli/nix3-help-stores.html#anonymous-reads-to-your-s
   ]
 }
 </code></pre>
-<h3 id="examples-52"><a class="header" href="#examples-52">Examples</a></h3>
+<h3 id="examples-51"><a class="header" href="#examples-51">Examples</a></h3>
 <p>With bucket policies and authentication set up as described above, uploading works via <a href="command-ref/new-cli/../../command-ref/new-cli/nix3-copy.html"><code>nix copy</code></a> (experimental).</p>
 <ul>
 <li>
@@ -33981,7 +33965,7 @@ and its interface is subject to change.</p>
 <p><code>nix key convert-secret-to-public</code> - generate a public key for verifying store paths from a secret key read from standard input</p>
 <h1 id="synopsis-82"><a class="header" href="#synopsis-82">Synopsis</a></h1>
 <p><code>nix key convert-secret-to-public</code> [<em>option</em>...]</p>
-<h1 id="examples-53"><a class="header" href="#examples-53">Examples</a></h1>
+<h1 id="examples-52"><a class="header" href="#examples-52">Examples</a></h1>
 <ul>
 <li>
 <p>Convert a secret key to a public key:</p>
@@ -34056,7 +34040,7 @@ and its interface is subject to change.</p>
 <p><code>nix key generate-secret</code> - generate a secret key for signing store paths</p>
 <h1 id="synopsis-83"><a class="header" href="#synopsis-83">Synopsis</a></h1>
 <p><code>nix key generate-secret</code> [<em>option</em>...]</p>
-<h1 id="examples-54"><a class="header" href="#examples-54">Examples</a></h1>
+<h1 id="examples-53"><a class="header" href="#examples-53">Examples</a></h1>
 <ul>
 <li>
 <p>Generate a new secret key:</p>
@@ -34154,7 +34138,7 @@ and its interface is subject to change.</p>
 <p><code>nix log</code> - show the build log of the specified packages or paths, if available</p>
 <h1 id="synopsis-84"><a class="header" href="#synopsis-84">Synopsis</a></h1>
 <p><code>nix log</code> [<em>option</em>...] <em>installable</em></p>
-<h1 id="examples-55"><a class="header" href="#examples-55">Examples</a></h1>
+<h1 id="examples-54"><a class="header" href="#examples-54">Examples</a></h1>
 <ul>
 <li>
 <p>Get the build log of GNU Hello:</p>
@@ -34437,7 +34421,7 @@ and its interface is subject to change.</p>
 <p><code>nix nar cat</code> - print the contents of a file inside a NAR file on stdout</p>
 <h1 id="synopsis-86"><a class="header" href="#synopsis-86">Synopsis</a></h1>
 <p><code>nix nar cat</code> [<em>option</em>...] <em>nar</em> <em>path</em></p>
-<h1 id="examples-56"><a class="header" href="#examples-56">Examples</a></h1>
+<h1 id="examples-55"><a class="header" href="#examples-55">Examples</a></h1>
 <ul>
 <li>
 <p>List a file in a <a href="command-ref/new-cli/../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive (NAR)</a> and pipe it through <code>gunzip</code>:</p>
@@ -34512,7 +34496,7 @@ and its interface is subject to change.</p>
 <p><code>nix nar dump-path</code> - serialise a path to stdout in NAR format</p>
 <h1 id="synopsis-87"><a class="header" href="#synopsis-87">Synopsis</a></h1>
 <p><code>nix nar dump-path</code> [<em>option</em>...] <em>path</em></p>
-<h1 id="examples-57"><a class="header" href="#examples-57">Examples</a></h1>
+<h1 id="examples-56"><a class="header" href="#examples-56">Examples</a></h1>
 <ul>
 <li>
 <p>To serialise directory <code>foo</code> as a <a href="command-ref/new-cli/../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive (NAR)</a>:</p>
@@ -34585,7 +34569,7 @@ and its interface is subject to change.</p>
 <p><code>nix nar ls</code> - show information about a path inside a NAR file</p>
 <h1 id="synopsis-88"><a class="header" href="#synopsis-88">Synopsis</a></h1>
 <p><code>nix nar ls</code> [<em>option</em>...] <em>nar</em> <em>path</em></p>
-<h1 id="examples-58"><a class="header" href="#examples-58">Examples</a></h1>
+<h1 id="examples-57"><a class="header" href="#examples-57">Examples</a></h1>
 <ul>
 <li>
 <p>To list a specific file in a <a href="command-ref/new-cli/../../store/file-system-object/content-address.html#serial-nix-archive">NAR</a>:</p>
@@ -34682,7 +34666,7 @@ and its interface is subject to change.</p>
 <p><code>nix nar pack</code> - serialise a path to stdout in NAR format</p>
 <h1 id="synopsis-89"><a class="header" href="#synopsis-89">Synopsis</a></h1>
 <p><code>nix nar pack</code> [<em>option</em>...] <em>path</em></p>
-<h1 id="examples-59"><a class="header" href="#examples-59">Examples</a></h1>
+<h1 id="examples-58"><a class="header" href="#examples-58">Examples</a></h1>
 <ul>
 <li>
 <p>To serialise directory <code>foo</code> as a <a href="command-ref/new-cli/../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive (NAR)</a>:</p>
@@ -34755,7 +34739,7 @@ and its interface is subject to change.</p>
 <p><code>nix path-info</code> - query information about store paths</p>
 <h1 id="synopsis-90"><a class="header" href="#synopsis-90">Synopsis</a></h1>
 <p><code>nix path-info</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-60"><a class="header" href="#examples-60">Examples</a></h1>
+<h1 id="examples-59"><a class="header" href="#examples-59">Examples</a></h1>
 <ul>
 <li>
 <p>Print the store path produced by <code>nixpkgs#hello</code>:</p>
@@ -35047,7 +35031,7 @@ and its interface is subject to change.</p>
 <p><code>nix print-dev-env</code> - print shell code that can be sourced by bash to reproduce the build environment of a derivation</p>
 <h1 id="synopsis-91"><a class="header" href="#synopsis-91">Synopsis</a></h1>
 <p><code>nix print-dev-env</code> [<em>option</em>...] <em>installable</em></p>
-<h1 id="examples-61"><a class="header" href="#examples-61">Examples</a></h1>
+<h1 id="examples-60"><a class="header" href="#examples-60">Examples</a></h1>
 <ul>
 <li>
 <p>Apply the build environment of GNU hello to the current shell:</p>
@@ -35429,7 +35413,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile diff-closures</code> - show the closure difference between each version of a profile</p>
 <h1 id="synopsis-93"><a class="header" href="#synopsis-93">Synopsis</a></h1>
 <p><code>nix profile diff-closures</code> [<em>option</em>...]</p>
-<h1 id="examples-62"><a class="header" href="#examples-62">Examples</a></h1>
+<h1 id="examples-61"><a class="header" href="#examples-61">Examples</a></h1>
 <ul>
 <li>
 <p>Show what changed between each version of the NixOS system
@@ -35518,7 +35502,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile history</code> - show all versions of a profile</p>
 <h1 id="synopsis-94"><a class="header" href="#synopsis-94">Synopsis</a></h1>
 <p><code>nix profile history</code> [<em>option</em>...]</p>
-<h1 id="examples-63"><a class="header" href="#examples-63">Examples</a></h1>
+<h1 id="examples-62"><a class="header" href="#examples-62">Examples</a></h1>
 <ul>
 <li>
 <p>Show the changes between each version of your default profile:</p>
@@ -35650,7 +35634,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile install</code> - install a package into a profile</p>
 <h1 id="synopsis-95"><a class="header" href="#synopsis-95">Synopsis</a></h1>
 <p><code>nix profile install</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-64"><a class="header" href="#examples-64">Examples</a></h1>
+<h1 id="examples-63"><a class="header" href="#examples-63">Examples</a></h1>
 <ul>
 <li>
 <p>Install a package from Nixpkgs:</p>
@@ -35862,7 +35846,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile list</code> - list installed packages</p>
 <h1 id="synopsis-96"><a class="header" href="#synopsis-96">Synopsis</a></h1>
 <p><code>nix profile list</code> [<em>option</em>...]</p>
-<h1 id="examples-65"><a class="header" href="#examples-65">Examples</a></h1>
+<h1 id="examples-64"><a class="header" href="#examples-64">Examples</a></h1>
 <ul>
 <li>
 <p>Show what packages are installed in the default profile:</p>
@@ -36033,7 +36017,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile remove</code> - remove packages from a profile</p>
 <h1 id="synopsis-97"><a class="header" href="#synopsis-97">Synopsis</a></h1>
 <p><code>nix profile remove</code> [<em>option</em>...] <em>elements</em>...</p>
-<h1 id="examples-66"><a class="header" href="#examples-66">Examples</a></h1>
+<h1 id="examples-65"><a class="header" href="#examples-65">Examples</a></h1>
 <ul>
 <li>
 <p>Remove a package by name:</p>
@@ -36179,7 +36163,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile rollback</code> - roll back to the previous version or a specified version of a profile</p>
 <h1 id="synopsis-98"><a class="header" href="#synopsis-98">Synopsis</a></h1>
 <p><code>nix profile rollback</code> [<em>option</em>...]</p>
-<h1 id="examples-67"><a class="header" href="#examples-67">Examples</a></h1>
+<h1 id="examples-66"><a class="header" href="#examples-66">Examples</a></h1>
 <ul>
 <li>
 <p>Roll back your default profile to the previous version:</p>
@@ -36274,7 +36258,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile upgrade</code> - upgrade packages using their most recent flake</p>
 <h1 id="synopsis-99"><a class="header" href="#synopsis-99">Synopsis</a></h1>
 <p><code>nix profile upgrade</code> [<em>option</em>...] <em>elements</em>...</p>
-<h1 id="examples-68"><a class="header" href="#examples-68">Examples</a></h1>
+<h1 id="examples-67"><a class="header" href="#examples-67">Examples</a></h1>
 <ul>
 <li>
 <p>Upgrade all packages that were installed using an unlocked flake
@@ -36492,7 +36476,7 @@ and its interface is subject to change.</p>
 <p><code>nix profile wipe-history</code> - delete non-current versions of a profile</p>
 <h1 id="synopsis-100"><a class="header" href="#synopsis-100">Synopsis</a></h1>
 <p><code>nix profile wipe-history</code> [<em>option</em>...]</p>
-<h1 id="examples-69"><a class="header" href="#examples-69">Examples</a></h1>
+<h1 id="examples-68"><a class="header" href="#examples-68">Examples</a></h1>
 <ul>
 <li>
 <p>Delete all versions of the default profile older than 100 days:</p>
@@ -36649,7 +36633,7 @@ and its interface is subject to change.</p>
 <p><code>nix realisation info</code> [<em>option</em>...] <em>installables</em>...</p>
 <h1 id="description-86"><a class="header" href="#description-86">Description</a></h1>
 <p>Display some information about the given realisation</p>
-<h1 id="examples-70"><a class="header" href="#examples-70">Examples</a></h1>
+<h1 id="examples-69"><a class="header" href="#examples-69">Examples</a></h1>
 <p>Show some information about the realisation of the <code>hello</code> package:</p>
 <pre><code class="language-console">$ nix realisation info nixpkgs#hello --json
 [{"id":"sha256:3d382378a00588e064ee30be96dd0fa7e7df7cf3fbcace85a0e7b7dada1eef25!out","outPath":"fd3m7xawvrqcg98kgz5hc2vk3x9q0lh7-hello"}]
@@ -37014,7 +36998,7 @@ and its interface is subject to change.</p>
 <p><code>nix registry add</code> - add/replace flake in user flake registry</p>
 <h1 id="synopsis-104"><a class="header" href="#synopsis-104">Synopsis</a></h1>
 <p><code>nix registry add</code> [<em>option</em>...] <em>from-url</em> <em>to-url</em></p>
-<h1 id="examples-71"><a class="header" href="#examples-71">Examples</a></h1>
+<h1 id="examples-70"><a class="header" href="#examples-70">Examples</a></h1>
 <ul>
 <li>
 <p>Set the <code>nixpkgs</code> flake identifier to a specific branch of Nixpkgs:</p>
@@ -37153,7 +37137,7 @@ and its interface is subject to change.</p>
 <p><code>nix registry list</code> - list available Nix flakes</p>
 <h1 id="synopsis-105"><a class="header" href="#synopsis-105">Synopsis</a></h1>
 <p><code>nix registry list</code> [<em>option</em>...]</p>
-<h1 id="examples-72"><a class="header" href="#examples-72">Examples</a></h1>
+<h1 id="examples-71"><a class="header" href="#examples-71">Examples</a></h1>
 <ul>
 <li>
 <p>Show the contents of all registries:</p>
@@ -37238,7 +37222,7 @@ and its interface is subject to change.</p>
 <p><code>nix registry pin</code> - pin a flake to its current version or to the current version of a flake URL</p>
 <h1 id="synopsis-106"><a class="header" href="#synopsis-106">Synopsis</a></h1>
 <p><code>nix registry pin</code> [<em>option</em>...] <em>url</em> <em>locked</em></p>
-<h1 id="examples-73"><a class="header" href="#examples-73">Examples</a></h1>
+<h1 id="examples-72"><a class="header" href="#examples-72">Examples</a></h1>
 <ul>
 <li>
 <p>Pin <code>nixpkgs</code> to its most recent Git revision:</p>
@@ -37381,7 +37365,7 @@ and its interface is subject to change.</p>
 <p><code>nix registry remove</code> - remove flake from user flake registry</p>
 <h1 id="synopsis-107"><a class="header" href="#synopsis-107">Synopsis</a></h1>
 <p><code>nix registry remove</code> [<em>option</em>...] <em>url</em></p>
-<h1 id="examples-74"><a class="header" href="#examples-74">Examples</a></h1>
+<h1 id="examples-73"><a class="header" href="#examples-73">Examples</a></h1>
 <ul>
 <li>
 <p>Remove the entry <code>nixpkgs</code> from the user registry:</p>
@@ -37464,7 +37448,7 @@ and its interface is subject to change.</p>
 <p><code>nix repl</code> - start an interactive environment for evaluating Nix expressions</p>
 <h1 id="synopsis-108"><a class="header" href="#synopsis-108">Synopsis</a></h1>
 <p><code>nix repl</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-75"><a class="header" href="#examples-75">Examples</a></h1>
+<h1 id="examples-74"><a class="header" href="#examples-74">Examples</a></h1>
 <ul>
 <li>
 <p>Display all special commands within the REPL:</p>
@@ -37715,7 +37699,7 @@ and its interface is subject to change.</p>
 <p><code>nix run</code> - run a Nix application</p>
 <h1 id="synopsis-109"><a class="header" href="#synopsis-109">Synopsis</a></h1>
 <p><code>nix run</code> [<em>option</em>...] <em>installable</em> <em>args</em>...</p>
-<h1 id="examples-76"><a class="header" href="#examples-76">Examples</a></h1>
+<h1 id="examples-75"><a class="header" href="#examples-75">Examples</a></h1>
 <ul>
 <li>
 <p>Run the default app from the <code>blender-bin</code> flake:</p>
@@ -37996,7 +37980,7 @@ and its interface is subject to change.</p>
 <p><code>nix search</code> - search for packages</p>
 <h1 id="synopsis-110"><a class="header" href="#synopsis-110">Synopsis</a></h1>
 <p><code>nix search</code> [<em>option</em>...] <em>installable</em> <em>regex</em>...</p>
-<h1 id="examples-77"><a class="header" href="#examples-77">Examples</a></h1>
+<h1 id="examples-76"><a class="header" href="#examples-76">Examples</a></h1>
 <ul>
 <li>
 <p>Show all packages in the <code>nixpkgs</code> flake:</p>
@@ -38349,7 +38333,7 @@ standard output.</p>
 collector root, so it could be deleted before you have a
 chance to register it.</p>
 </blockquote>
-<h1 id="examples-78"><a class="header" href="#examples-78">Examples</a></h1>
+<h1 id="examples-77"><a class="header" href="#examples-77">Examples</a></h1>
 <p>Add a directory to the store:</p>
 <pre><code class="language-console"># mkdir dir
 # echo foo &gt; dir/bar
@@ -38669,7 +38653,7 @@ and its interface is subject to change.</p>
 <p><code>nix store cat</code> - print the contents of a file in the Nix store on stdout</p>
 <h1 id="synopsis-115"><a class="header" href="#synopsis-115">Synopsis</a></h1>
 <p><code>nix store cat</code> [<em>option</em>...] <em>path</em></p>
-<h1 id="examples-79"><a class="header" href="#examples-79">Examples</a></h1>
+<h1 id="examples-78"><a class="header" href="#examples-78">Examples</a></h1>
 <ul>
 <li>
 <p>Show the contents of a file in a binary cache:</p>
@@ -38744,7 +38728,7 @@ and its interface is subject to change.</p>
 <p><code>nix store copy-log</code> - copy build logs between Nix stores</p>
 <h1 id="synopsis-116"><a class="header" href="#synopsis-116">Synopsis</a></h1>
 <p><code>nix store copy-log</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-80"><a class="header" href="#examples-80">Examples</a></h1>
+<h1 id="examples-79"><a class="header" href="#examples-79">Examples</a></h1>
 <ul>
 <li>
 <p>To copy the build log of the <code>hello</code> package from
@@ -39149,7 +39133,7 @@ and its interface is subject to change.</p>
 <p><code>nix store delete</code> - delete paths from the Nix store</p>
 <h1 id="synopsis-118"><a class="header" href="#synopsis-118">Synopsis</a></h1>
 <p><code>nix store delete</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-81"><a class="header" href="#examples-81">Examples</a></h1>
+<h1 id="examples-80"><a class="header" href="#examples-80">Examples</a></h1>
 <ul>
 <li>
 <p>Delete a specific store path:</p>
@@ -39360,7 +39344,7 @@ and its interface is subject to change.</p>
 <p><code>nix store diff-closures</code> - show what packages and versions were added and removed between two closures</p>
 <h1 id="synopsis-119"><a class="header" href="#synopsis-119">Synopsis</a></h1>
 <p><code>nix store diff-closures</code> [<em>option</em>...] <em>before</em> <em>after</em></p>
-<h1 id="examples-82"><a class="header" href="#examples-82">Examples</a></h1>
+<h1 id="examples-81"><a class="header" href="#examples-81">Examples</a></h1>
 <ul>
 <li>
 <p>Show what got added and removed between two versions of the NixOS
@@ -39575,7 +39559,7 @@ and its interface is subject to change.</p>
 <p><code>nix store dump-path</code> - serialise a store path to stdout in NAR format</p>
 <h1 id="synopsis-120"><a class="header" href="#synopsis-120">Synopsis</a></h1>
 <p><code>nix store dump-path</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-83"><a class="header" href="#examples-83">Examples</a></h1>
+<h1 id="examples-82"><a class="header" href="#examples-82">Examples</a></h1>
 <ul>
 <li>
 <p>To get a NAR containing the GNU Hello package:</p>
@@ -39783,7 +39767,7 @@ and its interface is subject to change.</p>
 <p><code>nix store gc</code> - perform garbage collection on a Nix store</p>
 <h1 id="synopsis-121"><a class="header" href="#synopsis-121">Synopsis</a></h1>
 <p><code>nix store gc</code> [<em>option</em>...]</p>
-<h1 id="examples-84"><a class="header" href="#examples-84">Examples</a></h1>
+<h1 id="examples-83"><a class="header" href="#examples-83">Examples</a></h1>
 <ul>
 <li>
 <p>Delete unreachable paths in the Nix store:</p>
@@ -39869,7 +39853,7 @@ and its interface is subject to change.</p>
 <p><code>nix store info</code> - test whether a store can be accessed</p>
 <h1 id="synopsis-122"><a class="header" href="#synopsis-122">Synopsis</a></h1>
 <p><code>nix store info</code> [<em>option</em>...]</p>
-<h1 id="examples-85"><a class="header" href="#examples-85">Examples</a></h1>
+<h1 id="examples-84"><a class="header" href="#examples-84">Examples</a></h1>
 <ul>
 <li>
 <p>Test whether connecting to a remote Nix store via SSH works:</p>
@@ -39961,7 +39945,7 @@ and its interface is subject to change.</p>
 <p><code>nix store ls</code> - show information about a path in the Nix store</p>
 <h1 id="synopsis-123"><a class="header" href="#synopsis-123">Synopsis</a></h1>
 <p><code>nix store ls</code> [<em>option</em>...] <em>path</em></p>
-<h1 id="examples-86"><a class="header" href="#examples-86">Examples</a></h1>
+<h1 id="examples-85"><a class="header" href="#examples-85">Examples</a></h1>
 <ul>
 <li>
 <p>To list the contents of a store path in a binary cache:</p>
@@ -40061,7 +40045,7 @@ and its interface is subject to change.</p>
 <p><code>nix store make-content-addressed</code> - rewrite a path or closure to content-addressed form</p>
 <h1 id="synopsis-124"><a class="header" href="#synopsis-124">Synopsis</a></h1>
 <p><code>nix store make-content-addressed</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-87"><a class="header" href="#examples-87">Examples</a></h1>
+<h1 id="examples-86"><a class="header" href="#examples-86">Examples</a></h1>
 <ul>
 <li>
 <p>Create a content-addressed representation of the closure of GNU Hello:</p>
@@ -40308,7 +40292,7 @@ and its interface is subject to change.</p>
 <p><code>nix store optimise</code> - replace identical files in the store by hard links</p>
 <h1 id="synopsis-125"><a class="header" href="#synopsis-125">Synopsis</a></h1>
 <p><code>nix store optimise</code> [<em>option</em>...]</p>
-<h1 id="examples-88"><a class="header" href="#examples-88">Examples</a></h1>
+<h1 id="examples-87"><a class="header" href="#examples-87">Examples</a></h1>
 <ul>
 <li>
 <p>Optimise the Nix store:</p>
@@ -40386,7 +40370,7 @@ and its interface is subject to change.</p>
 <p><code>nix store path-from-hash-part</code> - get a store path from its hash part</p>
 <h1 id="synopsis-126"><a class="header" href="#synopsis-126">Synopsis</a></h1>
 <p><code>nix store path-from-hash-part</code> [<em>option</em>...] <em>hash-part</em></p>
-<h1 id="examples-89"><a class="header" href="#examples-89">Examples</a></h1>
+<h1 id="examples-88"><a class="header" href="#examples-88">Examples</a></h1>
 <ul>
 <li>
 <p>Return the full store path with the given hash part:</p>
@@ -40462,7 +40446,7 @@ and its interface is subject to change.</p>
 <p><code>nix store ping</code> - test whether a store can be accessed</p>
 <h1 id="synopsis-127"><a class="header" href="#synopsis-127">Synopsis</a></h1>
 <p><code>nix store ping</code> [<em>option</em>...]</p>
-<h1 id="examples-90"><a class="header" href="#examples-90">Examples</a></h1>
+<h1 id="examples-89"><a class="header" href="#examples-89">Examples</a></h1>
 <ul>
 <li>
 <p>Test whether connecting to a remote Nix store via SSH works:</p>
@@ -40554,7 +40538,7 @@ and its interface is subject to change.</p>
 <p><code>nix store prefetch-file</code> - download a file into the Nix store</p>
 <h1 id="synopsis-128"><a class="header" href="#synopsis-128">Synopsis</a></h1>
 <p><code>nix store prefetch-file</code> [<em>option</em>...] <em>url</em></p>
-<h1 id="examples-91"><a class="header" href="#examples-91">Examples</a></h1>
+<h1 id="examples-90"><a class="header" href="#examples-90">Examples</a></h1>
 <ul>
 <li>
 <p>Download a file to the Nix store:</p>
@@ -40666,7 +40650,7 @@ and its interface is subject to change.</p>
 <p><code>nix store repair</code> - repair store paths</p>
 <h1 id="synopsis-129"><a class="header" href="#synopsis-129">Synopsis</a></h1>
 <p><code>nix store repair</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-92"><a class="header" href="#examples-92">Examples</a></h1>
+<h1 id="examples-91"><a class="header" href="#examples-91">Examples</a></h1>
 <ul>
 <li>
 <p>Repair a store path, after determining that it is corrupt:</p>
@@ -41079,7 +41063,7 @@ and its interface is subject to change.</p>
 <p><code>nix store verify</code> - verify the integrity of store paths</p>
 <h1 id="synopsis-131"><a class="header" href="#synopsis-131">Synopsis</a></h1>
 <p><code>nix store verify</code> [<em>option</em>...] <em>installables</em>...</p>
-<h1 id="examples-93"><a class="header" href="#examples-93">Examples</a></h1>
+<h1 id="examples-92"><a class="header" href="#examples-92">Examples</a></h1>
 <ul>
 <li>
 <p>Verify the entire Nix store:</p>
@@ -41335,7 +41319,7 @@ and its interface is subject to change.</p>
 <p><code>nix upgrade-nix</code> - upgrade Nix to the latest stable version</p>
 <h1 id="synopsis-132"><a class="header" href="#synopsis-132">Synopsis</a></h1>
 <p><code>nix upgrade-nix</code> [<em>option</em>...]</p>
-<h1 id="examples-94"><a class="header" href="#examples-94">Examples</a></h1>
+<h1 id="examples-93"><a class="header" href="#examples-93">Examples</a></h1>
 <ul>
 <li>
 <p>Upgrade Nix to the stable version declared in Nixpkgs:</p>
@@ -41434,7 +41418,7 @@ and its interface is subject to change.</p>
 <p><code>nix why-depends</code> - show why a package has another package in its closure</p>
 <h1 id="synopsis-133"><a class="header" href="#synopsis-133">Synopsis</a></h1>
 <p><code>nix why-depends</code> [<em>option</em>...] <em>package</em> <em>dependency</em></p>
-<h1 id="examples-95"><a class="header" href="#examples-95">Examples</a></h1>
+<h1 id="examples-94"><a class="header" href="#examples-94">Examples</a></h1>
 <ul>
 <li>
 <p>Show one path through the dependency graph leading from Hello to
@@ -43558,9 +43542,9 @@ It should help users understand why Nix behaves as it does, and it should help d
            |                   |
 +----------|-------------------|--------------------------------+
 | Nix      |                   V                                |
-|          |      +-------------------------+                   |
-|          |      | commmand line interface |------.            |
-|          |      +-------------------------+      |            |
+|          |       +------------------------+                   |
+|          |       | command line interface |------.            |
+|          |       +------------------------+      |            |
 |          |                   |                   |            |
 |    evaluated by            calls              manages         |
 |          |                   |                   |            |
@@ -43764,7 +43748,7 @@ Otherwise, <code>null</code>.</p>
 </li>
 <li>
 <p><code>method</code>:
-For an output which will be [content addresed], a string representing the <a href="protocols/json/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
+For an output which will be [content addressed], a string representing the <a href="protocols/json/../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
 Valid method strings are:</p>
 <ul>
 <li><a href="protocols/json/../../store/store-object/content-address.html#method-flat"><code>flat</code></a></li>
@@ -43776,7 +43760,7 @@ Valid method strings are:</p>
 </li>
 <li>
 <p><code>hashAlgo</code>:
-For an output which will be [content addresed], the name of the hash algorithm used.
+For an output which will be [content addressed], the name of the hash algorithm used.
 Valid algorithm strings are:</p>
 <ul>
 <li><code>blake3</code></li>
@@ -43875,7 +43859,7 @@ Nix.</p>
 defined as the timestamp of the newest file inside the tarball.</p>
 <h2 id="gitea-and-forgejo-support"><a class="header" href="#gitea-and-forgejo-support">Gitea and Forgejo support</a></h2>
 <p>This protocol is supported by Gitea since v1.22.1 and by Forgejo since v7.0.4/v8.0.0 and can be used with the following flake URL schema:</p>
-<pre><code>https://&lt;domain name&gt;/&lt;owner&gt;/&lt;repo&gt;/archive/&lt;reference or revison&gt;.tar.gz
+<pre><code>https://&lt;domain name&gt;/&lt;owner&gt;/&lt;repo&gt;/archive/&lt;reference or revision&gt;.tar.gz
 </code></pre>
 <blockquote>
 <p><strong>Example</strong></p>
@@ -44401,7 +44385,7 @@ and <code>nix-store --restore</code>.</p>
 <p>See <a href="store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a> for details.</p>
 </li>
 <li>
-<p><a href="glossary.html#gloss-emtpy-set" id="gloss-emtpy-set"><code>∅</code></a></p>
+<p><a href="glossary.html#gloss-empty-set" id="gloss-empty-set"><code>∅</code></a></p>
 <p>The empty set symbol. In the context of profile history, this denotes a package is not present in a particular version of the profile.</p>
 </li>
 <li>
@@ -44591,13 +44575,18 @@ Meson thankfully makes this very easy by confining all build products to the bui
 <p>Nix uses a string with the following format to identify the <em>system type</em> or <em>platform</em> it runs on:</p>
 <pre><code>&lt;cpu&gt;-&lt;os&gt;[-&lt;abi&gt;]
 </code></pre>
-<p>It is set when Nix is compiled for the given system, and based on the output of <a href="https://github.com/nixos/nix/blob/master/config/config.guess"><code>config.guess</code></a> (<a href="https://git.savannah.gnu.org/cgit/config.git/tree/config.guess">upstream</a>):</p>
+<p>It is set when Nix is compiled for the given system, and based on the output of Meson's <a href="https://mesonbuild.com/Reference-manual_builtin_host_machine.html"><code>host_machine</code> information</a>&gt;</p>
 <pre><code>&lt;cpu&gt;-&lt;vendor&gt;-&lt;os&gt;[&lt;version&gt;][-&lt;abi&gt;]
 </code></pre>
-<p>When Nix is built such that <code>./configure</code> is passed any of the <code>--host</code>, <code>--build</code>, <code>--target</code> options, the value is based on the output of <a href="https://github.com/nixos/nix/blob/master/config/config.sub"><code>config.sub</code></a> (<a href="https://git.savannah.gnu.org/cgit/config.git/tree/config.sub">upstream</a>):</p>
-<pre><code>&lt;cpu&gt;-&lt;vendor&gt;[-&lt;kernel&gt;]-&lt;os&gt;
+<p>When cross-compiling Nix with Meson for local development, you need to specify a <a href="https://mesonbuild.com/Cross-compilation.html">cross-file</a> using the <code>--cross-file</code> option. Cross-files define the target architecture and toolchain. When cross-compiling Nix with Nix, Nixpkgs takes care of this for you.</p>
+<p>In the nix flake we also have some cross-compilation targets available:</p>
+<pre><code>nix build .#nix-everything-riscv64-unknown-linux-gnu
+nix build .#nix-everything-armv7l-unknown-linux-gnueabihf
+nix build .#nix-everything-armv7l-unknown-linux-gnueabihf
+nix build .#nix-everything-x86_64-unknown-freebsd
+nix build .#nix-everything-x86_64-w64-mingw32
 </code></pre>
-<p>For historic reasons and backward-compatibility, some CPU and OS identifiers are translated from the GNU Autotools naming convention in <a href="https://github.com/nixos/nix/blob/master/configure.ac"><code>configure.ac</code></a> as follows:</p>
+<p>For historic reasons and backward-compatibility, some CPU and OS identifiers are translated as follows:</p>
 <div class="table-wrapper"><table><thead><tr><th><code>config.guess</code></th><th>Nix</th></tr></thead><tbody>
 <tr><td><code>amd64</code></td><td><code>x86_64</code></td></tr>
 <tr><td><code>i*86</code></td><td><code>i686</code></td></tr>
@@ -44616,13 +44605,13 @@ Meson thankfully makes this very easy by confining all build products to the bui
 <li><code>ccacheStdenv</code>: enable [ccache], a compiler cache to speed up compilation.</li>
 </ul>
 <p>To build with one of those environments, you can use</p>
-<pre><code class="language-console">$ nix build .#nix-ccacheStdenv
+<pre><code class="language-console">$ nix build .#nix-cli-ccacheStdenv
 </code></pre>
 <p>for flake-enabled Nix, or</p>
-<pre><code class="language-console">$ nix-build --attr nix-ccacheStdenv
+<pre><code class="language-console">$ nix-build --attr nix-cli-ccacheStdenv
 </code></pre>
 <p>for classic Nix.</p>
-<p>You can use any of the other supported environments in place of <code>nix-ccacheStdenv</code>.</p>
+<p>You can use any of the other supported environments in place of <code>nix-cli-ccacheStdenv</code>.</p>
 <h2 id="editor-integration"><a class="header" href="#editor-integration">Editor integration</a></h2>
 <p>The <code>clangd</code> LSP server is installed by default on the <code>clang</code>-based <code>devShell</code>s.
 See <a href="development/building.html#compilation-environments">supported compilation environments</a> and instructions how to set up a shell <a href="development/building.html#nix-with-flakes">with flakes</a> or in <a href="development/building.html#classic-nix">classic Nix</a>.</p>
@@ -45336,9 +45325,9 @@ errors. Here are few examples:</p>
 <p>Sometimes users will make mistake either because of a typo or simply because of
 lack of discoverability. Our handling of this cases needs to be context
 sensitive.</p>
-<pre><code class="language-shell">$ nix init --template=template#pyton
+<pre><code class="language-shell">$ nix init --template=template#python
 ------------------------------------------------------------------------
-  Error! Template `template#pyton` not found.
+  Error! Template `template#python` not found.
 ------------------------------------------------------------------------
 Initializing Nix project at `/path/to/here`.
       Select a template for you new project:
@@ -45697,7 +45686,7 @@ If the order of the items needs to be preserved, return a list of records.</p>
 These JSON values can be considered top-level values or list items, and they must be records.</p>
 </li>
 </ul>
-<h3 id="examples-96"><a class="header" href="#examples-96">Examples</a></h3>
+<h3 id="examples-95"><a class="header" href="#examples-95">Examples</a></h3>
 <p>This is bad, because all keys must be assumed to be store types:</p>
 <pre><code class="language-json">{
   "local": { ... },
@@ -45728,7 +45717,7 @@ While it is possible for a JSON parser to preserve the order of fields, we can n
 <p>As described in the previous section, it's crucial that schemas can be extended with new fields without breaking compatibility.
 However, that should <em>not</em> mean we use the presence/absence of fields to indicate optional information <em>within</em> a version of the schema.
 Instead, always include the field, and use <code>null</code> to indicate the "nothing" case.</p>
-<h3 id="examples-97"><a class="header" href="#examples-97">Examples</a></h3>
+<h3 id="examples-96"><a class="header" href="#examples-96">Examples</a></h3>
 <p>Here are two JSON objects:</p>
 <pre><code class="language-json">{
   "foo": {}
@@ -46666,7 +46655,7 @@ bugs (it hasn't been updated since its introduction in late 2021).</p>
 <a href="https://en.wikipedia.org/wiki/Base32">Base32</a>.</p>
 <p><strong>Deprecation</strong>: Use <code>nix32</code> instead of <code>base32</code> as <code>toHashFormat</code></p>
 <p>For the builtin <code>convertHash</code>, the <code>toHashFormat</code> parameter now accepts the same hash formats as the <code>--to</code>/<code>--from</code>
-parameters of the <code>nix hash conert</code> command: <code>"base16"</code>, <code>"nix32"</code>, <code>"base64"</code>, and <code>"sri"</code>. The former <code>"base32"</code> value
+parameters of the <code>nix hash convert</code> command: <code>"base16"</code>, <code>"nix32"</code>, <code>"base64"</code>, and <code>"sri"</code>. The former <code>"base32"</code> value
 remains as a deprecated alias for <code>"nix32"</code>. Please convert your code from:</p>
 <pre><code class="language-nix">builtins.convertHash { inherit hash hashAlgo; toHashFormat = "base32";}
 </code></pre>
@@ -46800,7 +46789,7 @@ build, all hash mismatches are displayed.</p>
 <li>
 <p>Modify <code>nix derivation {add,show}</code> JSON format <a href="https://github.com/NixOS/nix/issues/9866">#9866</a> <a href="https://github.com/NixOS/nix/pull/10722">#10722</a></p>
 <p>The JSON format for derivations has been slightly revised to better conform to our <a href="release-notes/../development/cli-guideline.html#returning-future-proof-json">JSON guidelines</a>.
-In particular, the hash algorithm and content addressing method of content-addresed derivation outputs are now separated into two fields <code>hashAlgo</code> and <code>method</code>,
+In particular, the hash algorithm and content addressing method of content-addressed derivation outputs are now separated into two fields <code>hashAlgo</code> and <code>method</code>,
 rather than one field with an arcane <code>:</code>-separated format.</p>
 <p>This JSON format is only used by the experimental <code>nix derivation</code> family of commands, at this time.
 Future revisions are expected as the JSON format is still not entirely in compliance even after these changes.</p>
@@ -47368,7 +47357,7 @@ It will <em>never</em> update existing inputs.</p>
 </li>
 <li>
 <p>The flake-specific flags <code>--recreate-lock-file</code> and <code>--update-input</code> have been removed from all commands operating on installables.
-They are superceded by <code>nix flake update</code>.</p>
+They are superseded by <code>nix flake update</code>.</p>
 </li>
 </ul>
 </li>
@@ -47893,7 +47882,7 @@ efficient.</li>
 <li>New command <code>nix store copy-log</code> to copy build logs from one store
 to another.</li>
 <li>The <code>commit-lockfile-summary</code> option can be set to a non-empty
-string to override the commit summary used when commiting an updated
+string to override the commit summary used when committing an updated
 lockfile.  This may be used in conjunction with the <code>nixConfig</code>
 attribute in <code>flake.nix</code> to better conform to repository
 conventions.</li>

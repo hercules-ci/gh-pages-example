@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix help-stores - Nix 2.28.3 Reference Manual</title>
+        <title>nix help-stores - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -375,7 +375,7 @@ Nix can, however, optionally check that the OverlayFS mount settings appear as e
 The location of the database instead depends on the <a href="#store-experimental-local-overlay-store-state"><code>state</code></a> setting.
 It is always <code>${state}/db</code>.</p>
 </blockquote>
-<p>This contains the metadata of all of the upper layer <a href="../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadta.
+<p>This contains the metadata of all of the upper layer <a href="../../store/store-object.html">store objects</a> (everything beyond their file system objects), and also duplicate copies of some lower layer store object's metadata.
 The duplication is so the metadata for the <a href="../../glossary.html#gloss-closure">closure</a> of upper layer <a href="../../store/store-object.html">store objects</a> can be found entirely within the upper layer.
 (This allows us to use the same SQL Schema as the [local store]'s SQLite database, as foreign keys in that schema enforce closure metadata to be self-contained in this way.)</p>
 </li>

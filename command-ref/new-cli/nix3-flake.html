@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix flake - Nix 2.28.3 Reference Manual</title>
+        <title>nix flake - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -835,7 +835,7 @@ stored in the store path.</p>
 <p>The attributes in <code>locked</code> are considered "final", meaning that they are the only ones that are passed via the arguments of the <code>outputs</code> function of a flake.
 For instance, if <code>locked</code> contains a <code>lastModified</code> attribute while the fetcher does not return a <code>lastModified</code> attribute, then the <code>lastModified</code> attribute will be passed to the <code>outputs</code> function.
 Conversely, if <code>locked</code> does <em>not</em> contain a <code>lastModified</code> attribute while the fetcher <em>does</em> return a <code>lastModified</code> attribute, then no <code>lastModified</code> attribute will be passed.
-If <code>locked</code> contains a <code>lastModifed</code> attribute and the fetcher returns a <code>lastModified</code> attribute, then they must have the same value.</p>
+If <code>locked</code> contains a <code>lastModified</code> attribute and the fetcher returns a <code>lastModified</code> attribute, then they must have the same value.</p>
 </li>
 <li>
 <p><code>flake</code>: A Boolean denoting whether this is a flake or non-flake

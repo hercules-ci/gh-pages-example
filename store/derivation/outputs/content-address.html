@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Content-addressing derivation outputs - Nix 2.28.3 Reference Manual</title>
+        <title>Content-addressing derivation outputs - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../../print.html" title="Print this book" aria-label="Print this book">
@@ -193,7 +193,7 @@ This hash may be of a freely-chosen hash algorithm (that Nix supports)</li>
 <blockquote>
 <p><strong>Design note</strong></p>
 <p>In principle, the output spec could also specify the references the store object should have, since the references and file system objects are equally parts of a content-addressed store object proper that contribute to its content-addressed.
-However, at this time, the references are not not done because all fixed content-addressed outputs are required to have no references (including no self-reference).</p>
+However, at this time, the references are not done because all fixed content-addressed outputs are required to have no references (including no self-reference).</p>
 <p>Also in principle, rather than specifying the references and file system object data with separate hashes, a single hash that constraints both could be used.
 This could be done with the final store path's digest, or better yet, the hash that will become the store path's digest before it is truncated.</p>
 <p>These possible future extensions are included to elucidate the core property of fixed-output content addressing --- that all parts of the output must be cryptographically fixed with one or more hashes --- separate from the particulars of the currently-supported store object content-addressing schemes.</p>
@@ -260,15 +260,15 @@ For example, in <a href="../../../command-ref/conf-file.html">nix.conf</a> you c
 <p><strong>Configuration note</strong></p>
 <p>Strictly speaking, the extent to which sandboxing and deprivilaging is possible varies with the environment Nix is running in.
 Nix's configuration settings indicate what level of sandboxing is required or enabled.
-Builds of derivations will fail if they request an absense of sandboxing which is not allowed.
-Builds of derivations will also fail if the level of sandboxing specified in the configure exceeds what is possible in teh given environment.</p>
-<p>(The "environment", in this case, consists of attributes such as the Operating System Nix runs atop, along with the operating-system-specific privilages that Nix has been granted.
-Because of how conventional operating systems like macos, Linux, etc. work, granting builders <em>fewer</em> privilages may ironically require that Nix be run with <em>more</em> privilages.)</p>
+Builds of derivations will fail if they request an absence of sandboxing which is not allowed.
+Builds of derivations will also fail if the level of sandboxing specified in the configure exceeds what is possible in the given environment.</p>
+<p>(The "environment", in this case, consists of attributes such as the Operating System Nix runs atop, along with the operating-system-specific privileges that Nix has been granted.
+Because of how conventional operating systems like macos, Linux, etc. work, granting builders <em>fewer</em> privileges may ironically require that Nix be run with <em>more</em> privileges.)</p>
 </blockquote>
-<p>That said, derivations producing floating content-addressed outputs may declare their builders as impure (like the builders of derivations producing producing fixed outputs).
+<p>That said, derivations producing floating content-addressed outputs may declare their builders as impure (like the builders of derivations producing fixed outputs).
 This is provisionally supported as part of the <a href="../../../development/experimental-features.html#xp-feature-impure-derivations"><code>impure-derivations</code></a> experimental feature.</p>
 <h3 id="compatibility-negotiation"><a class="header" href="#compatibility-negotiation">Compatibility negotiation</a></h3>
-<p>Any derivation producing a floating content-addresssed output implicitly requires the <code>ca-derivations</code> <a href="../../../command-ref/conf-file.html#conf-system-features">system feature</a>.
+<p>Any derivation producing a floating content-addressed output implicitly requires the <code>ca-derivations</code> <a href="../../../command-ref/conf-file.html#conf-system-features">system feature</a>.
 This prevents scheduling the building of the derivation on a machine without the experimental feature enabled.
 Even once the experimental feature is stabilized, this is still useful in order to be allow using remote builder running odler versions of Nix, or alternative implementations that do not support floating content addressing.</p>
 <h3 id="determinism"><a class="header" href="#determinism">Determinism</a></h3>
@@ -276,7 +276,7 @@ Even once the experimental feature is stabilized, this is still useful in order 
 For store objects produced by manually inserting into the store to create a store object, the "method of production" is an informally concept --- formally, Nix has no idea where the store object came from, and content-addressing is crucial in order to ensure that the derivation is <em>intrinsically</em> tamper-proof.
 But for store objects produced by derivation, the "method is quite formal" --- the whole point of derivations is to be a formal notion of building, after all.
 In this case, we can elevate this informal property to a formal one.</p>
-<p>A <em>determinstic</em> content-addressing derivation should produce outputs with the same content addresses:</p>
+<p>A <em>deterministic</em> content-addressing derivation should produce outputs with the same content addresses:</p>
 <ol>
 <li>Every time the builder is run</li>
 </ol>
@@ -287,7 +287,7 @@ In this case, we can elevate this informal property to a formal one.</p>
 <p>Provisional store paths must be chosen for any output that has a self-reference.
 The choice of provisional store path can be thought of as an impurity, since it is an arbitrary choice.</p>
 <p>If provisional outputs paths are deterministically chosen, we are in the first branch of part (1).
-The builder the data it produces based on it in arbitrary ways, but this gets us closer to to <a href="./input-address.html">input addressing</a>.
+The builder the data it produces based on it in arbitrary ways, but this gets us closer to <a href="./input-address.html">input addressing</a>.
 Deterministically choosing the provisional path may be considered "complete sandboxing" by removing an impurity, but this is unsatisfactory</p>
   <!--
 

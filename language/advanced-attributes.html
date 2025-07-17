@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced Attributes - Nix 2.28.3 Reference Manual</title>
+        <title>Advanced Attributes - Nix 2.28.4 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -135,7 +135,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -237,7 +237,7 @@ location of the script, both in a build and a
 ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
-<p>If set to <code>true</code>, other advanced attributes such as <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
+<p>If set to <code>true</code>, other advanced attributes such as <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
 <a href="#adv-attr-disallowedReferences"><code>disallowedReferences</code></a> and <a href="#adv-attr-disallowedRequisites"><code>disallowedRequisites</code></a>, maxSize, and maxClosureSize.
 will have no effect.</p>
 </blockquote>
@@ -429,7 +429,7 @@ Nix only currently supports one kind of input-addressing, so no other informatio
 <p>All of <a href="#adv-attr-outputHash"><code>outputHash</code></a>, <a href="#adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a>, and <a href="#adv-attr-outputHashMode"><code>outputHashMode</code></a>.</p>
 <!--
 
-`__contentAddressed` is ignored, becaused fixed-output derivations always content-address their outputs, by definition.
+`__contentAddressed` is ignored, because fixed-output derivations always content-address their outputs, by definition.
 
 **TODO CHECK**
 
@@ -484,15 +484,15 @@ however support for it is only added in Nix version 2.21.</p>
 </li>
 <li>
 <p><a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHashAlgo</code></a></p>
-<p>This specifies the hash alorithm used to digest the <a href="../store/file-system-object.html">file system object</a> data of a content-addressing derivation output.</p>
+<p>This specifies the hash algorithm used to digest the <a href="../store/file-system-object.html">file system object</a> data of a content-addressing derivation output.</p>
 <p>This works in conjunction with <a href="#adv-attr-outputHashAlgo"><code>outputHashMode</code></a>.
-Specifying one without the other is an error (unless <a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
+Specifying one without the other is an error (unless <code>outputHash</code> is also specified and includes its own hash algorithm as described below).</p>
 <p>The <code>outputHashAlgo</code> attribute specifies the hash algorithm used to compute the hash.
-It can currently be <code>"blake3"</code>, "sha1"<code>, </code>"sha256"<code>, </code>"sha512"<code>, or </code>null`.</p>
+It can currently be <code>"blake3"</code>, <code>"sha1"</code>, <code>"sha256"</code>, <code>"sha512"</code>, or <code>null</code>.</p>
 <p><code>outputHashAlgo</code> can only be <code>null</code> when <code>outputHash</code> follows the SRI format, because in that case the choice of hash algorithm is determined by <code>outputHash</code>.</p>
 </li>
 <li>
-<p>[<code>outputHash</code></a>; <a href="#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHash</code></a>\</p>
+<p><a href="#adv-attr-outputHashAlgo" id="adv-attr-outputHashAlgo"><code>outputHash</code></a>; <a href="#adv-attr-outputHashMode" id="adv-attr-outputHashMode"><code>outputHash</code></a></p>
 <p>This will specify the output hash of the single output of a <a href="../glossary.html#gloss-fixed-output-derivation">fixed-output derivation</a>.</p>
 <p>The <code>outputHash</code> attribute must be a string containing the hash in either hexadecimal or "nix32" encoding, or following the format for integrity metadata as defined by <a href="https://www.w3.org/TR/SRI/">SRI</a>.
 The "nix32" encoding is an adaptation of base-32 encoding.</p>
