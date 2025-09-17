@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Building - Nix 2.28.4 Reference Manual</title>
+        <title>Building - Nix 2.28.5 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -321,13 +321,17 @@ nix build .#nix-everything-x86_64-unknown-freebsd
 nix build .#nix-everything-x86_64-w64-mingw32
 </code></pre>
 <p>For historic reasons and backward-compatibility, some CPU and OS identifiers are translated as follows:</p>
-<div class="table-wrapper"><table><thead><tr><th><code>config.guess</code></th><th>Nix</th></tr></thead><tbody>
-<tr><td><code>amd64</code></td><td><code>x86_64</code></td></tr>
-<tr><td><code>i*86</code></td><td><code>i686</code></td></tr>
-<tr><td><code>arm6</code></td><td><code>arm6l</code></td></tr>
-<tr><td><code>arm7</code></td><td><code>arm7l</code></td></tr>
-<tr><td><code>linux-gnu*</code></td><td><code>linux</code></td></tr>
-<tr><td><code>linux-musl*</code></td><td><code>linux</code></td></tr>
+<div class="table-wrapper"><table><thead><tr><th><code>host_machine.cpu_family()</code></th><th><code>host_machine.endian()</code></th><th>Nix</th></tr></thead><tbody>
+<tr><td><code>x86</code></td><td></td><td><code>i686</code></td></tr>
+<tr><td><code>arm</code></td><td></td><td><code>host_machine.cpu()</code></td></tr>
+<tr><td><code>ppc</code></td><td><code>little</code></td><td><code>powerpcle</code></td></tr>
+<tr><td><code>ppc64</code></td><td><code>little</code></td><td><code>powerpc64le</code></td></tr>
+<tr><td><code>ppc</code></td><td><code>big</code></td><td><code>powerpc</code></td></tr>
+<tr><td><code>ppc64</code></td><td><code>big</code></td><td><code>powerpc64</code></td></tr>
+<tr><td><code>mips</code></td><td><code>little</code></td><td><code>mipsel</code></td></tr>
+<tr><td><code>mips64</code></td><td><code>little</code></td><td><code>mips64el</code></td></tr>
+<tr><td><code>mips</code></td><td><code>big</code></td><td><code>mips</code></td></tr>
+<tr><td><code>mips64</code></td><td><code>big</code></td><td><code>mips64</code></td></tr>
 </tbody></table>
 </div>
 <h2 id="compilation-environments"><a class="header" href="#compilation-environments">Compilation environments</a></h2>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Nix 2.28.4 Reference Manual</title>
+        <title>Nix 2.28.5 Reference Manual</title>
         <meta name="robots" content="noindex">
 
 
@@ -140,7 +140,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -428,7 +428,7 @@ cannot offer equivalent sharing, isolation, or security.</p>
 </li>
 </ul>
 <p>We recommend the multi-user installation if it supports your platform and you can authenticate with <code>sudo</code>.</p>
-<p>The installer can configured with various command line arguments and environment variables.
+<p>The installer can be configured with various command line arguments and environment variables.
 To show available command line flags:</p>
 <pre><code class="language-console">$ curl -L https://nixos.org/nix/install | sh -s -- --help
 </code></pre>
@@ -1125,11 +1125,61 @@ Thus, Git can encode some, but not all of Nix's "File System Objects", and this 
 <p>A Nix store is a collection of <em>store objects</em> with <em>references</em> between them.
 A store object consists of</p>
 <ul>
-<li>A <a href="store/./file-system-object.html">file system object</a> as data</li>
-<li>A set of <a href="store/./store-path.html">store paths</a> as references to other store objects</li>
+<li>
+<p>A <a href="store/./file-system-object.html">file system object</a> as data</p>
+</li>
+<li>
+<p>A set of <a href="store/./store-path.html">store paths</a> as references to store objects</p>
+</li>
 </ul>
+<h3 id="references"><a class="header" href="#references">References</a></h3>
+<p>Store objects can refer to both other store objects and themselves.
+References from a store object to itself are called <em>self-references</em>.</p>
+<p>Store objects and their references form a directed graph, where the store objects are the vertices, and the references are the edges.
+In particular, the edge corresponding to a reference is from the store object that contains the reference, and to the store object that the store path (which is the reference) refers to.</p>
+<p>References other than a self-reference must not form a cycle.
+The graph of references excluding self-references thus forms a [directed acyclic graph].</p>
+<p>[directed acyclic graph]: ../glossary.md#gloss-directed acyclic graph</p>
+<p>We can take the <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a> of the references graph, which any pair of store objects have an edge not if there is a single reference from the first to the second, but a path of one or more references from the first to the second.
+The <em>requisites</em> of a store object are all store objects reachable by paths of references which start with given store object's references.</p>
+<p>We can also take the <a href="https://en.wikipedia.org/wiki/Transpose_graph">transpose graph</a> ofthe references graph, where we reverse the orientation of all edges.
+The <em>referrers</em> of a store object are the store objects that reference it.</p>
+<p>One can also combine both concepts: taking the transitive closure of the tranposed references graph.
+The <em>referrers closure</em> of a store object are the store objects that can reach the given store object via paths of references.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Care must be taken to distinguish between the intrinsic and extrinsic properties of store objects.
+We can create graphs from the store objects in a store, but the contents of the store is not, in general fixed, and may instead change over time.</p>
+<ul>
+<li>
+<p>The references of a store object --- the set of store paths called the references --- is a field of a store object, and thus intrinsic by definition.
+Regardless of what store contains the store object in question, and what else that store may or may not contain, the references are the same.</p>
+</li>
+<li>
+<p>The requisites of a store object are almost intrinsic --- some store paths due not precisely refer to a unique single store object.
+Exactly what store object is being referenced, and what in turn <em>its</em> references are, depends on the store in question.
+Different stores that disagree.</p>
+</li>
+<li>
+<p>The referrers of a store object are completely extrinsic, and depends solely on the store which contains that store object, not the store object itself.
+Other store objects which refer to the store object in question may be added or removed from the store.</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="immutability"><a class="header" href="#immutability">Immutability</a></h3>
 <p>Store objects are <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>:
-Once created, they do not change until they are deleted.</p>
+Once created, they do not change nor can any store object they reference be changed.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Stores which support atomically deleting multiple store objects allow more flexibility while still upholding this property.</p>
+</blockquote>
+<h3 id="closure-property"><a class="header" href="#closure-property">Closure property</a></h3>
+<p>A store can only contain a store object if it also contains all the store objects it refers to.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The "closure property" isn't meant to prohibit, for example, <a href="https://en.wikipedia.org/wiki/Lazy_loading">lazy loading</a> of store objects.
+However, the "closure property" and immutability in conjunction imply that any such lazy loading ought to be deterministic.</p>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="content-addressing-store-objects"><a class="header" href="#content-addressing-store-objects">Content-Addressing Store Objects</a></h1>
 <p>Just <a href="store/store-object/../file-system-object/content-address.html">like</a> <a href="store/store-object/../file-system-object.html">File System Objects</a>,
 <a href="store/store-object/../store-object.html">Store Objects</a> can also be <a href="store/store-object/../../glossary.html#gloss-content-addressed">content-addressed</a>,
@@ -1147,7 +1197,7 @@ In particular, the content-addressing scheme will ensure that the digest of the 
 <h2 id="content-addressing-each-part-of-a-store-object"><a class="header" href="#content-addressing-each-part-of-a-store-object">Content addressing each part of a store object</a></h2>
 <h3 id="file-system-objects"><a class="header" href="#file-system-objects">File System Objects</a></h3>
 <p>With all currently-supported store object content-addressing methods, the file system object is always <a href="store/store-object/../file-system-object/content-address.html">content-addressed</a> first, and then that hash is incorporated into content address computation for the store object.</p>
-<h3 id="references"><a class="header" href="#references">References</a></h3>
+<h3 id="references-1"><a class="header" href="#references-1">References</a></h3>
 <h4 id="references-to-other-store-objects"><a class="header" href="#references-to-other-store-objects">References to other store objects</a></h4>
 <p>With all currently supported store object content addressing methods,
 other objects are referred to by their regular (string-encoded-) <a href="store/store-object/../store-path.html">store paths</a>.</p>
@@ -1390,7 +1440,7 @@ i.e. an input that is an [output derived path].</p>
 </ul>
 <blockquote>
 <p><strong>Explanation</strong></p>
-<p>In general, we need to realise <a href="store/derivation/../../glossary.html#gloss-realise">realise</a> a <a href="store/derivation/../../store/store-object.html">store object</a> in order to be sure to have a store object for it.
+<p>In general, we need to <a href="store/derivation/../../glossary.html#gloss-realise">realise</a> a <a href="store/derivation/../../store/store-object.html">store object</a> in order to be sure to have a store object for it.
 But for these two cases this is either impossible or impractical:</p>
 <ul>
 <li>
@@ -1419,7 +1469,7 @@ This ensures that there is a canonical <a href="store/derivation/../../store/sto
 <blockquote>
 <p><strong>Note</strong></p>
 <p>Currently, the canonical encoding for every derivation is the "ATerm" format,
-but this is subject to change for types derivations which are not yet stable.</p>
+but this is subject to change for the types of derivations which are not yet stable.</p>
 </blockquote>
 <p>Regardless of the format used, when serializing a derivation to a store object, that store object will be content-addressed.</p>
 <p>In the common case, the inputs to store objects are either:</p>
@@ -1504,7 +1554,7 @@ type OutputPath = {
 type DerivingPath = ConstantPath | OutputPath;
 </code></pre>
 <p>Under this extended model, <code>DerivingPath</code>s are thus inductively built up from a root <code>ConstantPath</code>, wrapped with zero or more outer <code>OutputPath</code>s.</p>
-<h3 id="deriving-path-encoding"><a class="header" href="#deriving-path-encoding">Encoding</a></h3>
+<h3 id="deriving-path-encoding-higher-order"><a class="header" href="#deriving-path-encoding-higher-order">Encoding</a></h3>
 <p>The encoding is adjusted in the natural way, encoding the <code>drv</code> field recursively using the same deriving path encoding.
 The result of this is that it is possible to have a chain of <code>^&lt;output-name&gt;</code> at the end of the final string, as opposed to just a single one.</p>
 <blockquote>
@@ -4854,7 +4904,7 @@ elements at the same index in both lists are compared according to their type an
 <li>Floating point numbers only differ up to a limited precision.</li>
 </ul>
 <h2 id="logical-implication"><a class="header" href="#logical-implication">Logical implication</a></h2>
-<p>Equivalent to <code>!</code><em>b1</em> <code>||</code> <em>b2</em>.</p>
+<p>Equivalent to <code>!</code><em>b1</em> <code>||</code> <em>b2</em>  (or <code>if</code> <em>b1</em> <code>then</code> <em>b2</em> <code>else true</code>)</p>
 <h2 id="pipe-operators"><a class="header" href="#pipe-operators">Pipe operators</a></h2>
 <ul>
 <li><em>a</em> <code>|&gt;</code> <em>b</em> is equivalent to <em>b</em> <em>a</em></li>
@@ -7319,6 +7369,7 @@ will have no effect.</p>
 </li>
 </ul>
 <h2 id="output-checks"><a class="header" href="#output-checks">Output checks</a></h2>
+<p>See the <a href="language/../store/derivation/outputs/index.html">corresponding section in the derivation output page</a>.</p>
 <ul>
 <li>
 <p><a href="language/advanced-attributes.html#adv-attr-allowedReferences" id="adv-attr-allowedReferences"><code>allowedReferences</code></a><br />
@@ -14787,8 +14838,14 @@ derivations <em>paths</em>. These are the paths that will be produced when
 the derivation is built.</p>
 </li>
 <li>
+<p><code>--references</code></p>
+<p>Prints the set of <a href="command-ref/nix-store/../../glossary.html#gloss-reference">references</a> of the store paths
+<em>paths</em>, that is, their immediate dependencies. (For <em>all</em>
+dependencies, use <code>--requisites</code>.)</p>
+</li>
+<li>
 <p><code>--requisites</code> / <code>-R</code></p>
-<p>Prints out the <a href="command-ref/nix-store/../../glossary.html#gloss-closure">closure</a> of the store path <em>paths</em>.</p>
+<p>Prints out the set of <a href="command-ref/nix-store/../../glossary.html#gloss-requisite"><em>requisites</em></a> (better known as the <a href="command-ref/nix-store/../../glossary.html#gloss-closure">closure</a>) of the store path <em>paths</em>.</p>
 <p>This query has one option:</p>
 <ul>
 <li><code>--include-outputs</code>
@@ -14804,14 +14861,8 @@ dependencies) is obtained by distributing the closure of a store
 derivation and specifying the option <code>--include-outputs</code>.</p>
 </li>
 <li>
-<p><code>--references</code></p>
-<p>Prints the set of <a href="command-ref/nix-store/../../glossary.html#gloss-reference">references</a> of the store paths
-<em>paths</em>, that is, their immediate dependencies. (For <em>all</em>
-dependencies, use <code>--requisites</code>.)</p>
-</li>
-<li>
 <p><code>--referrers</code></p>
-<p>Prints the set of <em>referrers</em> of the store paths <em>paths</em>, that is,
+<p>Prints the set of <a href="command-ref/nix-store/../../glossary.html#gloss-referrer"><em>referrers</em></a> of the store paths <em>paths</em>, that is,
 the store paths currently existing in the Nix store that refer to
 one of <em>paths</em>. Note that contrary to the references, the set of
 referrers is not constant; it can change as store paths are added or
@@ -14820,7 +14871,7 @@ removed.</p>
 <li>
 <p><code>--referrers-closure</code></p>
 <p>Prints the closure of the set of store paths <em>paths</em> under the
-referrers relation; that is, all store paths that directly or
+<a href="command-ref/nix-store/../../glossary.html#gloss-referrer">referrers relation</a>; that is, all store paths that directly or
 indirectly refer to one of <em>paths</em>. These are all the path currently
 in the Nix store that are dependent on <em>paths</em>.</p>
 </li>
@@ -23348,6 +23399,11 @@ At the top level, that tarball must contain a single directory with a <code>defa
 <p><code>--update</code> [<em>names</em>…]</p>
 <p>Download the Nix expressions of subscribed channels and create a new generation.
 Update all channels if none is specified, and only those included in <em>names</em> otherwise.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Downloaded channel contents are cached.
+Use <code>--tarball-ttl</code> or the <a href="command-ref/../command-ref/conf-file.html#conf-tarball-ttl"><code>tarball-ttl</code> configuration option</a> to change the validity period of cached downloads.</p>
+</blockquote>
 </li>
 <li>
 <p><code>--list-generations</code></p>
@@ -29452,6 +29508,10 @@ fetching them:</p>
 <li>
 <p><span id="opt-json"><a href="command-ref/new-cli/nix3-flake-archive.html#opt-json"><code>--json</code></a></span></p>
 <p>Produce output in JSON format, suitable for consumption by another program.</p>
+</li>
+<li>
+<p><span id="opt-no-check-sigs"><a href="command-ref/new-cli/nix3-flake-archive.html#opt-no-check-sigs"><code>--no-check-sigs</code></a></span></p>
+<p>Do not require that paths are signed by trusted keys.</p>
 </li>
 <li>
 <p><span id="opt-to"><a href="command-ref/new-cli/nix3-flake-archive.html#opt-to"><code>--to</code></a></span> <em>store-uri</em></p>
@@ -42122,7 +42182,7 @@ For regular builds, <code>itchy</code> will be preferred over <code>scratchy</co
 <p>If you can’t or don’t want to configure <code>root</code> to be able to access the remote machine, set <a href="command-ref/conf-file.html#conf-store"><code>store</code></a> to any <a href="command-ref/../store/types/local-store.html">local store</a>, e.g. by passing <code>--store /tmp</code> to the command on the local machine.</p>
 </blockquote>
 <p>To build only on remote machines and disable local builds, set <a href="command-ref/conf-file.html#conf-max-jobs"><code>max-jobs</code></a> to 0.</p>
-<p>If you want the remote machines to use substituters, set <a href="command-ref/conf-file.html#conf-builders-use-substituters"><code>builders-use-substitutes</code></a> to <code>true</code>.</p>
+<p>If you want the remote machines to use substituters, set <a href="command-ref/conf-file.html#conf-builders-use-substitutes"><code>builders-use-substitutes</code></a> to <code>true</code>.</p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
 </li>
 <li>
@@ -44158,6 +44218,12 @@ The reference is calculated directly from the content of the data being referenc
 See <a href="./store/derivation/index.html#store-derivation">Store Derivation</a> for details.</p>
 </li>
 <li>
+<p><a href="glossary.html#gloss-directed-acyclic-graph" id="gloss-directed-acyclic-graph">directed acyclic graph</a></p>
+<p>A <a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">directed acyclic graph</a> (DAG) is graph whose edges are given a direction ("a to b" is not the same edge as "b to a"), and for which no possible path (created by joining together edges) forms a cycle.</p>
+<p>DAGs are very important to Nix.
+In particular, the non-self-<a href="glossary.html#gloss-reference">references</a> of <a href="glossary.html#gloss-store-object">store object</a> form a cycle.</p>
+</li>
+<li>
 <p><a href="glossary.html#gloss-derivation-path" id="gloss-derivation-path">derivation path</a></p>
 <p>A <a href="glossary.html#gloss-store-path">store path</a> which uniquely identifies a <a href="glossary.html#gloss-store-derivation">store derivation</a>.</p>
 <p>See <a href="./store/derivation/index.html#derivation-path">Referencing Store Derivations</a> for details.</p>
@@ -44252,6 +44318,7 @@ It can be referred to by a <a href="glossary.html#gloss-store-path">store path</
 non-<a href="glossary.html#gloss-content-addressing-derivation">content-addressed</a>,
 non-<a href="glossary.html#gloss-fixed-output-derivation">fixed-output</a>
 derivation.</p>
+<p>See <a href="store/derivation/outputs/input-address.html">input-addressing derivation outputs</a> for details.</p>
 </li>
 <li>
 <p><a href="glossary.html#gloss-content-addressed-store-object" id="gloss-content-addressed-store-object">content-addressed store object</a></p>
@@ -44308,15 +44375,15 @@ These derivations can then be <a href="glossary.html#gloss-realise">realised</a>
 </li>
 <li>
 <p><a href="glossary.html#gloss-reference" id="gloss-reference">reference</a></p>
-<p>A <a href="glossary.html#gloss-store-object">store object</a> <code>O</code> is said to have a <em>reference</em> to a store object <code>P</code> if a <a href="glossary.html#gloss-store-path">store path</a> to <code>P</code> appears in the contents of <code>O</code>.</p>
-<p>Store objects can refer to both other store objects and themselves.
-References from a store object to itself are called <em>self-references</em>.
-References other than a self-reference must not form a cycle.</p>
+<p>An edge from one <a href="glossary.html#gloss-store-object">store object</a> to another.</p>
+<p>See <a href="./store/store-object.html#references">References</a> for details.</p>
+<p>See <a href="./store/store-object.html#references">References</a> for details.</p>
 </li>
 <li>
 <p><a href="glossary.html#gloss-reachable" id="gloss-reachable">reachable</a></p>
 <p>A store path <code>Q</code> is reachable from another store path <code>P</code> if <code>Q</code>
 is in the <em>closure</em> of the <em>references</em> relation.</p>
+<p>See <a href="./store/store-object.html#references">References</a> for details.</p>
 </li>
 <li>
 <p><a href="glossary.html#gloss-closure" id="gloss-closure">closure</a></p>
@@ -44332,6 +44399,17 @@ closures of store paths.</p>
 <p>As an example, if the <a href="glossary.html#gloss-store-object">store object</a> at path <code>P</code> contains a <a href="glossary.html#gloss-reference">reference</a>
 to a store object at path <code>Q</code>, then <code>Q</code> is in the closure of <code>P</code>. Further, if <code>Q</code>
 references <code>R</code> then <code>R</code> is also in the closure of <code>P</code>.</p>
+<p>See <a href="./store/store-object.html#references">References</a> for details.</p>
+</li>
+<li>
+<p><a href="glossary.html#gloss-requisite" id="gloss-requisite">requisite</a></p>
+<p>A store object [reachable] by a path (chain of references) from a given <a href="glossary.html#gloss-store-object">store object</a>.
+The <a href="glossary.html#gloss-closure">closure</a> is the set of requisites.</p>
+<p>See <a href="./store/store-object.html#references">References</a> for details.</p>
+</li>
+<li>
+<p><a href="glossary.html#gloss-reference" id="gloss-reference">referrer</a></p>
+<p>A reversed edge from one <a href="glossary.html#gloss-store-object">store object</a> to another.</p>
 </li>
 <li>
 <p><a href="glossary.html#gloss-output" id="gloss-output">output</a></p>
@@ -44596,13 +44674,17 @@ nix build .#nix-everything-x86_64-unknown-freebsd
 nix build .#nix-everything-x86_64-w64-mingw32
 </code></pre>
 <p>For historic reasons and backward-compatibility, some CPU and OS identifiers are translated as follows:</p>
-<div class="table-wrapper"><table><thead><tr><th><code>config.guess</code></th><th>Nix</th></tr></thead><tbody>
-<tr><td><code>amd64</code></td><td><code>x86_64</code></td></tr>
-<tr><td><code>i*86</code></td><td><code>i686</code></td></tr>
-<tr><td><code>arm6</code></td><td><code>arm6l</code></td></tr>
-<tr><td><code>arm7</code></td><td><code>arm7l</code></td></tr>
-<tr><td><code>linux-gnu*</code></td><td><code>linux</code></td></tr>
-<tr><td><code>linux-musl*</code></td><td><code>linux</code></td></tr>
+<div class="table-wrapper"><table><thead><tr><th><code>host_machine.cpu_family()</code></th><th><code>host_machine.endian()</code></th><th>Nix</th></tr></thead><tbody>
+<tr><td><code>x86</code></td><td></td><td><code>i686</code></td></tr>
+<tr><td><code>arm</code></td><td></td><td><code>host_machine.cpu()</code></td></tr>
+<tr><td><code>ppc</code></td><td><code>little</code></td><td><code>powerpcle</code></td></tr>
+<tr><td><code>ppc64</code></td><td><code>little</code></td><td><code>powerpc64le</code></td></tr>
+<tr><td><code>ppc</code></td><td><code>big</code></td><td><code>powerpc</code></td></tr>
+<tr><td><code>ppc64</code></td><td><code>big</code></td><td><code>powerpc64</code></td></tr>
+<tr><td><code>mips</code></td><td><code>little</code></td><td><code>mipsel</code></td></tr>
+<tr><td><code>mips64</code></td><td><code>little</code></td><td><code>mips64el</code></td></tr>
+<tr><td><code>mips</code></td><td><code>big</code></td><td><code>mips</code></td></tr>
+<tr><td><code>mips64</code></td><td><code>big</code></td><td><code>mips64</code></td></tr>
 </tbody></table>
 </div>
 <h2 id="compilation-environments"><a class="header" href="#compilation-environments">Compilation environments</a></h2>
@@ -46048,8 +46130,9 @@ prs: 1238
 Here's one or more paragraphs that describe the change.
 
 - It's markdown
-- Add references to the manual using ..
+- Add references to the manual using [links like this](@docroot@/example.md)
 </code></pre>
+<!-- for the raw markdown readers: that means using .. -->
 <p>Significant changes should add the following header, which moves them to the top.</p>
 <pre><code>significance: significant
 </code></pre>

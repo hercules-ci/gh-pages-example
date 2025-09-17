@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix.conf - Nix 2.28.4 Reference Manual</title>
+        <title>nix.conf - Nix 2.28.5 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -628,7 +628,7 @@ For regular builds, <code>itchy</code> will be preferred over <code>scratchy</co
 <p>If you can’t or don’t want to configure <code>root</code> to be able to access the remote machine, set <a href="#conf-store"><code>store</code></a> to any <a href="../store/types/local-store.html">local store</a>, e.g. by passing <code>--store /tmp</code> to the command on the local machine.</p>
 </blockquote>
 <p>To build only on remote machines and disable local builds, set <a href="#conf-max-jobs"><code>max-jobs</code></a> to 0.</p>
-<p>If you want the remote machines to use substituters, set <a href="#conf-builders-use-substituters"><code>builders-use-substitutes</code></a> to <code>true</code>.</p>
+<p>If you want the remote machines to use substituters, set <a href="#conf-builders-use-substitutes"><code>builders-use-substitutes</code></a> to <code>true</code>.</p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
 </li>
 <li>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Operators - Nix 2.28.4 Reference Manual</title>
+        <title>Operators - Nix 2.28.5 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -321,7 +321,7 @@ elements at the same index in both lists are compared according to their type an
 <li>Floating point numbers only differ up to a limited precision.</li>
 </ul>
 <h2 id="logical-implication"><a class="header" href="#logical-implication">Logical implication</a></h2>
-<p>Equivalent to <code>!</code><em>b1</em> <code>||</code> <em>b2</em>.</p>
+<p>Equivalent to <code>!</code><em>b1</em> <code>||</code> <em>b2</em>  (or <code>if</code> <em>b1</em> <code>then</code> <em>b2</em> <code>else true</code>)</p>
 <h2 id="pipe-operators"><a class="header" href="#pipe-operators">Pipe operators</a></h2>
 <ul>
 <li><em>a</em> <code>|&gt;</code> <em>b</em> is equivalent to <em>b</em> <em>a</em></li>

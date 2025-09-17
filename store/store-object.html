@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Object - Nix 2.28.4 Reference Manual</title>
+        <title>Store Object - Nix 2.28.5 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.4 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -186,11 +186,61 @@
 <p>A Nix store is a collection of <em>store objects</em> with <em>references</em> between them.
 A store object consists of</p>
 <ul>
-<li>A <a href="./file-system-object.html">file system object</a> as data</li>
-<li>A set of <a href="./store-path.html">store paths</a> as references to other store objects</li>
+<li>
+<p>A <a href="./file-system-object.html">file system object</a> as data</p>
+</li>
+<li>
+<p>A set of <a href="./store-path.html">store paths</a> as references to store objects</p>
+</li>
 </ul>
+<h3 id="references"><a class="header" href="#references">References</a></h3>
+<p>Store objects can refer to both other store objects and themselves.
+References from a store object to itself are called <em>self-references</em>.</p>
+<p>Store objects and their references form a directed graph, where the store objects are the vertices, and the references are the edges.
+In particular, the edge corresponding to a reference is from the store object that contains the reference, and to the store object that the store path (which is the reference) refers to.</p>
+<p>References other than a self-reference must not form a cycle.
+The graph of references excluding self-references thus forms a [directed acyclic graph].</p>
+<p>[directed acyclic graph]: ../glossary.md#gloss-directed acyclic graph</p>
+<p>We can take the <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a> of the references graph, which any pair of store objects have an edge not if there is a single reference from the first to the second, but a path of one or more references from the first to the second.
+The <em>requisites</em> of a store object are all store objects reachable by paths of references which start with given store object's references.</p>
+<p>We can also take the <a href="https://en.wikipedia.org/wiki/Transpose_graph">transpose graph</a> ofthe references graph, where we reverse the orientation of all edges.
+The <em>referrers</em> of a store object are the store objects that reference it.</p>
+<p>One can also combine both concepts: taking the transitive closure of the tranposed references graph.
+The <em>referrers closure</em> of a store object are the store objects that can reach the given store object via paths of references.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Care must be taken to distinguish between the intrinsic and extrinsic properties of store objects.
+We can create graphs from the store objects in a store, but the contents of the store is not, in general fixed, and may instead change over time.</p>
+<ul>
+<li>
+<p>The references of a store object --- the set of store paths called the references --- is a field of a store object, and thus intrinsic by definition.
+Regardless of what store contains the store object in question, and what else that store may or may not contain, the references are the same.</p>
+</li>
+<li>
+<p>The requisites of a store object are almost intrinsic --- some store paths due not precisely refer to a unique single store object.
+Exactly what store object is being referenced, and what in turn <em>its</em> references are, depends on the store in question.
+Different stores that disagree.</p>
+</li>
+<li>
+<p>The referrers of a store object are completely extrinsic, and depends solely on the store which contains that store object, not the store object itself.
+Other store objects which refer to the store object in question may be added or removed from the store.</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="immutability"><a class="header" href="#immutability">Immutability</a></h3>
 <p>Store objects are <a href="https://en.wikipedia.org/wiki/Immutable_object">immutable</a>:
-Once created, they do not change until they are deleted.</p>
+Once created, they do not change nor can any store object they reference be changed.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Stores which support atomically deleting multiple store objects allow more flexibility while still upholding this property.</p>
+</blockquote>
+<h3 id="closure-property"><a class="header" href="#closure-property">Closure property</a></h3>
+<p>A store can only contain a store object if it also contains all the store objects it refers to.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The "closure property" isn't meant to prohibit, for example, <a href="https://en.wikipedia.org/wiki/Lazy_loading">lazy loading</a> of store objects.
+However, the "closure property" and immutability in conjunction imply that any such lazy loading ought to be deterministic.</p>
+</blockquote>
 
                     </main>
 
