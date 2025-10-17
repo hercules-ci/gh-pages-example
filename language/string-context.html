@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>String context - Nix 2.28.5 Reference Manual</title>
+        <title>String context - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -195,8 +195,8 @@ The string context is an (unordered) set of <em>string context elements</em>.</p
 <a href="./operators.html#string-concatenation">string concatenation</a>,
 <a href="./string-interpolation.html">string interpolation</a>,
 and similar operations.
-The idea is that a user can combine together values to create a build instructions for derivations without manually keeping track of where they come from.
-Then the Nix language implicitly does that bookkeeping to efficiently obtain the closure of derivation inputs.</p>
+The idea is that a user can reference other files when creating text files through Nix expressions, without manually keeping track of the exact paths.
+Nix will ensure that the all referenced files are accessible – that all <a href="../glossary.html#gloss-store-path">store paths</a> are <a href="../glossary.html#gloss-validity">valid</a>.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>String contexts are <em>not</em> explicitly manipulated in idiomatic Nix language code.</p>

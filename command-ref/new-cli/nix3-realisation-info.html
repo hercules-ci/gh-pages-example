@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix realisation info - Nix 2.28.5 Reference Manual</title>
+        <title>nix realisation info - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -204,6 +204,21 @@ and its interface is subject to change.</p>
 <li>
 <p><span id="opt-json"><a href="#opt-json"><code>--json</code></a></span></p>
 <p>Produce output in JSON format, suitable for consumption by another program.</p>
+</li>
+<li>
+<p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
+<p>Print compact JSON output on a single line, even when the output is a terminal.
+Some commands may print multiple JSON objects on separate lines.</p>
+<pre><code>              See `--pretty`.
+</code></pre>
+</li>
+<li>
+<p><span id="opt-pretty"><a href="#opt-pretty"><code>--pretty</code></a></span></p>
+<p>Print multi-line, indented JSON output for readability.</p>
+<pre><code>              Default: indent if output is to a terminal.
+
+              This option is only effective when `--json` is also specified.
+</code></pre>
 </li>
 <li>
 <p><span id="opt-stdin"><a href="#opt-stdin"><code>--stdin</code></a></span></p>
@@ -373,7 +388,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-file"><a href="#opt-file"><code>--file</code></a></span> / <code>-f</code> <em>file</em></p>
-<p>Interpret <a href="../../command-ref/new-cli/nix.html#installables"><em>installables</em></a> as attribute paths relative to the Nix expression stored in <em>file</em>. If <em>file</em> is the character -, then a Nix expression will be read from standard input. Implies <code>--impure</code>.</p>
+<p>Interpret <a href="../../command-ref/new-cli/nix.html#installables"><em>installables</em></a> as attribute paths relative to the Nix expression stored in <em>file</em>. If <em>file</em> is the character -, then a Nix expression is read from standard input. Implies <code>--impure</code>.</p>
 </li>
 <li>
 <p><span id="opt-recursive"><a href="#opt-recursive"><code>--recursive</code></a></span> / <code>-r</code></p>

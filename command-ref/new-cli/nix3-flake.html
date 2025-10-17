@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix flake - Nix 2.28.5 Reference Manual</title>
+        <title>nix flake - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -203,6 +203,7 @@ and its interface is subject to change.</p>
 <li><a href="./nix3-flake-metadata.html"><code>nix flake metadata</code></a> - show flake metadata</li>
 <li><a href="./nix3-flake-new.html"><code>nix flake new</code></a> - create a flake in the specified directory from a template</li>
 <li><a href="./nix3-flake-prefetch.html"><code>nix flake prefetch</code></a> - download the source tree denoted by a flake reference into the Nix store</li>
+<li><a href="./nix3-flake-prefetch-inputs.html"><code>nix flake prefetch-inputs</code></a> - fetch the inputs of a flake</li>
 <li><a href="./nix3-flake-show.html"><code>nix flake show</code></a> - show the outputs provided by a flake</li>
 <li><a href="./nix3-flake-update.html"><code>nix flake update</code></a> - update flake lock file</li>
 </ul>
@@ -731,6 +732,25 @@ the <code>nixpkgs</code> input of the top-level flake to be equal to the
 <p>The value of the <code>follows</code> attribute is a <code>/</code>-separated sequence of
 input names denoting the path of inputs to be followed from the root
 flake.</p>
+<h2 id="self-attributes"><a class="header" href="#self-attributes">Self-attributes</a></h2>
+<p>Flakes can declare attributes about themselves that affect how they are fetched.
+These attributes are specified using the special <code>self</code> input and are retroactively
+applied to it:</p>
+<pre><code class="language-nix">{
+  inputs.self.submodules = true;
+  inputs.self.lfs = true;
+}
+</code></pre>
+<p>The following self-attributes are supported:</p>
+<ul>
+<li>
+<p><code>submodules</code>: A Boolean denoting whether Git submodules should be fetched when this flake is used as an input. When set to <code>true</code>, Git submodules will be automatically fetched without requiring callers to specify <code>submodules=1</code> in the flake reference URL. Defaults to <code>false</code>.</p>
+</li>
+<li>
+<p><code>lfs</code>: A Boolean denoting whether Git LFS (Large File Storage) files should be fetched when this flake is used as an input. When set to <code>true</code>, Git LFS files will be automatically fetched. Defaults to <code>false</code>.</p>
+</li>
+</ul>
+<p>These self-attributes eliminate the need for consumers of your flake to manually specify fetching options in their flake references.</p>
 <p>Overrides and <code>follows</code> can be combined, e.g.</p>
 <pre><code class="language-nix">inputs.nixops.inputs.nixpkgs.follows = "dwarffs/nixpkgs";
 </code></pre>

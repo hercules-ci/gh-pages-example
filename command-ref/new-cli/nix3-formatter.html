@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix store ping - Nix 2.28.5 Reference Manual</title>
+        <title>nix formatter - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -148,7 +148,7 @@
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
-                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/command-ref/new-cli/nix3-store-ping.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/command-ref/new-cli/nix3-formatter.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
                             <i id="git-edit-button" class="fa fa-edit"></i>
                         </a>
 
@@ -189,41 +189,15 @@ This program is
 and its interface is subject to change.</p>
 </blockquote>
 <h1 id="name"><a class="header" href="#name">Name</a></h1>
-<p><code>nix store ping</code> - test whether a store can be accessed</p>
+<p><code>nix formatter</code> - build or run the formatter</p>
 <h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
-<p><code>nix store ping</code> [<em>option</em>...]</p>
-<h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
+<p><code>nix formatter</code> [<em>option</em>...] <em>subcommand</em></p>
+<p>where <em>subcommand</em> is one of the following:</p>
 <ul>
-<li>
-<p>Test whether connecting to a remote Nix store via SSH works:</p>
-<pre><code class="language-console"># nix store info --store ssh://mac1
-</code></pre>
-</li>
-<li>
-<p>Test whether a URL is a valid binary cache:</p>
-<pre><code class="language-console"># nix store info --store https://cache.nixos.org
-</code></pre>
-</li>
-<li>
-<p>Test whether the Nix daemon is up and running:</p>
-<pre><code class="language-console"># nix store info --store daemon
-</code></pre>
-</li>
+<li><a href="./nix3-formatter-build.html"><code>nix formatter build</code></a> - build the current flake's formatter</li>
+<li><a href="./nix3-formatter-run.html"><code>nix formatter run</code></a> - reformat your code in the standard style</li>
 </ul>
-<h1 id="description"><a class="header" href="#description">Description</a></h1>
-<p>This command tests whether a particular Nix store (specified by the
-argument <code>--store</code> <em>url</em>) can be accessed. What this means is
-dependent on the type of the store. For instance, for an SSH store it
-means that Nix can connect to the specified machine.</p>
-<p>If the command succeeds, Nix returns a exit code of 0 and does not
-print any output.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
-<ul>
-<li>
-<p><span id="opt-json"><a href="#opt-json"><code>--json</code></a></span></p>
-<p>Produce output in JSON format, suitable for consumption by another program.</p>
-</li>
-</ul>
 <h2 id="logging-related-options"><a class="header" href="#logging-related-options">Logging-related options</a></h2>
 <ul>
 <li>
@@ -279,11 +253,11 @@ print any output.</p>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../command-ref/new-cli/nix3-fmt.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../command-ref/new-cli/nix3-store-prefetch-file.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../command-ref/new-cli/nix3-formatter-build.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -293,11 +267,11 @@ print any output.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../command-ref/new-cli/nix3-store-path-from-hash-part.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../command-ref/new-cli/nix3-fmt.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../command-ref/new-cli/nix3-store-prefetch-file.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../command-ref/new-cli/nix3-formatter-build.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

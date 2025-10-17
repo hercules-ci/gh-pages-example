@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Advanced Attributes - Nix 2.28.5 Reference Manual</title>
+        <title>Advanced Attributes - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -229,21 +229,11 @@ of the environment (typically, a few hundred kilobyte).</p>
 <li>
 <p><a href="#adv-attr-structuredAttrs" id="adv-attr-structuredAttrs"><code>__structuredAttrs</code></a><br />
 If the special attribute <code>__structuredAttrs</code> is set to <code>true</code>, the other derivation
-attributes are serialised into a file in JSON format. The environment variable
-<code>NIX_ATTRS_JSON_FILE</code> points to the exact location of that file both in a build
-and a <a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This obviates the need for
-<a href="#adv-attr-passAsFile"><code>passAsFile</code></a> since JSON files have no size restrictions,
-unlike process environments.</p>
-<p>It also makes it possible to tweak derivation settings in a structured way; see
-<a href="#adv-attr-outputChecks"><code>outputChecks</code></a> for example.</p>
-<p>As a convenience to Bash builders,
-Nix writes a script that initialises shell variables
-corresponding to all attributes that are representable in Bash. The
-environment variable <code>NIX_ATTRS_SH_FILE</code> points to the exact
-location of the script, both in a build and a
-<a href="../command-ref/nix-shell.html"><code>nix-shell</code></a>. This includes non-nested
-(associative) arrays. For example, the attribute <code>hardening.format = true</code>
-ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
+attributes are serialised into a file in JSON format.</p>
+<p>This obviates the need for <a href="#adv-attr-passAsFile"><code>passAsFile</code></a> since JSON files have no size restrictions, unlike process environments.
+It also makes it possible to tweak derivation settings in a structured way;
+see <a href="#adv-attr-outputChecks"><code>outputChecks</code></a> for example.</p>
+<p>See the <a href="../store/derivation/index.html#structured-attrs">corresponding section in the derivation page</a> for further details.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
 <p>If set to <code>true</code>, other advanced attributes such as <a href="#adv-attr-allowedReferences"><code>allowedReferences</code></a>, <a href="#adv-attr-allowedRequisites"><code>allowedRequisites</code></a>,
@@ -335,8 +325,8 @@ outputChecks.dev = {
 <h2 id="other-output-modifications"><a class="header" href="#other-output-modifications">Other output modifications</a></h2>
 <ul>
 <li>
-<p><a href="#adv-attr-unsafeDiscardReferences" id="adv-attr-unsafeDiscardReferences"><code>unsafeDiscardReferences</code></a>\</p>
-<p>When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the
+<p><a href="#adv-attr-unsafeDiscardReferences" id="adv-attr-unsafeDiscardReferences"><code>unsafeDiscardReferences</code></a><br />
+When using <a href="#adv-attr-structuredAttrs">structured attributes</a>, the
 attribute <code>unsafeDiscardReferences</code> is an attribute set with a boolean value for each output name.
 If set to <code>true</code>, it disables scanning the output for runtime dependencies.</p>
 <p>Example:</p>
@@ -366,8 +356,8 @@ This is useful for derivations that are cheaper to build than to substitute.</p>
 </blockquote>
 </li>
 <li>
-<p><a href="#adv-attr-requiredSystemFeatures" id="adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a>\</p>
-<p>If a derivation has the <code>requiredSystemFeatures</code> attribute, then Nix will only build it on a machine that has the corresponding features set in its <a href="../command-ref/conf-file.html#conf-system-features"><code>system-features</code> configuration</a>.</p>
+<p><a href="#adv-attr-requiredSystemFeatures" id="adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a><br />
+If a derivation has the <code>requiredSystemFeatures</code> attribute, then Nix will only build it on a machine that has the corresponding features set in its <a href="../command-ref/conf-file.html#conf-system-features"><code>system-features</code> configuration</a>.</p>
 <p>For example, setting</p>
 <pre><code class="language-nix">requiredSystemFeatures = [ "kvm" ];
 </code></pre>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Glossary - Nix 2.28.5 Reference Manual</title>
+        <title>Glossary - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -213,9 +213,17 @@ The reference is calculated directly from the content of the data being referenc
 <p>The industry term for storage and retrieval systems using <a href="#gloss-content-address">content addressing</a>. A Nix store also has <a href="#gloss-input-addressed-store-object">input addressing</a>, and metadata.</p>
 </li>
 <li>
+<p><a href="#gloss-derivation" id="gloss-derivation">derivation</a></p>
+<p>A derivation can be thought of as a <a href="https://en.wikipedia.org/wiki/Pure_function">pure function</a> that produces new <a href="#gloss-store-object">store objects</a> from existing store objects.</p>
+<p>Derivations are implemented as <a href="./store/building.html#builder-execution">operating system processes that run in a sandbox</a>.
+This sandbox by default only allows reading from store objects specified as inputs, and only allows writing to designated <a href="#gloss-output">outputs</a> to be <a href="./store/building.html#processing-outputs">captured as store objects</a>.</p>
+<p>A derivation is typically specified as a <a href="#gloss-derivation-expression">derivation expression</a> in the <a href="./language/index.html">Nix language</a>, and <a href="#gloss-instantiate">instantiated</a> to a <a href="#gloss-store-derivation">store derivation</a>.
+There are multiple ways of obtaining store objects from store derivatons, collectively called <a href="#gloss-realise">realisation</a>.</p>
+</li>
+<li>
 <p><a href="#gloss-store-derivation" id="gloss-store-derivation">store derivation</a></p>
-<p>A single build task.
-See <a href="./store/derivation/index.html#store-derivation">Store Derivation</a> for details.</p>
+<p>A <a href="#gloss-derivation">derivation</a> represented as a <a href="#gloss-store-object">store object</a>.</p>
+<p>See <a href="./store/derivation/index.html#store-derivation">Store Derivation</a> for details.</p>
 </li>
 <li>
 <p><a href="#gloss-directed-acyclic-graph" id="gloss-directed-acyclic-graph">directed acyclic graph</a></p>
@@ -231,10 +239,7 @@ In particular, the non-self-<a href="#gloss-reference">references</a> of <a href
 </li>
 <li>
 <p><a href="#gloss-derivation-expression" id="gloss-derivation-expression">derivation expression</a></p>
-<p>A description of a <a href="#gloss-store-derivation">store derivation</a> in the Nix language.
-The output(s) of a derivation are store objects.
-Derivations are typically specified in Nix expressions using the <a href="./language/derivations.html"><code>derivation</code> primitive</a>.
-These are translated into store layer <em>derivations</em> (implicitly by <code>nix-env</code> and <code>nix-build</code>, or explicitly by <code>nix-instantiate</code>).</p>
+<p>A description of a <a href="#gloss-store-derivation">store derivation</a> using the <a href="./language/derivations.html"><code>derivation</code> primitive</a> in the <a href="./language/index.html">Nix language</a>.</p>
 </li>
 <li>
 <p><a href="#gloss-instantiate" id="gloss-instantiate">instantiate</a>, instantiation</p>
@@ -247,10 +252,9 @@ These are translated into store layer <em>derivations</em> (implicitly by <code>
 <p>This can be achieved by:</p>
 <ul>
 <li>Fetching a pre-built <a href="#gloss-store-object">store object</a> from a <a href="#gloss-substituter">substituter</a></li>
-<li>Running the <a href="./language/derivations.html#attr-builder"><code>builder</code></a> executable as specified in the corresponding <a href="#gloss-store-derivation">store derivation</a></li>
+<li><a href="./store/building.html">Building</a> the corresponding <a href="#gloss-store-derivation">store derivation</a></li>
 <li>Delegating to a <a href="./command-ref/conf-file.html#conf-builders">remote machine</a> and retrieving the outputs</li>
 </ul>
-<!-- TODO: link [running] to build process page, #8888 -->
 <p>See <a href="./command-ref/nix-store/realise.html"><code>nix-store --realise</code></a> for a detailed description of the algorithm.</p>
 <p>See also <a href="./command-ref/nix-build.html"><code>nix-build</code></a> and <a href="./command-ref/new-cli/nix3-build.html"><code>nix build</code></a> (experimental).</p>
 </li>
@@ -370,7 +374,7 @@ This is an implementation detail of the <a href="./store/types/local-store.html"
 These derivations can then be <a href="#gloss-realise">realised</a> to produce <a href="#gloss-output">outputs</a>.</p>
 <blockquote>
 <p><strong>Example</strong></p>
-<p>Building and deploying software using Nix entails writing Nix expressions as a high-level description of packages and compositions thereof.</p>
+<p>Building and deploying software using Nix entails writing Nix expressions to describe <a href="#package">packages</a> and compositions thereof.</p>
 </blockquote>
 </li>
 <li>
@@ -481,23 +485,14 @@ and <code>nix-store --restore</code>.</p>
 </li>
 <li>
 <p><a href="#package" id="package">package</a></p>
-<ol>
-<li>
-<p>A software package; a collection of files and other data.</p>
-</li>
-<li>
-<p>A <a href="#package-attribute-set">package attribute set</a>.</p>
-</li>
-</ol>
-</li>
-<li>
-<p><a href="#package-attribute-set" id="package-attribute-set">package attribute set</a></p>
-<p>An <a href="./language/types.html#attribute-set">attribute set</a> containing the attribute <code>type = "derivation";</code> (derivation for historical reasons), as well as other attributes, such as</p>
+<p>A software package; files that belong together for a particular purpose, and metadata.</p>
+<p>Nix represents files as <a href="#gloss-file-system-object">file system objects</a>, and how they belong together is encoded as <a href="#gloss-reference">references</a> between <a href="#gloss-store-object">store objects</a> that contain these file system objects.</p>
+<p>The <a href="./language/index.html">Nix language</a> allows denoting packages in terms of <a href="./language/types.html#attribute-set">attribute sets</a> containing:</p>
 <ul>
-<li>attributes that refer to the files of a [package], typically in the form of <a href="#output">derivation outputs</a>,</li>
-<li>attributes that declare something about how the package is supposed to be installed or used,</li>
-<li>other metadata or arbitrary attributes.</li>
+<li>attributes that refer to the files of a package, typically in the form of <a href="#output">derivation outputs</a>,</li>
+<li>attributes with metadata, such as information about how the package is supposed to be used.</li>
 </ul>
+<p>The exact shape of these attribute sets is up to convention.</p>
 </li>
 <li>
 <p><a href="#gloss-string-interpolation" id="gloss-string-interpolation">string interpolation</a></p>

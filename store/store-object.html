@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Object - Nix 2.28.5 Reference Manual</title>
+        <title>Store Object - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -199,13 +199,12 @@ References from a store object to itself are called <em>self-references</em>.</p
 <p>Store objects and their references form a directed graph, where the store objects are the vertices, and the references are the edges.
 In particular, the edge corresponding to a reference is from the store object that contains the reference, and to the store object that the store path (which is the reference) refers to.</p>
 <p>References other than a self-reference must not form a cycle.
-The graph of references excluding self-references thus forms a [directed acyclic graph].</p>
-<p>[directed acyclic graph]: ../glossary.md#gloss-directed acyclic graph</p>
+The graph of references excluding self-references thus forms a <a href="../glossary.html#gloss-directed-acyclic-graph">directed acyclic graph</a>.</p>
 <p>We can take the <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a> of the references graph, which any pair of store objects have an edge not if there is a single reference from the first to the second, but a path of one or more references from the first to the second.
 The <em>requisites</em> of a store object are all store objects reachable by paths of references which start with given store object's references.</p>
-<p>We can also take the <a href="https://en.wikipedia.org/wiki/Transpose_graph">transpose graph</a> ofthe references graph, where we reverse the orientation of all edges.
+<p>We can also take the <a href="https://en.wikipedia.org/wiki/Transpose_graph">transpose graph</a> of the references graph, where we reverse the orientation of all edges.
 The <em>referrers</em> of a store object are the store objects that reference it.</p>
-<p>One can also combine both concepts: taking the transitive closure of the tranposed references graph.
+<p>One can also combine both concepts: taking the transitive closure of the transposed references graph.
 The <em>referrers closure</em> of a store object are the store objects that can reach the given store object via paths of references.</p>
 <blockquote>
 <p><strong>Note</strong></p>

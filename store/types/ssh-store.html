@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>SSH Store - Nix 2.28.5 Reference Manual</title>
+        <title>SSH Store - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -183,7 +183,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="ssh-store"><a class="header" href="#ssh-store">SSH Store</a></h1>
-<p><strong>Store URL format</strong>: <code>ssh://[username@]hostname</code></p>
+<p><strong>Store URL format</strong>: <code>ssh://[username@]hostname[:port]</code></p>
 <p>This store type allows limited access to a remote store on another
 machine via SSH.</p>
 <h2 id="settings"><a class="header" href="#settings">Settings</a></h2>
@@ -197,6 +197,11 @@ machine via SSH.</p>
 <p><span id="store-ssh-store-compress"><a href="#store-ssh-store-compress"><code>compress</code></a></span></p>
 <p>Whether to enable SSH compression.</p>
 <p><strong>Default:</strong> <code>false</code></p>
+</li>
+<li>
+<p><span id="store-ssh-store-log-fd"><a href="#store-ssh-store-log-fd"><code>log-fd</code></a></span></p>
+<p>file descriptor to which SSH's stderr is connected</p>
+<p><strong>Default:</strong> <code>-1</code></p>
 </li>
 <li>
 <p><span id="store-ssh-store-max-connections"><a href="#store-ssh-store-max-connections"><code>max-connections</code></a></span></p>

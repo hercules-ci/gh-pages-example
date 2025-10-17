@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>S3 Binary Cache Store - Nix 2.28.5 Reference Manual</title>
+        <title>S3 Binary Cache Store - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -292,7 +292,7 @@ The meaning and accepted values depend on the compression method selected.
 Do not specify this setting if you're using Amazon S3.</p>
 <blockquote>
 <p><strong>Note</strong></p>
-<p>This endpoint must support HTTPS and will use path-based
+<p>This endpoint must support HTTPS and uses path-based
 addressing instead of virtual host based addressing.</p>
 </blockquote>
 <p><strong>Default:</strong> <em>empty</em></p>
@@ -349,13 +349,13 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-profile"><a href="#store-s3-binary-cache-store-profile"><code>profile</code></a></span></p>
 <p>The name of the AWS configuration profile to use. By default
-Nix will use the <code>default</code> profile.</p>
+Nix uses the <code>default</code> profile.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-region"><a href="#store-s3-binary-cache-store-region"><code>region</code></a></span></p>
 <p>The region of the S3 bucket. If your bucket is not in
-<code>us–east-1</code>, you should always explicitly specify the region
+<code>us-east-1</code>, you should always explicitly specify the region
 parameter.</p>
 <p><strong>Default:</strong> <code>us-east-1</code></p>
 </li>
@@ -374,6 +374,11 @@ information.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-secret-key"><a href="#store-s3-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
+<p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-secret-keys"><a href="#store-s3-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
+<p>List of comma-separated paths to the secret keys used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>

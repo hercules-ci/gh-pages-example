@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Uninstalling Nix - Nix 2.28.5 Reference Manual</title>
+        <title>Uninstalling Nix - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -214,6 +214,38 @@ sudo groupdel nixbld
 <li><code>/etc/zshrc</code></li>
 </ul>
 <p>which you may remove.</p>
+<h3 id="freebsd"><a class="header" href="#freebsd">FreeBSD</a></h3>
+<ol>
+<li>
+<p>Stop and remove the Nix daemon service:</p>
+<pre><code class="language-console">sudo service nix-daemon stop
+sudo rm -f /usr/local/etc/rc.d/nix-daemon
+sudo sysrc -x nix_daemon_enable
+</code></pre>
+</li>
+<li>
+<p>Remove files created by Nix:</p>
+<pre><code class="language-console">sudo rm -rf /etc/nix /usr/local/etc/profile.d/nix.sh /nix ~root/.nix-channels ~root/.nix-defexpr ~root/.nix-profile ~root/.cache/nix
+</code></pre>
+</li>
+<li>
+<p>Remove build users and their group:</p>
+<pre><code class="language-console">for i in $(seq 1 32); do
+  sudo pw userdel nixbld$i
+done
+sudo pw groupdel nixbld
+</code></pre>
+</li>
+<li>
+<p>There may also be references to Nix in:</p>
+<ul>
+<li><code>/usr/local/etc/bashrc</code></li>
+<li><code>/usr/local/etc/zshrc</code></li>
+<li>Shell configuration files in users' home directories</li>
+</ul>
+<p>which you may remove.</p>
+</li>
+</ol>
 <h3 id="macos"><a class="header" href="#macos">macOS</a></h3>
 <blockquote>
 <p><strong>Updating to macOS 15 Sequoia</strong></p>

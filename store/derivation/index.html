@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Derivation and Deriving Path - Nix 2.28.5 Reference Manual</title>
+        <title>Store Derivation and Deriving Path - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -189,7 +189,7 @@ Other systems (like Git or IPFS) also store and transfer immutable data, but the
 <em>Derivations</em> represent individual build steps, and <em>deriving paths</em> are needed to refer to the <em>outputs</em> of those build steps before they are built.</p>
 <!-- The two concepts need to be introduced together because, as described below, each depends on the other. -->
 <h2 id="store-derivation"><a class="header" href="#store-derivation">Store Derivation</a></h2>
-<p>A derivation is a specification for running an executable on precisely defined input to produce on more <a href="../../store/store-object.html">store objects</a>.
+<p>A derivation is a specification for running an executable on precisely defined input to produce one or more <a href="../../store/store-object.html">store objects</a>.
 These store objects are known as the derivation's <em>outputs</em>.</p>
 <p>Derivations are <em>built</em>, in which case the process is spawned according to the spec, and when it exits, required to leave behind files which will (after post-processing) become the outputs of the derivation.
 This process is described in detail in <a href="../../store/building.html">Building</a>.</p>
@@ -274,6 +274,13 @@ The first argument passed to the <code>builder</code> will be the value of <code
 See <a href="https://en.wikipedia.org/wiki/Argv">Wikipedia</a> for details.</p>
 <h4 id="env"><a class="header" href="#env">Environment Variables</a></h4>
 <p>Environment variables which will be passed to the <a href="#builder">builder</a> executable.</p>
+<h4 id="structured-attrs"><a class="header" href="#structured-attrs">Structured Attributes</a></h4>
+<p>Nix also has special support for embedding JSON in the derivations.</p>
+<p>The environment variable <code>NIX_ATTRS_JSON_FILE</code> points to the exact location of that file both in a build and a <a href="../../command-ref/nix-shell.html"><code>nix-shell</code></a>.</p>
+<p>As a convenience to Bash builders, Nix writes a script that initialises shell variables corresponding to all attributes that are representable in Bash.
+The environment variable <code>NIX_ATTRS_SH_FILE</code> points to the exact location of the script, both in a build and a <a href="../../command-ref/nix-shell.html"><code>nix-shell</code></a>.
+This includes non-nested (associative) arrays.
+For example, the attribute <code>hardening.format = true</code> ends up as the Bash associative array element <code>${hardening[format]}</code>.</p>
 <h3 id="placeholders"><a class="header" href="#placeholders">Placeholders</a></h3>
 <p>Placeholders are opaque values used within the <a href="#process-creation-fields">process creation fields</a> to [store objects] for which we don't yet know <a href="../../store/store-path.html">store path</a>s.
 They are strings in the form <code>/&lt;hash&gt;</code> that are embedded anywhere within the strings of those fields, and we are <a href="https://github.com/NixOS/nix/issues/12361">considering</a> to add store-path-like placeholders.</p>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix nar ls - Nix 2.28.5 Reference Manual</title>
+        <title>nix nar ls - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -223,6 +223,21 @@ format:</p>
 <li>
 <p><span id="opt-long"><a href="#opt-long"><code>--long</code></a></span> / <code>-l</code></p>
 <p>Show detailed file information.</p>
+</li>
+<li>
+<p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
+<p>Print compact JSON output on a single line, even when the output is a terminal.
+Some commands may print multiple JSON objects on separate lines.</p>
+<pre><code>              See `--pretty`.
+</code></pre>
+</li>
+<li>
+<p><span id="opt-pretty"><a href="#opt-pretty"><code>--pretty</code></a></span></p>
+<p>Print multi-line, indented JSON output for readability.</p>
+<pre><code>              Default: indent if output is to a terminal.
+
+              This option is only effective when `--json` is also specified.
+</code></pre>
 </li>
 <li>
 <p><span id="opt-recursive"><a href="#opt-recursive"><code>--recursive</code></a></span> / <code>-R</code></p>

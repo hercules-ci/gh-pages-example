@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix help-stores - Nix 2.28.5 Reference Manual</title>
+        <title>nix help-stores - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -422,6 +422,23 @@ You can override this behaviour by passing <a href="#store-experimental-local-ov
 <h2 id="settings-1"><a class="header" href="#settings-1">Settings</a></h2>
 <ul>
 <li>
+<p><span id="store-experimental-local-overlay-store-build-dir"><a href="#store-experimental-local-overlay-store-build-dir"><code>build-dir</code></a></span></p>
+<p>The directory on the host, in which derivations' temporary build directories are created.</p>
+<p>If not set, Nix will use the <code>builds</code> subdirectory of its configured state directory.</p>
+<p>Note that builds are often performed by the Nix daemon, so its <code>build-dir</code> applies.</p>
+<p>Nix will create this directory automatically with suitable permissions if it does not exist.
+Otherwise its permissions must allow all users to traverse the directory (i.e. it must have <code>o+x</code> set, in unix parlance) for non-sandboxed builds to work correctly.</p>
+<p>This is also the location where <a href="../../command-ref/opt-common.html#opt-keep-failed"><code>--keep-failed</code></a> leaves its files.</p>
+<p>If Nix runs without sandbox, or if the platform does not support sandboxing with bind mounts (e.g. macOS), then the <a href="../../language/derivations.html#attr-builder"><code>builder</code></a>'s environment will contain this directory, instead of the virtual location <a href="#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>build-dir</code> must not be set to a world-writable directory.
+Placing temporary build directories in a world-writable place allows other users to access or modify build data that is currently in use.
+This alone is merely an impurity, but combined with another factor this has allowed malicious derivations to escape the build sandbox.</p>
+</blockquote>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
 <p><span id="store-experimental-local-overlay-store-check-mount"><a href="#store-experimental-local-overlay-store-check-mount"><code>check-mount</code></a></span></p>
 <p>Check that the overlay filesystem is correctly mounted.</p>
 <p>Nix does not manage the overlayfs mount point itself, but the correct
@@ -433,7 +450,7 @@ default, but can be disabled if needed.</p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-log"><a href="#store-experimental-local-overlay-store-log"><code>log</code></a></span></p>
-<p>directory where Nix will store log files.</p>
+<p>directory where Nix stores log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -458,7 +475,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-experimental-local-overlay-store-read-only"><a href="#store-experimental-local-overlay-store-read-only"><code>read-only</code></a></span></p>
 <p>Allow this store to be opened when its <a href="../../glossary.html#gloss-nix-database">database</a> is on a read-only filesystem.</p>
-<p>Normally Nix will attempt to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
+<p>Normally Nix attempts to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
 <p>Enable read-only mode to disable locking and open the SQLite database with the <a href="https://www.sqlite.org/c3ref/open.html"><code>immutable</code> parameter</a> set.</p>
 <blockquote>
 <p><strong>Warning</strong>
@@ -496,7 +513,7 @@ and can lead to 'stale file handle' errors; remounting solves the problem.</p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-state"><a href="#store-experimental-local-overlay-store-state"><code>state</code></a></span></p>
-<p>Directory where Nix will store state.</p>
+<p>Directory where Nix stores state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
@@ -568,7 +585,7 @@ the remote side will create the symlinks necessary to avoid race conditions.</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-log"><a href="#store-experimental-ssh-store-with-filesystem-mounted-log"><code>log</code></a></span></p>
-<p>directory where Nix will store log files.</p>
+<p>directory where Nix stores log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -621,7 +638,7 @@ to be used on the remote machine. The default is <code>auto</code>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-state"><a href="#store-experimental-ssh-store-with-filesystem-mounted-state"><code>state</code></a></span></p>
-<p>Directory where Nix will store state.</p>
+<p>Directory where Nix stores state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
@@ -652,7 +669,7 @@ setting.</p>
 </li>
 </ul>
 <h1 id="experimental-ssh-store"><a class="header" href="#experimental-ssh-store">Experimental SSH Store</a></h1>
-<p><strong>Store URL format</strong>: <code>ssh-ng://[username@]hostname</code></p>
+<p><strong>Store URL format</strong>: <code>ssh-ng://[username@]hostname[:port]</code></p>
 <p>Experimental store type that allows full access to a Nix store on a
 remote machine.</p>
 <h2 id="settings-3"><a class="header" href="#settings-3">Settings</a></h2>
@@ -783,6 +800,11 @@ A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
+<p><span id="store-http-binary-cache-store-secret-keys"><a href="#store-http-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
+<p>List of comma-separated paths to the secret keys used to sign the binary cache.</p>
+<p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
 <p><span id="store-http-binary-cache-store-store"><a href="#store-http-binary-cache-store-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
@@ -870,6 +892,11 @@ A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
+<p><span id="store-local-binary-cache-store-secret-keys"><a href="#store-local-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
+<p>List of comma-separated paths to the secret keys used to sign the binary cache.</p>
+<p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
 <p><span id="store-local-binary-cache-store-store"><a href="#store-local-binary-cache-store-store"><code>store</code></a></span></p>
 <p>Logical location of the Nix store, usually
 <code>/nix/store</code>. Note that you can only copy store paths
@@ -910,7 +937,7 @@ listening on the Unix domain socket <em>path</em>. The store pseudo-URL
 <ul>
 <li>
 <p><span id="store-local-daemon-store-log"><a href="#store-local-daemon-store-log"><code>log</code></a></span></p>
-<p>directory where Nix will store log files.</p>
+<p>directory where Nix stores log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -946,7 +973,7 @@ A lower value means a higher priority.</p>
 </li>
 <li>
 <p><span id="store-local-daemon-store-state"><a href="#store-local-daemon-store-state"><code>state</code></a></span></p>
-<p>Directory where Nix will store state.</p>
+<p>Directory where Nix stores state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
@@ -1006,8 +1033,25 @@ locally. Here is an example:</p>
 <h2 id="settings-7"><a class="header" href="#settings-7">Settings</a></h2>
 <ul>
 <li>
+<p><span id="store-local-store-build-dir"><a href="#store-local-store-build-dir"><code>build-dir</code></a></span></p>
+<p>The directory on the host, in which derivations' temporary build directories are created.</p>
+<p>If not set, Nix will use the <code>builds</code> subdirectory of its configured state directory.</p>
+<p>Note that builds are often performed by the Nix daemon, so its <code>build-dir</code> applies.</p>
+<p>Nix will create this directory automatically with suitable permissions if it does not exist.
+Otherwise its permissions must allow all users to traverse the directory (i.e. it must have <code>o+x</code> set, in unix parlance) for non-sandboxed builds to work correctly.</p>
+<p>This is also the location where <a href="../../command-ref/opt-common.html#opt-keep-failed"><code>--keep-failed</code></a> leaves its files.</p>
+<p>If Nix runs without sandbox, or if the platform does not support sandboxing with bind mounts (e.g. macOS), then the <a href="../../language/derivations.html#attr-builder"><code>builder</code></a>'s environment will contain this directory, instead of the virtual location <a href="#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>build-dir</code> must not be set to a world-writable directory.
+Placing temporary build directories in a world-writable place allows other users to access or modify build data that is currently in use.
+This alone is merely an impurity, but combined with another factor this has allowed malicious derivations to escape the build sandbox.</p>
+</blockquote>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
 <p><span id="store-local-store-log"><a href="#store-local-store-log"><code>log</code></a></span></p>
-<p>directory where Nix will store log files.</p>
+<p>directory where Nix stores log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -1024,7 +1068,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-store-read-only"><a href="#store-local-store-read-only"><code>read-only</code></a></span></p>
 <p>Allow this store to be opened when its <a href="../../glossary.html#gloss-nix-database">database</a> is on a read-only filesystem.</p>
-<p>Normally Nix will attempt to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
+<p>Normally Nix attempts to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
 <p>Enable read-only mode to disable locking and open the SQLite database with the <a href="https://www.sqlite.org/c3ref/open.html"><code>immutable</code> parameter</a> set.</p>
 <blockquote>
 <p><strong>Warning</strong>
@@ -1051,7 +1095,7 @@ While the filesystem the database resides on might appear to be read-only, consi
 </li>
 <li>
 <p><span id="store-local-store-state"><a href="#store-local-store-state"><code>state</code></a></span></p>
-<p>Directory where Nix will store state.</p>
+<p>Directory where Nix stores state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
@@ -1191,7 +1235,7 @@ The meaning and accepted values depend on the compression method selected.
 Do not specify this setting if you're using Amazon S3.</p>
 <blockquote>
 <p><strong>Note</strong></p>
-<p>This endpoint must support HTTPS and will use path-based
+<p>This endpoint must support HTTPS and uses path-based
 addressing instead of virtual host based addressing.</p>
 </blockquote>
 <p><strong>Default:</strong> <em>empty</em></p>
@@ -1248,13 +1292,13 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-profile"><a href="#store-s3-binary-cache-store-profile"><code>profile</code></a></span></p>
 <p>The name of the AWS configuration profile to use. By default
-Nix will use the <code>default</code> profile.</p>
+Nix uses the <code>default</code> profile.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-region"><a href="#store-s3-binary-cache-store-region"><code>region</code></a></span></p>
 <p>The region of the S3 bucket. If your bucket is not in
-<code>us–east-1</code>, you should always explicitly specify the region
+<code>us-east-1</code>, you should always explicitly specify the region
 parameter.</p>
 <p><strong>Default:</strong> <code>us-east-1</code></p>
 </li>
@@ -1273,6 +1317,11 @@ information.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-secret-key"><a href="#store-s3-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
+<p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-secret-keys"><a href="#store-s3-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
+<p>List of comma-separated paths to the secret keys used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
@@ -1308,7 +1357,7 @@ setting.</p>
 </li>
 </ul>
 <h1 id="ssh-store"><a class="header" href="#ssh-store">SSH Store</a></h1>
-<p><strong>Store URL format</strong>: <code>ssh://[username@]hostname</code></p>
+<p><strong>Store URL format</strong>: <code>ssh://[username@]hostname[:port]</code></p>
 <p>This store type allows limited access to a remote store on another
 machine via SSH.</p>
 <h2 id="settings-9"><a class="header" href="#settings-9">Settings</a></h2>
@@ -1322,6 +1371,11 @@ machine via SSH.</p>
 <p><span id="store-ssh-store-compress"><a href="#store-ssh-store-compress"><code>compress</code></a></span></p>
 <p>Whether to enable SSH compression.</p>
 <p><strong>Default:</strong> <code>false</code></p>
+</li>
+<li>
+<p><span id="store-ssh-store-log-fd"><a href="#store-ssh-store-log-fd"><code>log-fd</code></a></span></p>
+<p>file descriptor to which SSH's stderr is connected</p>
+<p><strong>Default:</strong> <code>-1</code></p>
 </li>
 <li>
 <p><span id="store-ssh-store-max-connections"><a href="#store-ssh-store-max-connections"><code>max-connections</code></a></span></p>

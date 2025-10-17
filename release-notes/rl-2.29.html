@@ -1,0 +1,385 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Release 2.29 (2025-05-14) - Nix 2.31.2 Reference Manual</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
+        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
+        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom.css">
+
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/release-notes/rl-2.29.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <i id="git-edit-button" class="fa fa-edit"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <i class="fa fa-spinner fa-spin"></i>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="release-2290-2025-05-14"><a class="header" href="#release-2290-2025-05-14">Release 2.29.0 (2025-05-14)</a></h1>
+<p>After the special backport-based release of Nix 2.28 (timed to coincide with Nixpkgs 25.05), the release process is back to normal with 2.29.
+As such, we have slightly more weeks of work from <code>master</code> (since 2.28 was branched from 2.27) than usual.
+This fact is counterbalanced by the fact that most of those changes are bug fixes rather than larger new features.</p>
+<ul>
+<li>
+<p>Prettified JSON output on the terminal <a href="https://github.com/NixOS/nix/issues/12555">#12555</a> <a href="https://github.com/NixOS/nix/pull/12652">#12652</a></p>
+<p>This makes the output easier to read.</p>
+<p>Scripts are mostly unaffected because for those, stdout will be a file or a pipe, not a terminal, and for those, the old single-line behavior applies.</p>
+<p><code>--json --pretty</code> can be passed to enable it even if the output is not a terminal.
+If your script creates a pseudoterminal for Nix's stdout, you can pass <code>--no-pretty</code> to disable the new behavior.</p>
+</li>
+<li>
+<p>Repl: improve continuation prompt for incomplete expressions <a href="https://github.com/NixOS/nix/pull/12846">#12846</a></p>
+<p>Improved REPL user experience by updating the continuation prompt from invisible blank spaces to a visible <code>" &gt; "</code>, enhancing clarity when entering multi-line expressions.</p>
+</li>
+<li>
+<p>REPL <code>:load-flake</code> and <code>:reload</code> now work together <a href="https://github.com/NixOS/nix/issues/8753">#8753</a> <a href="https://github.com/NixOS/nix/pull/13180">#13180</a></p>
+<p>Previously, <code>:reload</code> only reloaded the files specified with <code>:load</code> (or on the command line).
+Now, it also works with the flakes specified with <code>:load-flake</code> (or on the command line).
+This makes it correctly reload everything that was previously loaded, regardless of what sort of thing (plain file or flake) each item is.</p>
+</li>
+<li>
+<p>Increase retry delays on HTTP 429 Too Many Requests <a href="https://github.com/NixOS/nix/pull/13052">#13052</a></p>
+<p>When downloading Nix, the retry delay was previously set to 0.25 seconds. It has now been increased to 1 minute to better handle transient CI errors, particularly on GitHub.</p>
+</li>
+<li>
+<p>S3: opt-in the STSProfileCredentialsProvider <a href="https://github.com/NixOS/nix/pull/12646">#12646</a></p>
+<p>Added support for STS-based authentication for S3-based binary caches, i.e. enabling seamless integration with <code>aws sso login</code>.</p>
+</li>
+<li>
+<p>Reduce connect timeout for http substituter <a href="https://github.com/NixOS/nix/pull/12876">#12876</a></p>
+<p>Previously, the Nix setting <code>connect-timeout</code> had no limit. It is now set to <code>5s</code>, offering a more practical default for users self-hosting binary caches, which may occasionally become unavailable, such as during updates.</p>
+</li>
+<li>
+<p>C API: functions for locking and loading a flake <a href="https://github.com/NixOS/nix/issues/10435">#10435</a> <a href="https://github.com/NixOS/nix/pull/12877">#12877</a> <a href="https://github.com/NixOS/nix/pull/13098">#13098</a></p>
+<p>This release adds functions to the C API for handling the loading of flakes. Previously, this had to be worked around by using <code>builtins.getFlake</code>.
+C API consumers and language bindings now have access to basic locking functionality.</p>
+<p>It does not expose the full locking API, so that the implementation can evolve more freely.
+Locking is controlled with the functions, which cover the common use cases for consuming a flake:</p>
+<ul>
+<li><code>nix_flake_lock_flags_set_mode_check</code></li>
+<li><code>nix_flake_lock_flags_set_mode_virtual</code></li>
+<li><code>nix_flake_lock_flags_set_mode_write_as_needed</code></li>
+<li><code>nix_flake_lock_flags_add_input_override</code>, which also enables <code>virtual</code></li>
+</ul>
+<p>This change also introduces the new <code>nix-fetchers-c</code> library, whose single purpose for now is to manage the (<code>nix.conf</code>) settings for the built-in fetchers.</p>
+<p>More details can be found in the <a href="../c-api.html">C API documentation</a>.</p>
+</li>
+<li>
+<p>No longer copy flakes that are in the nix store <a href="https://github.com/NixOS/nix/issues/10435">#10435</a> <a href="https://github.com/NixOS/nix/pull/12877">#12877</a> <a href="https://github.com/NixOS/nix/pull/13098">#13098</a></p>
+<p>Previously, we would duplicate entries like <code>path:/nix/store/*</code> back into the Nix store.
+This was prominently visible for pinned system flake registry entries in NixOS, e.g., when running <code>nix run nixpkgs#hello</code>.</p>
+</li>
+<li>
+<p>Consistently preserve error messages from cached evaluation <a href="https://github.com/NixOS/nix/issues/12762">#12762</a> <a href="https://github.com/NixOS/nix/pull/12809">#12809</a></p>
+<p>In one code path, we are not returning the errors cached from prior evaluation, but instead throwing generic errors stemming from the lack of value (due to the error).
+These generic error messages were far less informative.
+Now we consistently return the original error message.</p>
+</li>
+<li>
+<p>Faster blake3 hashing <a href="https://github.com/NixOS/nix/pull/12676">#12676</a></p>
+<p>The implementation for blake3 hashing is now multi-threaded and used memory-mapped IO.
+Benchmark results can be found the <a href="https://github.com/NixOS/nix/pull/12676">pull request</a>.</p>
+</li>
+<li>
+<p>Fix progress bar for S3 binary caches and make file transfers interruptible <a href="https://github.com/NixOS/nix/issues/12877">#12877</a> <a href="https://github.com/NixOS/nix/issues/13098">#13098</a> <a href="https://github.com/NixOS/nix/pull/12538">#12538</a></p>
+<p>The progress bar now correctly display upload/download progress for S3 up/downloads. S3 uploads are now interruptible.</p>
+</li>
+<li>
+<p>Add host attribute of github/gitlab flakerefs to URL serialization <a href="https://github.com/NixOS/nix/pull/12580">#12580</a></p>
+<p>Resolved an issue where <code>github:</code> or <code>gitlab:</code> URLs lost their <code>host</code> attribute when written to a lockfile, resulting in invalid URLs.</p>
+</li>
+<li>
+<p>Multiple signatures support in store urls <a href="https://github.com/NixOS/nix/pull/12976">#12976</a></p>
+<p>Added support for a <code>secretKeyFiles</code> URI parameter in Nix store URIs, allowing multiple signing key files to be specified as a comma-separated list.
+This enables signing paths with multiple keys. This helps with <a href="https://github.com/NixOS/rfcs/pull/149">RFC #149</a> to enable binary cache key rotation in the NixOS infra.</p>
+<p>Example usage:</p>
+<pre><code class="language-bash">nix copy --to "file:///tmp/store?secret-keys=/tmp/key1,/tmp/key2" \
+  "$(nix build --print-out-paths nixpkgs#hello)"
+</code></pre>
+</li>
+<li>
+<p>nix flake show now skips over import-from-derivation <a href="https://github.com/NixOS/nix/issues/4265">#4265</a> <a href="https://github.com/NixOS/nix/pull/12583">#12583</a></p>
+<p>Previously, if a flake contained outputs relying on <a href="../language/import-from-derivation.html">import from derivation</a> during evaluation, <code>nix flake show</code> would fail to display the rest of the flake. The updated behavior skips such outputs, allowing the rest of the flake to be shown.</p>
+</li>
+<li>
+<p>Add <code>nix formatter build</code> and <code>nix formatter run</code> commands <a href="https://github.com/NixOS/nix/pull/13063">#13063</a></p>
+<p><code>nix formatter run</code> is an alias for <code>nix fmt</code>. Nothing new there.</p>
+<p><code>nix formatter build</code> is sort of like <code>nix build</code>: it builds, links, and prints a path to the formatter program:</p>
+<pre><code>$ nix formatter build
+/nix/store/cb9w44vkhk2x4adfxwgdkkf5gjmm856j-treefmt/bin/treefmt
+</code></pre>
+<p>Note that unlike <code>nix build</code>, this prints the full path to the program, not just the store path (in the example above that would be <code>/nix/store/cb9w44vkhk2x4adfxwgdkkf5gjmm856j-treefmt</code>).</p>
+</li>
+<li>
+<p>Amend OSC 8 escape stripping for xterm-style separator <a href="https://github.com/NixOS/nix/pull/13109">#13109</a></p>
+<p>Improve terminal escape code filtering to understand a second type of hyperlink escape codes.
+This in particular prevents parts of GCC 14's diagnostics from being improperly filtered away.</p>
+</li>
+</ul>
+<h2 id="contributors"><a class="header" href="#contributors">Contributors</a></h2>
+<p>This release was made possible by the following 40 contributors:</p>
+<ul>
+<li>Farid Zakaria <a href="https://github.com/fzakaria"><strong>(@fzakaria)</strong></a></li>
+<li>The Tumultuous Unicorn Of Darkness <a href="https://github.com/TheTumultuousUnicornOfDarkness"><strong>(@TheTumultuousUnicornOfDarkness)</strong></a></li>
+<li>Robert Hensing <a href="https://github.com/roberth"><strong>(@roberth)</strong></a></li>
+<li>Félix <a href="https://github.com/picnoir"><strong>(@picnoir)</strong></a></li>
+<li>Valentin Gagarin <a href="https://github.com/fricklerhandwerk"><strong>(@fricklerhandwerk)</strong></a></li>
+<li>Eelco Dolstra <a href="https://github.com/edolstra"><strong>(@edolstra)</strong></a></li>
+<li>Vincent Breitmoser <a href="https://github.com/Valodim"><strong>(@Valodim)</strong></a></li>
+<li>Brian McKenna <a href="https://github.com/puffnfresh"><strong>(@puffnfresh)</strong></a></li>
+<li>ulucs <a href="https://github.com/ulucs"><strong>(@ulucs)</strong></a></li>
+<li>John Ericson <a href="https://github.com/Ericson2314"><strong>(@Ericson2314)</strong></a></li>
+<li>Andrey Butirsky <a href="https://github.com/bam80"><strong>(@bam80)</strong></a></li>
+<li>Dean De Leo <a href="https://github.com/whatsthecraic"><strong>(@whatsthecraic)</strong></a></li>
+<li>Las Safin <a href="https://github.com/L-as"><strong>(@L-as)</strong></a></li>
+<li>Sergei Zimmerman <a href="https://github.com/xokdvium"><strong>(@xokdvium)</strong></a></li>
+<li>Shahar "Dawn" Or <a href="https://github.com/mightyiam"><strong>(@mightyiam)</strong></a></li>
+<li>Ryan Hendrickson <a href="https://github.com/rhendric"><strong>(@rhendric)</strong></a></li>
+<li>Rodney Lorrimar <a href="https://github.com/rvl"><strong>(@rvl)</strong></a></li>
+<li>Erik Nygren <a href="https://github.com/Kirens"><strong>(@Kirens)</strong></a></li>
+<li>Cole Helbling <a href="https://github.com/cole-h"><strong>(@cole-h)</strong></a></li>
+<li>Martin Fischer <a href="https://github.com/not-my-profile"><strong>(@not-my-profile)</strong></a></li>
+<li>Graham Christensen <a href="https://github.com/grahamc"><strong>(@grahamc)</strong></a></li>
+<li>Vit Gottwald <a href="https://github.com/VitGottwald"><strong>(@VitGottwald)</strong></a></li>
+<li>silvanshade <a href="https://github.com/silvanshade"><strong>(@silvanshade)</strong></a></li>
+<li>Illia Bobyr <a href="https://github.com/ilya-bobyr"><strong>(@ilya-bobyr)</strong></a></li>
+<li>Jeremy Fleischman <a href="https://github.com/jfly"><strong>(@jfly)</strong></a></li>
+<li>Ruby Rose <a href="https://github.com/oldshensheep"><strong>(@oldshensheep)</strong></a></li>
+<li>Sergei Trofimovich <a href="https://github.com/trofi"><strong>(@trofi)</strong></a></li>
+<li>Tim <a href="https://github.com/Jaculabilis"><strong>(@Jaculabilis)</strong></a></li>
+<li>Anthony Wang <a href="https://github.com/anthowan"><strong>(@anthowan)</strong></a></li>
+<li>Jörg Thalheim <a href="https://github.com/Mic92"><strong>(@Mic92)</strong></a></li>
+<li>Sandro <a href="https://github.com/SuperSandro2000"><strong>(@SuperSandro2000)</strong></a></li>
+<li>tomberek <a href="https://github.com/tomberek"><strong>(@tomberek)</strong></a></li>
+<li>Dmitry Bogatov <a href="https://github.com/KAction"><strong>(@KAction)</strong></a></li>
+<li>Sizhe Zhao <a href="https://github.com/Prince213"><strong>(@Prince213)</strong></a></li>
+<li>jade <a href="https://github.com/lf-"><strong>(@lf-)</strong></a></li>
+<li>Pierre-Etienne Meunier <a href="https://github.com/P-E-Meunier"><strong>(@P-E-Meunier)</strong></a></li>
+<li>Alexander Romanov <a href="https://github.com/ajlekcahdp4"><strong>(@ajlekcahdp4)</strong></a></li>
+<li>Domagoj Mišković <a href="https://github.com/allrealmsoflife"><strong>(@allrealmsoflife)</strong></a></li>
+<li>Thomas Miedema <a href="https://github.com/thomie"><strong>(@thomie)</strong></a></li>
+<li>Yannik Sander <a href="https://github.com/ysndr"><strong>(@ysndr)</strong></a></li>
+<li>Philipp Otterbein</li>
+<li>Dmitry Bogatov</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../release-notes/rl-2.30.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../release-notes/rl-2.28.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../release-notes/rl-2.30.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../release-notes/rl-2.28.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../redirects.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

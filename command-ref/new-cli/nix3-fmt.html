@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix fmt - Nix 2.28.5 Reference Manual</title>
+        <title>nix fmt - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -193,9 +193,12 @@ and its interface is subject to change.</p>
 <h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
 <p><code>nix fmt</code> [<em>option</em>...] <em>args</em>...</p>
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
-<p><code>nix fmt</code> calls the formatter specified in the flake.</p>
+<p><code>nix fmt</code> (an alias for <code>nix formatter run</code>) calls the formatter specified in the flake.</p>
 <p>Flags can be forwarded to the formatter by using <code>--</code> followed by the flags.</p>
 <p>Any arguments will be forwarded to the formatter. Typically these are the files to format.</p>
+<p>The environment variable <code>PRJ_ROOT</code> (according to <a href="https://github.com/numtide/prj-spec">prj-spec</a>)
+will be set to the absolute path to the directory containing the closest parent <code>flake.nix</code>
+relative to the current directory.</p>
 <h1 id="example"><a class="header" href="#example">Example</a></h1>
 <p>To use the <a href="https://github.com/NixOS/nixfmt">official Nix formatter</a>:</p>
 <pre><code class="language-nix"># flake.nix
@@ -206,6 +209,27 @@ and its interface is subject to change.</p>
 }
 </code></pre>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
+<ul>
+<li>
+<p><span id="opt-json"><a href="#opt-json"><code>--json</code></a></span></p>
+<p>Produce output in JSON format, suitable for consumption by another program.</p>
+</li>
+<li>
+<p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
+<p>Print compact JSON output on a single line, even when the output is a terminal.
+Some commands may print multiple JSON objects on separate lines.</p>
+<pre><code>              See `--pretty`.
+</code></pre>
+</li>
+<li>
+<p><span id="opt-pretty"><a href="#opt-pretty"><code>--pretty</code></a></span></p>
+<p>Print multi-line, indented JSON output for readability.</p>
+<pre><code>              Default: indent if output is to a terminal.
+
+              This option is only effective when `--json` is also specified.
+</code></pre>
+</li>
+</ul>
 <h2 id="common-evaluation-options"><a class="header" href="#common-evaluation-options">Common evaluation options</a></h2>
 <ul>
 <li>
@@ -361,7 +385,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-file"><a href="#opt-file"><code>--file</code></a></span> / <code>-f</code> <em>file</em></p>
-<p>Interpret <a href="../../command-ref/new-cli/nix.html#installables"><em>installables</em></a> as attribute paths relative to the Nix expression stored in <em>file</em>. If <em>file</em> is the character -, then a Nix expression will be read from standard input. Implies <code>--impure</code>.</p>
+<p>Interpret <a href="../../command-ref/new-cli/nix.html#installables"><em>installables</em></a> as attribute paths relative to the Nix expression stored in <em>file</em>. If <em>file</em> is the character -, then a Nix expression is read from standard input. Implies <code>--impure</code>.</p>
 </li>
 </ul>
 <blockquote>
@@ -377,7 +401,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../command-ref/new-cli/nix3-hash.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../command-ref/new-cli/nix3-formatter.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -391,7 +415,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../command-ref/new-cli/nix3-hash.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../command-ref/new-cli/nix3-formatter.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

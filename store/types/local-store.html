@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Local Store - Nix 2.28.5 Reference Manual</title>
+        <title>Local Store - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -212,8 +212,25 @@ locally. Here is an example:</p>
 <h2 id="settings"><a class="header" href="#settings">Settings</a></h2>
 <ul>
 <li>
+<p><span id="store-local-store-build-dir"><a href="#store-local-store-build-dir"><code>build-dir</code></a></span></p>
+<p>The directory on the host, in which derivations' temporary build directories are created.</p>
+<p>If not set, Nix will use the <code>builds</code> subdirectory of its configured state directory.</p>
+<p>Note that builds are often performed by the Nix daemon, so its <code>build-dir</code> applies.</p>
+<p>Nix will create this directory automatically with suitable permissions if it does not exist.
+Otherwise its permissions must allow all users to traverse the directory (i.e. it must have <code>o+x</code> set, in unix parlance) for non-sandboxed builds to work correctly.</p>
+<p>This is also the location where <a href="../../command-ref/opt-common.html#opt-keep-failed"><code>--keep-failed</code></a> leaves its files.</p>
+<p>If Nix runs without sandbox, or if the platform does not support sandboxing with bind mounts (e.g. macOS), then the <a href="../../language/derivations.html#attr-builder"><code>builder</code></a>'s environment will contain this directory, instead of the virtual location <a href="#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a>.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p><code>build-dir</code> must not be set to a world-writable directory.
+Placing temporary build directories in a world-writable place allows other users to access or modify build data that is currently in use.
+This alone is merely an impurity, but combined with another factor this has allowed malicious derivations to escape the build sandbox.</p>
+</blockquote>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
 <p><span id="store-local-store-log"><a href="#store-local-store-log"><code>log</code></a></span></p>
-<p>directory where Nix will store log files.</p>
+<p>directory where Nix stores log files.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -230,7 +247,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-store-read-only"><a href="#store-local-store-read-only"><code>read-only</code></a></span></p>
 <p>Allow this store to be opened when its <a href="../../glossary.html#gloss-nix-database">database</a> is on a read-only filesystem.</p>
-<p>Normally Nix will attempt to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
+<p>Normally Nix attempts to open the store database in read-write mode, even for querying (when write access is not needed), causing it to fail if the database is on a read-only filesystem.</p>
 <p>Enable read-only mode to disable locking and open the SQLite database with the <a href="https://www.sqlite.org/c3ref/open.html"><code>immutable</code> parameter</a> set.</p>
 <blockquote>
 <p><strong>Warning</strong>
@@ -257,7 +274,7 @@ While the filesystem the database resides on might appear to be read-only, consi
 </li>
 <li>
 <p><span id="store-local-store-state"><a href="#store-local-store-state"><code>state</code></a></span></p>
-<p>Directory where Nix will store state.</p>
+<p>Directory where Nix stores state.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>

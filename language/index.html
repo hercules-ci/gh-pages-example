@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Nix Language - Nix 2.28.5 Reference Manual</title>
+        <title>Nix Language - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -183,7 +183,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="nix-language"><a class="header" href="#nix-language">Nix Language</a></h1>
-<p>The Nix language is designed for conveniently creating and composing <em>derivations</em> – precise descriptions of how contents of existing files are used to derive new files.</p>
+<p>The Nix language is designed for conveniently creating and composing <a href="../glossary.html#gloss-derivation">derivations</a> – precise descriptions of how contents of existing files are used to derive new files.</p>
 <blockquote>
 <p><strong>Tip</strong></p>
 <p>These pages are written as a reference.
@@ -193,7 +193,14 @@ If you are learning Nix, nix.dev has a good <a href="https://nix.dev/tutorials/n
 <ul>
 <li>
 <p><em>domain-specific</em></p>
-<p>It comes with <a href="../language/builtins.html">built-in functions</a> to integrate with the Nix store, which manages files and performs the derivations declared in the Nix language.</p>
+<p>The Nix language is purpose-built for working with text files.
+Its most characteristic features are:</p>
+<ul>
+<li><a href="../language/types.html#type-path">File system path primitives</a>, for accessing source files</li>
+<li><a href="../language/string-literals.html">Indented strings</a> and <a href="../language/string-interpolation.html">string interpolation</a>, for creating file contents</li>
+<li><a href="../language/string-context.html">Strings with contexts</a>, for transparently linking files</li>
+</ul>
+<p>It comes with <a href="../language/builtins.html">built-in functions</a> to integrate with the <a href="../store/index.html">Nix store</a>, which manages files and enables <a href="../glossary.html#gloss-realise">realising</a> derivations declared in the Nix language.</p>
 </li>
 <li>
 <p><em>declarative</em></p>

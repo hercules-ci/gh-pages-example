@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix profile list - Nix 2.28.5 Reference Manual</title>
+        <title>nix profile list - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -189,7 +189,7 @@ This program is
 and its interface is subject to change.</p>
 </blockquote>
 <h1 id="name"><a class="header" href="#name">Name</a></h1>
-<p><code>nix profile list</code> - list installed packages</p>
+<p><code>nix profile list</code> - list packages in the profile</p>
 <h1 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h1>
 <p><code>nix profile list</code> [<em>option</em>...]</p>
 <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
@@ -251,6 +251,21 @@ flake reference was resolved.</p>
 <li>
 <p><span id="opt-json"><a href="#opt-json"><code>--json</code></a></span></p>
 <p>Produce output in JSON format, suitable for consumption by another program.</p>
+</li>
+<li>
+<p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
+<p>Print compact JSON output on a single line, even when the output is a terminal.
+Some commands may print multiple JSON objects on separate lines.</p>
+<pre><code>              See `--pretty`.
+</code></pre>
+</li>
+<li>
+<p><span id="opt-pretty"><a href="#opt-pretty"><code>--pretty</code></a></span></p>
+<p>Print multi-line, indented JSON output for readability.</p>
+<pre><code>              Default: indent if output is to a terminal.
+
+              This option is only effective when `--json` is also specified.
+</code></pre>
 </li>
 <li>
 <p><span id="opt-profile"><a href="#opt-profile"><code>--profile</code></a></span> <em>path</em></p>
@@ -358,7 +373,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../command-ref/new-cli/nix3-profile-install.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../command-ref/new-cli/nix3-profile-history.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -372,7 +387,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../command-ref/new-cli/nix3-profile-install.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../command-ref/new-cli/nix3-profile-history.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Built-ins - Nix 2.28.5 Reference Manual</title>
+        <title>Built-ins - Nix 2.31.2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -139,7 +139,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.28.5 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -260,7 +260,7 @@ corresponding to the sorted attribute names.</p>
 This is the simple case, as path values don't have trailing slashes.</p>
 <p>When the argument is a string, a more involved logic applies. If the string ends with a <code>/</code>, only this one final slash is removed.</p>
 <p>After this, the <em>base name</em> is returned as previously described, assuming <code>/</code> as the directory separator. (Note that evaluation must be platform independent.)</p>
-<p>This is somewhat similar to the <a href="https://www.gnu.org/software/coreutils/manual/html_node/basename-invocation.html">GNU <code>basename</code></a> command, but GNU <code>basename</code> will strip any number of trailing slashes.</p>
+<p>This is somewhat similar to the <a href="https://www.gnu.org/software/coreutils/manual/html_node/basename-invocation.html">GNU <code>basename</code></a> command, but GNU <code>basename</code> strips any number of trailing slashes.</p>
 </dd>
 <dt id="builtins-bitAnd">
   <a href="#builtins-bitAnd"><code>bitAnd <var>e1</var> <var>e2</var></code></a>
@@ -309,13 +309,16 @@ ignored. For example,</p>
 <p>evaluates to <code>[1 2]</code>.</p>
 </dd>
 <dt id="builtins-ceil">
-  <a href="#builtins-ceil"><code>ceil <var>double</var></code></a>
+  <a href="#builtins-ceil"><code>ceil <var>number</var></code></a>
 </dt>
 <dd>
-<p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
-the next higher integer.</p>
-<p>If the datatype is neither an integer nor a "float", an evaluation error will be
-thrown.</p>
+<p>Rounds and converts <em>number</em> to the next higher NixInt value if possible, i.e. <code>ceil *number* &gt;= *number*</code> and
+<code>ceil *number* - *number* &lt; 1</code>.</p>
+<p>An evaluation error is thrown, if there exists no such NixInt value <code>ceil *number*</code>.
+Due to bugs in previous Nix versions an evaluation error might be thrown, if the datatype of <em>number</em> is
+a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &gt; 9007199254740992</code>.</p>
+<p>If the datatype of <em>number</em> is neither a NixInt (signed 64-bit integer) nor a NixFloat
+(IEEE-754 double-precision floating-point number), an evaluation error is thrown.</p>
 </dd>
 <dt id="builtins-compareVersions">
   <a href="#builtins-compareVersions"><code>compareVersions <var>s1</var> <var>s2</var></code></a>
@@ -446,7 +449,7 @@ configuration option.</p>
 </dt>
 <dd>
 <p>Return the <a href="https://en.wikipedia.org/wiki/Unix_time">Unix time</a> at first evaluation.
-Repeated references to that name will re-use the initially obtained value.</p>
+Repeated references to that name re-use the initially obtained value.</p>
 <p>Example:</p>
 <pre><code class="language-console">$ nix repl
 Welcome to Nix 2.15.1 Type :? for help.
@@ -457,7 +460,7 @@ nix-repl&gt; builtins.currentTime
 nix-repl&gt; builtins.currentTime
 1683705525
 </code></pre>
-<p>The <a href="../store/store-path.html">store path</a> of a derivation depending on <code>currentTime</code> will differ for each evaluation, unless both evaluate <code>builtins.currentTime</code> in the same second.</p>
+<p>The <a href="../store/store-path.html">store path</a> of a derivation depending on <code>currentTime</code> differs for each evaluation, unless both evaluate <code>builtins.currentTime</code> in the same second.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>Not available in <a href="../command-ref/conf-file.html#conf-pure-eval">pure evaluation mode</a>.</p>
@@ -525,7 +528,7 @@ and used in
 </code></pre>
 </blockquote>
 <p>Fetch a store path <a href="../glossary.html#gloss-closure">closure</a> from a binary cache, and return the store path as a string with context.</p>
-<p>This function can be invoked in three ways, that we will discuss in order of preference.</p>
+<p>This function can be invoked in three ways that we will discuss in order of preference.</p>
 <p><strong>Fetch a content-addressed store path</strong></p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
@@ -595,7 +598,7 @@ This is typically a commit hash.</p>
 This is often a branch or tag name.</p>
 <p>This option has no effect once <code>shallow</code> cloning is enabled.</p>
 <p>By default, the <code>ref</code> value is prefixed with <code>refs/heads/</code>.
-As of 2.3.0, Nix will not prefix <code>refs/heads/</code> if <code>ref</code> starts with <code>refs/</code>.</p>
+As of 2.3.0, Nix doesn't prefix <code>refs/heads/</code> if <code>ref</code> starts with <code>refs/</code>.</p>
 </li>
 <li>
 <p><code>submodules</code> (default: <code>false</code>)</p>
@@ -740,7 +743,7 @@ the git repository you may omit the <code>ref</code> attribute.</p>
   ];
 }
 </code></pre>
-<p>Nix will refetch the branch according to the <a href="../command-ref/conf-file.html#conf-tarball-ttl"><code>tarball-ttl</code></a> setting.</p>
+<p>Nix refetches the branch according to the <a href="../command-ref/conf-file.html#conf-tarball-ttl"><code>tarball-ttl</code></a> setting.</p>
 <p>This behavior is disabled in <a href="../command-ref/conf-file.html#conf-pure-eval">pure evaluation mode</a>.</p>
 </li>
 <li>
@@ -750,9 +753,9 @@ the git repository you may omit the <code>ref</code> attribute.</p>
 </li>
 </ul>
 <p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is
-given, <code>fetchGit</code> will use the current content of the checked-out
-files, even if they are not committed or added to Git's index. It will
-only consider files added to the Git repository, as listed by <code>git ls-files</code>.</p>
+given, <code>fetchGit</code> uses the current content of the checked-out
+files, even if they are not committed or added to Git's index. It
+only considers files added to the Git repository, as listed by <code>git ls-files</code>.</p>
 </dd>
 <dt id="builtins-fetchTarball">
   <a href="#builtins-fetchTarball"><code>fetchTarball <var>args</var></code></a>
@@ -822,7 +825,7 @@ If <code>narHash</code> is set, the source is first looked up is the Nix store a
 <p>A subset of the output attributes of <code>fetchTree</code> can be re-used for subsequent calls to <code>fetchTree</code> to produce the same result again.
 That is, <code>fetchTree</code> is idempotent.</p>
 <p>Downloads are cached in <code>$XDG_CACHE_HOME/nix</code>.
-The remote source will be fetched from the network if both are true:</p>
+The remote source is fetched from the network if both are true:</p>
 <ul>
 <li>
 <p>A NAR hash is supplied and the corresponding store path is not <a href="../glossary.html#gloss-validity">valid</a>, that is, not available in the store</p>
@@ -889,7 +892,7 @@ Use a <code>narHash</code> known in advance to ensure the output has expected co
 <li>
 <p><code>"tarball"</code></p>
 <p>Download a tar archive and extract it into the Nix store.
-This has the same underyling implementation as <a href="../language/builtins.html#builtins-fetchTarball"><code>builtins.fetchTarball</code></a></p>
+This has the same underlying implementation as <a href="../language/builtins.html#builtins-fetchTarball"><code>builtins.fetchTarball</code></a></p>
 <ul>
 <li>
 <p><code>url</code> (String, required)</p>
@@ -922,7 +925,7 @@ This is similar to <a href="../language/builtins.html#builtins-fetchGit"><code>b
 </blockquote>
 <blockquote>
 <p><strong>Note</strong></p>
-<p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is given, Nix will only consider files added to the Git index, as listed by <code>git ls-files</code> but use the <em>current file contents</em> of the Git working directory.</p>
+<p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is given, Nix only considers files added to the Git index, as listed by <code>git ls-files</code> but use the <em>current file contents</em> of the Git working directory.</p>
 </blockquote>
 </li>
 <li>
@@ -1047,12 +1050,12 @@ function <em>f</em> returns <code>true</code>.</p>
 <p><strong>Warning</strong></p>
 <p><code>filterSource</code> should not be used to filter store paths. Since
 <code>filterSource</code> uses the name of the input directory while naming
-the output directory, doing so will produce a directory name in
+the output directory, doing so produces a directory name in
 the form of <code>&lt;hash2&gt;-&lt;hash&gt;-&lt;name&gt;</code>, where <code>&lt;hash&gt;-&lt;name&gt;</code> is
 the name of the input directory. Since <code>&lt;hash&gt;</code> depends on the
-unfiltered directory, the name of the output directory will
-indirectly depend on files that are filtered out by the
-function. This will trigger a rebuild even when a filtered out
+unfiltered directory, the name of the output directory
+indirectly depends on files that are filtered out by the
+function. This triggers a rebuild even when a filtered out
 file is changed. Use <code>builtins.path</code> instead, which allows
 specifying the name of the output directory.</p>
 </blockquote>
@@ -1064,8 +1067,8 @@ the directory <code>source-dir</code> as an input to a Nix expression, e.g.</p>
   src = ./source-dir;
 }
 </code></pre>
-<p>However, if <code>source-dir</code> is a Subversion working copy, then all
-those annoying <code>.svn</code> subdirectories will also be copied to the
+<p>However, if <code>source-dir</code> is a Subversion working copy, then all of
+those annoying <code>.svn</code> subdirectories are also copied to the
 store. Worse, the contents of those directories may change a lot,
 causing lots of spurious rebuilds. With <code>filterSource</code> you can
 filter out the <code>.svn</code> directories:</p>
@@ -1082,8 +1085,8 @@ string that identifies the type of the file, which is either
 <code>"regular"</code>, <code>"directory"</code>, <code>"symlink"</code> or <code>"unknown"</code> (for other
 kinds of files such as device nodes or fifos — but note that those
 cannot be copied to the Nix store, so if the predicate returns
-<code>true</code> for them, the copy will fail). If you exclude a directory,
-the entire corresponding subtree of <em>e2</em> will be excluded.</p>
+<code>true</code> for them, the copy fails). If you exclude a directory,
+the entire corresponding subtree of <em>e2</em> is excluded.</p>
 </dd>
 <dt id="builtins-findFile">
   <a href="#builtins-findFile"><code>findFile <var>search-path</var> <var>lookup-path</var></code></a>
@@ -1164,9 +1167,9 @@ The combined absolute path of the directory (now downloaded if need be) and the 
   }
 ]
 </code></pre>
-<p>and a <em>lookup-path</em> value <code>"nixos-config"</code> will cause Nix to try <code>/home/eelco/Dev/nixos-config</code> and <code>/etc/nixos</code> in that order and return the first path that exists.</p>
+<p>and a <em>lookup-path</em> value <code>"nixos-config"</code> causes Nix to try <code>/home/eelco/Dev/nixos-config</code> and <code>/etc/nixos</code> in that order and return the first path that exists.</p>
 </blockquote>
-<p>If <code>path</code> starts with <code>http://</code> or <code>https://</code>, it is interpreted as the URL of a tarball that will be downloaded and unpacked to a temporary location.
+<p>If <code>path</code> starts with <code>http://</code> or <code>https://</code>, it is interpreted as the URL of a tarball to be downloaded and unpacked to a temporary location.
 The tarball must consist of a single top-level directory.</p>
 <p>The URLs of the tarballs from the official <code>nixos.org</code> channels can be abbreviated as <code>channel:&lt;channel-name&gt;</code>.
 See <a href="../command-ref/nix-channel.html">documentation on <code>nix-channel</code></a> for details about channels.</p>
@@ -1231,13 +1234,16 @@ See <a href="../command-ref/nix-channel.html">documentation on <code>nix-channel
 </code></pre>
 </dd>
 <dt id="builtins-floor">
-  <a href="#builtins-floor"><code>floor <var>double</var></code></a>
+  <a href="#builtins-floor"><code>floor <var>number</var></code></a>
 </dt>
 <dd>
-<p>Converts an IEEE-754 double-precision floating-point number (<em>double</em>) to
-the next lower integer.</p>
-<p>If the datatype is neither an integer nor a "float", an evaluation error will be
-thrown.</p>
+<p>Rounds and converts <em>number</em> to the next lower NixInt value if possible, i.e. <code>floor *number* &lt;= *number*</code> and
+<code>*number* - floor *number* &lt; 1</code>.</p>
+<p>An evaluation error is thrown, if there exists no such NixInt value <code>floor *number*</code>.
+Due to bugs in previous Nix versions an evaluation error might be thrown, if the datatype of <em>number</em> is
+a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &gt; 9007199254740992</code>.</p>
+<p>If the datatype of <em>number</em> is neither a NixInt (signed 64-bit integer) nor a NixFloat
+(IEEE-754 double-precision floating-point number), an evaluation error will be thrown.</p>
 </dd>
 <dt id="builtins-foldl'">
   <a href="#builtins-foldl'"><code>foldl' <var>op</var> <var>nul</var> <var>list</var></code></a>
@@ -1363,7 +1369,7 @@ identifier.</p>
 <p>Return the string context of <em>s</em>.</p>
 <p>The string context tracks references to derivations within a string.
 It is represented as an attribute set of <a href="../glossary.html#gloss-store-derivation">store derivation</a> paths mapping to output names.</p>
-<p>Using <a href="../language/string-interpolation.html">string interpolation</a> on a derivation will add that derivation to the string context.
+<p>Using <a href="../language/string-interpolation.html">string interpolation</a> on a derivation adds that derivation to the string context.
 For example,</p>
 <pre><code class="language-nix">builtins.getContext "${derivation { name = "a"; builder = "b"; system = "c"; }}"
 </code></pre>
@@ -1502,7 +1508,7 @@ Therefore, it cannot refer to variables that are in scope at the call site.</p>
   y = import ./foo.nix;
 }
 </code></pre>
-<p>then the following <code>foo.nix</code> will give an error:</p>
+<p>then the following <code>foo.nix</code> throws an error:</p>
 <pre><code class="language-nix"># foo.nix
 x + 456
 </code></pre>
@@ -1599,9 +1605,9 @@ same name as some attribute in <em>e1</em>.</p>
   <a href="#builtins-lessThan"><code>lessThan <var>e1</var> <var>e2</var></code></a>
 </dt>
 <dd>
-<p>Return <code>true</code> if the number <em>e1</em> is less than the number <em>e2</em>, and
-<code>false</code> otherwise. Evaluation aborts if either <em>e1</em> or <em>e2</em> does not
-evaluate to a number.</p>
+<p>Return <code>true</code> if the value <em>e1</em> is less than the value <em>e2</em>, and <code>false</code> otherwise.
+Evaluation aborts if either <em>e1</em> or <em>e2</em> does not evaluate to a number, string or path.
+Furthermore, it aborts if <em>e2</em> does not match <em>e1</em>'s type according to the aforementioned classification of number, string or path.</p>
 </dd>
 <dt id="builtins-listToAttrs">
   <a href="#builtins-listToAttrs"><code>listToAttrs <var>e</var></code></a>
@@ -1732,8 +1738,8 @@ nix (Nix) 2.16.0
 <p>Return the output path of a derivation, literally or using an
 <a href="../store/derivation/index.html#input-placeholder">input placeholder string</a>
 if needed.</p>
-<p>If the derivation has a statically-known output path (i.e. the derivation output is input-addressed, or fixed content-addresed), the output path will just be returned.
-But if the derivation is content-addressed or if the derivation is itself not-statically produced (i.e. is the output of another derivation), an input placeholder will be returned instead.</p>
+<p>If the derivation has a statically-known output path (i.e. the derivation output is input-addressed, or fixed content-addressed), the output path is returned.
+But if the derivation is content-addressed or if the derivation is itself not-statically produced (i.e. is the output of another derivation), an input placeholder is returned instead.</p>
 <p><em><code>derivation reference</code></em> must be a string that may contain a regular store path to a derivation, or may be an input placeholder reference.
 If the derivation is produced by a derivation, you must explicitly select <code>drv.outPath</code>.
 This primop can be chained arbitrarily deeply.
@@ -1742,7 +1748,7 @@ For instance,</p>
   (builtins.outputOf myDrv "out")
   "out"
 </code></pre>
-<p>will return a input placeholder for the output of the output of <code>myDrv</code>.</p>
+<p>returns an input placeholder for the output of the output of <code>myDrv</code>.</p>
 <p>This primop corresponds to the <code>^</code> sigil for <a href="../glossary.html#gloss-deriving-paths">deriving paths</a>, e.g. as part of installable syntax on the command line.</p>
 </dd>
 <dt id="builtins-parseDrvName">
@@ -1822,7 +1828,7 @@ to <code>true</code>.</p>
 <li>
 <p>sha256<br />
 When provided, this is the expected hash of the file at the
-path. Evaluation will fail if the hash is incorrect, and
+path. Evaluation fails if the hash is incorrect, and
 providing a hash allows <code>builtins.path</code> to be used even when the
 <code>pure-eval</code> nix config option is on.</p>
 </li>
@@ -1839,7 +1845,7 @@ providing a hash allows <code>builtins.path</code> to be used even when the
   <a href="#builtins-placeholder"><code>placeholder <var>output</var></code></a>
 </dt>
 <dd>
-<p>Return at
+<p>Return an
 <a href="../store/derivation/index.html#output-placeholder">output placeholder string</a>
 for the specified <em>output</em> that will be substituted by the corresponding
 <a href="../glossary.html#gloss-output-path">output path</a>
@@ -1853,7 +1859,7 @@ at build time.</p>
 <p>Return the contents of the directory <em>path</em> as a set mapping
 directory entries to the corresponding file type. For instance, if
 directory <code>A</code> contains a regular file <code>B</code> and another directory
-<code>C</code>, then <code>builtins.readDir ./A</code> will return the set</p>
+<code>C</code>, then <code>builtins.readDir ./A</code> returns the set</p>
 <pre><code class="language-nix">{ B = "regular"; C = "directory"; }
 </code></pre>
 <p>The possible values for the file type are <code>"regular"</code>,
@@ -1914,6 +1920,27 @@ For example,</p>
 <p>produces the list <code>[ 42 77 147 249 483 526 ]</code>.</p>
 <p>This is a stable sort: it preserves the relative order of elements
 deemed equal by the comparator.</p>
+<p><em>comparator</em> must impose a strict weak ordering on the set of values
+in the <em>list</em>. This means that for any elements <em>a</em>, <em>b</em> and <em>c</em> from the
+<em>list</em>, <em>comparator</em> must satisfy the following relations:</p>
+<ol>
+<li>Transitivity</li>
+</ol>
+<pre><code class="language-nix">comparator a b &amp;&amp; comparator b c -&gt; comparator a c
+</code></pre>
+<ol>
+<li>Irreflexivity</li>
+</ol>
+<pre><code class="language-nix">comparator a a == false
+</code></pre>
+<ol>
+<li>Transitivity of equivalence</li>
+</ol>
+<pre><code class="language-nix">let equiv = a: b: (!comparator a b &amp;&amp; !comparator b a); in
+equiv a b &amp;&amp; equiv b c -&gt; equiv a c
+</code></pre>
+<p>If the <em>comparator</em> violates any of these properties, then <code>builtins.sort</code>
+reorders elements in an unspecified manner.</p>
 </dd>
 <dt id="builtins-split">
   <a href="#builtins-split"><code>split <var>regex</var> <var>str</var></code></a>
@@ -2227,7 +2254,7 @@ debugging.</p>
 <p>If the
 <a href="../command-ref/conf-file.html#conf-debugger-on-trace"><code>debugger-on-trace</code></a>
 option is set to <code>true</code> and the <code>--debugger</code> flag is given, the
-interactive debugger will be started when <code>trace</code> is called (like
+interactive debugger is started when <code>trace</code> is called (like
 <a href="../language/builtins.html#builtins-break"><code>break</code></a>).</p>
 </dd>
 <dt id="builtins-traceVerbose">
@@ -2259,13 +2286,13 @@ and used in
 <p>Try to shallowly evaluate <em>e</em>. Return a set containing the
 attributes <code>success</code> (<code>true</code> if <em>e</em> evaluated successfully,
 <code>false</code> if an error was thrown) and <code>value</code>, equalling <em>e</em> if
-successful and <code>false</code> otherwise. <code>tryEval</code> will only prevent
+successful and <code>false</code> otherwise. <code>tryEval</code> only prevents
 errors created by <code>throw</code> or <code>assert</code> from being thrown.
-Errors <code>tryEval</code> will not catch are for example those created
+Errors <code>tryEval</code> doesn't catch are, for example, those created
 by <code>abort</code> and type errors generated by builtins. Also note that
-this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in (builtins.tryEval e).success</code> will be <code>true</code>. Using
+this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in (builtins.tryEval e).success</code> is <code>true</code>. Using
 <code>builtins.deepSeq</code> one can get the expected result:
-<code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> will be
+<code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> is
 <code>false</code>.</p>
 <p><code>tryEval</code> intentionally does not return the error message, because that risks bringing non-determinism into the evaluation result, and it would become very difficult to improve error reporting without breaking existing expressions.
 Instead, use <a href="../language/builtins.html#builtins-addErrorContext"><code>builtins.addErrorContext</code></a> to add context to the error message, and use a Nix unit testing tool for testing.</p>
@@ -2300,6 +2327,14 @@ Replacing a constant string context element with a "derivation deep" element is 
 <dd>
 <p>Discard the <a href="../language/string-context.html">string context</a> from a value that can be coerced to a string.</p>
 </dd>
+<dt id="builtins-unsafeGetAttrPos">
+  <a href="#builtins-unsafeGetAttrPos"><code>unsafeGetAttrPos <var>s</var> <var>set</var></code></a>
+</dt>
+<dd>
+<p><code>unsafeGetAttrPos</code> returns the position of the attribute named <em>s</em>
+from <em>set</em>. This is used by Nixpkgs to provide location information
+in error messages.</p>
+</dd>
 <dt id="builtins-warn">
   <a href="#builtins-warn"><code>warn <var>e1</var> <var>e2</var></code></a>
 </dt>
@@ -2315,7 +2350,7 @@ interactive debugger will be started when <code>warn</code> is called (like
 <a href="../language/builtins.html#builtins-break"><code>break</code></a>).</p>
 <p>If the
 <a href="../command-ref/conf-file.html#conf-abort-on-warn"><code>abort-on-warn</code></a>
-option is set, the evaluation will be aborted after the warning is printed.
+option is set, the evaluation is aborted after the warning is printed.
 This is useful to reveal the stack trace of the warning, when the context is non-interactive and a debugger can not be launched.</p>
 </dd>
 <dt id="builtins-zipAttrsWith">
