@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Built-ins - Nix 2.31.2+1 Reference Manual</title>
+        <title>Built-ins - Nix 2.31.2+2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../custom.css">
+        <link rel="stylesheet" href="../custom-80d08c7f.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex.js";
+            window.path_to_searchindex_js = "../searchindex-1b44a9cb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
+        <script src="../toc-711a10f4.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -54,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div id="body-container">
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -83,12 +82,12 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -103,84 +102,84 @@
             }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.2+1 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2+2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
                         <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/language/builtins.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
                         <div class="search-wrapper">
-                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
                             <div class="spinner-wrapper">
-                                <i class="fa fa-spinner fa-spin"></i>
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
                             </div>
                         </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="built-ins"><a class="header" href="#built-ins">Built-ins</a></h1>
 <p>This section lists the values and functions built into the Nix language evaluator.
@@ -194,24 +193,35 @@ All built-ins are available through the global <a href="#builtins-builtins"><cod
 <li><a href="#builtins-throw"><code>throw</code></a></li>
 </ul>
 <dl>
-  <dt id="builtins-derivation"><a href="#builtins-derivation"><code>derivation <var>attrs</var></code></a></dt>
-  <dd><p><var>derivation</var> is described in
-         <a href="derivations.html">its own section</a>.</p></dd>
+  
+<dt id="builtins-derivation"><a href="#builtins-derivation"><code>derivation <var>attrs</var></code></a></dt>
+
+  
+<dd>
+<p><var>derivation</var> is described in
+         <a href="derivations.html">its own section</a>.</p>
+</dd>
+
 <dt id="builtins-abort">
   <a href="#builtins-abort"><code>abort <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Abort Nix expression evaluation and print the error message <em>s</em>.</p>
 </dd>
+
 <dt id="builtins-add">
   <a href="#builtins-add"><code>add <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the sum of the numbers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-addDrvOutputDependencies">
   <a href="#builtins-addDrvOutputDependencies"><code>addDrvOutputDependencies <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Create a copy of the given string where a single
 <a href="../language/string-context.html#string-context-element-constant">constant</a>
@@ -223,73 +233,93 @@ string context element.</p>
 The latter is supported so this function is idempotent.</p>
 <p>This is the opposite of <a href="#builtins-unsafeDiscardOutputDependency"><code>builtins.unsafeDiscardOutputDependency</code></a>.</p>
 </dd>
+
 <dt id="builtins-all">
   <a href="#builtins-all"><code>all <var>pred</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for all elements
 of <em>list</em>, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-any">
   <a href="#builtins-any"><code>any <var>pred</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for at least one
 element of <em>list</em>, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-attrNames">
   <a href="#builtins-attrNames"><code>attrNames <var>set</var></code></a>
 </dt>
+
 <dd>
 <p>Return the names of the attributes in the set <em>set</em> in an
 alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = "foo"; }</code> evaluates to <code>[ "x" "y" ]</code>.</p>
 </dd>
+
 <dt id="builtins-attrValues">
   <a href="#builtins-attrValues"><code>attrValues <var>set</var></code></a>
 </dt>
+
 <dd>
 <p>Return the values of the attributes in the set <em>set</em> in the order
 corresponding to the sorted attribute names.</p>
 </dd>
+
 <dt id="builtins-baseNameOf">
   <a href="#builtins-baseNameOf"><code>baseNameOf <var>x</var></code></a>
 </dt>
+
 <dd>
 <p>Return the <em>base name</em> of either a <a href="../language/types.html#type-path">path value</a> <em>x</em> or a string <em>x</em>, depending on which type is passed, and according to the following rules.</p>
 <p>For a path value, the <em>base name</em> is considered to be the part of the path after the last directory separator, including any file extensions.
-This is the simple case, as path values don't have trailing slashes.</p>
+This is the simple case, as path values don’t have trailing slashes.</p>
 <p>When the argument is a string, a more involved logic applies. If the string ends with a <code>/</code>, only this one final slash is removed.</p>
 <p>After this, the <em>base name</em> is returned as previously described, assuming <code>/</code> as the directory separator. (Note that evaluation must be platform independent.)</p>
 <p>This is somewhat similar to the <a href="https://www.gnu.org/software/coreutils/manual/html_node/basename-invocation.html">GNU <code>basename</code></a> command, but GNU <code>basename</code> strips any number of trailing slashes.</p>
 </dd>
+
 <dt id="builtins-bitAnd">
   <a href="#builtins-bitAnd"><code>bitAnd <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the bitwise AND of the integers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-bitOr">
   <a href="#builtins-bitOr"><code>bitOr <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the bitwise OR of the integers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-bitXor">
   <a href="#builtins-bitXor"><code>bitXor <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the bitwise XOR of the integers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-break">
   <a href="#builtins-break"><code>break <var>v</var></code></a>
 </dt>
+
 <dd>
 <p>In debug mode (enabled using <code>--debugger</code>), pause Nix expression evaluation and enter the REPL.
 Otherwise, return the argument <code>v</code>.</p>
 </dd>
+
 <dt id="builtins-builtins">
   <a href="#builtins-builtins"><code>builtins</code></a> (set)
 </dt>
+
 <dd>
 <p>Contains all the built-in functions and values.</p>
 <p>Since built-in functions were added over time, <a href="./operators.html#has-attribute">testing for attributes</a> in <code>builtins</code> can be used for graceful fallback on older Nix installations:</p>
@@ -297,20 +327,24 @@ Otherwise, return the argument <code>v</code>.</p>
 if builtins ? hasContext then builtins.hasContext s else true
 </code></pre>
 </dd>
+
 <dt id="builtins-catAttrs">
   <a href="#builtins-catAttrs"><code>catAttrs <var>attr</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Collect each attribute named <em>attr</em> from a list of attribute
-sets.  Attrsets that don't contain the named attribute are
+sets.  Attrsets that don’t contain the named attribute are
 ignored. For example,</p>
 <pre><code class="language-nix">builtins.catAttrs "a" [{a = 1;} {b = 0;} {a = 2;}]
 </code></pre>
 <p>evaluates to <code>[1 2]</code>.</p>
 </dd>
+
 <dt id="builtins-ceil">
   <a href="#builtins-ceil"><code>ceil <var>number</var></code></a>
 </dt>
+
 <dd>
 <p>Rounds and converts <em>number</em> to the next higher NixInt value if possible, i.e. <code>ceil *number* &gt;= *number*</code> and
 <code>ceil *number* - *number* &lt; 1</code>.</p>
@@ -320,38 +354,48 @@ a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &
 <p>If the datatype of <em>number</em> is neither a NixInt (signed 64-bit integer) nor a NixFloat
 (IEEE-754 double-precision floating-point number), an evaluation error is thrown.</p>
 </dd>
+
 <dt id="builtins-compareVersions">
   <a href="#builtins-compareVersions"><code>compareVersions <var>s1</var> <var>s2</var></code></a>
 </dt>
+
 <dd>
 <p>Compare two strings representing versions and return <code>-1</code> if
 version <em>s1</em> is older than version <em>s2</em>, <code>0</code> if they are the same,
 and <code>1</code> if <em>s1</em> is newer than <em>s2</em>. The version comparison
 algorithm is the same as the one used by <a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
 </dd>
+
 <dt id="builtins-concatLists">
   <a href="#builtins-concatLists"><code>concatLists <var>lists</var></code></a>
 </dt>
+
 <dd>
 <p>Concatenate a list of lists into a single list.</p>
 </dd>
+
 <dt id="builtins-concatMap">
   <a href="#builtins-concatMap"><code>concatMap <var>f</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>This function is equivalent to <code>builtins.concatLists (map f list)</code>
 but is more efficient.</p>
 </dd>
+
 <dt id="builtins-concatStringsSep">
   <a href="#builtins-concatStringsSep"><code>concatStringsSep <var>separator</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Concatenate a list of strings with a separator between each
 element, e.g. <code>concatStringsSep "/" ["usr" "local" "bin"] == "usr/local/bin"</code>.</p>
 </dd>
+
 <dt id="builtins-convertHash">
   <a href="#builtins-convertHash"><code>convertHash <var>args</var></code></a>
 </dt>
+
 <dd>
 <p>Return the specified representation of a hash string, based on the attributes presented in <em>args</em>:</p>
 <ul>
@@ -420,9 +464,11 @@ That <code>&lt;hashAlgo&gt;:&lt;hashBody&gt;</code> syntax is supported for back
 </code></pre>
 </blockquote>
 </dd>
+
 <dt id="builtins-currentSystem">
   <a href="#builtins-currentSystem"><code>currentSystem</code></a> (string)
 </dt>
+
 <dd>
 <p>The value of the
 <a href="../command-ref/conf-file.html#conf-eval-system"><code>eval-system</code></a>
@@ -444,9 +490,11 @@ configuration option.</p>
 <p>Not available in <a href="../command-ref/conf-file.html#conf-pure-eval">pure evaluation mode</a>.</p>
 </blockquote>
 </dd>
+
 <dt id="builtins-currentTime">
   <a href="#builtins-currentTime"><code>currentTime</code></a> (integer)
 </dt>
+
 <dd>
 <p>Return the <a href="https://en.wikipedia.org/wiki/Unix_time">Unix time</a> at first evaluation.
 Repeated references to that name re-use the initially obtained value.</p>
@@ -466,45 +514,57 @@ nix-repl&gt; builtins.currentTime
 <p>Not available in <a href="../command-ref/conf-file.html#conf-pure-eval">pure evaluation mode</a>.</p>
 </blockquote>
 </dd>
+
 <dt id="builtins-deepSeq">
   <a href="#builtins-deepSeq"><code>deepSeq <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>This is like <code>seq e1 e2</code>, except that <em>e1</em> is evaluated <em>deeply</em>:
 if it’s a list or set, its elements or attributes are also
 evaluated recursively.</p>
 </dd>
+
 <dt id="builtins-dirOf">
   <a href="#builtins-dirOf"><code>dirOf <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Return the directory part of the string <em>s</em>, that is, everything
 before the final slash in the string. This is similar to the GNU
 <code>dirname</code> command.</p>
 </dd>
+
 <dt id="builtins-div">
   <a href="#builtins-div"><code>div <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the quotient of the numbers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-elem">
   <a href="#builtins-elem"><code>elem <var>x</var> <var>xs</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if a value equal to <em>x</em> occurs in the list <em>xs</em>, and
 <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-elemAt">
   <a href="#builtins-elemAt"><code>elemAt <var>xs</var> <var>n</var></code></a>
 </dt>
+
 <dd>
 <p>Return element <em>n</em> from the list <em>xs</em>. Elements are counted starting
 from 0. A fatal error occurs if the index is out of bounds.</p>
 </dd>
+
 <dt id="builtins-false">
   <a href="#builtins-false"><code>false</code></a> (Boolean)
 </dt>
+
 <dd>
 <p>Primitive value.</p>
 <p>It can be returned by
@@ -516,9 +576,11 @@ and used in
 1
 </code></pre>
 </dd>
+
 <dt id="builtins-fetchClosure">
   <a href="#builtins-fetchClosure"><code>fetchClosure <var>args</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -571,9 +633,11 @@ However, this is the least preferred way of invoking <code>fetchClosure</code>, 
 However, <code>fetchClosure</code> is more reproducible because it specifies a binary cache from which the path can be fetched.
 Also, using content-addressed store paths does not require users to configure <a href="../command-ref/conf-file.html#conf-trusted-public-keys"><code>trusted-public-keys</code></a> to ensure their authenticity.</p>
 </dd>
+
 <dt id="builtins-fetchGit">
   <a href="#builtins-fetchGit"><code>fetchGit <var>args</var></code></a>
 </dt>
+
 <dd>
 <p>Fetch a path from git. <em>args</em> can be a URL, in which case the HEAD
 of the repo at that URL is fetched. Otherwise, it can be an
@@ -598,7 +662,7 @@ This is typically a commit hash.</p>
 This is often a branch or tag name.</p>
 <p>This option has no effect once <code>shallow</code> cloning is enabled.</p>
 <p>By default, the <code>ref</code> value is prefixed with <code>refs/heads/</code>.
-As of 2.3.0, Nix doesn't prefix <code>refs/heads/</code> if <code>ref</code> starts with <code>refs/</code>.</p>
+As of 2.3.0, Nix doesn’t prefix <code>refs/heads/</code> if <code>ref</code> starts with <code>refs/</code>.</p>
 </li>
 <li>
 <p><code>submodules</code> (default: <code>false</code>)</p>
@@ -622,7 +686,7 @@ When this is enabled, the options <code>ref</code> and <code>allRefs</code> have
 <li>
 <p><code>allRefs</code></p>
 <p>Whether to fetch all references (eg. branches and tags) of the repository.
-With this argument being true, it's possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
+With this argument being true, it’s possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
 (by default only <code>rev</code>s from the specified <code>ref</code> are supported).</p>
 <p>This option has no effect once <code>shallow</code> cloning is enabled.</p>
 </li>
@@ -683,10 +747,10 @@ Must be given as a list of attribute sets with the following form:</p>
 </code></pre>
 </li>
 <li>
-<p>If the revision you're looking for is in the default branch of
-the git repository you don't strictly need to specify the branch
+<p>If the revision you’re looking for is in the default branch of
+the git repository you don’t strictly need to specify the branch
 name in the <code>ref</code> attribute.</p>
-<p>However, if the revision you're looking for is in a future
+<p>However, if the revision you’re looking for is in a future
 branch for the non-default branch you will need to specify the
 the <code>ref</code> attribute as well.</p>
 <pre><code class="language-nix">builtins.fetchGit {
@@ -706,7 +770,7 @@ more obvious.</p>
 </blockquote>
 </li>
 <li>
-<p>If the revision you're looking for is in the default branch of
+<p>If the revision you’re looking for is in the default branch of
 the git repository you may omit the <code>ref</code> attribute.</p>
 <pre><code class="language-nix">builtins.fetchGit {
   url = "https://github.com/nixos/nix.git";
@@ -754,12 +818,14 @@ the git repository you may omit the <code>ref</code> attribute.</p>
 </ul>
 <p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is
 given, <code>fetchGit</code> uses the current content of the checked-out
-files, even if they are not committed or added to Git's index. It
+files, even if they are not committed or added to Git’s index. It
 only considers files added to the Git repository, as listed by <code>git ls-files</code>.</p>
 </dd>
+
 <dt id="builtins-fetchTarball">
   <a href="#builtins-fetchTarball"><code>fetchTarball <var>args</var></code></a>
 </dt>
+
 <dd>
 <p>Download the specified URL, unpack it and return the path of the
 unpacked tree. The file must be a tape archive (<code>.tar</code>) compressed
@@ -791,9 +857,11 @@ stdenv.mkDerivation { … }
 </code></pre>
 <p>Not available in <a href="../command-ref/conf-file.html#conf-restrict-eval">restricted evaluation mode</a>.</p>
 </dd>
+
 <dt id="builtins-fetchTree">
   <a href="#builtins-fetchTree"><code>fetchTree <var>input</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -959,7 +1027,7 @@ When this is enabled, the options <code>ref</code> and <code>allRefs</code> have
 <p><code>allRefs</code> (Bool, optional)</p>
 <p>By default, this has no effect. This becomes relevant only once <code>shallow</code> cloning is disabled.</p>
 <p>Whether to fetch all references (eg. branches and tags) of the repository.
-With this argument being true, it's possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
+With this argument being true, it’s possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
 (Without setting this option, only <code>rev</code>s from the specified <code>ref</code> are supported).</p>
 <p>Default: <code>false</code></p>
 </li>
@@ -1016,9 +1084,11 @@ The additional input types and the URL-like syntax requires the <a href="../deve
 </code></pre>
 </blockquote>
 </dd>
+
 <dt id="builtins-fetchurl">
   <a href="#builtins-fetchurl"><code>fetchurl <var>arg</var></code></a>
 </dt>
+
 <dd>
 <p>Download the specified URL and return the path of the downloaded file.
 <code>arg</code> can be either a string denoting the URL, or an attribute set with the following attributes:</p>
@@ -1035,16 +1105,20 @@ characters that are invalid for the store.</p>
 </ul>
 <p>Not available in <a href="../command-ref/conf-file.html#conf-restrict-eval">restricted evaluation mode</a>.</p>
 </dd>
+
 <dt id="builtins-filter">
   <a href="#builtins-filter"><code>filter <var>f</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return a list consisting of the elements of <em>list</em> for which the
 function <em>f</em> returns <code>true</code>.</p>
 </dd>
+
 <dt id="builtins-filterSource">
   <a href="#builtins-filterSource"><code>filterSource <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Warning</strong></p>
@@ -1088,9 +1162,11 @@ cannot be copied to the Nix store, so if the predicate returns
 <code>true</code> for them, the copy fails). If you exclude a directory,
 the entire corresponding subtree of <em>e2</em> is excluded.</p>
 </dd>
+
 <dt id="builtins-findFile">
   <a href="#builtins-findFile"><code>findFile <var>search-path</var> <var>lookup-path</var></code></a>
 </dt>
+
 <dd>
 <p>Find <em>lookup-path</em> in <em>search-path</em>.</p>
 <p><a href="../language/constructs/lookup-path.html">Lookup path</a> expressions are <a href="https://en.wikipedia.org/wiki/Syntactic_sugar">desugared</a> using this and <a href="#builtins-nixPath"><code>builtins.nixPath</code></a>:</p>
@@ -1145,7 +1221,7 @@ the entire corresponding subtree of <em>e2</em> is excluded.</p>
 <p>The lookup algorithm checks each entry until a match is found, returning a <a href="../language/types.html#type-path">path value</a> of the match:</p>
 <ul>
 <li>
-<p>If a prefix of <code>lookup-path</code> matches <code>prefix</code>, then the remainder of <em>lookup-path</em> (the "suffix") is searched for within the directory denoted by <code>path</code>.
+<p>If a prefix of <code>lookup-path</code> matches <code>prefix</code>, then the remainder of <em>lookup-path</em> (the “suffix”) is searched for within the directory denoted by <code>path</code>.
 The contents of <code>path</code> may need to be downloaded at this point to look inside.</p>
 </li>
 <li>
@@ -1212,9 +1288,11 @@ See <a href="../command-ref/nix-channel.html">documentation on <code>nix-channel
 <p>makes <code>&lt;nixpkgs&gt;</code> refer to a particular branch of the <code>NixOS/nixpkgs</code> repository on GitHub.</p>
 </blockquote>
 </dd>
+
 <dt id="builtins-flakeRefToString">
   <a href="#builtins-flakeRefToString"><code>flakeRefToString <var>attrs</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -1233,9 +1311,11 @@ See <a href="../command-ref/nix-channel.html">documentation on <code>nix-channel
 <pre><code class="language-nix">"github:NixOS/nixpkgs/23.05?dir=lib"
 </code></pre>
 </dd>
+
 <dt id="builtins-floor">
   <a href="#builtins-floor"><code>floor <var>number</var></code></a>
 </dt>
+
 <dd>
 <p>Rounds and converts <em>number</em> to the next lower NixInt value if possible, i.e. <code>floor *number* &lt;= *number*</code> and
 <code>*number* - floor *number* &lt; 1</code>.</p>
@@ -1245,9 +1325,11 @@ a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &
 <p>If the datatype of <em>number</em> is neither a NixInt (signed 64-bit integer) nor a NixFloat
 (IEEE-754 double-precision floating-point number), an evaluation error will be thrown.</p>
 </dd>
-<dt id="builtins-foldl'">
-  <a href="#builtins-foldl'"><code>foldl' <var>op</var> <var>nul</var> <var>list</var></code></a>
+
+<dt id="builtins-foldl&#39;">
+  <a href="#builtins-foldl&#39;"><code>foldl' <var>op</var> <var>nul</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Reduce a list by applying a binary operator, from left to right,
 e.g. <code>foldl' op nul [x0 x1 x2 ...] = op (op (op nul x0) x1) x2) ...</code>.</p>
@@ -1258,18 +1340,22 @@ argument is the current element being processed. The return value
 of each application of <code>op</code> is evaluated immediately, even for
 intermediate values.</p>
 </dd>
+
 <dt id="builtins-fromJSON">
   <a href="#builtins-fromJSON"><code>fromJSON <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Convert a JSON string to a Nix value. For example,</p>
 <pre><code class="language-nix">builtins.fromJSON ''{"x": [1, 2, 3], "y": null}''
 </code></pre>
 <p>returns the value <code>{ x = [ 1 2 3 ]; y = null; }</code>.</p>
 </dd>
+
 <dt id="builtins-fromTOML">
   <a href="#builtins-fromTOML"><code>fromTOML <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Convert a TOML string to a Nix value. For example,</p>
 <pre><code class="language-nix">builtins.fromTOML ''
@@ -1281,20 +1367,24 @@ intermediate values.</p>
 </code></pre>
 <p>returns the value <code>{ s = "a"; table = { y = 2; }; x = 1; }</code>.</p>
 </dd>
+
 <dt id="builtins-functionArgs">
   <a href="#builtins-functionArgs"><code>functionArgs <var>f</var></code></a>
 </dt>
+
 <dd>
 <p>Return a set containing the names of the formal arguments expected
 by the function <em>f</em>. The value of each attribute is a Boolean
 denoting whether the corresponding argument has a default value. For
 instance, <code>functionArgs ({ x, y ? 123}: ...) = { x = false; y = true; }</code>.</p>
-<p>"Formal argument" here refers to the attributes pattern-matched by
+<p>“Formal argument” here refers to the attributes pattern-matched by
 the function. Plain lambdas are not included, e.g. <code>functionArgs (x: ...) = { }</code>.</p>
 </dd>
+
 <dt id="builtins-genList">
   <a href="#builtins-genList"><code>genList <var>generator</var> <var>length</var></code></a>
 </dt>
+
 <dd>
 <p>Generate list of size <em>length</em>, with each element <em>i</em> equal to the
 value returned by <em>generator</em> <code>i</code>. For example,</p>
@@ -1302,9 +1392,11 @@ value returned by <em>generator</em> <code>i</code>. For example,</p>
 </code></pre>
 <p>returns the list <code>[ 0 1 4 9 16 ]</code>.</p>
 </dd>
+
 <dt id="builtins-genericClosure">
   <a href="#builtins-genericClosure"><code>genericClosure <var>attrset</var></code></a>
 </dt>
+
 <dd>
 <p><code>builtins.genericClosure</code> iteratively computes the transitive closure over an arbitrary relation defined by a function.</p>
 <p>It takes <em>attrset</em> with two attributes named <code>startSet</code> and <code>operator</code>, and returns a list of attribute sets:</p>
@@ -1353,18 +1445,22 @@ Items are compared by their <code>key</code> attribute.</p>
 </code></pre>
 </blockquote>
 </dd>
+
 <dt id="builtins-getAttr">
   <a href="#builtins-getAttr"><code>getAttr <var>s</var> <var>set</var></code></a>
 </dt>
+
 <dd>
 <p><code>getAttr</code> returns the attribute named <em>s</em> from <em>set</em>. Evaluation
 aborts if the attribute doesn’t exist. This is a dynamic version of
 the <code>.</code> operator, since <em>s</em> is an expression rather than an
 identifier.</p>
 </dd>
+
 <dt id="builtins-getContext">
   <a href="#builtins-getContext"><code>getContext <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Return the string context of <em>s</em>.</p>
 <p>The string context tracks references to derivations within a string.
@@ -1377,9 +1473,11 @@ For example,</p>
 <pre><code>{ "/nix/store/arhvjaf6zmlyn8vh8fgn55rpwnxq0n7l-a.drv" = { outputs = [ "out" ]; }; }
 </code></pre>
 </dd>
+
 <dt id="builtins-getEnv">
   <a href="#builtins-getEnv"><code>getEnv <var>s</var></code></a>
 </dt>
+
 <dd>
 <p><code>getEnv</code> returns the value of the environment variable <em>s</em>, or an
 empty string if the variable doesn’t exist. This function should be
@@ -1390,9 +1488,11 @@ dependencies in your Nix expression.</p>
 Packages. (That is, it does a <code>getEnv "HOME"</code> to locate the user’s
 home directory.)</p>
 </dd>
+
 <dt id="builtins-getFlake">
   <a href="#builtins-getFlake"><code>getFlake <var>args</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -1405,14 +1505,16 @@ home directory.)</p>
 <pre><code class="language-nix">(builtins.getFlake "nix/55bc52401966fbffa525c574c14f67b00bc4fb3a").packages.x86_64-linux.nix
 </code></pre>
 <p>Unless impure evaluation is allowed (<code>--impure</code>), the flake reference
-must be "locked", e.g. contain a Git revision or content hash. An
+must be “locked”, e.g. contain a Git revision or content hash. An
 example of an unlocked usage is:</p>
 <pre><code class="language-nix">(builtins.getFlake "github:edolstra/dwarffs").rev
 </code></pre>
 </dd>
+
 <dt id="builtins-groupBy">
   <a href="#builtins-groupBy"><code>groupBy <var>f</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Groups elements of <em>list</em> together by the string returned from the
 function <em>f</em> called on each element. It returns an attribute set
@@ -1425,24 +1527,28 @@ mapped to the same corresponding attribute name returned by <em>f</em>.</p>
 <pre><code class="language-nix">{ b = [ "bar" "baz" ]; f = [ "foo" ]; }
 </code></pre>
 </dd>
+
 <dt id="builtins-hasAttr">
   <a href="#builtins-hasAttr"><code>hasAttr <var>s</var> <var>set</var></code></a>
 </dt>
+
 <dd>
 <p><code>hasAttr</code> returns <code>true</code> if <em>set</em> has an attribute named <em>s</em>, and
 <code>false</code> otherwise. This is a dynamic version of the <code>?</code> operator,
 since <em>s</em> is an expression rather than an identifier.</p>
 </dd>
+
 <dt id="builtins-hasContext">
   <a href="#builtins-hasContext"><code>hasContext <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if string <em>s</em> has a non-empty context.
 The context can be obtained with
 <a href="#builtins-getContext"><code>getContext</code></a>.</p>
 <blockquote>
 <p><strong>Example</strong></p>
-<p>Many operations require a string context to be empty because they are intended only to work with "regular" strings, and also to help users avoid unintentionally loosing track of string context elements.
+<p>Many operations require a string context to be empty because they are intended only to work with “regular” strings, and also to help users avoid unintentionally loosing track of string context elements.
 <code>builtins.hasContext</code> can help create better domain-specific errors in those case.</p>
 <pre><code class="language-nix">name: meta:
 
@@ -1452,33 +1558,41 @@ else { ${name} = meta; }
 </code></pre>
 </blockquote>
 </dd>
+
 <dt id="builtins-hashFile">
   <a href="#builtins-hashFile"><code>hashFile <var>type</var> <var>p</var></code></a>
 </dt>
+
 <dd>
 <p>Return a base-16 representation of the cryptographic hash of the
 file at path <em>p</em>. The hash algorithm specified by <em>type</em> must be one
 of <code>"md5"</code>, <code>"sha1"</code>, <code>"sha256"</code> or <code>"sha512"</code>.</p>
 </dd>
+
 <dt id="builtins-hashString">
   <a href="#builtins-hashString"><code>hashString <var>type</var> <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Return a base-16 representation of the cryptographic hash of string
 <em>s</em>. The hash algorithm specified by <em>type</em> must be one of <code>"md5"</code>,
 <code>"sha1"</code>, <code>"sha256"</code> or <code>"sha512"</code>.</p>
 </dd>
+
 <dt id="builtins-head">
   <a href="#builtins-head"><code>head <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return the first element of a list; abort evaluation if the argument
 isn’t a list or is an empty list. You can test whether a list is
 empty by comparing it with <code>[]</code>.</p>
 </dd>
+
 <dt id="builtins-import">
   <a href="#builtins-import"><code>import <var>path</var></code></a>
 </dt>
+
 <dd>
 <p>Load, parse, and return the Nix expression in the file <em>path</em>.</p>
 <blockquote>
@@ -1526,92 +1640,120 @@ x: x + 456
 <p>The function argument doesn’t have to be called <code>x</code> in <code>foo.nix</code>; any name would work.</p>
 </blockquote>
 </dd>
+
 <dt id="builtins-intersectAttrs">
   <a href="#builtins-intersectAttrs"><code>intersectAttrs <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return a set consisting of the attributes in the set <em>e2</em> which have the
 same name as some attribute in <em>e1</em>.</p>
-<p>Performs in O(<em>n</em> log <em>m</em>) where <em>n</em> is the size of the smaller set and <em>m</em> the larger set's size.</p>
+<p>Performs in O(<em>n</em> log <em>m</em>) where <em>n</em> is the size of the smaller set and <em>m</em> the larger set’s size.</p>
 </dd>
+
 <dt id="builtins-isAttrs">
   <a href="#builtins-isAttrs"><code>isAttrs <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a set, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isBool">
   <a href="#builtins-isBool"><code>isBool <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a bool, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isFloat">
   <a href="#builtins-isFloat"><code>isFloat <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a float, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isFunction">
   <a href="#builtins-isFunction"><code>isFunction <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a function, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isInt">
   <a href="#builtins-isInt"><code>isInt <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to an integer, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isList">
   <a href="#builtins-isList"><code>isList <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a list, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isNull">
   <a href="#builtins-isNull"><code>isNull <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to <code>null</code>, and <code>false</code> otherwise.</p>
 <p>This is equivalent to <code>e == null</code>.</p>
 </dd>
+
 <dt id="builtins-isPath">
   <a href="#builtins-isPath"><code>isPath <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a path, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-isString">
   <a href="#builtins-isString"><code>isString <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if <em>e</em> evaluates to a string, and <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-langVersion">
   <a href="#builtins-langVersion"><code>langVersion</code></a> (integer)
 </dt>
+
 <dd>
 <p>The current version of the Nix language.</p>
 </dd>
+
 <dt id="builtins-length">
   <a href="#builtins-length"><code>length <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return the length of the list <em>e</em>.</p>
 </dd>
+
 <dt id="builtins-lessThan">
   <a href="#builtins-lessThan"><code>lessThan <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if the value <em>e1</em> is less than the value <em>e2</em>, and <code>false</code> otherwise.
 Evaluation aborts if either <em>e1</em> or <em>e2</em> does not evaluate to a number, string or path.
-Furthermore, it aborts if <em>e2</em> does not match <em>e1</em>'s type according to the aforementioned classification of number, string or path.</p>
+Furthermore, it aborts if <em>e2</em> does not match <em>e1</em>’s type according to the aforementioned classification of number, string or path.</p>
 </dd>
+
 <dt id="builtins-listToAttrs">
   <a href="#builtins-listToAttrs"><code>listToAttrs <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Construct a set from a list specifying the names and values of each
 attribute. Each element of the list should be a set consisting of a
@@ -1630,9 +1772,11 @@ takes precedence.</p>
 <pre><code class="language-nix">{ foo = 123; bar = 456; }
 </code></pre>
 </dd>
+
 <dt id="builtins-map">
   <a href="#builtins-map"><code>map <var>f</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Apply the function <em>f</em> to each element in the list <em>list</em>. For
 example,</p>
@@ -1640,18 +1784,22 @@ example,</p>
 </code></pre>
 <p>evaluates to <code>[ "foobar" "foobla" "fooabc" ]</code>.</p>
 </dd>
+
 <dt id="builtins-mapAttrs">
   <a href="#builtins-mapAttrs"><code>mapAttrs <var>f</var> <var>attrset</var></code></a>
 </dt>
+
 <dd>
 <p>Apply function <em>f</em> to every element of <em>attrset</em>. For example,</p>
 <pre><code class="language-nix">builtins.mapAttrs (name: value: value * 10) { a = 1; b = 2; }
 </code></pre>
 <p>evaluates to <code>{ a = 10; b = 20; }</code>.</p>
 </dd>
+
 <dt id="builtins-match">
   <a href="#builtins-match"><code>match <var>regex</var> <var>str</var></code></a>
 </dt>
+
 <dd>
 <p>Returns a list if the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">extended POSIX regular
 expression</a>
@@ -1670,15 +1818,19 @@ in the list is a regex group.</p>
 </code></pre>
 <p>Evaluates to <code>[ "FOO" ]</code>.</p>
 </dd>
+
 <dt id="builtins-mul">
   <a href="#builtins-mul"><code>mul <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the product of the numbers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-nixPath">
   <a href="#builtins-nixPath"><code>nixPath</code></a> (list)
 </dt>
+
 <dd>
 <p>A list of search path entries used to resolve <a href="../language/constructs/lookup-path.html">lookup paths</a>.
 Its value is primarily determined by the <a href="../command-ref/conf-file.html#conf-nix-path"><code>nix-path</code> configuration setting</a>, which are</p>
@@ -1700,9 +1852,11 @@ Its value is primarily determined by the <a href="../command-ref/conf-file.html#
 <pre><code class="language-nix">builtins.findFile builtins.nixPath "nixpkgs"
 </code></pre>
 </dd>
+
 <dt id="builtins-nixVersion">
   <a href="#builtins-nixVersion"><code>nixVersion</code></a> (string)
 </dt>
+
 <dd>
 <p>The version of Nix.</p>
 <p>For example, where the command line returns the current Nix version,</p>
@@ -1714,9 +1868,11 @@ nix (Nix) 2.16.0
 "2.16.0"
 </code></pre>
 </dd>
+
 <dt id="builtins-null">
   <a href="#builtins-null"><code>null</code></a> (null)
 </dt>
+
 <dd>
 <p>Primitive value.</p>
 <p>The name <code>null</code> is not special, and can be shadowed:</p>
@@ -1724,9 +1880,11 @@ nix (Nix) 2.16.0
 1
 </code></pre>
 </dd>
+
 <dt id="builtins-outputOf">
   <a href="#builtins-outputOf"><code>outputOf <var>derivation-reference</var> <var>output-name</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -1751,9 +1909,11 @@ For instance,</p>
 <p>returns an input placeholder for the output of the output of <code>myDrv</code>.</p>
 <p>This primop corresponds to the <code>^</code> sigil for <a href="../glossary.html#gloss-deriving-paths">deriving paths</a>, e.g. as part of installable syntax on the command line.</p>
 </dd>
+
 <dt id="builtins-parseDrvName">
   <a href="#builtins-parseDrvName"><code>parseDrvName <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Split the string <em>s</em> into a package name and version. The package
 name is everything up to but not including the first dash not followed
@@ -1761,9 +1921,11 @@ by a letter, and the version is everything following that dash. The
 result is returned in a set <code>{ name, version }</code>. Thus,
 <code>builtins.parseDrvName "nix-0.12pre12876"</code> returns <code>{ name = "nix"; version = "0.12pre12876"; }</code>.</p>
 </dd>
+
 <dt id="builtins-parseFlakeRef">
   <a href="#builtins-parseFlakeRef"><code>parseFlakeRef <var>flake-ref</var></code></a>
 </dt>
+
 <dd>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -1780,9 +1942,11 @@ result is returned in a set <code>{ name, version }</code>. Thus,
 <pre><code class="language-nix">{ dir = "lib"; owner = "NixOS"; ref = "23.05"; repo = "nixpkgs"; type = "github"; }
 </code></pre>
 </dd>
+
 <dt id="builtins-partition">
   <a href="#builtins-partition"><code>partition <var>pred</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Given a predicate function <em>pred</em>, this function returns an
 attrset containing a list named <code>right</code>, containing the elements
@@ -1795,55 +1959,56 @@ in <em>list</em> for which <em>pred</em> returned <code>true</code>, and a list 
 <pre><code class="language-nix">{ right = [ 23 42 ]; wrong = [ 1 9 3 ]; }
 </code></pre>
 </dd>
+
 <dt id="builtins-path">
   <a href="#builtins-path"><code>path <var>args</var></code></a>
 </dt>
+
 <dd>
 <p>An enrichment of the built-in path type, based on the attributes
 present in <em>args</em>. All are optional except <code>path</code>:</p>
 <ul>
 <li>
-<p>path<br />
-The underlying path.</p>
+<p>path<br>The underlying path.</p>
 </li>
 <li>
-<p>name<br />
-The name of the path when added to the store. This can used to
+<p>name<br>The name of the path when added to the store. This can used to
 reference paths that have nix-illegal characters in their names,
 like <code>@</code>.</p>
 </li>
 <li>
-<p>filter<br />
-A function of the type expected by <a href="#builtins-filterSource"><code>builtins.filterSource</code></a>,
+<p>filter<br>A function of the type expected by <a href="#builtins-filterSource"><code>builtins.filterSource</code></a>,
 with the same semantics.</p>
 </li>
 <li>
-<p>recursive<br />
-When <code>false</code>, when <code>path</code> is added to the store it is with a
+<p>recursive<br>When <code>false</code>, when <code>path</code> is added to the store it is with a
 flat hash, rather than a hash of the NAR serialization of the
 file. Thus, <code>path</code> must refer to a regular file, not a
 directory. This allows similar behavior to <code>fetchurl</code>. Defaults
 to <code>true</code>.</p>
 </li>
 <li>
-<p>sha256<br />
-When provided, this is the expected hash of the file at the
+<p>sha256<br>When provided, this is the expected hash of the file at the
 path. Evaluation fails if the hash is incorrect, and
 providing a hash allows <code>builtins.path</code> to be used even when the
 <code>pure-eval</code> nix config option is on.</p>
 </li>
 </ul>
 </dd>
+
 <dt id="builtins-pathExists">
   <a href="#builtins-pathExists"><code>pathExists <var>path</var></code></a>
 </dt>
+
 <dd>
 <p>Return <code>true</code> if the path <em>path</em> exists at evaluation time, and
 <code>false</code> otherwise.</p>
 </dd>
+
 <dt id="builtins-placeholder">
   <a href="#builtins-placeholder"><code>placeholder <var>output</var></code></a>
 </dt>
+
 <dd>
 <p>Return an
 <a href="../store/derivation/index.html#output-placeholder">output placeholder string</a>
@@ -1852,9 +2017,11 @@ for the specified <em>output</em> that will be substituted by the corresponding
 at build time.</p>
 <p>Typical outputs would be <code>"out"</code>, <code>"bin"</code> or <code>"dev"</code>.</p>
 </dd>
+
 <dt id="builtins-readDir">
   <a href="#builtins-readDir"><code>readDir <var>path</var></code></a>
 </dt>
+
 <dd>
 <p>Return the contents of the directory <em>path</em> as a set mapping
 directory entries to the corresponding file type. For instance, if
@@ -1865,22 +2032,28 @@ directory <code>A</code> contains a regular file <code>B</code> and another dire
 <p>The possible values for the file type are <code>"regular"</code>,
 <code>"directory"</code>, <code>"symlink"</code> and <code>"unknown"</code>.</p>
 </dd>
+
 <dt id="builtins-readFile">
   <a href="#builtins-readFile"><code>readFile <var>path</var></code></a>
 </dt>
+
 <dd>
 <p>Return the contents of the file <em>path</em> as a string.</p>
 </dd>
+
 <dt id="builtins-readFileType">
   <a href="#builtins-readFileType"><code>readFileType <var>p</var></code></a>
 </dt>
+
 <dd>
 <p>Determine the directory entry type of a filesystem node, being
 one of <code>"directory"</code>, <code>"regular"</code>, <code>"symlink"</code>, or <code>"unknown"</code>.</p>
 </dd>
+
 <dt id="builtins-removeAttrs">
   <a href="#builtins-removeAttrs"><code>removeAttrs <var>set</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Remove the attributes listed in <em>list</em> from <em>set</em>. The attributes
 don’t have to exist in <em>set</em>. For instance,</p>
@@ -1888,9 +2061,11 @@ don’t have to exist in <em>set</em>. For instance,</p>
 </code></pre>
 <p>evaluates to <code>{ y = 2; }</code>.</p>
 </dd>
+
 <dt id="builtins-replaceStrings">
   <a href="#builtins-replaceStrings"><code>replaceStrings <var>from</var> <var>to</var> <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Given string <em>s</em>, replace every occurrence of the strings in <em>from</em>
 with the corresponding string in <em>to</em>.</p>
@@ -1900,16 +2075,20 @@ with the corresponding string in <em>to</em>.</p>
 </code></pre>
 <p>evaluates to <code>"fabir"</code>.</p>
 </dd>
+
 <dt id="builtins-seq">
   <a href="#builtins-seq"><code>seq <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Evaluate <em>e1</em>, then evaluate and return <em>e2</em>. This ensures that a
 computation is strict in the value of <em>e1</em>.</p>
 </dd>
+
 <dt id="builtins-sort">
   <a href="#builtins-sort"><code>sort <var>comparator</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return <em>list</em> in sorted order. It repeatedly calls the function
 <em>comparator</em> with two elements. The comparator should return <code>true</code>
@@ -1942,9 +2121,11 @@ equiv a b &amp;&amp; equiv b c -&gt; equiv a c
 <p>If the <em>comparator</em> violates any of these properties, then <code>builtins.sort</code>
 reorders elements in an unspecified manner.</p>
 </dd>
+
 <dt id="builtins-split">
   <a href="#builtins-split"><code>split <var>regex</var> <var>str</var></code></a>
 </dt>
+
 <dd>
 <p>Returns a list composed of non matched strings interleaved with the
 lists of the <a href="http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1_chap09.html#tag_09_04">extended POSIX regular
@@ -1964,17 +2145,21 @@ sequences is a regex group.</p>
 </code></pre>
 <p>Evaluates to <code>[ " " [ "FOO" ] " " ]</code>.</p>
 </dd>
+
 <dt id="builtins-splitVersion">
   <a href="#builtins-splitVersion"><code>splitVersion <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Split a string representing a version into its components, by the
 same version splitting logic underlying the version comparison in
 <a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
 </dd>
+
 <dt id="builtins-storeDir">
   <a href="#builtins-storeDir"><code>storeDir</code></a> (string)
 </dt>
+
 <dd>
 <p>Logical file system location of the <a href="../glossary.html#gloss-store">Nix store</a> currently in use.</p>
 <p>This value is determined by the <code>store</code> parameter in <a href="../store/types/index.html#store-url-format">Store URLs</a>:</p>
@@ -1982,9 +2167,11 @@ same version splitting logic underlying the version comparison in
 "/blah"
 </code></pre>
 </dd>
+
 <dt id="builtins-storePath">
   <a href="#builtins-storePath"><code>storePath <var>path</var></code></a>
 </dt>
+
 <dd>
 <p>This function allows you to define a dependency on an already
 existing store path. For example, the derivation attribute <code>src = builtins.storePath /nix/store/f1d18v1y…-source</code> causes the
@@ -1996,22 +2183,28 @@ in a new path (e.g. <code>/nix/store/ld01dnzc…-source-source</code>).</p>
 <p>Not available in <a href="../command-ref/conf-file.html#conf-pure-eval">pure evaluation mode</a>.</p>
 <p>See also <a href="#builtins-fetchClosure"><code>builtins.fetchClosure</code></a>.</p>
 </dd>
+
 <dt id="builtins-stringLength">
   <a href="#builtins-stringLength"><code>stringLength <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return the number of bytes of the string <em>e</em>. If <em>e</em> is not a string,
 evaluation is aborted.</p>
 </dd>
+
 <dt id="builtins-sub">
   <a href="#builtins-sub"><code>sub <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Return the difference between the numbers <em>e1</em> and <em>e2</em>.</p>
 </dd>
+
 <dt id="builtins-substring">
   <a href="#builtins-substring"><code>substring <var>start</var> <var>len</var> <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Return the substring of <em>s</em> from byte position <em>start</em>
 (zero-based) up to but not including <em>start + len</em>. If <em>start</em> is
@@ -2024,22 +2217,26 @@ For example,</p>
 </code></pre>
 <p>evaluates to <code>"nix"</code>.</p>
 </dd>
+
 <dt id="builtins-tail">
   <a href="#builtins-tail"><code>tail <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Return the list without its first item; abort evaluation if
 the argument isn’t a list or is an empty list.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
-<p>This function should generally be avoided since it's inefficient:
-unlike Haskell's <code>tail</code>, it takes O(n) time, so recursing over a
+<p>This function should generally be avoided since it’s inefficient:
+unlike Haskell’s <code>tail</code>, it takes O(n) time, so recursing over a
 list by repeatedly calling <code>tail</code> takes O(n^2) time.</p>
 </blockquote>
 </dd>
+
 <dt id="builtins-throw">
   <a href="#builtins-throw"><code>throw <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Throw an error message <em>s</em>. This usually aborts Nix expression
 evaluation, but in <code>nix-env -qa</code> and other commands that try to
@@ -2047,9 +2244,11 @@ evaluate a set of derivations to get information about those
 derivations, a derivation that throws an error is silently skipped
 (which is not the case for <code>abort</code>).</p>
 </dd>
+
 <dt id="builtins-toFile">
   <a href="#builtins-toFile"><code>toFile <var>name</var> <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Store the string <em>s</em> in a file in the Nix store and return its
 path.  The file has suffix <em>name</em>. This file can be used as an
@@ -2110,9 +2309,11 @@ the computation of the cryptographic hashes for <code>foo</code> and <code>bar</
 you are using Nixpkgs, the <code>writeTextFile</code> function is able to do
 that.</p>
 </dd>
+
 <dt id="builtins-toJSON">
   <a href="#builtins-toJSON"><code>toJSON <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return a string containing a JSON representation of <em>e</em>. Strings,
 integers, floats, booleans, nulls and lists are mapped to their JSON
@@ -2121,16 +2322,20 @@ Derivations are translated to a JSON string containing the
 derivation’s output path. Paths are copied to the store and
 represented as a JSON string of the resulting store path.</p>
 </dd>
+
 <dt id="builtins-toPath">
   <a href="#builtins-toPath"><code>toPath <var>s</var></code></a>
 </dt>
+
 <dd>
 <p><strong>DEPRECATED.</strong> Use <code>/. + "/path"</code> to convert a string into an absolute
 path. For relative paths, use <code>./. + "/path"</code>.</p>
 </dd>
+
 <dt id="builtins-toString">
   <a href="#builtins-toString"><code>toString <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Convert the expression <em>e</em> to a string. <em>e</em> can be:</p>
 <ul>
@@ -2158,9 +2363,11 @@ are joined with spaces.</p>
 </li>
 </ul>
 </dd>
+
 <dt id="builtins-toXML">
   <a href="#builtins-toXML"><code>toXML <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return a string containing an XML representation of <em>e</em>. The main
 application for <code>toXML</code> is to communicate information with the
@@ -2244,9 +2451,11 @@ produced at point ③ by <code>toXML</code> is as follows:</p>
 the stylesheet “inline” in the Nix expression. The path of the
 stylesheet is spliced into the builder using the syntax <code>xsltproc ${stylesheet}</code>.</p>
 </dd>
+
 <dt id="builtins-trace">
   <a href="#builtins-trace"><code>trace <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Evaluate <em>e1</em> and print its abstract syntax representation on
 standard error. Then return <em>e2</em>. This function is useful for
@@ -2257,17 +2466,21 @@ option is set to <code>true</code> and the <code>--debugger</code> flag is given
 interactive debugger is started when <code>trace</code> is called (like
 <a href="../language/builtins.html#builtins-break"><code>break</code></a>).</p>
 </dd>
+
 <dt id="builtins-traceVerbose">
   <a href="#builtins-traceVerbose"><code>traceVerbose <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Evaluate <em>e1</em> and print its abstract syntax representation on standard
 error if <code>--trace-verbose</code> is enabled. Then return <em>e2</em>. This function
 is useful for debugging.</p>
 </dd>
+
 <dt id="builtins-true">
   <a href="#builtins-true"><code>true</code></a> (Boolean)
 </dt>
+
 <dd>
 <p>Primitive value.</p>
 <p>It can be returned by
@@ -2279,35 +2492,41 @@ and used in
 1
 </code></pre>
 </dd>
+
 <dt id="builtins-tryEval">
   <a href="#builtins-tryEval"><code>tryEval <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Try to shallowly evaluate <em>e</em>. Return a set containing the
 attributes <code>success</code> (<code>true</code> if <em>e</em> evaluated successfully,
 <code>false</code> if an error was thrown) and <code>value</code>, equalling <em>e</em> if
 successful and <code>false</code> otherwise. <code>tryEval</code> only prevents
 errors created by <code>throw</code> or <code>assert</code> from being thrown.
-Errors <code>tryEval</code> doesn't catch are, for example, those created
+Errors <code>tryEval</code> doesn’t catch are, for example, those created
 by <code>abort</code> and type errors generated by builtins. Also note that
-this doesn't evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in (builtins.tryEval e).success</code> is <code>true</code>. Using
+this doesn’t evaluate <em>e</em> deeply, so <code>let e = { x = throw ""; }; in (builtins.tryEval e).success</code> is <code>true</code>. Using
 <code>builtins.deepSeq</code> one can get the expected result:
 <code>let e = { x = throw ""; }; in (builtins.tryEval (builtins.deepSeq e e)).success</code> is
 <code>false</code>.</p>
 <p><code>tryEval</code> intentionally does not return the error message, because that risks bringing non-determinism into the evaluation result, and it would become very difficult to improve error reporting without breaking existing expressions.
 Instead, use <a href="../language/builtins.html#builtins-addErrorContext"><code>builtins.addErrorContext</code></a> to add context to the error message, and use a Nix unit testing tool for testing.</p>
 </dd>
+
 <dt id="builtins-typeOf">
   <a href="#builtins-typeOf"><code>typeOf <var>e</var></code></a>
 </dt>
+
 <dd>
 <p>Return a string representing the type of the value <em>e</em>, namely
 <code>"int"</code>, <code>"bool"</code>, <code>"string"</code>, <code>"path"</code>, <code>"null"</code>, <code>"set"</code>,
 <code>"list"</code>, <code>"lambda"</code> or <code>"float"</code>.</p>
 </dd>
+
 <dt id="builtins-unsafeDiscardOutputDependency">
   <a href="#builtins-unsafeDiscardOutputDependency"><code>unsafeDiscardOutputDependency <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Create a copy of the given string where every
 <a href="../language/string-context.html#string-context-element-derivation-deep">derivation deep</a>
@@ -2315,29 +2534,35 @@ string context element is turned into a
 <a href="../language/string-context.html#string-context-element-constant">constant</a>
 string context element.</p>
 <p>This is the opposite of <a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a>.</p>
-<p>This is unsafe because it allows us to "forget" store objects we would have otherwise referred to with the string context,
+<p>This is unsafe because it allows us to “forget” store objects we would have otherwise referred to with the string context,
 whereas Nix normally tracks all dependencies consistently.
-Safe operations "grow" but never "shrink" string contexts.
-<a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a> in contrast is safe because "derivation deep" string context element always refers to the underlying derivation (among many more things).
-Replacing a constant string context element with a "derivation deep" element is a safe operation that just enlargens the string context without forgetting anything.</p>
+Safe operations “grow” but never “shrink” string contexts.
+<a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a> in contrast is safe because “derivation deep” string context element always refers to the underlying derivation (among many more things).
+Replacing a constant string context element with a “derivation deep” element is a safe operation that just enlargens the string context without forgetting anything.</p>
 </dd>
+
 <dt id="builtins-unsafeDiscardStringContext">
   <a href="#builtins-unsafeDiscardStringContext"><code>unsafeDiscardStringContext <var>s</var></code></a>
 </dt>
+
 <dd>
 <p>Discard the <a href="../language/string-context.html">string context</a> from a value that can be coerced to a string.</p>
 </dd>
+
 <dt id="builtins-unsafeGetAttrPos">
   <a href="#builtins-unsafeGetAttrPos"><code>unsafeGetAttrPos <var>s</var> <var>set</var></code></a>
 </dt>
+
 <dd>
 <p><code>unsafeGetAttrPos</code> returns the position of the attribute named <em>s</em>
 from <em>set</em>. This is used by Nixpkgs to provide location information
 in error messages.</p>
 </dd>
+
 <dt id="builtins-warn">
   <a href="#builtins-warn"><code>warn <var>e1</var> <var>e2</var></code></a>
 </dt>
+
 <dd>
 <p>Evaluate <em>e1</em>, which must be a string, and print it on standard error as a warning.
 Then return <em>e2</em>.
@@ -2353,9 +2578,11 @@ interactive debugger will be started when <code>warn</code> is called (like
 option is set, the evaluation is aborted after the warning is printed.
 This is useful to reveal the stack trace of the warning, when the context is non-interactive and a debugger can not be launched.</p>
 </dd>
+
 <dt id="builtins-zipAttrsWith">
   <a href="#builtins-zipAttrsWith"><code>zipAttrsWith <var>f</var> <var>list</var></code></a>
 </dt>
+
 <dd>
 <p>Transpose a list of attribute sets into an attribute set of lists,
 then apply <code>mapAttrs</code>.</p>
@@ -2375,18 +2602,20 @@ values are the return values of <code>f</code>.</p>
 }
 </code></pre>
 </dd>
+
 </dl>
+
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../language/operators.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
                             <a rel="next prefetch" href="../language/derivations.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -2396,16 +2625,21 @@ values are the return values of <code>f</code>.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../language/operators.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="../language/derivations.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -2414,16 +2648,16 @@ values are the return values of <code>f</code>.</p>
         </script>
 
 
-        <script src="../elasticlunr.min.js"></script>
-        <script src="../mark.min.js"></script>
-        <script src="../searcher.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="../clipboard.min.js"></script>
-        <script src="../highlight.js"></script>
-        <script src="../book.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-862e895d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects.js"></script>
+        <script src="../redirects-4afb32ee.js"></script>
 
 
 

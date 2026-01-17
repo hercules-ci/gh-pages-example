@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix.conf - Nix 2.31.2+1 Reference Manual</title>
+        <title>nix.conf - Nix 2.31.2+2 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -12,24 +12,23 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" id="highlight-css" href="../highlight.css">
-        <link rel="stylesheet" id="tomorrow-night-css" href="../tomorrow-night.css">
-        <link rel="stylesheet" id="ayu-highlight-css" href="../ayu-highlight.css">
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
 
         <!-- Custom theme stylesheets -->
-        <link rel="stylesheet" href="../custom.css">
+        <link rel="stylesheet" href="../custom-80d08c7f.css">
 
 
         <!-- Provide site root and default themes to javascript -->
@@ -37,10 +36,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex.js";
+            window.path_to_searchindex_js = "../searchindex-1b44a9cb.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
+        <script src="../toc-711a10f4.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -54,7 +53,7 @@
             </div>
         </div>
     </div>
-    <div id="body-container">
+    <div id="mdbook-body-container">
         <!-- Work around some values being stored in localStorage wrapped in quotes -->
         <script>
             try {
@@ -83,12 +82,12 @@
             html.classList.add("js");
         </script>
 
-        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
 
         <!-- Hide / unhide sidebar before it is displayed -->
         <script>
             let sidebar = null;
-            const sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
             if (document.body.clientWidth >= 1080) {
                 try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
                 sidebar = sidebar || 'visible';
@@ -103,84 +102,84 @@
             }
         </script>
 
-        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
                 <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
             </noscript>
-            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
             </div>
         </nav>
 
-        <div id="page-wrapper" class="page-wrapper">
+        <div id="mdbook-page-wrapper" class="page-wrapper">
 
             <div class="page">
-                <div id="menu-bar-hover-placeholder"></div>
-                <div id="menu-bar" class="menu-bar sticky">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
                     <div class="left-buttons">
-                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
-                            <i class="fa fa-bars"></i>
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
                         </label>
-                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
-                            <i class="fa fa-paint-brush"></i>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
                         </button>
-                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
-                            <li role="none"><button role="menuitem" class="theme" id="default_theme">Auto</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
-                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
                         </ul>
-                        <button id="search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="searchbar">
-                            <i class="fa fa-search"></i>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.2+1 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.2+2 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
-                            <i id="print-button" class="fa fa-print"></i>
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
                         </a>
                         <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
-                            <i id="git-repository-button" class="fa fa-github"></i>
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
                         </a>
                         <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/command-ref/conf-file.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
-                            <i id="git-edit-button" class="fa fa-edit"></i>
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
                         </a>
 
                     </div>
                 </div>
 
-                <div id="search-wrapper" class="hidden">
-                    <form id="searchbar-outer" class="searchbar-outer">
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
                         <div class="search-wrapper">
-                            <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
                             <div class="spinner-wrapper">
-                                <i class="fa fa-spinner fa-spin"></i>
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
                             </div>
                         </div>
                     </form>
-                    <div id="searchresults-outer" class="searchresults-outer hidden">
-                        <div id="searchresults-header" class="searchresults-header"></div>
-                        <ul id="searchresults">
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
                         </ul>
                     </div>
                 </div>
 
                 <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
                 <script>
-                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
-                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
-                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
                         link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
                     });
                 </script>
 
-                <div id="content" class="content">
+                <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="name"><a class="header" href="#name">Name</a></h1>
 <p><code>nix.conf</code> - Nix configuration file</p>
@@ -274,7 +273,7 @@ other locations requiring token-based authentication.</p>
 <p>Access tokens are specified as a string made up of
 space-separated <code>host=token</code> values.  The specific token
 used is selected by matching the <code>host</code> portion against the
-"host" specification of the input. The <code>host</code> portion may
+“host” specification of the input. The <code>host</code> portion may
 contain a path element which matches against the prefix
 URL for the input. (eg: <code>github.com/org=token</code>). The actual use
 of the <code>token</code> value is determined by the type of resource
@@ -308,7 +307,7 @@ of token is being specified.</p>
 </code></pre>
 <p>This example specifies three tokens, one each for accessing
 github.com, gitlab.mycompany.com, and gitlab.com.</p>
-<p>The <code>input.foo</code> uses the "gitlab" fetcher, which might
+<p>The <code>input.foo</code> uses the “gitlab” fetcher, which might
 requires specifying the token type along with the token
 value.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
@@ -345,7 +344,7 @@ should not be pushed to other users.</p>
 <p>By default, Nix allows <a href="../language/import-from-derivation.html">Import from Derivation</a>.</p>
 <p>With this option set to <code>false</code>, Nix throws an error when evaluating an expression that uses this feature,
 even when the required store object is readily available.
-This ensures that evaluation doesn't require any builds to take place,
+This ensures that evaluation doesn’t require any builds to take place,
 regardless of the state of the store.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
@@ -366,11 +365,11 @@ set up userspace network interfaces in tests).</p>
 <p><span id="conf-allow-symlinked-store"><a href="#conf-allow-symlinked-store"><code>allow-symlinked-store</code></a></span></p>
 <p>If set to <code>true</code>, Nix stops complaining if the store directory
 (typically <code>/nix/store</code>) contains symlink components.</p>
-<p>This risks making some builds "impure" because builders sometimes
-"canonicalise" paths by resolving all symlink components. Problems
+<p>This risks making some builds “impure” because builders sometimes
+“canonicalise” paths by resolving all symlink components. Problems
 occur if those builds are then deployed to machines where /nix/store
 resolves to a different location from that of the build machine. You
-can enable this setting if you are sure you're not going to do that.</p>
+can enable this setting if you are sure you’re not going to do that.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -578,7 +577,7 @@ If there are multiple machines of the right type, Nix prefers the fastest, takin
 </li>
 <li>
 <p>A comma-separated list of supported <a href="#conf-system-features">system features</a>.</p>
-<p>A machine is only used to build a derivation if all the features in the derivation's <a href="../language/advanced-attributes.html#adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a> attribute are supported by that machine.</p>
+<p>A machine is only used to build a derivation if all the features in the derivation’s <a href="../language/advanced-attributes.html#adv-attr-requiredSystemFeatures"><code>requiredSystemFeatures</code></a> attribute are supported by that machine.</p>
 </li>
 <li>
 <p>A comma-separated list of required <a href="#conf-system-features">system features</a>.</p>
@@ -719,21 +718,21 @@ store path just built.</p>
 <p>The diff hook program receives three parameters:</p>
 <ol>
 <li>
-<p>A path to the previous build's results</p>
+<p>A path to the previous build’s results</p>
 </li>
 <li>
-<p>A path to the current build's results</p>
+<p>A path to the current build’s results</p>
 </li>
 <li>
-<p>The path to the build's derivation</p>
+<p>The path to the build’s derivation</p>
 </li>
 <li>
-<p>The path to the build's scratch directory. This directory
+<p>The path to the build’s scratch directory. This directory
 exists only if the build was run with <code>--keep-failed</code>.</p>
 </li>
 </ol>
-<p>The stderr and stdout output from the diff hook isn't
-displayed to the user. Instead, it print to the nix-daemon's log.</p>
+<p>The stderr and stdout output from the diff hook isn’t
+displayed to the user. Instead, it print to the nix-daemon’s log.</p>
 <p>When using the Nix daemon, <code>diff-hook</code> must be set in the <code>nix.conf</code>
 configuration file, and cannot be passed at the command line.</p>
 <p><strong>Default:</strong> ``</p>
@@ -745,7 +744,7 @@ configuration file, and cannot be passed at the command line.</p>
 </li>
 <li>
 <p><span id="conf-download-buffer-size"><a href="#conf-download-buffer-size"><code>download-buffer-size</code></a></span></p>
-<p>The size of Nix's internal download buffer in bytes during <code>curl</code> transfers. If data is
+<p>The size of Nix’s internal download buffer in bytes during <code>curl</code> transfers. If data is
 not processed quickly enough to exceed the size of this buffer, downloads may stall.
 The default is 67108864 (64 MiB).</p>
 <p><strong>Default:</strong> <code>67108864</code></p>
@@ -759,7 +758,7 @@ Nix to use for downloads.</p>
 <li>
 <p><span id="conf-eval-cache"><a href="#conf-eval-cache"><code>eval-cache</code></a></span></p>
 <p>Whether to use the flake evaluation cache.
-Certain commands won't have to evaluate when invoked for the second time with a particular version of a flake.
+Certain commands won’t have to evaluate when invoked for the second time with a particular version of a flake.
 Intermediate results are not cached.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
@@ -844,7 +843,7 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 may be slow and buggy)</li>
 </ul>
 <p>Build systems usually detect the target platform to be the current physical system and therefore produce machine code incompatible with what may be intended in the derivation.
-You should design your derivation's <code>builder</code> accordingly and cross-check the results when using this option against natively-built versions of your derivation.</p>
+You should design your derivation’s <code>builder</code> accordingly and cross-check the results when using this option against natively-built versions of your derivation.</p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
 </li>
 <li>
@@ -859,7 +858,7 @@ flag. The default is <code>false</code>.</p>
 <p><span id="conf-filter-syscalls"><a href="#conf-filter-syscalls"><code>filter-syscalls</code></a></span></p>
 <p>Whether to prevent certain dangerous system calls, such as
 creation of setuid/setgid files or adding ACLs or extended
-attributes. Only disable this if you're aware of the
+attributes. Only disable this if you’re aware of the
 security implications.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
@@ -939,16 +938,16 @@ to 25. 0 means no limit.</p>
 </li>
 <li>
 <p><span id="conf-ignore-try"><a href="#conf-ignore-try"><code>ignore-try</code></a></span></p>
-<p>If set to true, ignore exceptions inside 'tryEval' calls when evaluating Nix expressions in
-debug mode (using the --debugger flag). By default the debugger pauses on all exceptions.</p>
+<p>If set to true, ignore exceptions inside ‘tryEval’ calls when evaluating Nix expressions in
+debug mode (using the –debugger flag). By default the debugger pauses on all exceptions.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="conf-ignored-acls"><a href="#conf-ignored-acls"><code>ignored-acls</code></a></span></p>
 <p>A list of ACLs that should be ignored, normally Nix attempts to
 remove all ACLs from files and directories in the Nix store, but
-some ACLs like <code>security.selinux</code> or <code>system.nfs4_acl</code> can't be
-removed even by root. Therefore it's best to just ignore them.</p>
+some ACLs like <code>security.selinux</code> or <code>system.nfs4_acl</code> can’t be
+removed even by root. Therefore it’s best to just ignore them.</p>
 <p><strong>Default:</strong> <code>security.csm security.selinux system.nfs4_acl</code></p>
 </li>
 <li>
@@ -985,7 +984,7 @@ setting private access tokens when fetching a private repository.</p>
 </li>
 <li>
 <p><span id="conf-json-log-path"><a href="#conf-json-log-path"><code>json-log-path</code></a></span></p>
-<p>A file or unix socket to which JSON records of Nix's log output are
+<p>A file or unix socket to which JSON records of Nix’s log output are
 written, in the same format as <code>--log-format internal-json</code>
 (without the <code>@nix </code> prefixes on each line).
 Concurrent writes to the same file by multiple Nix processes are not supported and
@@ -1022,7 +1021,7 @@ environments. That is, the derivations of any build-time-only
 dependencies may be garbage-collected.</p>
 <p>If <code>true</code>, when you add a Nix derivation to a user environment, the
 path of the derivation is stored in the user environment. Thus, the
-derivation isn't garbage-collected until the user environment
+derivation isn’t garbage-collected until the user environment
 generation is deleted (<code>nix-env --delete-generations</code>). To prevent
 build-time-only dependencies from being collected, you should also
 turn on <code>keep-outputs</code>.</p>
@@ -1087,7 +1086,7 @@ infinity (i.e. delete all garbage).</p>
 <p>Maximum number of jobs that Nix tries to build locally in parallel.</p>
 <p>The special value <code>auto</code> causes Nix to use the number of CPUs in your system.
 Use <code>0</code> to disable local builds and directly use the remote machines specified in <a href="#conf-builders"><code>builders</code></a>.
-This doesn't affect derivations that have <a href="../language/advanced-attributes.html#adv-attr-preferLocalBuild"><code>preferLocalBuild = true</code></a>, which are always built locally.</p>
+This doesn’t affect derivations that have <a href="../language/advanced-attributes.html#adv-attr-preferLocalBuild"><code>preferLocalBuild = true</code></a>, which are always built locally.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>The number of CPU cores to use for each build job is independently determined by the <a href="#conf-cores"><code>cores</code></a> setting.</p>
@@ -1156,7 +1155,7 @@ default TTL is a month, setting a shorter TTL for positive lookups
 can be useful for binary caches that have frequent garbage
 collection, in which case having a more frequent cache invalidation
 would prevent trying to pull the path again and failing with a hash
-mismatch if the build isn't reproducible.</p>
+mismatch if the build isn’t reproducible.</p>
 <p><strong>Default:</strong> <code>2592000</code></p>
 </li>
 <li>
@@ -1176,7 +1175,7 @@ documentation</a>.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>This must be an absolute path, and <code>~</code> is not resolved. For
-example, <code>~/.netrc</code> won't resolve to your home directory's
+example, <code>~/.netrc</code> won’t resolve to your home directory’s
 <code>.netrc</code>.</p>
 </blockquote>
 <p><strong>Default:</strong> <code>/dummy/netrc</code></p>
@@ -1219,7 +1218,7 @@ See <a href="../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_D
 <li>
 <p><span id="conf-nix-shell-always-looks-for-shell-nix"><a href="#conf-nix-shell-always-looks-for-shell-nix"><code>nix-shell-always-looks-for-shell-nix</code></a></span></p>
 <p>Before Nix 2.24, <a href="../command-ref/nix-shell.html"><code>nix-shell</code></a> would only look at <code>shell.nix</code> if it was in the working directory - when no file was specified.</p>
-<p>Since Nix 2.24, <code>nix-shell</code> always looks for a <code>shell.nix</code>, whether that's in the working directory, or in a directory that was passed as an argument.</p>
+<p>Since Nix 2.24, <code>nix-shell</code> always looks for a <code>shell.nix</code>, whether that’s in the working directory, or in a directory that was passed as an argument.</p>
 <p>You may set this to <code>false</code> to temporarily revert to the behavior of Nix 2.23 and older.</p>
 <p>Using this setting is not recommended.
 It will be deprecated and removed.</p>
@@ -1228,7 +1227,7 @@ It will be deprecated and removed.</p>
 <li>
 <p><span id="conf-nix-shell-shebang-arguments-relative-to-script"><a href="#conf-nix-shell-shebang-arguments-relative-to-script"><code>nix-shell-shebang-arguments-relative-to-script</code></a></span></p>
 <p>Before Nix 2.24, relative file path expressions in arguments in a <code>nix-shell</code> shebang were resolved relative to the working directory.</p>
-<p>Since Nix 2.24, <code>nix-shell</code> resolves these paths in a manner that is relative to the <a href="../glossary.html#gloss-base-directory">base directory</a>, defined as the script's directory.</p>
+<p>Since Nix 2.24, <code>nix-shell</code> resolves these paths in a manner that is relative to the <a href="../glossary.html#gloss-base-directory">base directory</a>, defined as the script’s directory.</p>
 <p>You may set this to <code>false</code> to temporarily revert to the behavior of Nix 2.23 and older.</p>
 <p>Using this setting is not recommended.
 It will be deprecated and removed.</p>
@@ -1273,7 +1272,7 @@ executing the nix-build.</p>
 <p>The hook does not execute on substituted paths.</p>
 </li>
 <li>
-<p>The hook's output always goes to the user's terminal.</p>
+<p>The hook’s output always goes to the user’s terminal.</p>
 </li>
 <li>
 <p>If the hook fails, the build succeeds but no further builds
@@ -1284,7 +1283,7 @@ execute.</p>
 progressing while it runs.</p>
 </li>
 </ul>
-<p>The program executes with no arguments. The program's environment
+<p>The program executes with no arguments. The program’s environment
 contains the following environment variables:</p>
 <ul>
 <li>
@@ -1306,7 +1305,7 @@ character.</p>
 <li>
 <p><span id="conf-pre-build-hook"><a href="#conf-pre-build-hook"><code>pre-build-hook</code></a></span></p>
 <p>If set, the path to a program that can set extra derivation-specific
-settings for this system. This is used for settings that can't be
+settings for this system. This is used for settings that can’t be
 captured by the derivation model itself and are too variable between
 different versions of the same system to be hard-coded into nix.</p>
 <p>The hook is passed the derivation path and, if sandboxes are
@@ -1314,8 +1313,7 @@ enabled, the sandbox directory. It can then modify the sandbox and
 send a series of commands to modify various settings to stdout. The
 currently recognized commands are:</p>
 <ul>
-<li><code>extra-sandbox-paths</code><br />
-Pass a list of files and directories to be included in the
+<li><code>extra-sandbox-paths</code><br>Pass a list of files and directories to be included in the
 sandbox for this build. One entry per line, terminated by an
 empty line. Entries have the same format as <code>sandbox-paths</code>.</li>
 </ul>
@@ -1377,7 +1375,7 @@ unaffected by this configuration option.)</p>
 </li>
 <li>
 <p><span id="conf-restrict-eval"><a href="#conf-restrict-eval"><code>restrict-eval</code></a></span></p>
-<p>If set to <code>true</code>, the Nix evaluator doesn't allow access to any
+<p>If set to <code>true</code>, the Nix evaluator doesn’t allow access to any
 files outside of
 <a href="../language/builtins.html#builtins-nixPath"><code>builtins.nixPath</code></a>,
 or to URIs outside of
@@ -1435,7 +1433,7 @@ is <code>50%</code>.</p>
 </li>
 <li>
 <p><span id="conf-sandbox-fallback"><a href="#conf-sandbox-fallback"><code>sandbox-fallback</code></a></span></p>
-<p>Whether to disable sandboxing when the kernel doesn't allow it.</p>
+<p>Whether to disable sandboxing when the kernel doesn’t allow it.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 </li>
 <li>
@@ -1490,7 +1488,7 @@ variables, in order of precedence:</p>
 <p><span id="conf-stalled-download-timeout"><a href="#conf-stalled-download-timeout"><code>stalled-download-timeout</code></a></span></p>
 <p>The timeout (in seconds) for receiving data from servers
 during download. Nix cancels idle downloads after this
-timeout's duration.</p>
+timeout’s duration.</p>
 <p><strong>Default:</strong> <code>300</code></p>
 </li>
 <li>
@@ -1602,7 +1600,7 @@ This is primarily useful for running containers such as <code>systemd-nspawn</co
 <p>The number of seconds a downloaded tarball is considered fresh. If
 the cached tarball is stale, Nix checks whether it is still up
 to date using the ETag header. Nix downloads a new version if
-the ETag header is unsupported, or the cached ETag doesn't match.</p>
+the ETag header is unsupported, or the cached ETag doesn’t match.</p>
 <p>Setting the TTL to <code>0</code> forces Nix to always check if the tarball is
 up to date.</p>
 <p>Nix caches tarballs in <code>$XDG_CACHE_HOME/nix/tarballs</code>.</p>
@@ -1625,7 +1623,7 @@ default.</p>
 <li>
 <p><span id="conf-trace-function-calls"><a href="#conf-trace-function-calls"><code>trace-function-calls</code></a></span></p>
 <p>If set to <code>true</code>, the Nix evaluator traces every function call.
-Nix prints a log message at the "vomit" level for every function
+Nix prints a log message at the “vomit” level for every function
 entrance and function exit.</p>
 <pre><code>function-trace entered undefined position at 1565795816999559622
 function-trace exited undefined position at 1565795816999581277
@@ -1749,11 +1747,17 @@ The environment variables used to implement this are documented in the <a href="
 This changes the location of some well-known symlinks that Nix creates, which might break tools that rely on the old, non-XDG-conformant locations.</p>
 </blockquote>
 <p>In particular, the following locations change:</p>
-<div class="table-wrapper"><table><thead><tr><th>Old</th><th>New</th></tr></thead><tbody>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Old</th><th>New</th></tr>
+</thead>
+<tbody>
 <tr><td><code>~/.nix-profile</code></td><td><code>$XDG_STATE_HOME/nix/profile</code></td></tr>
 <tr><td><code>~/.nix-defexpr</code></td><td><code>$XDG_STATE_HOME/nix/defexpr</code></td></tr>
 <tr><td><code>~/.nix-channels</code></td><td><code>$XDG_STATE_HOME/nix/channels</code></td></tr>
-</tbody></table>
+</tbody>
+</table>
 </div>
 <p>If you already have Nix installed and are using <a href="../package-management/profiles.html">profiles</a> or <a href="../command-ref/nix-channel.html">channels</a>, you should migrate manually when you enable this option.
 If <code>$XDG_STATE_HOME</code> is not set, use <code>$HOME/.local/state/nix</code> instead of <code>$XDG_STATE_HOME/nix</code>.
@@ -1787,7 +1791,7 @@ Set it to 1 to warn on all paths.</p>
 <li>
 <p><span id="conf-warn-short-path-literals"><a href="#conf-warn-short-path-literals"><code>warn-short-path-literals</code></a></span></p>
 <p>If set to true, the Nix evaluator will warn when encountering relative path literals
-that don't start with <code>./</code> or <code>../</code>.</p>
+that don’t start with <code>./</code> or <code>../</code>.</p>
 <p>For example, with this setting enabled, <code>foo/bar</code> would emit a warning
 suggesting to use <code>./foo/bar</code> instead.</p>
 <p>This is useful for improving code readability and making path literals
@@ -1801,11 +1805,11 @@ more explicit.</p>
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
                             <a rel="prev" href="../command-ref/files.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                                <i class="fa fa-angle-left"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
                             <a rel="next prefetch" href="../command-ref/files/profiles.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                                <i class="fa fa-angle-right"></i>
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
                         <div style="clear: both"></div>
@@ -1815,16 +1819,21 @@ more explicit.</p>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
                     <a rel="prev" href="../command-ref/files.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
-                        <i class="fa fa-angle-left"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
                     <a rel="next prefetch" href="../command-ref/files/profiles.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
-                        <i class="fa fa-angle-right"></i>
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
 
         </div>
 
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
 
 
 
@@ -1833,16 +1842,16 @@ more explicit.</p>
         </script>
 
 
-        <script src="../elasticlunr.min.js"></script>
-        <script src="../mark.min.js"></script>
-        <script src="../searcher.js"></script>
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
 
-        <script src="../clipboard.min.js"></script>
-        <script src="../highlight.js"></script>
-        <script src="../book.js"></script>
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-862e895d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects.js"></script>
+        <script src="../redirects-4afb32ee.js"></script>
 
 
 
