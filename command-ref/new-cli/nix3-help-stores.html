@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix help-stores - Nix 2.31.2+2 Reference Manual</title>
+        <title>nix help-stores - Nix 2.31.3 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -36,10 +36,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-1b44a9cb.js";
+            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-711a10f4.js"></script>
+        <script src="../../toc-f3fccd7f.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +138,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.2+2 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -434,6 +434,7 @@ Otherwise its permissions must allow all users to traverse the directory (i.e. i
 Placing temporary build directories in a world-writable place allows other users to access or modify build data that is currently in use.
 This alone is merely an impurity, but combined with another factor this has allowed malicious derivations to escape the build sandbox.</p>
 </blockquote>
+<p>See also the global <a href="../../command-ref/conf-file.html#conf-build-dir"><code>build-dir</code></a> setting.</p>
 <p><strong>Default:</strong> ``</p>
 </li>
 <li>
@@ -1045,6 +1046,7 @@ Otherwise its permissions must allow all users to traverse the directory (i.e. i
 Placing temporary build directories in a world-writable place allows other users to access or modify build data that is currently in use.
 This alone is merely an impurity, but combined with another factor this has allowed malicious derivations to escape the build sandbox.</p>
 </blockquote>
+<p>See also the global <a href="../../command-ref/conf-file.html#conf-build-dir"><code>build-dir</code></a> setting.</p>
 <p><strong>Default:</strong> ``</p>
 </li>
 <li>
