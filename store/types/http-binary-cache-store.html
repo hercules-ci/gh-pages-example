@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>HTTP Binary Cache Store - Nix 2.31.3 Reference Manual</title>
+        <title>HTTP Binary Cache Store - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -189,7 +205,8 @@ protocol.</p>
 <ul>
 <li>
 <p><span id="store-http-binary-cache-store-compression"><a href="#store-http-binary-cache-store-compression"><code>compression</code></a></span></p>
-<p>NAR compression method (<code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, or <code>none</code>).</p>
+<p>NAR compression method. One of: <code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, <code>none</code>, <code>br</code>, <code>compress</code>, <code>grzip</code>, <code>lrzip</code>, <code>lz4</code>, <code>lzip</code>, <code>lzma</code> or <code>lzop</code>.
+To use a particular compression method Nix has to be built with a version of libarchive that natively supports that compression algorithm.</p>
 <p><strong>Default:</strong> <code>xz</code></p>
 </li>
 <li>
@@ -208,7 +225,24 @@ fetch debug info on demand</p>
 <li>
 <p><span id="store-http-binary-cache-store-local-nar-cache"><a href="#store-http-binary-cache-store-local-nar-cache"><code>local-nar-cache</code></a></span></p>
 <p>Path to a local cache of NARs fetched from this binary cache, used by commands such as <code>nix store cat</code>.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-log-compression"><a href="#store-http-binary-cache-store-log-compression"><code>log-compression</code></a></span></p>
+<p>Compression method for <code>log/*</code> files. It is recommended to
+use a compression method supported by most web browsers
+(e.g. <code>brotli</code>).</p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-ls-compression"><a href="#store-http-binary-cache-store-ls-compression"><code>ls-compression</code></a></span></p>
+<p>Compression method for <code>.ls</code> files.</p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-narinfo-compression"><a href="#store-http-binary-cache-store-narinfo-compression"><code>narinfo-compression</code></a></span></p>
+<p>Compression method for <code>.narinfo</code> files.</p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-http-binary-cache-store-parallel-compression"><a href="#store-http-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
@@ -248,6 +282,16 @@ between stores if they have the same <code>store</code> setting.</p>
 <p>Optional <a href="../../command-ref/conf-file.html#conf-system-features">system features</a> available on the system this store uses to build derivations.</p>
 <p>Example: <code>"kvm"</code></p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-tls-certificate"><a href="#store-http-binary-cache-store-tls-certificate"><code>tls-certificate</code></a></span></p>
+<p>Path to an optional TLS client certificate in PEM format.</p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-tls-private-key"><a href="#store-http-binary-cache-store-tls-private-key"><code>tls-private-key</code></a></span></p>
+<p>Path to an optional TLS client certificate private key in PEM format.</p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-http-binary-cache-store-trusted"><a href="#store-http-binary-cache-store-trusted"><code>trusted</code></a></span></p>
@@ -320,7 +364,7 @@ setting.</p>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

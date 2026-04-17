@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Glossary - Nix 2.31.3 Reference Manual</title>
+        <title>Glossary - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="toc-f3fccd7f.js"></script>
+        <script src="toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="print.html" title="Print this book" aria-label="Print this book">
@@ -295,7 +311,7 @@ include S3 buckets and the <a href="https://cache.nixos.org">NixOS binary cache<
 <p>The location of a <a href="#gloss-store-object">store object</a> in the file system, i.e., an immediate child of the Nix store directory.</p>
 <blockquote>
 <p><strong>Example</strong></p>
-<p><code>/nix/store/a040m110amc4h71lds2jmr8qrkj2jhxd-git-2.38.1</code></p>
+<p><code>/nix/store/jf6gn2dzna4nmsfbdxsd7kwhsk6gnnlr-git-2.38.1</code></p>
 </blockquote>
 <p>See <a href="./store/store-path.html">Store Path</a> for details.</p>
 </li>
@@ -353,7 +369,7 @@ system time) but the Nix model assumes it.</p>
 </li>
 <li>
 <p><a href="#gloss-impure-derivation" id="gloss-impure-derivation">impure derivation</a></p>
-<p><a href="#./development/experimental-features.md#xp-feature-impure-derivations">An experimental feature</a> that allows derivations to be explicitly marked as impure,
+<p><a href="./development/experimental-features.html#xp-feature-impure-derivations">An experimental feature</a> that allows derivations to be explicitly marked as impure,
 so that they are always rebuilt, and their outputs not reused by subsequent calls to realise them.</p>
 </li>
 <li>
@@ -411,7 +427,7 @@ The <a href="#gloss-closure">closure</a> is the set of requisites.</p>
 <p>See <a href="./store/store-object.html#references">References</a> for details.</p>
 </li>
 <li>
-<p><a href="#gloss-reference" id="gloss-reference">referrer</a></p>
+<p><a href="#gloss-referrer" id="gloss-referrer">referrer</a></p>
 <p>A reversed edge from one <a href="#gloss-store-object">store object</a> to another.</p>
 </li>
 <li>
@@ -485,16 +501,16 @@ and <code>nix-store --restore</code>.</p>
 <p><a href="#package" id="package">package</a></p>
 <p>A software package; files that belong together for a particular purpose, and metadata.</p>
 <p>Nix represents files as <a href="#gloss-file-system-object">file system objects</a>, and how they belong together is encoded as <a href="#gloss-reference">references</a> between <a href="#gloss-store-object">store objects</a> that contain these file system objects.</p>
-<p>The <a href="./language/index.html">Nix language</a> allows denoting packages in terms of <a href="./language/types.html#attribute-set">attribute sets</a> containing:</p>
+<p>The <a href="./language/index.html">Nix language</a> allows denoting packages in terms of <a href="./language/types.html#type-attrs">attribute sets</a> containing:</p>
 <ul>
-<li>attributes that refer to the files of a package, typically in the form of <a href="#output">derivation outputs</a>,</li>
+<li>attributes that refer to the files of a package, typically in the form of <a href="#gloss-output">derivation outputs</a>,</li>
 <li>attributes with metadata, such as information about how the package is supposed to be used.</li>
 </ul>
 <p>The exact shape of these attribute sets is up to convention.</p>
 </li>
 <li>
 <p><a href="#gloss-string-interpolation" id="gloss-string-interpolation">string interpolation</a></p>
-<p>Expanding expressions enclosed in <code>${ }</code> within a <a href="./language/types.html#type-string">string</a>, <a href="./language/types.html#type-path">path</a>, or <a href="./language/types.html#attribute-set">attribute name</a>.</p>
+<p>Expanding expressions enclosed in <code>${ }</code> within a <a href="./language/types.html#type-string">string</a>, <a href="./language/types.html#type-path">path</a>, or <a href="./language/types.html#type-attrs">attribute name</a>.</p>
 <p>See <a href="./language/string-interpolation.html">String interpolation</a> for details.</p>
 </li>
 <li>
@@ -575,7 +591,7 @@ These flags are enabled or disabled with the <a href="./command-ref/conf-file.ht
         <script src="book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="redirects-4afb32ee.js"></script>
+        <script src="redirects-70899071.js"></script>
 
 
 

@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix path-info - Nix 2.31.3 Reference Manual</title>
+        <title>nix path-info - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -195,15 +211,15 @@ and its interface is subject to change.</p>
 <li>
 <p>Print the store path produced by <code>nixpkgs#hello</code>:</p>
 <pre><code class="language-console"># nix path-info nixpkgs#hello
-/nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10
+/nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10
 </code></pre>
 </li>
 <li>
 <p>Show the closure sizes of every path in the current NixOS system
 closure, sorted by size:</p>
 <pre><code class="language-console"># nix path-info --recursive --closure-size /run/current-system | sort -nk2
-/nix/store/hl5xwp9kdrd1zkm0idm3kkby9q66z404-empty                                                96
-/nix/store/27324qvqhnxj3rncazmxc4mwy79kz8ha-nameservers                                         112
+/nix/store/zlnmjjbpv5pwwv911qp0grqi25y80wbs-empty                                                96
+/nix/store/v40fjpq45135avrmnfm8klbvdhf0dcp7-nameservers                                         112
 …
 /nix/store/539jkw9a8dyry7clcv60gk6na816j7y8-etc                                          5783255504
 /nix/store/zqamz3cz4dbzfihki2mk7a63mbkxz9xq-nixos-system-machine-20.09.20201112.3090c65  5887562256
@@ -213,8 +229,8 @@ closure, sorted by size:</p>
 <p>Show a package’s closure size and all its dependencies with human
 readable sizes:</p>
 <pre><code class="language-console"># nix path-info --recursive --size --closure-size --human-readable nixpkgs#rustc
-/nix/store/01rrgsg5zk3cds0xgdsq40zpk6g51dz9-ncurses-6.2-dev      386.7 KiB   69.1 MiB
-/nix/store/0q783wnvixpqz6dxjp16nw296avgczam-libpfm-4.11.0          5.9 MiB   37.4 MiB
+/nix/store/klarszqikbvf6n70581w0381zb7rlzri-ncurses-6.2-dev      386.7 KiB   69.1 MiB
+/nix/store/30rva1kafnr6fyf8y5xxlpnwixvdpv4w-libpfm-4.11.0          5.9 MiB   37.4 MiB
 …
 </code></pre>
 </li>
@@ -284,6 +300,10 @@ to ensure that they exist.</p>
 <li>
 <p><span id="opt-json"><a href="#opt-json"><code>--json</code></a></span></p>
 <p>Produce output in JSON format, suitable for consumption by another program.</p>
+</li>
+<li>
+<p><span id="opt-json-format"><a href="#opt-json-format"><code>--json-format</code></a></span> <em>version</em></p>
+<p>JSON format version to use (1 or 2). Version 1 uses string hashes and full store paths. Version 2 uses structured hashes and store path base names. This flag will be required in a future release.</p>
 </li>
 <li>
 <p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
@@ -387,7 +407,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-override-input"><a href="#opt-override-input"><code>--override-input</code></a></span> <em>input-path</em> <em>flake-url</em></p>
-<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). This implies <code>--no-write-lock-file</code>.</p>
+<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). The input path must not be empty. This implies <code>--no-write-lock-file</code>.</p>
 </li>
 <li>
 <p><span id="opt-recreate-lock-file"><a href="#opt-recreate-lock-file"><code>--recreate-lock-file</code></a></span></p>
@@ -539,7 +559,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

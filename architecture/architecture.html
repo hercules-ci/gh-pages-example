@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Architecture and Design - Nix 2.31.3 Reference Manual</title>
+        <title>Architecture and Design - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -328,7 +344,7 @@ Build inputs used as instructions to a build task are marked accordingly:</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

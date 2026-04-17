@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Object Info - Nix 2.31.3 Reference Manual</title>
+        <title>Store Object Info - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -181,109 +197,1629 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="store-object-info-json-format"><a class="header" href="#store-object-info-json-format">Store object info JSON format</a></h1>
+                        <h1 id="store-object-info-v2"><a class="header" href="#store-object-info-v2">Store Object Info v2</a></h1>
+<ul>
+<li><a href="#oneOf_i0">1. Property <code>Store Object Info</code></a>
+<ul>
+<li><a href="#oneOf_i0_version">1.1. Property <code>version</code></a></li>
+<li><a href="#oneOf_i0_path">1.2. Property <code>path</code></a></li>
+<li><a href="#oneOf_i0_narHash">1.3. Property <code>narHash</code></a></li>
+<li><a href="#oneOf_i0_narSize">1.4. Property <code>narSize</code></a></li>
+<li><a href="#oneOf_i0_references">1.5. Property <code>references</code></a>
+<ul>
+<li><a href="#oneOf_i0_references_items">1.5.1. Store Path</a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i0_ca">1.6. Property <code>ca</code></a>
+<ul>
+<li><a href="#oneOf_i0_ca_oneOf_i0">1.6.1. Property <code>item 0</code></a></li>
+<li><a href="#oneOf_i0_ca_oneOf_i1">1.6.2. Property <code>Content Address</code></a>
+<ul>
+<li><a href="#oneOf_i0_ca_oneOf_i1_method">1.6.2.1. Property <code>method</code></a></li>
+<li><a href="#oneOf_i0_ca_oneOf_i1_hash">1.6.2.2. Property <code>hash</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#oneOf_i0_storeDir">1.7. Property <code>storeDir</code></a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i1">2. Property <code>Store Object Info with Impure Fields</code></a>
+<ul>
+<li><a href="#oneOf_i1_version">2.1. Property <code>version</code></a></li>
+<li><a href="#oneOf_i1_path">2.2. Property <code>path</code></a></li>
+<li><a href="#oneOf_i1_narHash">2.3. Property <code>narHash</code></a></li>
+<li><a href="#oneOf_i1_narSize">2.4. Property <code>narSize</code></a></li>
+<li><a href="#oneOf_i1_references">2.5. Property <code>references</code></a>
+<ul>
+<li><a href="#oneOf_i1_references_items">2.5.1. Store Path</a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i1_ca">2.6. Property <code>ca</code></a>
+<ul>
+<li><a href="#oneOf_i1_ca_oneOf_i0">2.6.1. Property <code>item 0</code></a></li>
+<li><a href="#oneOf_i1_ca_oneOf_i1">2.6.2. Property <code>Content Address</code></a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i1_storeDir">2.7. Property <code>storeDir</code></a></li>
+<li><a href="#oneOf_i1_deriver">2.8. Property <code>deriver</code></a>
+<ul>
+<li><a href="#oneOf_i1_deriver_oneOf_i0">2.8.1. Property <code>Store Path</code></a></li>
+<li><a href="#oneOf_i1_deriver_oneOf_i1">2.8.2. Property <code>item 1</code></a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i1_registrationTime">2.9. Property <code>registrationTime</code></a></li>
+<li><a href="#oneOf_i1_ultimate">2.10. Property <code>ultimate</code></a></li>
+<li><a href="#oneOf_i1_signatures">2.11. Property <code>signatures</code></a>
+<ul>
+<li><a href="#oneOf_i1_signatures_items">2.11.1. signatures items</a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i1_closureSize">2.12. Property <code>closureSize</code></a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i2">3. Property <code>Store Object Info with Impure fields and NAR Info</code></a>
+<ul>
+<li><a href="#oneOf_i2_version">3.1. Property <code>version</code></a></li>
+<li><a href="#oneOf_i2_path">3.2. Property <code>path</code></a></li>
+<li><a href="#oneOf_i2_narHash">3.3. Property <code>narHash</code></a></li>
+<li><a href="#oneOf_i2_narSize">3.4. Property <code>narSize</code></a></li>
+<li><a href="#oneOf_i2_references">3.5. Property <code>references</code></a></li>
+<li><a href="#oneOf_i2_ca">3.6. Property <code>ca</code></a></li>
+<li><a href="#oneOf_i2_storeDir">3.7. Property <code>storeDir</code></a></li>
+<li><a href="#oneOf_i2_deriver">3.8. Property <code>deriver</code></a>
+<ul>
+<li><a href="#oneOf_i2_deriver_oneOf_i0">3.8.1. Property <code>Store Path</code></a></li>
+<li><a href="#oneOf_i2_deriver_oneOf_i1">3.8.2. Property <code>item 1</code></a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i2_registrationTime">3.9. Property <code>registrationTime</code></a></li>
+<li><a href="#oneOf_i2_ultimate">3.10. Property <code>ultimate</code></a></li>
+<li><a href="#oneOf_i2_signatures">3.11. Property <code>signatures</code></a>
+<ul>
+<li><a href="#oneOf_i2_signatures_items">3.11.1. signatures items</a></li>
+</ul>
+</li>
+<li><a href="#oneOf_i2_closureSize">3.12. Property <code>closureSize</code></a></li>
+<li><a href="#oneOf_i2_url">3.13. Property <code>url</code></a></li>
+<li><a href="#oneOf_i2_compression">3.14. Property <code>compression</code></a></li>
+<li><a href="#oneOf_i2_downloadHash">3.15. Property <code>downloadHash</code></a></li>
+<li><a href="#oneOf_i2_downloadSize">3.16. Property <code>downloadSize</code></a></li>
+<li><a href="#oneOf_i2_closureDownloadSize">3.17. Property <code>closureDownloadSize</code></a></li>
+</ul>
+</li>
+</ul>
+<p><strong>Title:</strong> Store Object Info v2</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Information about a <a href="../../store/store-object.html">store object</a>.</p>
+<p>This schema describes the JSON representation of store object metadata as returned by commands like <a href="../../command-ref/new-cli/nix3-path-info.html"><code>nix path-info --json</code></a>.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
 <p>This JSON format is currently
 <a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
 and subject to change.</p>
 </blockquote>
-<p>Info about a [store object].</p>
+<h3 id="field-categories"><a class="header" href="#field-categories">Field Categories</a></h3>
+<p>Store object information can come in a few different variations.</p>
+<p>Firstly, “impure” fields, which contain non-intrinsic information about the store object, may or may not be included.</p>
+<p>Second, binary cache stores have extra non-intrinsic infomation about the store objects they contain.</p>
+<p>Thirdly, <a href="../../command-ref/new-cli/nix3-path-info.html#opt-closure-size"><code>nix path-info --json --closure-size</code></a> can compute some extra information about not just the single store object in question, but the store object and its <a href="../../glossary.html#gloss-closure">closure</a>.</p>
+<p>The impure and NAR fields are grouped into separate variants below.
+See their descriptions for additional information.
+The closure fields however as just included as optional fields, to avoid a combinatorial explosion of variants.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>One of(Option)</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i0">Store Object Info</a></td></tr>
+<tr><td><a href="#oneOf_i1">Store Object Info with Impure Fields</a></td></tr>
+<tr><td><a href="#oneOf_i2">Store Object Info with Impure fields and NAR Info</a></td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="1-property-store-object-info"><a class="header" href="#1-property-store-object-info"><a name="oneOf_i0"></a>1. Property <code>Store Object Info</code></a></h2>
+<p><strong>Title:</strong> Store Object Info</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Basic store object metadata containing only intrinsic properties.
+This is the minimal set of fields that describe what a store object contains.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i0_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>- <a href="#oneOf_i0_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
+<tr><td>+ <a href="#oneOf_i0_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
+<tr><td>+ <a href="#oneOf_i0_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
+<tr><td>+ <a href="#oneOf_i0_references">references</a></td><td>array</td><td>No</td><td>References</td></tr>
+<tr><td>+ <a href="#oneOf_i0_ca">ca</a></td><td>Combination</td><td>No</td><td>Content Address</td></tr>
+<tr><td>+ <a href="#oneOf_i0_storeDir">storeDir</a></td><td>string</td><td>No</td><td>Store Directory</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="11-property-version"><a class="header" href="#11-property-version"><a name="oneOf_i0_version"></a>1.1. Property <code>version</code></a></h3>
+<p><strong>Title:</strong> Format version (must be 2)</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Must be <code>2</code>.
+This is a guard that allows us to continue evolving this format.
+Here is the rough version history:</p>
 <ul>
 <li>
-<p><code>path</code>:</p>
-<p><a href="../../store/store-path.html">Store path</a> to the given store object.</p>
+<p>Version 0: <code>.narinfo</code> line-oriented format</p>
 </li>
 <li>
-<p><code>narHash</code>:</p>
-<p>Hash of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<p>Version 1: Original JSON format, with ugly <code>"r:sha256"</code> inherited from <code>.narinfo</code> format.</p>
 </li>
 <li>
-<p><code>narSize</code>:</p>
-<p>Size of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<p>Version 2: Use structured JSON type for <code>ca</code></p>
 </li>
-<li>
-<p><code>references</code>:</p>
-<p>An array of <a href="../../store/store-path.html">store paths</a>, possibly including this one.</p>
-</li>
-<li>
-<p><code>ca</code>:</p>
-<p>If the store object is <a href="../../store/store-object/content-address.html">content-addressed</a>,
+</ul>
+<p>Specific value: <code>2</code></p>
+<h3 id="12-property-path"><a class="header" href="#12-property-path"><a name="oneOf_i0_path"></a>1.2. Property <code>path</code></a></h3>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Defined in</strong></td><td>./store-path-v1.yaml</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> <a href="../../store/store-path.html">Store path</a> to the given store object.</p>
+<p>Note: This field may not be present in all contexts, such as when the path is used as the key and the the store object info the value in map.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min length</strong></td><td>34</td></tr>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^[0123456789abcdfghijklmnpqrsvwxyz]{32}-.+$</code> <a href="https://regex101.com/?regex=%5E%5B0123456789abcdfghijklmnpqrsvwxyz%5D%7B32%7D-.%2B%24">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="13-property-narhash"><a class="header" href="#13-property-narhash"><a name="oneOf_i0_narHash"></a>1.3. Property <code>narHash</code></a></h3>
+<p><strong>Title:</strong> NAR Hash</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/hash.html">JSON format for <code>Hash</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Hash of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-json">"sha256-ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0="
+</code></pre>
+<pre><code class="language-json">"sha512-IEqPxt2oLwoM7XvrjgikFlfBbvRosiioJ5vjMacDwzWW/RXBOxsH+aodO+pXeJygMa2Fx6cd1wNU7GMSOMo0RQ=="
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^(blake3|md5|sha1|sha256|sha512)-[A-Za-z0-9+/]+=*$</code> <a href="https://regex101.com/?regex=%5E%28blake3%7Cmd5%7Csha1%7Csha256%7Csha512%29-%5BA-Za-z0-9%2B%2F%5D%2B%3D%2A%24&amp;testString=%22sha256-ungWv48Bz%2BpBQUDeXa4iI7ADYaOWF3qctBD%2FYfIAFa0%3D%22">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="14-property-narsize"><a class="header" href="#14-property-narsize"><a name="oneOf_i0_narSize"></a>1.4. Property <code>narSize</code></a></h3>
+<p><strong>Title:</strong> NAR Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Size of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="15-property-references"><a class="header" href="#15-property-references"><a name="oneOf_i0_references"></a>1.5. Property <code>references</code></a></h3>
+<p><strong>Title:</strong> References</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> An array of <a href="../../store/store-path.html">store paths</a>, possibly including this one.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Array restrictions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
+<tr><td><strong>Additional items</strong></td><td>False</td></tr>
+<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Each item of this array must be</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i0_references_items">Store Path</a></td><td>A <a href="../../store/store-path.html">store path</a> identifying a store object. …</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="151-store-path"><a class="header" href="#151-store-path"><a name="oneOf_i0_references_items"></a>1.5.1. Store Path</a></h4>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i0_path">path</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A <a href="../../store/store-path.html">store path</a> identifying a store object.</p>
+<p>This schema describes the JSON representation of store paths as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="format"><a class="header" href="#format">Format</a></h2>
+<p>Store paths in JSON are represented as strings containing just the hash and name portion, without the store directory prefix.</p>
+<p>For example: <code>"g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv"</code></p>
+<p>(If the store dir is <code>/nix/store</code>, then this corresponds to the path <code>/nix/store/g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv</code>.)</p>
+<h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
+<p>The format follows this pattern: <code>${digest}-${name}</code></p>
+<ul>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>name</strong>: The package name and optional version/suffix information</li>
+</ul>
+<h3 id="16-property-ca"><a class="header" href="#16-property-ca"><a name="oneOf_i0_ca"></a>1.6. Property <code>ca</code></a></h3>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If the store object is <a href="../../store/store-object/content-address.html">content-addressed</a>,
 this is the content address of this store object’s file system object, used to compute its store path.
 Otherwise (i.e. if it is <a href="../../glossary.html#gloss-input-addressed-store-object">input-addressed</a>), this is <code>null</code>.</p>
-</li>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>One of(Option)</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i0_ca_oneOf_i0">item 0</a></td></tr>
+<tr><td><a href="#oneOf_i0_ca_oneOf_i1">Content Address</a></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="161-property-item-0"><a class="header" href="#161-property-item-0"><a name="oneOf_i0_ca_oneOf_i0"></a>1.6.1. Property <code>item 0</code></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<p>Specific value: <code>null</code></p>
+<h4 id="162-property-content-address"><a class="header" href="#162-property-content-address"><a name="oneOf_i0_ca_oneOf_i1"></a>1.6.2. Property <code>Content Address</code></a></h4>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/content-address.html">JSON format for <code>ContentAddress</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> This schema describes the JSON representation of Nix’s <code>ContentAddress</code> type, which conveys information about <a href="../../store/store-object/content-address.html">content-addressing store objects</a>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>For current methods of content addressing, this data type is a bit suspicious, because it is neither simply a content address of a file system object (the <code>method</code> is richer), nor simply a content address of a store object (the <code>hash</code> doesn’t account for the references).
+It should thus only be used in contexts where the references are also known / otherwise made tamper-resistant.</p>
+</blockquote>
+<!--
+TODO currently `ContentAddress` is used in both of these, and so same rationale applies, but actually in both cases the JSON is currently ad-hoc.
+That will be fixed, and as each is fixed, the example (along with a more precise link to the field in question) should be become part of the above note, so what is is saying is more clear.
+
+> For example:
+
+> - Fixed outputs of derivations are not allowed to have any references, so an empty reference set is statically known by assumption.
+
+> - [Store object info](./store-object-info.md) includes the set of references along side the (optional) content address.
+
+> This data type is thus safely used in both of these contexts.
+
+-->
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i0_ca_oneOf_i1_method">method</a></td><td>enum (of string)</td><td>No</td><td>Content-Addressing Method</td></tr>
+<tr><td>+ <a href="#oneOf_i0_ca_oneOf_i1_hash">hash</a></td><td>string</td><td>No</td><td>Content Address</td></tr>
+</tbody>
+</table>
+</div>
+<h5 id="1621-property-method"><a class="header" href="#1621-property-method"><a name="oneOf_i0_ca_oneOf_i1_method"></a>1.6.2.1. Property <code>method</code></a></h5>
+<p><strong>Title:</strong> Content-Addressing Method</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>enum (of string)</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/content-address.html#method">JSON format for <code>ContentAddress</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A string representing the <a href="../../store/store-object/content-address.html">method</a> of content addressing that is chosen.</p>
+<p>Valid method strings are:</p>
+<ul>
+<li><a href="../../store/store-object/content-address.html#method-flat"><code>flat</code></a> (provided the contents are a single file)</li>
+<li><a href="../../store/store-object/content-address.html#method-nix-archive"><code>nar</code></a></li>
+<li><a href="../../store/store-object/content-address.html#method-text"><code>text</code></a></li>
+<li><a href="../../store/store-object/content-address.html#method-git"><code>git</code></a></li>
 </ul>
-<h2 id="impure-fields"><a class="header" href="#impure-fields">Impure fields</a></h2>
-<p>These are not intrinsic properties of the store object.
-In other words, the same store object residing in different store could have different values for these properties.</p>
+<p>Must be one of:</p>
+<ul>
+<li>“flat”</li>
+<li>“nar”</li>
+<li>“text”</li>
+<li>“git”</li>
+</ul>
+<h5 id="1622-property-hash"><a class="header" href="#1622-property-hash"><a name="oneOf_i0_ca_oneOf_i1_hash"></a>1.6.2.2. Property <code>hash</code></a></h5>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/hash.html">JSON format for <code>Hash</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> This would be the content-address itself.</p>
+<p>For all current methods, this is just a content address of the file system object of the store object, <a href="../../store/file-system-object/content-address.html">as described in the store chapter</a>, and not of the store object as a whole.
+In particular, the references of the store object are <em>not</em> taken into account with this hash (and currently-supported methods).</p>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-json">"sha256-ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0="
+</code></pre>
+<pre><code class="language-json">"sha512-IEqPxt2oLwoM7XvrjgikFlfBbvRosiioJ5vjMacDwzWW/RXBOxsH+aodO+pXeJygMa2Fx6cd1wNU7GMSOMo0RQ=="
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^(blake3|md5|sha1|sha256|sha512)-[A-Za-z0-9+/]+=*$</code> <a href="https://regex101.com/?regex=%5E%28blake3%7Cmd5%7Csha1%7Csha256%7Csha512%29-%5BA-Za-z0-9%2B%2F%5D%2B%3D%2A%24&amp;testString=%22sha256-ungWv48Bz%2BpBQUDeXa4iI7ADYaOWF3qctBD%2FYfIAFa0%3D%22">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="17-property-storedir"><a class="header" href="#17-property-storedir"><a name="oneOf_i0_storeDir"></a>1.7. Property <code>storeDir</code></a></h3>
+<p><strong>Title:</strong> Store Directory</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<h2 id="2-property-store-object-info-with-impure-fields"><a class="header" href="#2-property-store-object-info-with-impure-fields"><a name="oneOf_i1"></a>2. Property <code>Store Object Info with Impure Fields</code></a></h2>
+<p><strong>Title:</strong> Store Object Info with Impure Fields</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Store object metadata including impure fields that are not <em>intrinsic</em> properties.
+In other words, the same store object in different stores could have different values for these impure fields.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i1_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>- <a href="#oneOf_i1_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
+<tr><td>+ <a href="#oneOf_i1_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
+<tr><td>+ <a href="#oneOf_i1_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
+<tr><td>+ <a href="#oneOf_i1_references">references</a></td><td>array</td><td>No</td><td>References</td></tr>
+<tr><td>+ <a href="#oneOf_i1_ca">ca</a></td><td>object</td><td>No</td><td>Content Address</td></tr>
+<tr><td>+ <a href="#oneOf_i1_storeDir">storeDir</a></td><td>string</td><td>No</td><td>Store Directory</td></tr>
+<tr><td>+ <a href="#oneOf_i1_deriver">deriver</a></td><td>Combination</td><td>No</td><td>Deriver</td></tr>
+<tr><td>+ <a href="#oneOf_i1_registrationTime">registrationTime</a></td><td>integer or null</td><td>No</td><td>Registration Time</td></tr>
+<tr><td>+ <a href="#oneOf_i1_ultimate">ultimate</a></td><td>boolean</td><td>No</td><td>Ultimate</td></tr>
+<tr><td>+ <a href="#oneOf_i1_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Signatures</td></tr>
+<tr><td>- <a href="#oneOf_i1_closureSize">closureSize</a></td><td>integer</td><td>No</td><td>Closure Size</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="21-property-version"><a class="header" href="#21-property-version"><a name="oneOf_i1_version"></a>2.1. Property <code>version</code></a></h3>
+<p><strong>Title:</strong> Format version (must be 2)</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/version</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Must be <code>2</code>.
+This is a guard that allows us to continue evolving this format.
+Here is the rough version history:</p>
 <ul>
 <li>
-<p><code>deriver</code>:</p>
-<p>If known, the path to the <a href="../../glossary.html#gloss-store-derivation">store derivation</a> from which this store object was produced.
+<p>Version 0: <code>.narinfo</code> line-oriented format</p>
+</li>
+<li>
+<p>Version 1: Original JSON format, with ugly <code>"r:sha256"</code> inherited from <code>.narinfo</code> format.</p>
+</li>
+<li>
+<p>Version 2: Use structured JSON type for <code>ca</code></p>
+</li>
+</ul>
+<p>Specific value: <code>2</code></p>
+<h3 id="22-property-path"><a class="header" href="#22-property-path"><a name="oneOf_i1_path"></a>2.2. Property <code>path</code></a></h3>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/path</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> <a href="../../store/store-path.html">Store path</a> to the given store object.</p>
+<p>Note: This field may not be present in all contexts, such as when the path is used as the key and the the store object info the value in map.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min length</strong></td><td>34</td></tr>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^[0123456789abcdfghijklmnpqrsvwxyz]{32}-.+$</code> <a href="https://regex101.com/?regex=%5E%5B0123456789abcdfghijklmnpqrsvwxyz%5D%7B32%7D-.%2B%24">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="23-property-narhash"><a class="header" href="#23-property-narhash"><a name="oneOf_i1_narHash"></a>2.3. Property <code>narHash</code></a></h3>
+<p><strong>Title:</strong> NAR Hash</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/narHash</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Hash of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-json">"sha256-ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0="
+</code></pre>
+<pre><code class="language-json">"sha512-IEqPxt2oLwoM7XvrjgikFlfBbvRosiioJ5vjMacDwzWW/RXBOxsH+aodO+pXeJygMa2Fx6cd1wNU7GMSOMo0RQ=="
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^(blake3|md5|sha1|sha256|sha512)-[A-Za-z0-9+/]+=*$</code> <a href="https://regex101.com/?regex=%5E%28blake3%7Cmd5%7Csha1%7Csha256%7Csha512%29-%5BA-Za-z0-9%2B%2F%5D%2B%3D%2A%24&amp;testString=%22sha256-ungWv48Bz%2BpBQUDeXa4iI7ADYaOWF3qctBD%2FYfIAFa0%3D%22">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="24-property-narsize"><a class="header" href="#24-property-narsize"><a name="oneOf_i1_narSize"></a>2.4. Property <code>narSize</code></a></h3>
+<p><strong>Title:</strong> NAR Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/narSize</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Size of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="25-property-references"><a class="header" href="#25-property-references"><a name="oneOf_i1_references"></a>2.5. Property <code>references</code></a></h3>
+<p><strong>Title:</strong> References</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/references</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> An array of <a href="../../store/store-path.html">store paths</a>, possibly including this one.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Array restrictions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
+<tr><td><strong>Additional items</strong></td><td>False</td></tr>
+<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Each item of this array must be</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i1_references_items">Store Path</a></td><td>A <a href="../../store/store-path.html">store path</a> identifying a store object. …</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="251-store-path"><a class="header" href="#251-store-path"><a name="oneOf_i1_references_items"></a>2.5.1. Store Path</a></h4>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i0_path">path</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A <a href="../../store/store-path.html">store path</a> identifying a store object.</p>
+<p>This schema describes the JSON representation of store paths as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="format-1"><a class="header" href="#format-1">Format</a></h2>
+<p>Store paths in JSON are represented as strings containing just the hash and name portion, without the store directory prefix.</p>
+<p>For example: <code>"g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv"</code></p>
+<p>(If the store dir is <code>/nix/store</code>, then this corresponds to the path <code>/nix/store/g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv</code>.)</p>
+<h2 id="structure-1"><a class="header" href="#structure-1">Structure</a></h2>
+<p>The format follows this pattern: <code>${digest}-${name}</code></p>
+<ul>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>name</strong>: The package name and optional version/suffix information</li>
+</ul>
+<h3 id="26-property-ca"><a class="header" href="#26-property-ca"><a name="oneOf_i1_ca"></a>2.6. Property <code>ca</code></a></h3>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/ca</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If the store object is <a href="../../store/store-object/content-address.html">content-addressed</a>,
+this is the content address of this store object’s file system object, used to compute its store path.
+Otherwise (i.e. if it is <a href="../../glossary.html#gloss-input-addressed-store-object">input-addressed</a>), this is <code>null</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>One of(Option)</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i1_ca_oneOf_i0">item 0</a></td></tr>
+<tr><td><a href="#oneOf_i1_ca_oneOf_i1">Content Address</a></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="261-property-item-0"><a class="header" href="#261-property-item-0"><a name="oneOf_i1_ca_oneOf_i0"></a>2.6.1. Property <code>item 0</code></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<p>Specific value: <code>null</code></p>
+<h4 id="262-property-content-address"><a class="header" href="#262-property-content-address"><a name="oneOf_i1_ca_oneOf_i1"></a>2.6.2. Property <code>Content Address</code></a></h4>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i0_ca_oneOf_i1">Content Address</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> This schema describes the JSON representation of Nix’s <code>ContentAddress</code> type, which conveys information about <a href="../../store/store-object/content-address.html">content-addressing store objects</a>.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>For current methods of content addressing, this data type is a bit suspicious, because it is neither simply a content address of a file system object (the <code>method</code> is richer), nor simply a content address of a store object (the <code>hash</code> doesn’t account for the references).
+It should thus only be used in contexts where the references are also known / otherwise made tamper-resistant.</p>
+</blockquote>
+<!--
+TODO currently `ContentAddress` is used in both of these, and so same rationale applies, but actually in both cases the JSON is currently ad-hoc.
+That will be fixed, and as each is fixed, the example (along with a more precise link to the field in question) should be become part of the above note, so what is is saying is more clear.
+
+> For example:
+
+> - Fixed outputs of derivations are not allowed to have any references, so an empty reference set is statically known by assumption.
+
+> - [Store object info](./store-object-info.md) includes the set of references along side the (optional) content address.
+
+> This data type is thus safely used in both of these contexts.
+
+-->
+<h3 id="27-property-storedir"><a class="header" href="#27-property-storedir"><a name="oneOf_i1_storeDir"></a>2.7. Property <code>storeDir</code></a></h3>
+<p><strong>Title:</strong> Store Directory</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/base/properties/storeDir</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<h3 id="28-property-deriver"><a class="header" href="#28-property-deriver"><a name="oneOf_i1_deriver"></a>2.8. Property <code>deriver</code></a></h3>
+<p><strong>Title:</strong> Deriver</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If known, the path to the <a href="../../glossary.html#gloss-store-derivation">store derivation</a> from which this store object was produced.
 Otherwise <code>null</code>.</p>
-</li>
-<li>
-<p><code>registrationTime</code> (optional):</p>
-<p>If known, when this derivation was added to the store.
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>One of(Option)</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i1_deriver_oneOf_i0">Store Path</a></td></tr>
+<tr><td><a href="#oneOf_i1_deriver_oneOf_i1">item 1</a></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="281-property-store-path"><a class="header" href="#281-property-store-path"><a name="oneOf_i1_deriver_oneOf_i0"></a>2.8.1. Property <code>Store Path</code></a></h4>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i0_path">path</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A <a href="../../store/store-path.html">store path</a> identifying a store object.</p>
+<p>This schema describes the JSON representation of store paths as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="format-2"><a class="header" href="#format-2">Format</a></h2>
+<p>Store paths in JSON are represented as strings containing just the hash and name portion, without the store directory prefix.</p>
+<p>For example: <code>"g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv"</code></p>
+<p>(If the store dir is <code>/nix/store</code>, then this corresponds to the path <code>/nix/store/g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv</code>.)</p>
+<h2 id="structure-2"><a class="header" href="#structure-2">Structure</a></h2>
+<p>The format follows this pattern: <code>${digest}-${name}</code></p>
+<ul>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>name</strong>: The package name and optional version/suffix information</li>
+</ul>
+<h4 id="282-property-item-1"><a class="header" href="#282-property-item-1"><a name="oneOf_i1_deriver_oneOf_i1"></a>2.8.2. Property <code>item 1</code></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>null</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="29-property-registrationtime"><a class="header" href="#29-property-registrationtime"><a name="oneOf_i1_registrationTime"></a>2.9. Property <code>registrationTime</code></a></h3>
+<p><strong>Title:</strong> Registration Time</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer or null</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If known, when this derivation was added to the store (Unix timestamp).
 Otherwise <code>null</code>.</p>
-</li>
-<li>
-<p><code>ultimate</code>:</p>
-<p>Whether this store object is trusted because we built it ourselves, rather than substituted a build product from elsewhere.</p>
-</li>
-<li>
-<p><code>signatures</code>:</p>
-<p>Signatures claiming that this store object is what it claims to be.
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="210-property-ultimate"><a class="header" href="#210-property-ultimate"><a name="oneOf_i1_ultimate"></a>2.10. Property <code>ultimate</code></a></h3>
+<p><strong>Title:</strong> Ultimate</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>boolean</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Whether this store object is trusted because we built it ourselves, rather than substituted a build product from elsewhere.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="211-property-signatures"><a class="header" href="#211-property-signatures"><a name="oneOf_i1_signatures"></a>2.11. Property <code>signatures</code></a></h3>
+<p><strong>Title:</strong> Signatures</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Signatures claiming that this store object is what it claims to be.
 Not relevant for <a href="../../store/store-object/content-address.html">content-addressed</a> store objects,
 but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">input-addressed</a> store objects.</p>
-</li>
-</ul>
-<h3 id="narinfo-extra-fields"><a class="header" href="#narinfo-extra-fields"><code>.narinfo</code> extra fields</a></h3>
-<p>This meta data is specific to the “binary cache” family of Nix store types.
-This information is not intrinsic to the store object, but about how it is stored.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Array restrictions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
+<tr><td><strong>Additional items</strong></td><td>False</td></tr>
+<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Each item of this array must be</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i1_signatures_items">signatures items</a></td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="2111-signatures-items"><a class="header" href="#2111-signatures-items"><a name="oneOf_i1_signatures_items"></a>2.11.1. signatures items</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="212-property-closuresize"><a class="header" href="#212-property-closuresize"><a name="oneOf_i1_closureSize"></a>2.12. Property <code>closureSize</code></a></h3>
+<p><strong>Title:</strong> Closure Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The total size of this store object and every other object in its <a href="../../glossary.html#gloss-closure">closure</a>.</p>
+<blockquote>
+<p>This field is not stored at all, but computed by traversing the other fields across all the store objects in a closure.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<h2 id="3-property-store-object-info-with-impure-fields-and-nar-info"><a class="header" href="#3-property-store-object-info-with-impure-fields-and-nar-info"><a name="oneOf_i2"></a>3. Property <code>Store Object Info with Impure fields and NAR Info</code></a></h2>
+<p><strong>Title:</strong> Store Object Info with Impure fields and NAR Info</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/narInfo</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The store object info in the “binary cache” family of Nix store type contain extra information pertaining to <em>downloads</em> of the store object in question.
+(This store info is called “NAR info”, since the downloads take the form of [Nix Archives](../../store/file-system-object/content-address.md#serial-nix-archive, and the metadata is served in a file with a <code>.narinfo</code> extension.)</p>
+<p>This download information, being specific to how the store object happens to be stored and transferred, is also considered to be non-intrinsic / impure.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i2_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>- <a href="#oneOf_i2_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
+<tr><td>+ <a href="#oneOf_i2_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
+<tr><td>+ <a href="#oneOf_i2_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
+<tr><td>+ <a href="#oneOf_i2_references">references</a></td><td>array</td><td>No</td><td>References</td></tr>
+<tr><td>+ <a href="#oneOf_i2_ca">ca</a></td><td>object</td><td>No</td><td>Content Address</td></tr>
+<tr><td>+ <a href="#oneOf_i2_storeDir">storeDir</a></td><td>string</td><td>No</td><td>Store Directory</td></tr>
+<tr><td>+ <a href="#oneOf_i2_deriver">deriver</a></td><td>object</td><td>No</td><td>Deriver</td></tr>
+<tr><td>+ <a href="#oneOf_i2_registrationTime">registrationTime</a></td><td>integer or null</td><td>No</td><td>Registration Time</td></tr>
+<tr><td>+ <a href="#oneOf_i2_ultimate">ultimate</a></td><td>boolean</td><td>No</td><td>Ultimate</td></tr>
+<tr><td>+ <a href="#oneOf_i2_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Signatures</td></tr>
+<tr><td>- <a href="#oneOf_i2_closureSize">closureSize</a></td><td>integer</td><td>No</td><td>Closure Size</td></tr>
+<tr><td>+ <a href="#oneOf_i2_url">url</a></td><td>string</td><td>No</td><td>URL</td></tr>
+<tr><td>+ <a href="#oneOf_i2_compression">compression</a></td><td>string</td><td>No</td><td>Compression</td></tr>
+<tr><td>+ <a href="#oneOf_i2_downloadHash">downloadHash</a></td><td>string</td><td>No</td><td>Download Hash</td></tr>
+<tr><td>+ <a href="#oneOf_i2_downloadSize">downloadSize</a></td><td>integer</td><td>No</td><td>Download Size</td></tr>
+<tr><td>- <a href="#oneOf_i2_closureDownloadSize">closureDownloadSize</a></td><td>integer</td><td>No</td><td>Closure Download Size</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="31-property-version"><a class="header" href="#31-property-version"><a name="oneOf_i2_version"></a>3.1. Property <code>version</code></a></h3>
+<p><strong>Title:</strong> Format version (must be 2)</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_version">version</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Must be <code>2</code>.
+This is a guard that allows us to continue evolving this format.
+Here is the rough version history:</p>
 <ul>
 <li>
-<p><code>url</code>:</p>
-<p>Where to download a compressed archive of the file system objects of this store object.</p>
+<p>Version 0: <code>.narinfo</code> line-oriented format</p>
 </li>
 <li>
-<p><code>compression</code>:</p>
-<p>The compression format that the archive is in.</p>
+<p>Version 1: Original JSON format, with ugly <code>"r:sha256"</code> inherited from <code>.narinfo</code> format.</p>
 </li>
 <li>
-<p><code>fileHash</code>:</p>
-<p>A digest for the compressed archive itself, as opposed to the data contained within.</p>
-</li>
-<li>
-<p><code>fileSize</code>:</p>
-<p>The size of the compressed archive itself.</p>
+<p>Version 2: Use structured JSON type for <code>ca</code></p>
 </li>
 </ul>
-<h2 id="computed-closure-fields"><a class="header" href="#computed-closure-fields">Computed closure fields</a></h2>
-<p>These fields are not stored at all, but computed by traversing the other fields across all the store objects in a <a href="../../glossary.html#gloss-closure">closure</a>.</p>
+<h3 id="32-property-path"><a class="header" href="#32-property-path"><a name="oneOf_i2_path"></a>3.2. Property <code>path</code></a></h3>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_path">path</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> <a href="../../store/store-path.html">Store path</a> to the given store object.</p>
+<p>Note: This field may not be present in all contexts, such as when the path is used as the key and the the store object info the value in map.</p>
+<h3 id="33-property-narhash"><a class="header" href="#33-property-narhash"><a name="oneOf_i2_narHash"></a>3.3. Property <code>narHash</code></a></h3>
+<p><strong>Title:</strong> NAR Hash</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_narHash">narHash</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Hash of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<h3 id="34-property-narsize"><a class="header" href="#34-property-narsize"><a name="oneOf_i2_narSize"></a>3.4. Property <code>narSize</code></a></h3>
+<p><strong>Title:</strong> NAR Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_narSize">narSize</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Size of the <a href="../../store/file-system-object.html">file system object</a> part of the store object when serialized as a <a href="../../store/file-system-object/content-address.html#serial-nix-archive">Nix Archive</a>.</p>
+<h3 id="35-property-references"><a class="header" href="#35-property-references"><a name="oneOf_i2_references"></a>3.5. Property <code>references</code></a></h3>
+<p><strong>Title:</strong> References</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_references">references</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> An array of <a href="../../store/store-path.html">store paths</a>, possibly including this one.</p>
+<h3 id="36-property-ca"><a class="header" href="#36-property-ca"><a name="oneOf_i2_ca"></a>3.6. Property <code>ca</code></a></h3>
+<p><strong>Title:</strong> Content Address</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_ca">ca</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If the store object is <a href="../../store/store-object/content-address.html">content-addressed</a>,
+this is the content address of this store object’s file system object, used to compute its store path.
+Otherwise (i.e. if it is <a href="../../glossary.html#gloss-input-addressed-store-object">input-addressed</a>), this is <code>null</code>.</p>
+<h3 id="37-property-storedir"><a class="header" href="#37-property-storedir"><a name="oneOf_i2_storeDir"></a>3.7. Property <code>storeDir</code></a></h3>
+<p><strong>Title:</strong> Store Directory</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_storeDir">storeDir</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<h3 id="38-property-deriver"><a class="header" href="#38-property-deriver"><a name="oneOf_i2_deriver"></a>3.8. Property <code>deriver</code></a></h3>
+<p><strong>Title:</strong> Deriver</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/deriver</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If known, the path to the <a href="../../glossary.html#gloss-store-derivation">store derivation</a> from which this store object was produced.
+Otherwise <code>null</code>.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>One of(Option)</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i2_deriver_oneOf_i0">Store Path</a></td></tr>
+<tr><td><a href="#oneOf_i2_deriver_oneOf_i1">item 1</a></td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="381-property-store-path"><a class="header" href="#381-property-store-path"><a name="oneOf_i2_deriver_oneOf_i0"></a>3.8.1. Property <code>Store Path</code></a></h4>
+<p><strong>Title:</strong> Store Path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i0_path">path</a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A <a href="../../store/store-path.html">store path</a> identifying a store object.</p>
+<p>This schema describes the JSON representation of store paths as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="format-3"><a class="header" href="#format-3">Format</a></h2>
+<p>Store paths in JSON are represented as strings containing just the hash and name portion, without the store directory prefix.</p>
+<p>For example: <code>"g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv"</code></p>
+<p>(If the store dir is <code>/nix/store</code>, then this corresponds to the path <code>/nix/store/g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo.drv</code>.)</p>
+<h2 id="structure-3"><a class="header" href="#structure-3">Structure</a></h2>
+<p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li>
-<p><code>closureSize</code>:</p>
-<p>The total size of the compressed archive itself for this object, and the compressed archive of every object in this object’s <a href="../../glossary.html#gloss-closure">closure</a>.</p>
-</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
-<h3 id="narinfo-extra-fields-1"><a class="header" href="#narinfo-extra-fields-1"><code>.narinfo</code> extra fields</a></h3>
-<ul>
-<li>
-<p><code>closureSize</code>:</p>
-<p>The total size of this store object and every other object in its <a href="../../glossary.html#gloss-closure">closure</a>.</p>
-</li>
-</ul>
+<h4 id="382-property-item-1"><a class="header" href="#382-property-item-1"><a name="oneOf_i2_deriver_oneOf_i1"></a>3.8.2. Property <code>item 1</code></a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>null</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="39-property-registrationtime"><a class="header" href="#39-property-registrationtime"><a name="oneOf_i2_registrationTime"></a>3.9. Property <code>registrationTime</code></a></h3>
+<p><strong>Title:</strong> Registration Time</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer or null</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/registrationTime</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> If known, when this derivation was added to the store (Unix timestamp).
+Otherwise <code>null</code>.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="310-property-ultimate"><a class="header" href="#310-property-ultimate"><a name="oneOf_i2_ultimate"></a>3.10. Property <code>ultimate</code></a></h3>
+<p><strong>Title:</strong> Ultimate</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>boolean</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/ultimate</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Whether this store object is trusted because we built it ourselves, rather than substituted a build product from elsewhere.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="311-property-signatures"><a class="header" href="#311-property-signatures"><a name="oneOf_i2_signatures"></a>3.11. Property <code>signatures</code></a></h3>
+<p><strong>Title:</strong> Signatures</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/signatures</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Signatures claiming that this store object is what it claims to be.
+Not relevant for <a href="../../store/store-object/content-address.html">content-addressed</a> store objects,
+but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">input-addressed</a> store objects.</p>
+<blockquote>
+<p>This is an “impure” field that may not be included in certain contexts.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Array restrictions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
+<tr><td><strong>Additional items</strong></td><td>False</td></tr>
+<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Each item of this array must be</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#oneOf_i2_signatures_items">signatures items</a></td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="3111-signatures-items"><a class="header" href="#3111-signatures-items"><a name="oneOf_i2_signatures_items"></a>3.11.1. signatures items</a></h4>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="312-property-closuresize"><a class="header" href="#312-property-closuresize"><a name="oneOf_i2_closureSize"></a>3.12. Property <code>closureSize</code></a></h3>
+<p><strong>Title:</strong> Closure Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/closureSize</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The total size of this store object and every other object in its <a href="../../glossary.html#gloss-closure">closure</a>.</p>
+<blockquote>
+<p>This field is not stored at all, but computed by traversing the other fields across all the store objects in a closure.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="313-property-url"><a class="header" href="#313-property-url"><a name="oneOf_i2_url"></a>3.13. Property <code>url</code></a></h3>
+<p><strong>Title:</strong> URL</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Where to download a compressed archive of the file system objects of this store object.</p>
+<blockquote>
+<p>This is an impure “<code>.narinfo</code>” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="314-property-compression"><a class="header" href="#314-property-compression"><a name="oneOf_i2_compression"></a>3.14. Property <code>compression</code></a></h3>
+<p><strong>Title:</strong> Compression</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The compression format that the archive is in.</p>
+<blockquote>
+<p>This is an impure “<code>.narinfo</code>” field that may not be included in certain contexts.</p>
+</blockquote>
+<h3 id="315-property-downloadhash"><a class="header" href="#315-property-downloadhash"><a name="oneOf_i2_downloadHash"></a>3.15. Property <code>downloadHash</code></a></h3>
+<p><strong>Title:</strong> Download Hash</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/hash.html">JSON format for <code>Hash</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A digest for the compressed archive itself, as opposed to the data contained within.</p>
+<blockquote>
+<p>This is an impure “<code>.narinfo</code>” field that may not be included in certain contexts.</p>
+</blockquote>
+<p><strong>Examples:</strong></p>
+<pre><code class="language-json">"sha256-ungWv48Bz+pBQUDeXa4iI7ADYaOWF3qctBD/YfIAFa0="
+</code></pre>
+<pre><code class="language-json">"sha512-IEqPxt2oLwoM7XvrjgikFlfBbvRosiioJ5vjMacDwzWW/RXBOxsH+aodO+pXeJygMa2Fx6cd1wNU7GMSOMo0RQ=="
+</code></pre>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Must match regular expression</strong></td><td><code>^(blake3|md5|sha1|sha256|sha512)-[A-Za-z0-9+/]+=*$</code> <a href="https://regex101.com/?regex=%5E%28blake3%7Cmd5%7Csha1%7Csha256%7Csha512%29-%5BA-Za-z0-9%2B%2F%5D%2B%3D%2A%24&amp;testString=%22sha256-ungWv48Bz%2BpBQUDeXa4iI7ADYaOWF3qctBD%2FYfIAFa0%3D%22">Test</a></td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="316-property-downloadsize"><a class="header" href="#316-property-downloadsize"><a name="oneOf_i2_downloadSize"></a>3.16. Property <code>downloadSize</code></a></h3>
+<p><strong>Title:</strong> Download Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The size of the compressed archive itself.</p>
+<blockquote>
+<p>This is an impure “<code>.narinfo</code>” field that may not be included in certain contexts.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<h3 id="317-property-closuredownloadsize"><a class="header" href="#317-property-closuredownloadsize"><a name="oneOf_i2_closureDownloadSize"></a>3.17. Property <code>closureDownloadSize</code></a></h3>
+<p><strong>Title:</strong> Closure Download Size</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>integer</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The total size of the compressed archive itself for this object, and the compressed archive of every object in this object’s <a href="../../glossary.html#gloss-closure">closure</a>.</p>
+<blockquote>
+<p>This is an impure “<code>.narinfo</code>” field that may not be included in certain contexts.</p>
+</blockquote>
+<blockquote>
+<p>This field is not stored at all, but computed by traversing the other fields across all the store objects in a closure.</p>
+</blockquote>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Restrictions</th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Minimum</strong></td><td>≥ 0</td></tr>
+</tbody>
+</table>
+</div>
+<hr>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="minimal-store-object-content-addressed"><a class="header" href="#minimal-store-object-content-addressed">Minimal store object (content-addressed)</a></h3>
+<pre><code class="language-json">{
+  "ca": {
+    "hash": "sha256-EMIJ+giQ/gLIWoxmPKjno3zHZrxbGymgzGGyZvZBIdM=",
+    "method": "nar"
+  },
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 34878,
+  "references": [
+    "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar",
+    "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
+  ],
+  "storeDir": "/nix/store",
+  "version": 2
+}
+
+</code></pre>
+<h3 id="store-object-with-impure-fields"><a class="header" href="#store-object-with-impure-fields">Store object with impure fields</a></h3>
+<pre><code class="language-json">{
+  "ca": {
+    "hash": "sha256-EMIJ+giQ/gLIWoxmPKjno3zHZrxbGymgzGGyZvZBIdM=",
+    "method": "nar"
+  },
+  "deriver": "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar.drv",
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 34878,
+  "references": [
+    "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar",
+    "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
+  ],
+  "registrationTime": 23423,
+  "signatures": [
+    "asdf:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+    "qwer:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+  ],
+  "storeDir": "/nix/store",
+  "ultimate": true,
+  "version": 2
+}
+
+</code></pre>
+<h3 id="minimal-store-object-empty"><a class="header" href="#minimal-store-object-empty">Minimal store object (empty)</a></h3>
+<pre><code class="language-json">{
+  "ca": null,
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 0,
+  "references": [],
+  "storeDir": "/nix/store",
+  "version": 2
+}
+
+</code></pre>
+<h3 id="store-object-with-all-impure-fields"><a class="header" href="#store-object-with-all-impure-fields">Store object with all impure fields</a></h3>
+<pre><code class="language-json">{
+  "ca": null,
+  "deriver": null,
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 0,
+  "references": [],
+  "registrationTime": null,
+  "signatures": [],
+  "storeDir": "/nix/store",
+  "ultimate": false,
+  "version": 2
+}
+
+</code></pre>
+<h3 id="nar-info-minimal"><a class="header" href="#nar-info-minimal">NAR info (minimal)</a></h3>
+<pre><code class="language-json">{
+  "ca": {
+    "hash": "sha256-EMIJ+giQ/gLIWoxmPKjno3zHZrxbGymgzGGyZvZBIdM=",
+    "method": "nar"
+  },
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 34878,
+  "references": [
+    "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar",
+    "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
+  ],
+  "storeDir": "/nix/store",
+  "version": 2
+}
+
+</code></pre>
+<h3 id="nar-info-with-binary-cache-fields"><a class="header" href="#nar-info-with-binary-cache-fields">NAR info (with binary cache fields)</a></h3>
+<pre><code class="language-json">{
+  "ca": {
+    "hash": "sha256-EMIJ+giQ/gLIWoxmPKjno3zHZrxbGymgzGGyZvZBIdM=",
+    "method": "nar"
+  },
+  "compression": "xz",
+  "deriver": "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar.drv",
+  "downloadHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "downloadSize": 4029176,
+  "narHash": "sha256-FePFYIlMuycIXPZbWi7LGEiMmZSX9FMbaQenWBzm1Sc=",
+  "narSize": 34878,
+  "references": [
+    "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar",
+    "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
+  ],
+  "registrationTime": 23423,
+  "signatures": [
+    "asdf:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+    "qwer:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+  ],
+  "storeDir": "/nix/store",
+  "ultimate": true,
+  "url": "nar/1w1fff338fvdw53sqgamddn1b2xgds473pv6y13gizdbqjv4i5p3.nar.xz",
+  "version": 2
+}
+
+</code></pre>
+<!-- need to convert YAML to JSON first
+## Raw Schema
+
+[JSON Schema for Store Object Info v1](schema/store-object-info-v2.json)
+-->
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../protocols/json/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../protocols/json/store-path.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../protocols/json/derivation.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../protocols/json/derivation/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -293,11 +1829,11 @@ This information is not intrinsic to the store object, but about how it is store
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../protocols/json/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../protocols/json/store-path.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../protocols/json/derivation.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../protocols/json/derivation/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -326,7 +1862,7 @@ This information is not intrinsic to the store object, but about how it is store
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

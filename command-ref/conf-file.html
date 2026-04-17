@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix.conf - Nix 2.31.3 Reference Manual</title>
+        <title>nix.conf - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -413,7 +429,7 @@ allowed to access <code>https://github.com/NixOS/patchelf.git</code>.</p>
 </li>
 <li>
 <p><span id="conf-allowed-users"><a href="#conf-allowed-users"><code>allowed-users</code></a></span></p>
-<p>A list user names, separated by whitespace.
+<p>A list of user names, separated by whitespace.
 These users are allowed to connect to the Nix daemon.</p>
 <p>You can specify groups by prefixing names with <code>@</code>.
 For instance, <code>@wheel</code> means all users in the <code>wheel</code> group.
@@ -516,7 +532,7 @@ is good to have as many Nix build user accounts as you can spare.
 store, but not delete them. Therefore, <code>/nix/store</code> should be owned
 by the Nix account, its group should be the group specified here,
 and its mode should be <code>1775</code>.</p>
-<p>If the build users group is empty, builds areperformed under
+<p>If the build users group is empty, builds are performed under
 the uid of the Nix process (that is, the uid of the caller if
 <code>NIX_REMOTE</code> is empty, the uid under which the Nix daemon runs if
 <code>NIX_REMOTE</code> is <code>daemon</code>). Obviously, this should not be used
@@ -630,7 +646,7 @@ For regular builds, <code>itchy</code> is preferred over <code>scratchy</code> b
 <li>
 <p><span id="conf-builders-use-substitutes"><a href="#conf-builders-use-substitutes"><code>builders-use-substitutes</code></a></span></p>
 <p>If set to <code>true</code>, Nix instructs <a href="#conf-builders">remote build machines</a> to use their own <a href="#conf-substituters"><code>substituters</code></a> if available.</p>
-<p>It means that remote build hosts fetches as many dependencies as possible from their own substituters (e.g, from <code>cache.nixos.org</code>) instead of waiting for the local machine to upload them all.
+<p>It means that remote build hosts fetch as many dependencies as possible from their own substituters (e.g, from <code>cache.nixos.org</code>) instead of waiting for the local machine to upload them all.
 This can drastically reduce build times if the network connection between the local machine and the remote build host is slow.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
@@ -670,7 +686,7 @@ binary cache substituter. It corresponds to <code>curl</code>’s
 </li>
 <li>
 <p><span id="conf-cores"><a href="#conf-cores"><code>cores</code></a></span></p>
-<p>Sets the value of the <code>NIX_BUILD_CORES</code> environment variable in the <a href="../language/derivations.html#builder-execution">invocation of the <code>builder</code> executable</a> of a derivation.
+<p>Sets the value of the <code>NIX_BUILD_CORES</code> environment variable in the <a href="../store/building.html#builder-execution">invocation of the <code>builder</code> executable</a> of a derivation.
 The <code>builder</code> executable can use this variable to control its own maximum amount of parallelism.</p>
 <!--
 FIXME(@fricklerhandwerk): I don't think this should even be mentioned here.
@@ -678,7 +694,7 @@ A very generic example using `derivation` and `xargs` may be more appropriate to
 Using `mkDerivation` as an example requires being aware of that there are multiple independent layers that are completely opaque here.
 -->
 <p>For instance, in Nixpkgs, if the attribute <code>enableParallelBuilding</code> for the <code>mkDerivation</code> build helper is set to <code>true</code>, it passes the <code>-j${NIX_BUILD_CORES}</code> flag to GNU Make.</p>
-<p>If set to <code>0</code>, nix will detect the number of CPU cores and pass this number via NIX_BUILD_CORES.</p>
+<p>If set to <code>0</code>, nix will detect the number of CPU cores and pass this number via <code>NIX_BUILD_CORES</code>.</p>
 <blockquote>
 <p><strong>Note</strong></p>
 <p>The number of parallel local Nix build jobs is independently controlled with the <a href="#conf-max-jobs"><code>max-jobs</code></a> setting.</p>
@@ -732,8 +748,8 @@ store path just built.</p>
 exists only if the build was run with <code>--keep-failed</code>.</p>
 </li>
 </ol>
-<p>The stderr and stdout output from the diff hook isn’t
-displayed to the user. Instead, it print to the nix-daemon’s log.</p>
+<p>The stderr and stdout output from the diff hook isn’t displayed
+to the user. Instead, it prints to the nix-daemon’s log.</p>
 <p>When using the Nix daemon, <code>diff-hook</code> must be set in the <code>nix.conf</code>
 configuration file, and cannot be passed at the command line.</p>
 <p><strong>Default:</strong> ``</p>
@@ -747,14 +763,27 @@ configuration file, and cannot be passed at the command line.</p>
 <p><span id="conf-download-buffer-size"><a href="#conf-download-buffer-size"><code>download-buffer-size</code></a></span></p>
 <p>The size of Nix’s internal download buffer in bytes during <code>curl</code> transfers. If data is
 not processed quickly enough to exceed the size of this buffer, downloads may stall.
-The default is 67108864 (64 MiB).</p>
-<p><strong>Default:</strong> <code>67108864</code></p>
+The default is 1048576 (1 MiB).</p>
+<p><strong>Default:</strong> <code>1048576</code></p>
 </li>
 <li>
 <p><span id="conf-download-speed"><a href="#conf-download-speed"><code>download-speed</code></a></span></p>
 <p>Specify the maximum transfer rate in kilobytes per second you want
 Nix to use for downloads.</p>
 <p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="conf-eval-attrset-update-layer-rhs-threshold"><a href="#conf-eval-attrset-update-layer-rhs-threshold"><code>eval-attrset-update-layer-rhs-threshold</code></a></span></p>
+<p>Tunes the maximum size of an attribute set that, when used
+as a right operand in an <a href="../language/operators.html#update">attribute set update expression</a>,
+uses a more space-efficient linked-list representation of attribute sets.</p>
+<p>Setting this to larger values generally leads to less memory allocations,
+but may lead to worse evaluation performance.</p>
+<p>A value of <code>0</code> disables this optimization completely.</p>
+<p>This is an advanced performance tuning option and typically should not be changed.
+The default value is chosen to balance performance and memory usage. On 32 bit systems
+where memory is scarce, the default is a large value to reduce the amount of allocations.</p>
+<p><strong>Default:</strong> <code>16</code></p>
 </li>
 <li>
 <p><span id="conf-eval-cache"><a href="#conf-eval-cache"><code>eval-cache</code></a></span></p>
@@ -812,6 +841,7 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 <li><a href="../development/experimental-features.html#xp-feature-configurable-impure-env"><code>configurable-impure-env</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-daemon-trust-override"><code>daemon-trust-override</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-dynamic-derivations"><code>dynamic-derivations</code></a></li>
+<li><a href="../development/experimental-features.html#xp-feature-external-builders"><code>external-builders</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-fetch-closure"><code>fetch-closure</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-fetch-tree"><code>fetch-tree</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a></li>
@@ -820,7 +850,6 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 <li><a href="../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-mounted-ssh-store"><code>mounted-ssh-store</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-nix-command"><code>nix-command</code></a></li>
-<li><a href="../development/experimental-features.html#xp-feature-no-url-literals"><code>no-url-literals</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-parse-toml-timestamps"><code>parse-toml-timestamps</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-pipe-operators"><code>pipe-operators</code></a></li>
 <li><a href="../development/experimental-features.html#xp-feature-read-only-local-store"><code>read-only-local-store</code></a></li>
@@ -828,6 +857,43 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 <li><a href="../development/experimental-features.html#xp-feature-verified-fetches"><code>verified-fetches</code></a></li>
 </ul>
 <p>Experimental features are <a href="../development/experimental-features.html">further documented in the manual</a>.</p>
+<p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
+<p><span id="conf-external-builders"><a href="#conf-external-builders"><code>external-builders</code></a></span></p>
+<p>Helper programs that execute derivations.</p>
+<p>The program is passed a JSON document that describes the build environment as the final argument.
+The JSON document looks like this:</p>
+<p>{
+“args”: [
+“-e”,
+“/nix/store/vj1c3wf9…-source-stdenv.sh”,
+“/nix/store/shkw4qm9…-default-builder.sh”
+],
+“builder”: “/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash”,
+“env”: {
+“HOME”: “/homeless-shelter”,
+“builder”: “/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash”,
+“nativeBuildInputs”: “/nix/store/l31j72f1…-version-check-hook”,
+“out”: “/nix/store/2yx2prgx…-hello-2.12.2”
+…
+},
+“inputPaths”: [
+“/nix/store/14dciax3…-glibc-2.32-54-dev”,
+“/nix/store/1azs5s8z…-gettext-0.21”,
+…
+],
+“outputs”: {
+“out”: “/nix/store/2yx2prgx…-hello-2.12.2”
+},
+“realStoreDir”: “/nix/store”,
+“storeDir”: “/nix/store”,
+“system”: “aarch64-linux”,
+“tmpDir”: “/private/tmp/nix-build-hello-2.12.2.drv-0/build”,
+“tmpDirInSandbox”: “/build”,
+“topTmpDir”: “/private/tmp/nix-build-hello-2.12.2.drv-0”,
+“version”: 1
+}</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
@@ -990,7 +1056,7 @@ written, in the same format as <code>--log-format internal-json</code>
 (without the <code>@nix </code> prefixes on each line).
 Concurrent writes to the same file by multiple Nix processes are not supported and
 may result in interleaved or corrupted log records.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="conf-keep-build-log"><a href="#conf-keep-build-log"><code>keep-build-log</code></a></span></p>
@@ -1056,6 +1122,64 @@ time (e.g., the C compiler, or source tarballs downloaded from the
 network). To prevent it from doing so, set this option to <code>true</code>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 <p><strong>Deprecated alias:</strong> <code>gc-keep-outputs</code></p>
+</li>
+<li>
+<p><span id="conf-lint-absolute-path-literals"><a href="#conf-lint-absolute-path-literals"><code>lint-absolute-path-literals</code></a></span></p>
+<p>Controls handling of absolute path literals (paths starting with <code>/</code>) and home path literals (paths starting with <code>~/</code>).</p>
+<ul>
+<li><code>ignore</code>: Ignore without warning (default)</li>
+<li><code>warn</code>: Emit a warning about non-portability</li>
+<li><code>fatal</code>: Treat as a parse error</li>
+</ul>
+<p>It is true that some files are more difficult to reference with relative paths,
+because they would require lots of <code>../../..</code> upward traversing to reach them.
+But firstly, it is probably not a good idea to reference these files —
+such paths often make Nix expressions less portable and reproducible,
+as they depend on the file system layout of the machine evaluating the expression.</p>
+<p>Secondly, with <a href="#conf-pure-eval">pure evaluation mode</a>, most such files are prohibited to access anyway,
+whether by absolute or relative paths.
+In that case, enabling this lint in fatal mode is less disruptive,
+because the paths pure eval allows are usually not the ones that would be ergonomically expressed with absolute paths anyway.</p>
+<p><strong>Default:</strong> <code>ignore</code></p>
+</li>
+<li>
+<p><span id="conf-lint-short-path-literals"><a href="#conf-lint-short-path-literals"><code>lint-short-path-literals</code></a></span></p>
+<p>Controls handling of relative path literals that don’t start with <code>./</code> or <code>../</code>.</p>
+<ul>
+<li><code>ignore</code>: Ignore without warning (default)</li>
+<li><code>warn</code>: Emit a warning suggesting to use <code>./</code> prefix</li>
+<li><code>fatal</code>: Treat as a parse error</li>
+</ul>
+<p>For example, with this setting set to <code>warn</code> or <code>fatal</code>, <code>foo/bar</code> would
+suggest using <code>./foo/bar</code> instead.</p>
+<p>This is useful for improving code readability and making path literals
+more explicit.</p>
+<p><strong>Default:</strong> <code>ignore</code></p>
+</li>
+<li>
+<p><span id="conf-lint-url-literals"><a href="#conf-lint-url-literals"><code>lint-url-literals</code></a></span></p>
+<p>Controls handling of unquoted URLs as part of the Nix language syntax.
+The Nix language allows for URL literals, like so:</p>
+<pre><code>$ nix repl
+nix-repl&gt; http://foo
+"http://foo"
+</code></pre>
+<p>Setting this to <code>warn</code> or <code>fatal</code> will cause the Nix parser to
+warn or throw an error when encountering a URL literal:</p>
+<pre><code>$ nix repl --lint-url-literals fatal
+nix-repl&gt; http://foo
+error: URL literal 'http://foo' is deprecated
+       at «string»:1:1:
+
+            1| http://foo
+             | ^
+</code></pre>
+<p>Unquoted URLs are being deprecated and their usage is discouraged.</p>
+<p>The reason is that, as opposed to path literals, URLs have no
+special properties that distinguish them from regular strings, URLs
+containing query parameters have to be quoted anyway, and unquoted URLs
+may confuse external tooling.</p>
+<p><strong>Default:</strong> <code>ignore</code></p>
 </li>
 <li>
 <p><span id="conf-log-lines"><a href="#conf-log-lines"><code>log-lines</code></a></span></p>
@@ -1135,6 +1259,14 @@ disables this feature.</p>
 <p><span id="conf-nar-buffer-size"><a href="#conf-nar-buffer-size"><code>nar-buffer-size</code></a></span></p>
 <p>Maximum size of NARs before spilling them to disk.</p>
 <p><strong>Default:</strong> <code>33554432</code></p>
+</li>
+<li>
+<p><span id="conf-narinfo-cache-meta-ttl"><a href="#conf-narinfo-cache-meta-ttl"><code>narinfo-cache-meta-ttl</code></a></span></p>
+<p>The TTL in seconds for caching binary cache metadata (i.e.
+<code>/nix-cache-info</code>). This determines how long information about a
+binary cache (such as its store directory, priority, and whether it
+wants mass queries) is considered valid before being refreshed.</p>
+<p><strong>Default:</strong> <code>604800</code></p>
 </li>
 <li>
 <p><span id="conf-narinfo-cache-negative-ttl"><a href="#conf-narinfo-cache-negative-ttl"><code>narinfo-cache-negative-ttl</code></a></span></p>
@@ -1298,7 +1430,7 @@ The derivation for the built paths.</p>
 Output paths of the built derivation, separated by a space
 character.</p>
 <p>Example:
-<code>/nix/store/zf5lbh336mnzf1nlswdn11g4n2m8zh3g-bash-4.4-p23-dev /nix/store/rjxwxwv1fpn9wa2x5ssk5phzwlcv4mna-bash-4.4-p23-doc /nix/store/6bqvbzjkcp9695dq0dpl5y43nvy37pq1-bash-4.4-p23-info /nix/store/r7fng3kk3vlpdlh2idnrbn37vh4imlj2-bash-4.4-p23-man /nix/store/xfghy8ixrhz3kyy6p724iv3cxji088dx-bash-4.4-p23</code>.</p>
+<code>/nix/store/l88brggg9hpy96ijds34dlq4n8fan63g-bash-4.4-p23-dev /nix/store/vch71bhyi5akr5zs40k8h2wqxx69j80l-bash-4.4-p23-doc /nix/store/c5cxjywi66iwn9dcx5yvwjkvl559ay6p-bash-4.4-p23-info /nix/store/scz72lskj03ihkcn42ias5mlp4i4gr1k-bash-4.4-p23-man /nix/store/a724znygmd1cac856j3gfsyvih3lw07j-bash-4.4-p23</code>.</p>
 </li>
 </ul>
 <p><strong>Default:</strong> <em>empty</em></p>
@@ -1791,12 +1923,7 @@ Set it to 1 to warn on all paths.</p>
 </li>
 <li>
 <p><span id="conf-warn-short-path-literals"><a href="#conf-warn-short-path-literals"><code>warn-short-path-literals</code></a></span></p>
-<p>If set to true, the Nix evaluator will warn when encountering relative path literals
-that don’t start with <code>./</code> or <code>../</code>.</p>
-<p>For example, with this setting enabled, <code>foo/bar</code> would emit a warning
-suggesting to use <code>./foo/bar</code> instead.</p>
-<p>This is useful for improving code readability and making path literals
-more explicit.</p>
+<p>Deprecated. Use <a href="#conf-lint-short-path-literals"><code>lint-short-path-literals</code></a><code> = warn</code> instead.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 </ul>
@@ -1852,7 +1979,7 @@ more explicit.</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

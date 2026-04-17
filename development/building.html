@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Building - Nix 2.31.3 Reference Manual</title>
+        <title>Building - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -184,6 +200,10 @@
                         <h1 id="building-nix"><a class="header" href="#building-nix">Building Nix</a></h1>
 <p>This section provides some notes on how to start hacking on Nix.
 To get the latest version of Nix from GitHub:</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>When checking out the repo on Windows, make sure you have the git setting <code>core.symlinks</code> enabled, before cloning, as there are symlinks in the repo.</p>
+</blockquote>
 <pre><code class="language-console">$ git clone https://github.com/NixOS/nix.git
 $ cd nix
 </code></pre>
@@ -196,7 +216,7 @@ If you don’t have it installed, follow the <a href="../installation/index.html
 <pre><code class="language-console">$ nix-shell
 </code></pre>
 <p>To get a shell with one of the other <a href="#compilation-environments">supported compilation environments</a>:</p>
-<pre><code class="language-console">$ nix-shell --attr devShells.x86_64-linux.native-clangStdenvPackages
+<pre><code class="language-console">$ nix-shell --attr devShells.x86_64-linux.native-clangStdenv
 </code></pre>
 <blockquote>
 <p><strong>Note</strong></p>
@@ -204,7 +224,7 @@ If you don’t have it installed, follow the <a href="../installation/index.html
 By default, <a href="https://ccache.dev">ccache</a> keeps artifacts in <code>~/.cache/ccache/</code>.</p>
 </blockquote>
 <p>To build Nix itself in this shell:</p>
-<pre><code class="language-console">[nix-shell]$ mesonFlags+=" --prefix=$(pwd)/outputs/out"
+<pre><code class="language-console">[nix-shell]$ out="$(pwd)/outputs/out" dev=$out debug=$out mesonFlags+=" --prefix=${out}"
 [nix-shell]$ dontAddPrefix=1 configurePhase
 [nix-shell]$ buildPhase
 </code></pre>
@@ -221,7 +241,7 @@ nix (Nix) 2.12
 </code></pre>
 <p>You can also build Nix for one of the <a href="#platforms">supported platforms</a>.</p>
 <h2 id="building-nix-with-flakes"><a class="header" href="#building-nix-with-flakes">Building Nix with flakes</a></h2>
-<p>This section assumes you are using Nix with the <a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a> and <a href="../development/experimental-features.html#xp-nix-command"><code>nix-command</code></a> experimental features enabled.</p>
+<p>This section assumes you are using Nix with the <a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a> and <a href="../development/experimental-features.html#xp-feature-nix-command"><code>nix-command</code></a> experimental features enabled.</p>
 <p>To build all dependencies and start a shell in which all environment variables are set up so that those dependencies can be found:</p>
 <pre><code class="language-console">$ nix develop
 </code></pre>
@@ -272,7 +292,7 @@ platform. Common solutions include [remote build machines] and <a href="https://
 For example, to compile for <code>aarch64-linux</code>:</p>
 <pre><code class="language-console">$ nix-build --attr packages.aarch64-linux.default
 </code></pre>
-<p>or for Nix with the <a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a> and <a href="../development/experimental-features.html#xp-nix-command"><code>nix-command</code></a> experimental features enabled:</p>
+<p>or for Nix with the <a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a> and <a href="../development/experimental-features.html#xp-feature-nix-command"><code>nix-command</code></a> experimental features enabled:</p>
 <pre><code class="language-console">$ nix build .#packages.aarch64-linux.default
 </code></pre>
 <p>Cross-compiled builds are available for:</p>
@@ -357,7 +377,7 @@ nix build .#nix-everything-x86_64-w64-mingw32
 <p>You can use any of the other supported environments in place of <code>nix-cli-ccacheStdenv</code>.</p>
 <h2 id="editor-integration"><a class="header" href="#editor-integration">Editor integration</a></h2>
 <p>The <code>clangd</code> LSP server is installed by default on the <code>clang</code>-based <code>devShell</code>s.
-See <a href="#compilation-environments">supported compilation environments</a> and instructions how to set up a shell <a href="#nix-with-flakes">with flakes</a> or in <a href="#classic-nix">classic Nix</a>.</p>
+See <a href="#compilation-environments">supported compilation environments</a> and instructions how to set up a shell <a href="#building-nix-with-flakes">with flakes</a> or in <a href="#building-nix">classic Nix</a>.</p>
 <p>To use the LSP with your editor, you will want a <code>compile_commands.json</code> file telling <code>clangd</code> how we are compiling the code.
 Meson’s configure always produces this inside the build directory.</p>
 <p>Configure your editor to use the <code>clangd</code> from the <code>.#native-clangStdenv</code> shell.
@@ -459,7 +479,7 @@ This will be picked up by the <em>Format Document</em> command, <code>"editor.fo
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

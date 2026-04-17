@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Syntax and semantics - Nix 2.31.3 Reference Manual</title>
+        <title>Syntax and semantics - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -211,7 +227,7 @@ It also avoids unintentional situations where some function might try to copy ev
 <p>If the first component of a path is a <code>~</code>, it is interpreted such that the rest of the path were relative to the user’s home directory.
 For example, <code>~/foo</code> would be equivalent to <code>/home/edolstra/foo</code> for a user whose home directory is <code>/home/edolstra</code>.
 Path literals that start with <code>~</code> are not allowed in <a href="../command-ref/conf-file.html#conf-pure-eval">pure</a> evaluation.</p>
-<p>Path literals can also include [string interpolation], besides being <a href="./string-interpolation.html#interpolated-expressions">interpolated into other expressions</a>.</p>
+<p>Path literals can also include <a href="./string-interpolation.html">string interpolation</a>, besides being <a href="./string-interpolation.html#interpolated-expression">interpolated into other expressions</a>.</p>
 <p>At least one slash (<code>/</code>) must appear <em>before</em> any interpolated expression for the result to be recognized as a path.</p>
 <p><code>a.${foo}/b.${bar}</code> is a syntactically valid number division operation.
 <code>./a.${foo}/b.${bar}</code> is a path.</p>
@@ -309,7 +325,7 @@ An attribute name may only occur once in each attribute set.</p>
 { "foo ${bar}" = 123; }."foo ${bar}"
 </code></pre>
 <p>Both will evaluate to <code>123</code>.</p>
-<p>Attribute names support [string interpolation]:</p>
+<p>Attribute names support <a href="./string-interpolation.html">string interpolation</a>:</p>
 <pre><code class="language-nix">let bar = "foo"; in
 { foo = 123; }.${bar}
 </code></pre>
@@ -335,7 +351,7 @@ in inc 1 # equivalent of `add.__functor add 1` i.e. `1 + self.x`
 without the caller needing to treat it specially, or to implement a form
 of object-oriented programming, for example.</p>
 <h2 id="recursive-sets"><a class="header" href="#recursive-sets">Recursive sets</a></h2>
-<p>Recursive sets are like normal <a href="./types.html#attribute-set">attribute sets</a>, but the attributes can refer to each other.</p>
+<p>Recursive sets are like normal <a href="./types.html#type-attrs">attribute sets</a>, but the attributes can refer to each other.</p>
 <blockquote>
 <p><em>rec-attrset</em> = <code>rec {</code> [ <em>name</em> <code>=</code> <em>expr</em> <code>;</code> <code>]</code>… <code>}</code></p>
 </blockquote>
@@ -362,7 +378,7 @@ example, the expression</p>
 <h2 id="let-expressions"><a class="header" href="#let-expressions">Let-expressions</a></h2>
 <p>A let-expression allows you to define local variables for an expression.</p>
 <blockquote>
-<p><em>let-in</em> = <code>let</code> [ <em>identifier</em> = <em>expr</em> ]… <code>in</code> <em>expr</em></p>
+<p><em>let-in</em> = <code>let</code> [ <em>identifier</em> = <em>expr</em> <code>;</code> ]… <code>in</code> <em>expr</em></p>
 </blockquote>
 <p>Example:</p>
 <pre><code class="language-nix">let
@@ -371,8 +387,23 @@ example, the expression</p>
 in x + y
 </code></pre>
 <p>This evaluates to <code>"foobar"</code>.</p>
+<p>There is also another, older, syntax for let expressions that should not be used in new code:</p>
+<blockquote>
+<p><em>let</em> = <code>let</code> <code>{</code> <em>identifier</em> = <em>expr</em> <code>;</code> [ <em>identifier</em> = <em>expr</em> <code>;</code>]…  <code>}</code></p>
+</blockquote>
+<p>In this form, the attribute set between the <code>{</code> <code>}</code> is recursive.</p>
+<p>One of the attributes must have the special name <code>body</code>,
+which is the result of the expression.</p>
+<p>Example:</p>
+<pre><code class="language-nix">let {
+  foo = bar;
+  bar = "baz";
+  body = foo;
+}
+</code></pre>
+<p>This evaluates to “baz”.</p>
 <h2 id="inheriting-attributes"><a class="header" href="#inheriting-attributes">Inheriting attributes</a></h2>
-<p>When defining an <a href="./types.html#attribute-set">attribute set</a> or in a <a href="#let-expressions">let-expression</a> it is often convenient to copy variables from the surrounding lexical scope (e.g., when you want to propagate attributes).
+<p>When defining an <a href="./types.html#type-attrs">attribute set</a> or in a <a href="#let-expressions">let-expression</a> it is often convenient to copy variables from the surrounding lexical scope (e.g., when you want to propagate attributes).
 This can be shortened using the <code>inherit</code> keyword.</p>
 <p>Example:</p>
 <pre><code class="language-nix">let x = 123; in
@@ -769,7 +800,7 @@ can span multiple lines.
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

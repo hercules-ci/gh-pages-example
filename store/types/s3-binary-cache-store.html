@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>S3 Binary Cache Store - Nix 2.31.3 Reference Manual</title>
+        <title>S3 Binary Cache Store - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -204,7 +220,8 @@ like the following to be accessible:</p>
             "Sid": "AllowDirectReads",
             "Action": [
                 "s3:GetObject",
-                "s3:GetBucketLocation"
+                "s3:GetBucketLocation",
+                "s3:ListBucket"
             ],
             "Effect": "Allow",
             "Resource": [
@@ -223,7 +240,7 @@ for authenticating requests to Amazon S3.</p>
 <p>Note that this means Nix will read environment variables and files with different idioms than with Nix’s own settings, as implemented by the AWS SDK.
 Consult the documentation linked above for further details.</p>
 <h3 id="authenticated-reads-to-your-s3-binary-cache"><a class="header" href="#authenticated-reads-to-your-s3-binary-cache">Authenticated reads to your S3 binary cache</a></h3>
-<p>Your bucket will need a bucket policy allowing the desired users to perform the <code>s3:GetObject</code> and <code>s3:GetBucketLocation</code> action on all objects in the bucket.
+<p>Your bucket will need a bucket policy allowing the desired users to perform the <code>s3:GetObject</code>, <code>s3:GetBucketLocation</code>, and <code>s3:ListBucket</code> actions on all objects in the bucket.
 The <a href="#anonymous-reads-to-your-s3-compatible-binary-cache">anonymous policy given above</a> can be updated to have a restricted <code>Principal</code> to support this.</p>
 <h3 id="authenticated-writes-to-your-s3-compatible-binary-cache"><a class="header" href="#authenticated-writes-to-your-s3-compatible-binary-cache">Authenticated writes to your S3-compatible binary cache</a></h3>
 <p>Your account will need an IAM policy to support uploading to the bucket:</p>
@@ -269,13 +286,20 @@ The <a href="#anonymous-reads-to-your-s3-compatible-binary-cache">anonymous poli
 <h2 id="settings"><a class="header" href="#settings">Settings</a></h2>
 <ul>
 <li>
-<p><span id="store-s3-binary-cache-store-buffer-size"><a href="#store-s3-binary-cache-store-buffer-size"><code>buffer-size</code></a></span></p>
-<p>Size (in bytes) of each part in multi-part uploads.</p>
-<p><strong>Default:</strong> <code>5242880</code></p>
+<p><span id="store-s3-binary-cache-store-addressing-style"><a href="#store-s3-binary-cache-store-addressing-style"><code>addressing-style</code></a></span></p>
+<p>The S3 addressing style to use. <code>auto</code> (default) uses
+virtual-hosted-style for standard AWS endpoints and path-style
+for custom endpoints; bucket names containing dots automatically
+fall back to path-style to avoid TLS certificate errors. <code>path</code>
+forces path-style addressing (deprecated by AWS). <code>virtual</code>
+forces virtual-hosted-style addressing (bucket names must not
+contain dots).</p>
+<p><strong>Default:</strong> <code>auto</code></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-compression"><a href="#store-s3-binary-cache-store-compression"><code>compression</code></a></span></p>
-<p>NAR compression method (<code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, or <code>none</code>).</p>
+<p>NAR compression method. One of: <code>xz</code>, <code>bzip2</code>, <code>gzip</code>, <code>zstd</code>, <code>none</code>, <code>br</code>, <code>compress</code>, <code>grzip</code>, <code>lrzip</code>, <code>lz4</code>, <code>lzip</code>, <code>lzma</code> or <code>lzop</code>.
+To use a particular compression method Nix has to be built with a version of libarchive that natively supports that compression algorithm.</p>
 <p><strong>Default:</strong> <code>xz</code></p>
 </li>
 <li>
@@ -287,13 +311,9 @@ The meaning and accepted values depend on the compression method selected.
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-endpoint"><a href="#store-s3-binary-cache-store-endpoint"><code>endpoint</code></a></span></p>
-<p>The URL of the endpoint of an S3-compatible service such as MinIO.
-Do not specify this setting if you’re using Amazon S3.</p>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>This endpoint must support HTTPS and uses path-based
-addressing instead of virtual host based addressing.</p>
-</blockquote>
+<p>The S3 endpoint to use. When empty (default), uses AWS S3 with
+region-specific endpoints. For S3-compatible services such as
+MinIO, set this to your service’s endpoint.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
@@ -305,29 +325,47 @@ fetch debug info on demand</p>
 <li>
 <p><span id="store-s3-binary-cache-store-local-nar-cache"><a href="#store-s3-binary-cache-store-local-nar-cache"><code>local-nar-cache</code></a></span></p>
 <p>Path to a local cache of NARs fetched from this binary cache, used by commands such as <code>nix store cat</code>.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-log-compression"><a href="#store-s3-binary-cache-store-log-compression"><code>log-compression</code></a></span></p>
 <p>Compression method for <code>log/*</code> files. It is recommended to
 use a compression method supported by most web browsers
 (e.g. <code>brotli</code>).</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-ls-compression"><a href="#store-s3-binary-cache-store-ls-compression"><code>ls-compression</code></a></span></p>
 <p>Compression method for <code>.ls</code> files.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-multipart-chunk-size"><a href="#store-s3-binary-cache-store-multipart-chunk-size"><code>multipart-chunk-size</code></a></span></p>
+<p>The size (in bytes) of each part in multipart uploads. Must be
+at least 5 MiB (AWS S3 requirement). Larger chunk sizes reduce the
+number of requests but use more memory. Default is 5 MiB.</p>
+<p><strong>Default:</strong> <code>5242880</code></p>
+<p><strong>Deprecated alias:</strong> <code>buffer-size</code></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-multipart-threshold"><a href="#store-s3-binary-cache-store-multipart-threshold"><code>multipart-threshold</code></a></span></p>
+<p>The minimum file size (in bytes) for using multipart uploads.
+Files smaller than this threshold will use regular PUT requests.
+Default is 100 MiB. Only takes effect when multipart-upload is enabled.</p>
+<p><strong>Default:</strong> <code>104857600</code></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-multipart-upload"><a href="#store-s3-binary-cache-store-multipart-upload"><code>multipart-upload</code></a></span></p>
-<p>Whether to use multi-part uploads.</p>
+<p>Whether to use multipart uploads for large files. When enabled,
+files exceeding the multipart threshold will be uploaded in
+multiple parts, which is required for files larger than 5 GiB and
+can improve performance and reliability for large uploads.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-narinfo-compression"><a href="#store-s3-binary-cache-store-narinfo-compression"><code>narinfo-compression</code></a></span></p>
 <p>Compression method for <code>.narinfo</code> files.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-parallel-compression"><a href="#store-s3-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
@@ -349,7 +387,7 @@ A lower value means a higher priority.</p>
 <p><span id="store-s3-binary-cache-store-profile"><a href="#store-s3-binary-cache-store-profile"><code>profile</code></a></span></p>
 <p>The name of the AWS configuration profile to use. By default
 Nix uses the <code>default</code> profile.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> <code>default</code></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-region"><a href="#store-s3-binary-cache-store-region"><code>region</code></a></span></p>
@@ -368,7 +406,7 @@ support it.</p>
 <p>HTTPS should be used if the cache might contain sensitive
 information.</p>
 </blockquote>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> <code>https</code></p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-secret-key"><a href="#store-s3-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
@@ -379,6 +417,24 @@ information.</p>
 <p><span id="store-s3-binary-cache-store-secret-keys"><a href="#store-s3-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
 <p>List of comma-separated paths to the secret keys used to sign the binary cache.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-storage-class"><a href="#store-s3-binary-cache-store-storage-class"><code>storage-class</code></a></span></p>
+<p>The S3 storage class to use for uploaded objects. When not set (default),
+uses the bucket’s default storage class. Valid values include:</p>
+<ul>
+<li>STANDARD (default, frequently accessed data)</li>
+<li>REDUCED_REDUNDANCY (less frequently accessed data)</li>
+<li>STANDARD_IA (infrequent access)</li>
+<li>ONEZONE_IA (infrequent access, single AZ)</li>
+<li>INTELLIGENT_TIERING (automatic cost optimization)</li>
+<li>GLACIER (archival with retrieval times in minutes to hours)</li>
+<li>DEEP_ARCHIVE (long-term archival with 12-hour retrieval)</li>
+<li>GLACIER_IR (instant retrieval archival)</li>
+</ul>
+<p>See AWS S3 documentation for detailed storage class descriptions and pricing:
+https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html</p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-store"><a href="#store-s3-binary-cache-store-store"><code>store</code></a></span></p>
@@ -392,6 +448,16 @@ between stores if they have the same <code>store</code> setting.</p>
 <p>Optional <a href="../../command-ref/conf-file.html#conf-system-features">system features</a> available on the system this store uses to build derivations.</p>
 <p>Example: <code>"kvm"</code></p>
 <p><strong>Default:</strong> <em>machine-specific</em></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-tls-certificate"><a href="#store-s3-binary-cache-store-tls-certificate"><code>tls-certificate</code></a></span></p>
+<p>Path to an optional TLS client certificate in PEM format.</p>
+<p><strong>Default:</strong> ``</p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-tls-private-key"><a href="#store-s3-binary-cache-store-tls-private-key"><code>tls-private-key</code></a></span></p>
+<p>Path to an optional TLS client certificate private key in PEM format.</p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-trusted"><a href="#store-s3-binary-cache-store-trusted"><code>trusted</code></a></span></p>
@@ -464,7 +530,7 @@ setting.</p>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

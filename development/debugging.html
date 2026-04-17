@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Debugging - Nix 2.31.3 Reference Manual</title>
+        <title>Debugging - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -185,16 +201,21 @@
 <p>This section shows how to build and debug Nix with debug symbols enabled.</p>
 <p>Additionally, see <a href="./testing.html">Testing Nix</a> for further instructions on how to debug Nix in the context of a unit test or functional test.</p>
 <h2 id="building-nix-with-debug-symbols"><a class="header" href="#building-nix-with-debug-symbols">Building Nix with Debug Symbols</a></h2>
-<p>In the development shell, set the <code>mesonBuildType</code> environment variable to <code>debug</code> before configuring the build:</p>
-<pre><code class="language-console">[nix-shell]$ export mesonBuildType=debugoptimized
-</code></pre>
-<p>Then, proceed to build Nix as described in <a href="./building.html">Building Nix</a>.
-This will build Nix with debug symbols, which are essential for effective debugging.</p>
-<p>It is also possible to build without debugging for faster build:</p>
+<p>In the development shell, <code>mesonBuildType</code> is set automatically to <code>debugoptimized</code>. This builds Nix with debug symbols, which are essential for effective debugging.</p>
+<p>It is also possible to build without optimization for faster build:</p>
 <pre><code class="language-console">[nix-shell]$ NIX_HARDENING_ENABLE=$(printLines $NIX_HARDENING_ENABLE | grep -v fortify)
 [nix-shell]$ export mesonBuildType=debug
 </code></pre>
 <p>(The first line is needed because <code>fortify</code> hardening requires at least some optimization.)</p>
+<h2 id="building-nix-with-sanitizers"><a class="header" href="#building-nix-with-sanitizers">Building Nix with sanitizers</a></h2>
+<p>Nix can be built with <a href="https://clang.llvm.org/docs/AddressSanitizer.html">Address</a> and
+<a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UB</a> sanitizers using LLVM
+or GCC. This is useful when debugging memory corruption issues.</p>
+<pre><code class="language-console">[nix-shell]$ export mesonBuildType=debugoptimized
+[nix-shell]$ appendToVar mesonFlags "-Dlibexpr:gc=disabled" # Disable Boehm
+[nix-shell]$ appendToVar mesonFlags "-Dbindings=false" # Disable nix-perl
+[nix-shell]$ appendToVar mesonFlags "-Db_sanitize=address,undefined"
+</code></pre>
 <h2 id="debugging-the-nix-binary"><a class="header" href="#debugging-the-nix-binary">Debugging the Nix Binary</a></h2>
 <p>Obtain your preferred debugger within the development shell:</p>
 <pre><code class="language-console">[nix-shell]$ nix-shell -p gdb
@@ -272,7 +293,7 @@ This will build Nix with debug symbols, which are essential for effective debugg
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

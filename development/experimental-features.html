@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Experimental Features - Nix 2.31.3 Reference Manual</title>
+        <title>Experimental Features - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -283,7 +299,7 @@ It is primarily an issue of <em>design</em> and <em>communication</em>, targetin
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/34">auto-allocate-uids tracking issue</a> for feature tracking.</p>
 <h2 id="blake3-hashes"><a class="header" href="#blake3-hashes"><a href="#xp-feature-blake3-hashes" id="xp-feature-blake3-hashes"><code>blake3-hashes</code></a></a></h2>
 <p>Enables support for BLAKE3 hashes.</p>
-<p>Refer to <a href="">blake3-hashes tracking issue</a> for feature tracking.</p>
+<p>Refer to <a href="https://github.com/NixOS/nix/milestone/60">blake3-hashes tracking issue</a> for feature tracking.</p>
 <h2 id="ca-derivations"><a class="header" href="#ca-derivations"><a href="#xp-feature-ca-derivations" id="xp-feature-ca-derivations"><code>ca-derivations</code></a></a></h2>
 <p>Allow derivations to be content-addressed in order to prevent
 rebuilds when changes to the derivation do not result in changes to
@@ -317,6 +333,9 @@ derivations that are themselves derivations outputs.</p>
 </li>
 </ul>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/39">dynamic-derivations tracking issue</a> for feature tracking.</p>
+<h2 id="external-builders"><a class="header" href="#external-builders"><a href="#xp-feature-external-builders" id="xp-feature-external-builders"><code>external-builders</code></a></a></h2>
+<p>Enables support for external builders / sandbox providers.</p>
+<p>Refer to <a href="https://github.com/NixOS/nix/milestone/62">external-builders tracking issue</a> for feature tracking.</p>
 <h2 id="fetch-closure"><a class="header" href="#fetch-closure"><a href="#xp-feature-fetch-closure" id="xp-feature-fetch-closure"><code>fetch-closure</code></a></a></h2>
 <p>Enable the use of the <a href="../language/builtins.html#builtins-fetchClosure"><code>fetchClosure</code></a> built-in function in the Nix language.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/40">fetch-closure tracking issue</a> for feature tracking.</p>
@@ -356,7 +375,7 @@ an impure derivation cannot also be
 <p>This is a more explicit alternative to using <a href="../language/builtins.html#builtins-currentTime"><code>builtins.currentTime</code></a>.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/42">impure-derivations tracking issue</a> for feature tracking.</p>
 <h2 id="local-overlay-store"><a class="header" href="#local-overlay-store"><a href="#xp-feature-local-overlay-store" id="xp-feature-local-overlay-store"><code>local-overlay-store</code></a></a></h2>
-<p>Allow the use of <a href="../command-ref/new-cli/nix3-help-stores.html#local-overlay-store">local overlay store</a>.</p>
+<p>Allow the use of <a href="../command-ref/new-cli/nix3-help-stores.html#experimental-local-overlay-store">local overlay store</a>.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/50">local-overlay-store tracking issue</a> for feature tracking.</p>
 <h2 id="mounted-ssh-store"><a class="header" href="#mounted-ssh-store"><a href="#xp-feature-mounted-ssh-store" id="xp-feature-mounted-ssh-store"><code>mounted-ssh-store</code></a></a></h2>
 <p>Allow the use of the <a href="../command-ref/new-cli/nix3-help-stores.html#experimental-ssh-store-with-filesystem-mounted"><code>mounted SSH store</code></a>.</p>
@@ -365,36 +384,6 @@ an impure derivation cannot also be
 <p>Enable the new <code>nix</code> subcommands. See the manual on
 <a href="../command-ref/new-cli/nix.html"><code>nix</code></a> for details.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/28">nix-command tracking issue</a> for feature tracking.</p>
-<h2 id="no-url-literals"><a class="header" href="#no-url-literals"><a href="#xp-feature-no-url-literals" id="xp-feature-no-url-literals"><code>no-url-literals</code></a></a></h2>
-<p>Disallow unquoted URLs as part of the Nix language syntax. The Nix
-language allows for URL literals, like so:</p>
-<pre><code>$ nix repl
-Welcome to Nix 2.15.0. Type :? for help.
-
-nix-repl&gt; http://foo
-"http://foo"
-</code></pre>
-<p>But enabling this experimental feature will cause the Nix parser to
-throw an error when encountering a URL literal:</p>
-<pre><code>$ nix repl --extra-experimental-features 'no-url-literals'
-Welcome to Nix 2.15.0. Type :? for help.
-
-nix-repl&gt; http://foo
-error: URL literals are disabled
-
-at «string»:1:1:
-
-1| http://foo
- | ^
-
-</code></pre>
-<p>While this is currently an experimental feature, unquoted URLs are
-being deprecated and their usage is discouraged.</p>
-<p>The reason is that, as opposed to path literals, URLs have no
-special properties that distinguish them from regular strings, URLs
-containing parameters have to be quoted anyway, and unquoted URLs
-may confuse external tooling.</p>
-<p>Refer to <a href="https://github.com/NixOS/nix/milestone/44">no-url-literals tracking issue</a> for feature tracking.</p>
 <h2 id="parse-toml-timestamps"><a class="header" href="#parse-toml-timestamps"><a href="#xp-feature-parse-toml-timestamps" id="xp-feature-parse-toml-timestamps"><code>parse-toml-timestamps</code></a></a></h2>
 <p>Allow parsing of timestamps in builtins.fromTOML.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/45">parse-toml-timestamps tracking issue</a> for feature tracking.</p>
@@ -426,13 +415,13 @@ runCommand "foo"
 </code></pre>
 <p>An important restriction on recursive builders is disallowing
 arbitrary substitutions. For example, running</p>
-<pre><code>nix-store -r /nix/store/kmwd1hq55akdb9sc7l3finr175dajlby-hello-2.10
+<pre><code>nix-store -r /nix/store/lrs9qfm60jcgsk83qhyypj3m4jqsgdid-hello-2.10
 </code></pre>
 <p>in the above <code>runCommand</code> script would be disallowed, as this could
 lead to derivations with hidden dependencies or breaking
 reproducibility by relying on the current state of the Nix store. An
 exception would be if
-<code>/nix/store/kmwd1hq55akdb9sc7l3finr175dajlby-hello-2.10</code> were
+<code>/nix/store/lrs9qfm60jcgsk83qhyypj3m4jqsgdid-hello-2.10</code> were
 already in the build inputs or built by a previous recursive Nix
 call.</p>
 <p>Refer to <a href="https://github.com/NixOS/nix/milestone/47">recursive-nix tracking issue</a> for feature tracking.</p>
@@ -491,7 +480,7 @@ call.</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

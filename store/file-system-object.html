@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>File System Object - Nix 2.31.3 Reference Manual</title>
+        <title>File System Object - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -186,20 +202,24 @@
 Every file system object is one of the following:</p>
 <ul>
 <li>
-<p>File</p>
+<p><a href="#regular" id="regular"><strong>Regular File</strong></a></p>
 <ul>
 <li>A possibly empty sequence of bytes for contents</li>
 <li>A single boolean representing the <a href="https://en.m.wikipedia.org/wiki/File-system_permissions#Permissions">executable</a> permission</li>
 </ul>
 </li>
 <li>
-<p>Directory</p>
+<p><a href="#directory" id="directory"><strong>Directory</strong></a></p>
 <p>Mapping of names to child file system objects</p>
 </li>
 <li>
-<p><a href="https://en.m.wikipedia.org/wiki/Symbolic_link">Symbolic link</a></p>
-<p>An arbitrary string.
-Nix does not assign any semantics to symbolic links.</p>
+<p><a href="#symlink" id="symlink"><strong>Symbolic link</strong></a></p>
+<p>An arbitrary string, known as the <em>target</em> of the symlink.</p>
+<p>In general, Nix does not assign any semantics to symbolic links.
+Certain operations however, may make additional assumptions and attempt to use the target to find another file system object.</p>
+<blockquote>
+<p>See <a href="https://en.m.wikipedia.org/wiki/Symbolic_link">the Wikpedia article on symbolic links</a> for background information if you are unfamiliar with this Unix concept.</p>
+</blockquote>
 </li>
 </ul>
 <p>File system objects and their children form a tree.
@@ -282,7 +302,7 @@ A bare file or symlink can be a root file system object.</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

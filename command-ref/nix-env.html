@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix-env - Nix 2.31.3 Reference Manual</title>
+        <title>nix-env - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -337,11 +353,11 @@ This makes all subscribed channels available as attributes in the default expres
 <p>A symlink that ensures that <a href="../command-ref/nix-env.html"><code>nix-env</code></a> can find the current user’s <a href="../command-ref/files/channels.html">channels</a>:</p>
 <ul>
 <li><code>~/.nix-defexpr/channels</code></li>
-<li><code>$XDG_STATE_HOME/defexpr/channels</code> if <a href="../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is set to <code>true</code>.</li>
+<li><code>$XDG_STATE_HOME/nix/defexpr/channels</code> if <a href="../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is set to <code>true</code>.</li>
 </ul>
 <p>This symlink points to:</p>
 <ul>
-<li><code>$XDG_STATE_HOME/profiles/channels</code> for regular users</li>
+<li><code>$XDG_STATE_HOME/nix/profiles/channels</code> for regular users</li>
 <li><code>$NIX_STATE_DIR/profiles/per-user/root/channels</code> for <code>root</code></li>
 </ul>
 <p>In a multi-user installation, you may also have <code>~/.nix-defexpr/channels_root</code>, which links to the channels of the root user.</p>
@@ -375,13 +391,13 @@ dr-xr-xr-x 4 root root 4096 Jan  1  1970 share
 
 /home/eelco/.local/state/nix/profiles/profile-7-link/bin:
 total 20
-lrwxrwxrwx 5 root root 79 Jan  1  1970 chromium -&gt; /nix/store/ijm5k0zqisvkdwjkc77mb9qzb35xfi4m-chromium-86.0.4240.111/bin/chromium
+lrwxrwxrwx 5 root root 79 Jan  1  1970 chromium -&gt; /nix/store/cyxny9d1zjb9l9103fr6j6kavp3bqjxf-chromium-86.0.4240.111/bin/chromium
 lrwxrwxrwx 7 root root 87 Jan  1  1970 spotify -&gt; /nix/store/w9182874m1bl56smps3m5zjj36jhp3rn-spotify-1.1.26.501.gbe11e53b-15/bin/spotify
 lrwxrwxrwx 3 root root 79 Jan  1  1970 zoom-us -&gt; /nix/store/wbhg2ga8f3h87s9h5k0slxk0m81m4cxl-zoom-us-5.3.469451.0927/bin/zoom-us
 
 /home/eelco/.local/state/nix/profiles/profile-7-link/share/applications:
 total 12
-lrwxrwxrwx 4 root root 120 Jan  1  1970 chromium-browser.desktop -&gt; /nix/store/4cf803y4vzfm3gyk3vzhzb2327v0kl8a-chromium-unwrapped-86.0.4240.111/share/applications/chromium-browser.desktop
+lrwxrwxrwx 4 root root 120 Jan  1  1970 chromium-browser.desktop -&gt; /nix/store/sqzyx2l85i6j2a77pnyvglh3bvzwmjjp-chromium-unwrapped-86.0.4240.111/share/applications/chromium-browser.desktop
 lrwxrwxrwx 7 root root 110 Jan  1  1970 spotify.desktop -&gt; /nix/store/w9182874m1bl56smps3m5zjj36jhp3rn-spotify-1.1.26.501.gbe11e53b-15/share/applications/spotify.desktop
 lrwxrwxrwx 3 root root 107 Jan  1  1970 us.zoom.Zoom.desktop -&gt; /nix/store/wbhg2ga8f3h87s9h5k0slxk0m81m4cxl-zoom-us-5.3.469451.0927/share/applications/us.zoom.Zoom.desktop
 
@@ -457,7 +473,7 @@ The <a href="../installation/installing-binary.html">installer</a> sets this up 
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

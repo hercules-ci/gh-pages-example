@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix store make-content-addressed - Nix 2.31.3 Reference Manual</title>
+        <title>nix store make-content-addressed - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -196,7 +212,7 @@ and its interface is subject to change.</p>
 <p>Create a content-addressed representation of the closure of GNU Hello:</p>
 <pre><code class="language-console"># nix store make-content-addressed nixpkgs#hello
 …
-rewrote '/nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10' to '/nix/store/5skmmcb9svys5lj3kbsrjg7vf2irid63-hello-2.10'
+rewrote '/nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10' to '/nix/store/5skmmcb9svys5lj3kbsrjg7vf2irid63-hello-2.10'
 </code></pre>
 <p>Since the resulting paths are content-addressed, they are always
 trusted and don’t need signatures to copied to another store:</p>
@@ -205,7 +221,7 @@ trusted and don’t need signatures to copied to another store:</p>
 <p>By contrast, the original closure is input-addressed, so it does
 need signatures to be trusted:</p>
 <pre><code class="language-console"># nix copy --to /tmp/nix --trusted-public-keys '' nixpkgs#hello
-cannot add path '/nix/store/zy9wbxwcygrwnh8n2w9qbbcr6zk87m26-libunistring-0.9.10' because it lacks a signature by a trusted key
+cannot add path '/nix/store/gs7mh6q22l1ivxazxja2mjlsdwhw8zg9-libunistring-0.9.10' because it lacks a signature by a trusted key
 </code></pre>
 </li>
 <li>
@@ -229,7 +245,7 @@ derivation.</p>
 from the contents of the path. This allows the contents of the path to
 be verified without any additional information such as
 signatures. This means that a command like</p>
-<pre><code class="language-console"># nix store build /nix/store/5skmmcb9svys5lj3kbsrjg7vf2irid63-hello-2.10 \
+<pre><code class="language-console"># nix build /nix/store/5skmmcb9svys5lj3kbsrjg7vf2irid63-hello-2.10 \
     --substituters https://my-cache.example.org
 </code></pre>
 <p>will succeed even if the binary cache <code>https://my-cache.example.org</code>
@@ -342,7 +358,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-override-input"><a href="#opt-override-input"><code>--override-input</code></a></span> <em>input-path</em> <em>flake-url</em></p>
-<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). This implies <code>--no-write-lock-file</code>.</p>
+<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). The input path must not be empty. This implies <code>--no-write-lock-file</code>.</p>
 </li>
 <li>
 <p><span id="opt-recreate-lock-file"><a href="#opt-recreate-lock-file"><code>--recreate-lock-file</code></a></span></p>
@@ -494,7 +510,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

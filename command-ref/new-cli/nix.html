@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix - Nix 2.31.3 Reference Manual</title>
+        <title>nix - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -374,7 +390,7 @@ attributes <code>packages.x86_64-linux.hello</code>,
 <code>legacyPackages.x86_64-linux.hello</code> and <code>hello</code>.</p>
 <p>If <em>attrpath</em> begins with <code>.</code> then no prefixes or defaults are attempted. This allows the form <em>flakeref</em>[<code>#.</code><em>attrpath</em>], such as <code>github:NixOS/nixpkgs#.lib.fakeSha256</code> to avoid a search of <code>packages.*system*.lib.fakeSha256</code></p>
 <h3 id="store-path"><a class="header" href="#store-path">Store path</a></h3>
-<p>Example: <code>/nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10</code></p>
+<p>Example: <code>/nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10</code></p>
 <p>These are paths inside the Nix store, or symlinks that resolve to a path in the Nix store.</p>
 <p>A <a href="../../glossary.html#gloss-store-derivation">store derivation</a> is also addressed by store path.</p>
 <p>Example: <code>/nix/store/p7gp6lxdg32h4ka1q398wd9r2zkbbz2v-hello-2.10.drv</code></p>
@@ -409,7 +425,7 @@ For installables specified as <a href="#flake-output-attribute">Flake output att
 …
 </code></pre>
 <p>and likewise, using a store path to a “drv” file to specify the derivation:</p>
-<pre><code class="language-console"># nix build '/nix/store/gzaflydcr6sb3567hap9q6srzx8ggdgg-glibc-2.33-78.drv^dev,static'
+<pre><code class="language-console"># nix build '/nix/store/fpq78s2h8ffh66v2iy0q1838mhff06y8-glibc-2.33-78.drv^dev,static'
 …
 </code></pre>
 <p>For <code>--expr</code> and <code>-f</code>/<code>--file</code>, the derivation output is specified as part of the attribute path:</p>
@@ -425,14 +441,14 @@ $ nix build --impure --expr 'import &lt;nixpkgs&gt; { }' 'glibc^dev,static'
 syntax <em>installable</em><code>^*</code>. For example, the following shows the size
 of all outputs of the <code>glibc</code> package in the binary cache:</p>
 <pre><code class="language-console"># nix path-info --closure-size --eval-store auto --store https://cache.nixos.org 'nixpkgs#glibc^*'
-/nix/store/g02b1lpbddhymmcjb923kf0l7s9nww58-glibc-2.33-123                 33208200
-/nix/store/851dp95qqiisjifi639r0zzg5l465ny4-glibc-2.33-123-bin             36142896
-/nix/store/kdgs3q6r7xdff1p7a9hnjr43xw2404z7-glibc-2.33-123-debug          155787312
-/nix/store/n4xa8h6pbmqmwnq0mmsz08l38abb06zc-glibc-2.33-123-static          42488328
-/nix/store/q6580lr01jpcsqs4r5arlh4ki2c1m9rv-glibc-2.33-123-dev             44200560
+/nix/store/i2fn2mjgihz960bwa7ldab5ra5fhxznh-glibc-2.33-123                 33208200
+/nix/store/n2wnn3i47w6dbylh64hdjzgd5rrprdn8-glibc-2.33-123-bin             36142896
+/nix/store/v7dyz518sbkzl8x2a1sgk1lwsfd3d6gm-glibc-2.33-123-debug          155787312
+/nix/store/z4hv6ybyinqw9a3dwyl5k66a91aggylj-glibc-2.33-123-static          42488328
+/nix/store/lrjirf0j1rjnvif6amyp9pfcqr2km385-glibc-2.33-123-dev             44200560
 </code></pre>
 <p>and likewise, using a store path to a “drv” file to specify the derivation:</p>
-<pre><code class="language-console"># nix path-info --closure-size '/nix/store/gzaflydcr6sb3567hap9q6srzx8ggdgg-glibc-2.33-78.drv^*'
+<pre><code class="language-console"># nix path-info --closure-size '/nix/store/fpq78s2h8ffh66v2iy0q1838mhff06y8-glibc-2.33-78.drv^*'
 …
 </code></pre>
 </li>
@@ -608,7 +624,7 @@ fn main() {
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

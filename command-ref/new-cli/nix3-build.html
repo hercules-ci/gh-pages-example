@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix build - Nix 2.31.3 Reference Manual</title>
+        <title>nix build - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -208,32 +224,32 @@ Hello, world!
 <p>Build GNU Hello and Cowsay, leaving two result symlinks:</p>
 <pre><code class="language-console"># nix build nixpkgs#hello nixpkgs#cowsay
 # ls -l result*
-lrwxrwxrwx 1 … result -&gt; /nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10
-lrwxrwxrwx 1 … result-1 -&gt; /nix/store/rkfrm0z6x6jmi7d3gsmma4j53h15mg33-cowsay-3.03+dfsg2
+lrwxrwxrwx 1 … result -&gt; /nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10
+lrwxrwxrwx 1 … result-1 -&gt; /nix/store/frzgk3v1ycnarpfc2rkynravng27a86d-cowsay-3.03+dfsg2
 </code></pre>
 </li>
 <li>
 <p>Build GNU Hello and print the resulting store path.</p>
 <pre><code class="language-console"># nix build nixpkgs#hello --print-out-paths
-/nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10
+/nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10
 </code></pre>
 </li>
 <li>
 <p>Build a specific output:</p>
 <pre><code class="language-console"># nix build nixpkgs#glibc.dev
 # ls -ld ./result-dev
-lrwxrwxrwx 1 … ./result-dev -&gt; /nix/store/dkm3gwl0xrx0wrw6zi5x3px3lpgjhlw4-glibc-2.32-dev
+lrwxrwxrwx 1 … ./result-dev -&gt; /nix/store/hb4lb9n3gv855llky72hrs4pglpxq70m-glibc-2.32-dev
 </code></pre>
 </li>
 <li>
 <p>Build all outputs:</p>
 <pre><code class="language-console"># nix build "nixpkgs#openssl^*" --print-out-paths
-/nix/store/gvad6v0cmq1qccmc4wphsazqbj0xzjsl-openssl-3.0.13-bin
-/nix/store/a07jqdrc8afnk8r6f3lnhh4gvab7chk4-openssl-3.0.13-debug
-/nix/store/yg75achq89wgqn2fi3gglgsd77kjpi03-openssl-3.0.13-dev
-/nix/store/bvdcihi8c88fw31cg6gzzmpnwglpn1jv-openssl-3.0.13-doc
-/nix/store/gjqcvq47cmxazxga0cirspm3jywkmvfv-openssl-3.0.13-man
-/nix/store/7nmrrad8skxr47f9hfl3xc0pfqmwq51b-openssl-3.0.13
+/nix/store/ah1slww3lfsj02w563wjf1xcz5fayj36-openssl-3.0.13-bin
+/nix/store/vswlynn75s0bpba3vl6bi3wyzjym95yi-openssl-3.0.13-debug
+/nix/store/z71nwwni9dcxdmd3v3a7j24v70c7v7z3-openssl-3.0.13-dev
+/nix/store/iabzsa5c73p4f10zfmf5r2qsrn0hl4lk-openssl-3.0.13-doc
+/nix/store/zqmfrpxvcll69a2lyawnpvp15zh421v2-openssl-3.0.13-man
+/nix/store/l3nlzki957anyy7yb25qvwk6cqrnvb67-openssl-3.0.13
 </code></pre>
 </li>
 <li>
@@ -267,7 +283,7 @@ which relies on the <code>$NIX_PATH</code> environment variable.</p>
 <li>
 <p>Fetch a store path from the configured substituters, if it doesn’t
 already exist:</p>
-<pre><code class="language-console"># nix build /nix/store/rkfrm0z6x6jmi7d3gsmma4j53h15mg33-cowsay-3.03+dfsg2
+<pre><code class="language-console"># nix build /nix/store/frzgk3v1ycnarpfc2rkynravng27a86d-cowsay-3.03+dfsg2
 </code></pre>
 </li>
 </ul>
@@ -408,7 +424,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-override-input"><a href="#opt-override-input"><code>--override-input</code></a></span> <em>input-path</em> <em>flake-url</em></p>
-<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). This implies <code>--no-write-lock-file</code>.</p>
+<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). The input path must not be empty. This implies <code>--no-write-lock-file</code>.</p>
 </li>
 <li>
 <p><span id="opt-recreate-lock-file"><a href="#opt-recreate-lock-file"><code>--recreate-lock-file</code></a></span></p>
@@ -548,7 +564,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

@@ -1,0 +1,646 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Release 2.34 (2026-02-27) - Nix 2.34.6 Reference Manual</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-2459343d.css">
+        <link rel="stylesheet" href="../css/chrome-ae938929.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom-80d08c7f.css">
+
+        <!-- MathJax -->
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-f02b95af.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/release-notes/rl-2.34.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="release-2340-2026-02-27"><a class="header" href="#release-2340-2026-02-27">Release 2.34.0 (2026-02-27)</a></h1>
+<h2 id="highlights"><a class="header" href="#highlights">Highlights</a></h2>
+<ul>
+<li>
+<p>Rust nix-installer in beta</p>
+<p>The Rust-based rewrite of the Nix installer is now in beta.
+We’d love help testing it out!</p>
+<p>To test out the new installer, run:</p>
+<pre><code>curl -sSfL https://artifacts.nixos.org/nix-installer | sh -s -- install
+</code></pre>
+<p>This installer can be run even when you have an existing, script-based Nix installation without any adjustments.</p>
+<p>This new installer also comes with the ability to uninstall your Nix installation; run:</p>
+<pre><code>/nix/nix-installer uninstall
+</code></pre>
+<p>This will get rid of your entire Nix installation (even if you installed over an existing, script-based installation).</p>
+<p>This installer is a modified version of the <a href="https://github.com/DeterminateSystems/nix-installer">Determinate Nix Installer</a> by Determinate Systems.
+Thanks to Determinate Systems for all the investment they’ve put into the installer.</p>
+<p>Source for the installer is in <a href="https://github.com/NixOS/nix-installer">https://github.com/NixOS/nix-installer</a>.
+Report any issues in that repo.</p>
+<p>For CI usage, a GitHub Action to install Nix using this installer is available at <a href="https://github.com/NixOS/nix-installer-action">https://github.com/NixOS/nix-installer-action</a>.</p>
+</li>
+<li>
+<p>Stabilisation of <code>no-url-literals</code> experimental feature and new diagnostics infrastructure, with <code>lint-url-literals</code>, <code>lint-short-path-literals</code>, and <code>lint-absolute-path-literals</code> settings <a href="https://github.com/NixOS/nix/issues/8738">#8738</a> <a href="https://github.com/NixOS/nix/issues/10048">#10048</a> <a href="https://github.com/NixOS/nix/issues/10281">#10281</a> <a href="https://github.com/NixOS/nix/pull/15326">#15326</a></p>
+<p>Experimental feature <code>no-url-literals</code> has been stabilised and is now controlled by the <code>lint-url-literals</code> option.
+New diagnostics infrastructure has been added for linting discouraged language features.</p>
+<h3 id="new-lint-infrastructure"><a class="header" href="#new-lint-infrastructure">New lint infrastructure</a></h3>
+<h4 id="lint-url-literals"><a class="header" href="#lint-url-literals"><a href="../command-ref/conf-file.html#conf-lint-url-literals"><code>lint-url-literals</code></a></a></h4>
+<p>The <code>no-url-literals</code> experimental feature has been stabilised and replaced with a new <a href="../command-ref/conf-file.html#conf-lint-url-literals"><code>lint-url-literals</code></a> setting.</p>
+<p>To migrate from the experimental feature, replace:</p>
+<pre><code>experimental-features = no-url-literals
+</code></pre>
+<p>with:</p>
+<pre><code>lint-url-literals = fatal
+</code></pre>
+<h4 id="lint-short-path-literals"><a class="header" href="#lint-short-path-literals"><a href="../command-ref/conf-file.html#conf-lint-short-path-literals"><code>lint-short-path-literals</code></a></a></h4>
+<p>The <a href="../command-ref/conf-file.html#conf-warn-short-path-literals"><code>warn-short-path-literals</code></a> boolean setting has been deprecated and replaced with <a href="../command-ref/conf-file.html#conf-lint-short-path-literals"><code>lint-short-path-literals</code></a>.</p>
+<p>To migrate, replace:</p>
+<pre><code>warn-short-path-literals = true
+</code></pre>
+<p>with:</p>
+<pre><code>lint-short-path-literals = warn
+</code></pre>
+<h4 id="lint-absolute-path-literals"><a class="header" href="#lint-absolute-path-literals"><a href="../command-ref/conf-file.html#conf-lint-absolute-path-literals"><code>lint-absolute-path-literals</code></a></a></h4>
+<p>A new <a href="../command-ref/conf-file.html#conf-lint-absolute-path-literals"><code>lint-absolute-path-literals</code></a> setting has been added to control handling of absolute path literals (paths starting with <code>/</code>) and home path literals (paths starting with <code>~/</code>).</p>
+<h4 id="setting-values"><a class="header" href="#setting-values">Setting values</a></h4>
+<p>All three settings accept three values:</p>
+<ul>
+<li><code>ignore</code>: Allow the feature without emitting any diagnostic (default)</li>
+<li><code>warn</code>: Emit a warning when the feature is used</li>
+<li><code>fatal</code>: Treat the feature as a parse error</li>
+</ul>
+<p>The defaults may change in future versions.</p>
+</li>
+<li>
+<p>Improved parser error messages <a href="https://github.com/NixOS/nix/pull/15092">#15092</a></p>
+<p>Parser error messages now use legible strings for tokens instead of internal names. For example, malformed expression <code>a ++ ++ b</code> now produces the following error:</p>
+<pre><code>error: syntax error, unexpected '++'
+     at «string»:1:6:
+          1| a ++ ++ b
+           |      ^
+</code></pre>
+<p>Instead of:</p>
+<pre><code>error: syntax error, unexpected CONCAT
+     at «string»:1:6:
+          1| a ++ ++ b
+           |      ^
+</code></pre>
+</li>
+</ul>
+<h2 id="new-features"><a class="header" href="#new-features">New features</a></h2>
+<ul>
+<li>
+<p><code>nix repl</code> now supports <code>inherit</code> and multiple bindings <a href="https://github.com/NixOS/nix/pull/15082">#15082</a></p>
+<p>The <code>nix repl</code> now supports <code>inherit</code> statements and multiple bindings per line:</p>
+<pre><code>nix-repl&gt; a = { x = 1; y = 2; }
+nix-repl&gt; inherit (a) x y
+nix-repl&gt; x + y
+3
+
+nix-repl&gt; p = 1; q = 2;
+nix-repl&gt; p + q
+3
+
+nix-repl&gt; foo.bar.baz = 1;
+nix-repl&gt; foo.bar
+{ baz = 1; }
+</code></pre>
+</li>
+<li>
+<p>New command <code>nix store roots-daemon</code> for serving GC roots <a href="https://github.com/NixOS/nix/pull/15143">#15143</a></p>
+<p>New command <a href="../command-ref/new-cli/nix3-store-roots-daemon.html"><code>nix store roots-daemon</code></a> runs a daemon that serves garbage collector roots over a Unix domain socket.
+It enables the garbage collector to discover runtime roots when the main Nix daemon doesn’t have <code>CAP_SYS_PTRACE</code> capability and therefore cannot scan <code>/proc</code>.</p>
+<p>The garbage collector can be configured to use this daemon via the <a href="../store/types/local-store.html#store-experimental-option-use-roots-daemon"><code>use-roots-daemon</code></a> store setting.</p>
+<p>This feature requires the <a href="../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code> experimental feature</a>.</p>
+</li>
+<li>
+<p>New command <code>nix-nswrapper</code> in <code>libexec</code> <a href="https://github.com/NixOS/nix/pull/15183">#15183</a></p>
+<p>The new command <code>libexec/nix-nswrapper</code> is used to run the Nix daemon in an unprivileged user namespace on Linux. In order to use this command, build user UIDs and GIDs must be allocated in <code>/etc/subuid</code> and <code>/etc/subgid</code>.</p>
+<p>It can be used to run the Nix daemon with full sandboxing without executing as root. Support has been added to Nixpkgs with the new <code>nix.daemonUser</code> and <code>nix.daemonGroup</code> settings.</p>
+</li>
+<li>
+<p>New setting <code>ignore-gc-delete-failure</code> for local stores <a href="https://github.com/NixOS/nix/pull/15054">#15054</a></p>
+<p>A new local store setting <a href="../store/types/local-store.html#store-local-store-ignore-gc-delete-failure"><code>ignore-gc-delete-failure</code></a> has been added.
+When enabled, garbage collection will log warnings instead of failing when it cannot delete store paths.
+This is useful when running Nix as an unprivileged user that may not have write access to all paths in the store.</p>
+<p>This setting is experimental and requires the <a href="../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code></a> experimental feature.</p>
+</li>
+<li>
+<p>New setting <code>narinfo-cache-meta-ttl</code> <a href="https://github.com/NixOS/nix/pull/15287">#15287</a></p>
+<p>The new setting <code>narinfo-cache-meta-ttl</code> controls how long binary cache metadata (i.e. <code>/nix-cache-info</code>) is cached locally, in seconds. This was previously hard-coded to 7 days, which is still the default. As a result, you can now use <code>nix store info --refresh</code> to check whether a binary cache is still valid.</p>
+</li>
+<li>
+<p>Support HTTPS binary caches using mTLS (client certificate) authentication <a href="https://github.com/NixOS/nix/issues/13002">#13002</a> <a href="https://github.com/NixOS/nix/pull/13030">#13030</a></p>
+<p>Added support for <code>tls-certificate</code> and <code>tls-private-key</code> options in substituter URLs.</p>
+<p>Example:</p>
+<pre><code>https://substituter.invalid?tls-certificate=/path/to/cert.pem&amp;tls-private-key=/path/to/key.pem
+</code></pre>
+<p>When these options are configured, Nix will use this certificate/private key pair to authenticate to the server.</p>
+</li>
+<li>
+<p><code>nix store gc --dry-run</code> and <code>nix-collect-garbage --dry-run</code> now report the number of paths that would be freed <a href="https://github.com/NixOS/nix/pull/15229">#15229</a> <a href="https://github.com/NixOS/nix/issues/5704">#5704</a></p>
+</li>
+</ul>
+<h2 id="performance-improvements"><a class="header" href="#performance-improvements">Performance improvements</a></h2>
+<ul>
+<li>
+<p>Unpacking tarballs to <code>~/.cache/nix/tarball-cache-v2</code> is now multithreaded <a href="https://github.com/NixOS/nix/pull/12087">#12087</a></p>
+<p>Content-addressed cache for <code>builtins.fetchTarball</code> and tarball-based flake inputs (e.g. <code>github:NixOS/nixpkgs</code>, <code>https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz</code>) now writes git blobs (files) to the <code>tarball-cache-v2</code> repository concurrently, which significantly reduces the wall time for tarball unpacking (up to ~1.8x faster unpacking for <code>https://channels.nixos.org/nixos-25.11/nixexprs.tar.xz</code> in our testing).</p>
+<p>Currently, Nix doesn’t perform any maintenance on the <code>~/.cache/nix/tarball-cache-v2</code> repository, which will be addressed in future versions. Users that wish to reclaim disk space used by the tarball cache may want to run:</p>
+<pre><code>rm -rf ~/.cache/nix/tarball-cache # Historical tarball-cache, not used by Nix &gt;= 2.33
+cd ~/.cache/nix/tarball-cache-v2 &amp;&amp; git multi-pack-index write &amp;&amp; git multi-pack-index repack &amp;&amp; git multi-pack-index expire
+</code></pre>
+</li>
+<li>
+<p><code>nix nar ls</code> and other NAR listing operations have been optimised further <a href="https://github.com/NixOS/nix/pull/15163">#15163</a></p>
+</li>
+<li>
+<p>Evaluator hot-path optimizations <a href="https://github.com/NixOS/nix/pull/15270">#15270</a> <a href="https://github.com/NixOS/nix/pull/15271">#15271</a></p>
+</li>
+</ul>
+<h2 id="c-api-changes"><a class="header" href="#c-api-changes">C API Changes</a></h2>
+<ul>
+<li>
+<p>New store API methods <a href="https://github.com/NixOS/nix/pull/14766">#14766</a> <a href="https://github.com/NixOS/nix/pull/14768">#14768</a></p>
+<p>The C API now includes additional methods:</p>
+<ul>
+<li><code>nix_store_query_path_from_hash_part()</code> - Get the full store path given its hash part</li>
+<li><code>nix_store_copy_path()</code> - Copy a single store path between two stores, allows repairs and configuring signature checking</li>
+</ul>
+</li>
+<li>
+<p>Errors returned from your primops are not treated as recoverable by default <a href="https://github.com/NixOS/nix/pull/13930">#13930</a> <a href="https://github.com/NixOS/nix/pull/15286">#15286</a></p>
+<p>Nix 2.34 by default remembers the error in the thunk that triggered it.</p>
+<p>Previously the following sequence of events worked:</p>
+<ol>
+<li>Have a thunk that invokes a primop that’s defined through the C API</li>
+<li>The primop returns an error</li>
+<li>Force the thunk again</li>
+<li>The primop returns a value</li>
+<li>The thunk evaluated successfully</li>
+</ol>
+<p><strong>Resolution</strong></p>
+<p>C API consumers that rely on this must change their recoverable error calls:</p>
+<pre><code class="language-diff">-nix_set_err_msg(context, NIX_ERR_*, msg);
++nix_set_err_msg(context, NIX_ERR_RECOVERABLE, msg);
+</code></pre>
+</li>
+</ul>
+<h2 id="bug-fixes"><a class="header" href="#bug-fixes">Bug fixes</a></h2>
+<ul>
+<li>
+<p>Avoid dropping ssh connections with <code>ssh-ng://</code> stores for store path copying <a href="https://github.com/NixOS/nix/pull/14998">#14998</a> <a href="https://github.com/NixOS/nix/issues/6950">#6950</a></p>
+<p>Due to a bug in how Nix handled Boost.Coroutine2 suspension and resumption, copying from <code>ssh-ng://</code> stores would drop the SSH connection for each copied path. This issue has been fixed, which improves performance by avoiding multiple SSH/Nix Worker Protocol handshakes.</p>
+</li>
+<li>
+<p>S3 binary caches now use virtual-hosted-style addressing by default <a href="https://github.com/NixOS/nix/issues/15208">#15208</a> <a href="https://github.com/NixOS/nix/pull/15216">#15216</a></p>
+<p>S3 binary caches now use virtual-hosted-style URLs
+(<code>https://bucket.s3.region.amazonaws.com/key</code>) instead of path-style URLs
+(<code>https://s3.region.amazonaws.com/bucket/key</code>) when connecting to standard AWS
+S3 endpoints. This enables HTTP/2 multiplexing and fixes TCP connection
+exhaustion (TIME_WAIT socket accumulation) under high-concurrency workloads.</p>
+<p>A new <code>addressing-style</code> store option controls this behavior:</p>
+<ul>
+<li><code>auto</code> (default): virtual-hosted-style for standard AWS endpoints, path-style
+for custom endpoints.</li>
+<li><code>path</code>: forces path-style addressing (deprecated by AWS).</li>
+<li><code>virtual</code>: forces virtual-hosted-style addressing (bucket names must not
+contain dots).</li>
+</ul>
+<p>Bucket names containing dots (e.g., <code>my.bucket.name</code>) automatically fall back
+to path-style addressing in <code>auto</code> mode, because dotted names create
+multi-level subdomains that break TLS wildcard certificate validation.</p>
+<p>Example using path-style for backwards compatibility:</p>
+<pre><code>s3://my-bucket/key?region=us-east-1&amp;addressing-style=path
+</code></pre>
+<p>Additionally, TCP keep-alive is now enabled on all HTTP connections, preventing
+idle connections from being silently dropped by intermediate network devices
+(NATs, firewalls, load balancers).</p>
+</li>
+<li>
+<p><code>nix-prefetch-url --unpack</code> now properly checks for empty archives <a href="https://github.com/NixOS/nix/pull/15242">#15242</a></p>
+<p>Prior versions failed to check for empty archives and would crash with a <code>nullptr</code> dereference when unpacking empty archives.
+This is now fixed.</p>
+</li>
+<li>
+<p>Prevent runaway processes when Nix is killed with <code>SIGKILL</code> when building in a local store with build users <a href="https://github.com/NixOS/nix/pull/15193">#15193</a></p>
+<p>When run as root, Nix doesn’t run builds via the daemon and is a parent of the forked build processes. Prior versions of Nix failed to preserve the <code>PR_SET_PDEATHSIG</code> parent-death signal across <code>setuid</code> calls. This could lead to build processes being reparented and continue running in the background. This has been fixed.</p>
+</li>
+<li>
+<p>Fix crash when interrupting <code>--log-format internal-json</code> <a href="https://github.com/NixOS/nix/pull/15335">#15335</a></p>
+<p>Pressing Ctrl-C during <code>--log-format internal-json</code> (used by <a href="https://github.com/maralorn/nix-output-monitor">nix-output-monitor</a>) no longer causes a spurious “Nix crashed. This is a bug.” report.</p>
+</li>
+<li>
+<p>Fix percent-encoding in <code>file://</code> and <code>local://</code> store URIs <a href="https://github.com/NixOS/nix/pull/15280">#15280</a></p>
+<p>Store URIs with special characters like <code>+</code> in the path (e.g. <code>file:///tmp/a+b</code>) no longer incorrectly create percent-encoded directories (e.g. <code>/tmp/a%2Bb</code>).</p>
+</li>
+<li>
+<p>Fix crash during tab completion in <code>nix repl</code> <a href="https://github.com/NixOS/nix/pull/15255">#15255</a></p>
+</li>
+<li>
+<p>Fix “Too many open files” on macOS <a href="https://github.com/NixOS/nix/pull/15205">#15205</a></p>
+<p>Nix now raises the open file soft limit to the hard limit at startup, fixing “Too many open files” errors on macOS where the default soft limit is low.</p>
+</li>
+<li>
+<p><code>nix develop</code> no longer fails when <code>inputs.nixpkgs</code> has <code>flake = false</code> <a href="https://github.com/NixOS/nix/pull/15175">#15175</a></p>
+</li>
+<li>
+<p><code>builtins.flakeRefToString</code> no longer fails with “attribute is a thunk” <a href="https://github.com/NixOS/nix/pull/15160">#15160</a></p>
+</li>
+<li>
+<p>Fix <code>QueryPathInfo</code> throwing on invalid paths in the daemon <a href="https://github.com/NixOS/nix/pull/15134">#15134</a></p>
+</li>
+<li>
+<p><code>nix-store --generate-binary-cache-key</code> now fsyncs key files to prevent corruption <a href="https://github.com/NixOS/nix/pull/15107">#15107</a></p>
+</li>
+<li>
+<p>Fix <code>build-hook</code> setting in <code>nix.conf</code> being ignored <a href="https://github.com/NixOS/nix/pull/15083">#15083</a></p>
+</li>
+<li>
+<p>Fix empty error messages when builds are cancelled due to a dependency failure <a href="https://github.com/NixOS/nix/pull/14972">#14972</a></p>
+<p>When a build fails without <code>--keep-going</code>, other in-progress builds are cancelled. Previously, these cancelled builds were incorrectly reported as failed with empty error messages. This affected <code>buildPathsWithResults</code> callers such as <code>nix flake check</code>.</p>
+</li>
+</ul>
+<h2 id="miscellaneous-changes"><a class="header" href="#miscellaneous-changes">Miscellaneous changes</a></h2>
+<ul>
+<li>
+<p>Content-Encoding decompression is now handled by libcurl <a href="https://github.com/NixOS/nix/issues/14324">#14324</a> <a href="https://github.com/NixOS/nix/pull/15336">#15336</a></p>
+<p>Transparent decompression of HTTP downloads specifying <code>Content-Encoding</code> header now uses libcurl. This adds support for previously advertised, but not supported <code>deflate</code> encoding as well as deprecated <code>x-gzip</code> alias.
+Non-standard <code>xz</code>, <code>bzip2</code> encodings that were previously advertised are no longer supported, as they do not commonly appear in the wild and should not be sent by compliant servers.</p>
+<p><code>br</code>, <code>zstd</code>, <code>gzip</code> continue to be supported. Distro packaging should ensure that the <code>libcurl</code> dependency is linked against required libraries to support these encodings. By default, the build system now requires libcurl &gt;= 8.17.0, which is not known to have issues around <a href="https://github.com/curl/curl/issues/16280">pausing and decompression</a>.</p>
+</li>
+<li>
+<p>Static builds now support S3 features (<code>libstore:s3-aws-auth</code> meson option) <a href="https://github.com/NixOS/nix/pull/15076">#15076</a></p>
+</li>
+<li>
+<p>Improved package-related error messages <a href="https://github.com/NixOS/nix/pull/15349">#15349</a></p>
+<p>Store path context is now rendered in the user-facing <code>hash^out</code> format instead of the internal <code>!out!hash</code> format.
+A misleading error message in <code>nix-env</code> that incorrectly blamed content-addressed derivations has been fixed.</p>
+</li>
+<li>
+<p>Improved error message for empty derivation files <a href="https://github.com/NixOS/nix/pull/15298">#15298</a></p>
+<p>Parsing an empty <code>.drv</code> file (e.g. due to store corruption after an unclean shutdown) now produces a clear error message instead of the cryptic <code>expected string 'D'</code>.</p>
+</li>
+<li>
+<p>Relative <code>file:</code> paths for tarballs are now rejected with a clear error <a href="https://github.com/NixOS/nix/pull/14983">#14983</a></p>
+</li>
+<li>
+<p>Continued progress on the Windows port, including build fixes, CI improvements, and platform abstractions.</p>
+</li>
+<li>
+<p>Nix docker images are now uploaded to <a href="https://github.com/NixOS/nix/pkgs/container/nix">GHCR</a> as part of the release process</p>
+<p>Historically, only pre-release builds of <code>amd64</code> docker images have been uploaded to ghcr.io with the <code>latest</code> tag pointing to the last built image from <code>master</code> branch. This has been fixed and going forward, <a href="https://github.com/NixOS/nix/pkgs/container/nix">https://github.com/NixOS/nix/pkgs/container/nix</a> will include the same images as <a href="https://hub.docker.com/r/nixos/nix/">https://hub.docker.com/r/nixos/nix/</a> that are built by <a href="https://hydra.nixos.org/project/nix">Hydra</a> for <a href="https://hydra.nixos.org/job/nix/maintenance-2.34/dockerImage.aarch64-linux">arm64</a> and <a href="https://hydra.nixos.org/job/nix/maintenance-2.34/dockerImage.x86_64-linux">amd64</a>. Pre-release versions are no longer pushed to the registry.</p>
+</li>
+</ul>
+<h2 id="contributors"><a class="header" href="#contributors">Contributors</a></h2>
+<p>This release was made possible by the following 43 contributors:</p>
+<ul>
+<li>Taeer Bar-Yam <a href="https://github.com/Radvendii"><strong>(@Radvendii)</strong></a></li>
+<li>Sergei Zimmerman <a href="https://github.com/xokdvium"><strong>(@xokdvium)</strong></a></li>
+<li>Jörg Thalheim <a href="https://github.com/Mic92"><strong>(@Mic92)</strong></a></li>
+<li>Graham Dennis <a href="https://github.com/GrahamDennis"><strong>(@GrahamDennis)</strong></a></li>
+<li>Damien Diederen <a href="https://github.com/ztzg"><strong>(@ztzg)</strong></a></li>
+<li>koberbe-jh <a href="https://github.com/koberbe-jh"><strong>(@koberbe-jh)</strong></a></li>
+<li>Robert Hensing <a href="https://github.com/roberth"><strong>(@roberth)</strong></a></li>
+<li>Bouke van der Bijl <a href="https://github.com/bouk"><strong>(@bouk)</strong></a></li>
+<li>Lisanna Dettwyler <a href="https://github.com/lisanna-dettwyler"><strong>(@lisanna-dettwyler)</strong></a></li>
+<li>kiara <a href="https://github.com/KiaraGrouwstra"><strong>(@KiaraGrouwstra)</strong></a></li>
+<li>Side Effect <a href="https://github.com/YawKar"><strong>(@YawKar)</strong></a></li>
+<li>dram <a href="https://github.com/dramforever"><strong>(@dramforever)</strong></a></li>
+<li>tomf <a href="https://github.com/tomfitzhenry"><strong>(@tomfitzhenry)</strong></a></li>
+<li>Kamil Monicz <a href="https://github.com/Zaczero"><strong>(@Zaczero)</strong></a></li>
+<li>Cosima Neidahl <a href="https://github.com/OPNA2608"><strong>(@OPNA2608)</strong></a></li>
+<li>Siddhant Kumar <a href="https://github.com/siddhantk232"><strong>(@siddhantk232)</strong></a></li>
+<li>Jens Petersen <a href="https://github.com/juhp"><strong>(@juhp)</strong></a></li>
+<li>Johannes Kirschbauer <a href="https://github.com/hsjobeki"><strong>(@hsjobeki)</strong></a></li>
+<li>tomberek <a href="https://github.com/tomberek"><strong>(@tomberek)</strong></a></li>
+<li>Eelco Dolstra <a href="https://github.com/edolstra"><strong>(@edolstra)</strong></a></li>
+<li>Artemis Tosini <a href="https://github.com/artemist"><strong>(@artemist)</strong></a></li>
+<li>David McFarland <a href="https://github.com/corngood"><strong>(@corngood)</strong></a></li>
+<li>Tucker Shea <a href="https://github.com/NoRePercussions"><strong>(@NoRePercussions)</strong></a></li>
+<li>Connor Baker <a href="https://github.com/ConnorBaker"><strong>(@ConnorBaker)</strong></a></li>
+<li>Cole Helbling <a href="https://github.com/cole-h"><strong>(@cole-h)</strong></a></li>
+<li>Eveeifyeve <a href="https://github.com/Eveeifyeve"><strong>(@Eveeifyeve)</strong></a></li>
+<li>John Ericson <a href="https://github.com/Ericson2314"><strong>(@Ericson2314)</strong></a></li>
+<li>Graham Christensen <a href="https://github.com/grahamc"><strong>(@grahamc)</strong></a></li>
+<li>Ilja <a href="https://github.com/iljah"><strong>(@iljah)</strong></a></li>
+<li>Pol Dellaiera <a href="https://github.com/drupol"><strong>(@drupol)</strong></a></li>
+<li>steelman <a href="https://github.com/steelman"><strong>(@steelman)</strong></a></li>
+<li>Brian McKenna <a href="https://github.com/puffnfresh"><strong>(@puffnfresh)</strong></a></li>
+<li>JustAGuyTryingHisBest <a href="https://github.com/JustAGuyTryingHisBest"><strong>(@JustAGuyTryingHisBest)</strong></a></li>
+<li>zowoq <a href="https://github.com/zowoq"><strong>(@zowoq)</strong></a></li>
+<li>Agustín Covarrubias <a href="https://github.com/agucova"><strong>(@agucova)</strong></a></li>
+<li>Sergei Trofimovich <a href="https://github.com/trofi"><strong>(@trofi)</strong></a></li>
+<li>Bernardo Meurer <a href="https://github.com/lovesegfault"><strong>(@lovesegfault)</strong></a></li>
+<li>Peter Bynum <a href="https://github.com/pkpbynum"><strong>(@pkpbynum)</strong></a></li>
+<li>Amaan Qureshi <a href="https://github.com/amaanq"><strong>(@amaanq)</strong></a></li>
+<li>Michael Hoang <a href="https://github.com/Enzime"><strong>(@Enzime)</strong></a></li>
+<li>Michael Daniels <a href="https://github.com/mdaniels5757"><strong>(@mdaniels5757)</strong></a></li>
+<li>Matthew Kenigsberg <a href="https://github.com/mkenigs"><strong>(@mkenigs)</strong></a></li>
+<li>Shea Levy <a href="https://github.com/shlevy"><strong>(@shlevy)</strong></a></li>
+</ul>
+<h1 id="release-2341-2026-03-08"><a class="header" href="#release-2341-2026-03-08">Release 2.34.1 (2026-03-08)</a></h1>
+<h2 id="changes"><a class="header" href="#changes">Changes</a></h2>
+<ul>
+<li>
+<p>C API: Fix <code>EvalState</code> pointer passed to primop callbacks <a href="https://github.com/NixOS/nix/pull/15300">#15300</a> <a href="https://github.com/NixOS/nix/pull/15383">#15383</a></p>
+<p>The <code>EvalState *</code> passed to C API primop callbacks was incorrectly pointing to
+the internal <code>nix::EvalState</code> rather than the C API wrapper struct. This caused
+a segfault when the callback used the pointer with C API functions such as
+<code>nix_alloc_value()</code>. The same issue affected <code>printValueAsJSON</code> and
+<code>printValueAsXML</code> callbacks on external values.</p>
+</li>
+<li>
+<p>Fix daemon not applying <code>FileTransferSettings</code> from <code>trusted-users</code> <a href="https://github.com/NixOS/nix/pull/15408">#15408</a></p>
+<p>Previously <code>nix-daemon</code> failed to apply settings for <code>libcurl</code> configuration configured by client connections from <a href="../command-ref/conf-file.html#conf-trusted-users"><code>trusted-users</code></a>. This was a pre-existing bug, which has been exacerbated by 2.34.0 moving more settings from the global <code>settings</code> into libcurl-specific <code>fileTransferSettings</code> (e.g. <code>netrc-file</code>, <code>http-connections</code> or <code>ssl-cert-file</code>). Note that the use of <code>trusted-users</code> is heavily discouraged unless you are fine with:</p>
+<blockquote>
+<p>Adding a user to <code>trusted-users</code> is essentially equivalent to giving that user root access to the system.
+For example, the user can access or replace store path contents that are critical for system security.</p>
+</blockquote>
+</li>
+<li>
+<p>Improve formatting of error messages and warnings <a href="https://github.com/NixOS/nix/pull/15397">#15397</a></p>
+</li>
+</ul>
+<h1 id="release-2342-2026-03-20"><a class="header" href="#release-2342-2026-03-20">Release 2.34.2 (2026-03-20)</a></h1>
+<h2 id="changes-1"><a class="header" href="#changes-1">Changes</a></h2>
+<ul>
+<li>
+<p>Fixed <code>nix upgrade-nix</code> without an explicitly specified <code>--profile</code> argument <a href="https://github.com/NixOS/nix/issues/15437">#15437</a> <a href="https://github.com/NixOS/nix/pull/15438">#15438</a></p>
+</li>
+<li>
+<p>Erroneous <code>error (ignored): write of ... bytes: Bad file descriptor</code> warnings on interrupted store copy operations are now fixed <a href="https://github.com/NixOS/nix/pull/15486">#15486</a></p>
+</li>
+<li>
+<p>Reverted changes enabling keep-alive in the HTTP client <a href="https://github.com/NixOS/nix/pull/15522">#15522</a></p>
+<p>Connection reuse for S3 stores has caused Hydra upload errors due to stale connections being closed by the remote servers. Nix currently lacks retry mechanisms for 400 <code>RequestTimeout</code> errors used by AWS S3.</p>
+</li>
+<li>
+<p>Fixed evaluation that accesses the logical store directory using <code>ssh-ng://</code> <code>eval-store</code>s <a href="https://github.com/NixOS/nix/pull/15417">#15417</a></p>
+<p>Accessing the logical store directory (typically <code>/nix/store</code>) during evaluation would fail previously:</p>
+<pre><code>nix build nixpkgs#hello --store ssh-ng://host
+error: path '/nix/store/' is not in the Nix store
+</code></pre>
+</li>
+<li>
+<p>S3: restore STS WebIdentity and ECS container credential providers <a href="https://github.com/NixOS/nix/pull/15507">#15507</a></p>
+<p>Nix 2.33 replaced the S3 backend’s <code>aws-sdk-cpp</code> credential chain with a
+custom chain built on <code>aws-c-auth</code>. That chain omitted two providers,
+breaking S3 binary cache access in container workloads:</p>
+<ul>
+<li><strong>STS WebIdentity</strong> (<code>AWS_WEB_IDENTITY_TOKEN_FILE</code>, <code>AWS_ROLE_ARN</code>,
+<code>AWS_ROLE_SESSION_NAME</code>) — used by EKS IRSA, GitHub Actions OIDC, and
+any <code>sts:AssumeRoleWithWebIdentity</code> federation.</li>
+<li><strong>ECS container metadata</strong> (<code>AWS_CONTAINER_CREDENTIALS_RELATIVE_URI</code>,
+<code>AWS_CONTAINER_CREDENTIALS_FULL_URI</code>) — used by ECS tasks and EKS Pod
+Identity.</li>
+</ul>
+<p>The typical symptom was a misleading IMDS error
+(<code>Valid credentials could not be sourced by the IMDS provider</code>), because
+IMDS is the last provider tried after the correct one was skipped.</p>
+<p>Both providers are now part of the chain, ordered to match the
+pre-2.33 <code>DefaultAWSCredentialsProviderChain</code>:
+<code>Environment → SSO → Profile → STS WebIdentity → (ECS | IMDS)</code>.
+As in both the old and new AWS SDK default chains, ECS and IMDS are
+mutually exclusive: when container credential environment variables are
+set, IMDS is skipped.</p>
+</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../release-notes/rl-next.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../release-notes/rl-2.33.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../release-notes/rl-next.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../release-notes/rl-2.33.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-c2a407aa.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-862e895d.js"></script>
+        <script src="../book-a0b12cfe.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../redirects-70899071.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

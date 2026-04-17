@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Experimental Local Overlay Store - Nix 2.31.3 Reference Manual</title>
+        <title>Experimental Local Overlay Store - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -323,7 +339,7 @@ You can override this behaviour by passing <a href="#store-experimental-local-ov
 <p>Nix will create this directory automatically with suitable permissions if it does not exist.
 Otherwise its permissions must allow all users to traverse the directory (i.e. it must have <code>o+x</code> set, in unix parlance) for non-sandboxed builds to work correctly.</p>
 <p>This is also the location where <a href="../../command-ref/opt-common.html#opt-keep-failed"><code>--keep-failed</code></a> leaves its files.</p>
-<p>If Nix runs without sandbox, or if the platform does not support sandboxing with bind mounts (e.g. macOS), then the <a href="../../language/derivations.html#attr-builder"><code>builder</code></a>’s environment will contain this directory, instead of the virtual location <a href="#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a>.</p>
+<p>If Nix runs without sandbox, or if the platform does not support sandboxing with bind mounts (e.g. macOS), then the <a href="../../language/derivations.html#attr-builder"><code>builder</code></a>’s environment will contain this directory, instead of the virtual location <a href="../../command-ref/conf-file.html#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a>.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
 <p><code>build-dir</code> must not be set to a world-writable directory.
@@ -342,6 +358,24 @@ correctly. Rather than just assume this is the case, check that the lowerdir
 and upperdir options are what we expect them to be. This check is on by
 default, but can be disabled if needed.</p>
 <p><strong>Default:</strong> <code>true</code></p>
+</li>
+<li>
+<p><span id="store-experimental-local-overlay-store-ignore-gc-delete-failure"><a href="#store-experimental-local-overlay-store-ignore-gc-delete-failure"><code>ignore-gc-delete-failure</code></a></span></p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This setting is part of an
+<a href="../../development/experimental-features.html">experimental feature</a>.</p>
+<p>To change this setting, make sure the
+<a href="../../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code> experimental feature</a>
+is enabled.
+For example, include the following in <a href="../../command-ref/conf-file.html"><code>nix.conf</code></a>:</p>
+<pre><code>extra-experimental-features = local-overlay-store
+ignore-gc-delete-failure = ...
+</code></pre>
+</blockquote>
+<p>Whether to ignore failures when deleting items with the garbage collector.</p>
+<p>Normally the garbage collector will fail with an error if the nix daemon cannot delete a file, with this setting such errors will only be printed as warnings.</p>
+<p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-log"><a href="#store-experimental-local-overlay-store-log"><code>log</code></a></span></p>
@@ -438,6 +472,28 @@ setting.</p>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
+<p><span id="store-experimental-local-overlay-store-use-roots-daemon"><a href="#store-experimental-local-overlay-store-use-roots-daemon"><code>use-roots-daemon</code></a></span></p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This setting is part of an
+<a href="../../development/experimental-features.html">experimental feature</a>.</p>
+<p>To change this setting, make sure the
+<a href="../../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code> experimental feature</a>
+is enabled.
+For example, include the following in <a href="../../command-ref/conf-file.html"><code>nix.conf</code></a>:</p>
+<pre><code>extra-experimental-features = local-overlay-store
+use-roots-daemon = ...
+</code></pre>
+</blockquote>
+<p>Whether to request garbage collector roots from an external daemon.</p>
+<p>When enabled, the garbage collector connects to a Unix domain socket
+at <a href="../../store/types/local-store.html#store-option-state"><code>&lt;state-dir&gt;</code></a><code>/gc-roots-socket/socket</code> to discover additional roots
+that should not be collected. This is useful when the Nix daemon runs
+without root privileges and cannot scan <code>/proc</code> for runtime roots.</p>
+<p>The daemon can be started with <a href="../../command-ref/new-cli/nix3-store-roots-daemon.html"><code>nix store roots-daemon</code></a>.</p>
+<p><strong>Default:</strong> <code>false</code></p>
+</li>
+<li>
 <p><span id="store-experimental-local-overlay-store-want-mass-query"><a href="#store-experimental-local-overlay-store-want-mass-query"><code>want-mass-query</code></a></span></p>
 <p>Whether this store can be queried efficiently for path validity when used as a <a href="../../command-ref/conf-file.html#conf-substituters">substituter</a>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
@@ -495,7 +551,7 @@ setting.</p>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

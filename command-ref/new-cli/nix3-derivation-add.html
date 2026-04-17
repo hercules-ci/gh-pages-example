@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix derivation add - Nix 2.31.3 Reference Manual</title>
+        <title>nix derivation add - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -196,117 +212,8 @@ and its interface is subject to change.</p>
 <p>Store derivations are used internally by Nix. They are store paths with
 extension <code>.drv</code> that represent the build-time dependency graph to which
 a Nix expression evaluates.</p>
-<p><code>nix derivation add</code> takes a single derivation in the following format:</p>
-<h1 id="derivation-json-format"><a class="header" href="#derivation-json-format">Derivation JSON Format</a></h1>
-<blockquote>
-<p><strong>Warning</strong></p>
-<p>This JSON format is currently
-<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
-and subject to change.</p>
-</blockquote>
-<p>The JSON serialization of a
-<a href="../../glossary.html#gloss-store-derivation">derivations</a>
-is a JSON object with the following fields:</p>
-<ul>
-<li>
-<p><code>name</code>:
-The name of the derivation.
-This is used when calculating the store paths of the derivation’s outputs.</p>
-</li>
-<li>
-<p><code>outputs</code>:
-Information about the output paths of the derivation.
-This is a JSON object with one member per output, where the key is the output name and the value is a JSON object with these fields:</p>
-<ul>
-<li>
-<p><code>path</code>:
-The output path, if it is known in advanced.
-Otherwise, <code>null</code>.</p>
-</li>
-<li>
-<p><code>method</code>:
-For an output which will be [content addressed], a string representing the <a href="../../store/store-object/content-address.html">method</a> of content addressing that is chosen.
-Valid method strings are:</p>
-<ul>
-<li><a href="../../store/store-object/content-address.html#method-flat"><code>flat</code></a></li>
-<li><a href="../../store/store-object/content-address.html#method-nix-archive"><code>nar</code></a></li>
-<li><a href="../../store/store-object/content-address.html#method-text"><code>text</code></a></li>
-<li><a href="../../store/store-object/content-address.html#method-git"><code>git</code></a></li>
-</ul>
-<p>Otherwise, <code>null</code>.</p>
-</li>
-<li>
-<p><code>hashAlgo</code>:
-For an output which will be [content addressed], the name of the hash algorithm used.
-Valid algorithm strings are:</p>
-<ul>
-<li><code>blake3</code></li>
-<li><code>md5</code></li>
-<li><code>sha1</code></li>
-<li><code>sha256</code></li>
-<li><code>sha512</code></li>
-</ul>
-</li>
-<li>
-<p><code>hash</code>:
-For fixed-output derivations, the expected content hash in base-16.</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-json">"outputs": {
-  "out": {
-    "path": "/nix/store/2543j7c6jn75blc3drf4g5vhb1rhdq29-source",
-    "method": "nar",
-    "hashAlgo": "sha256",
-    "hash": "6fc80dcc62179dbc12fc0b5881275898f93444833d21b89dfe5f7fbcbb1d0d62"
-  }
-}
-</code></pre>
-</blockquote>
-</li>
-<li>
-<p><code>inputSrcs</code>:
-A list of store paths on which this derivation depends.</p>
-</li>
-<li>
-<p><code>inputDrvs</code>:
-A JSON object specifying the derivations on which this derivation depends, and what outputs of those derivations.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-json">"inputDrvs": {
-  "/nix/store/6lkh5yi7nlb7l6dr8fljlli5zfd9hq58-curl-7.73.0.drv": ["dev"],
-  "/nix/store/fn3kgnfzl5dzym26j8g907gq3kbm8bfh-unzip-6.0.drv": ["out"]
-}
-</code></pre>
-</blockquote>
-<p>specifies that this derivation depends on the <code>dev</code> output of <code>curl</code>, and the <code>out</code> output of <code>unzip</code>.</p>
-</li>
-<li>
-<p><code>system</code>:
-The system type on which this derivation is to be built
-(e.g. <code>x86_64-linux</code>).</p>
-</li>
-<li>
-<p><code>builder</code>:
-The absolute path of the program to be executed to run the build.
-Typically this is the <code>bash</code> shell
-(e.g. <code>/nix/store/r3j288vpmczbl500w6zz89gyfa4nr0b1-bash-4.4-p23/bin/bash</code>).</p>
-</li>
-<li>
-<p><code>args</code>:
-The command-line arguments passed to the <code>builder</code>.</p>
-</li>
-<li>
-<p><code>env</code>:
-The environment passed to the <code>builder</code>.</p>
-</li>
-<li>
-<p><code>structuredAttrs</code>:
-<a href="../../store/derivation/index.html#structured-attrs">Strucutured Attributes</a>, only defined if the derivation contains them.
-Structured attributes are JSON, and thus embedded as-is.</p>
-</li>
-</ul>
+<p><code>nix derivation add</code> takes a single derivation in the JSON format.
+See <a href="../../protocols/json/derivation/index.html">the manual</a> for a documentation of this format.</p>
 <h1 id="options"><a class="header" href="#options">Options</a></h1>
 <ul>
 <li>
@@ -416,7 +323,7 @@ Structured attributes are JSON, and thus embedded as-is.</p>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

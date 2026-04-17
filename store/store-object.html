@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Object - Nix 2.31.3 Reference Manual</title>
+        <title>Store Object - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -199,7 +215,8 @@ References from a store object to itself are called <em>self-references</em>.</p
 In particular, the edge corresponding to a reference is from the store object that contains the reference, and to the store object that the store path (which is the reference) refers to.</p>
 <p>References other than a self-reference must not form a cycle.
 The graph of references excluding self-references thus forms a <a href="../glossary.html#gloss-directed-acyclic-graph">directed acyclic graph</a>.</p>
-<p>We can take the <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a> of the references graph, which any pair of store objects have an edge not if there is a single reference from the first to the second, but a path of one or more references from the first to the second.
+<p>We can take the <a href="https://en.wikipedia.org/wiki/Transitive_closure">transitive closure</a> of the references graph, in which any pair of store objects have an edge if a <em>path</em> of one or more references exists from the first to the second object.
+(A single reference always forms a path which is one reference long, but longer paths may connect objects which have no direct reference between them.)
 The <em>requisites</em> of a store object are all store objects reachable by paths of references which start with given store object’s references.</p>
 <p>We can also take the <a href="https://en.wikipedia.org/wiki/Transpose_graph">transpose graph</a> of the references graph, where we reverse the orientation of all edges.
 The <em>referrers</em> of a store object are the store objects that reference it.</p>
@@ -291,7 +308,7 @@ However, the “closure property” and immutability in conjunction imply that a
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

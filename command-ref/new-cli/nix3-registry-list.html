@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix registry list - Nix 2.31.3 Reference Manual</title>
+        <title>nix registry list - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -196,7 +212,7 @@ and its interface is subject to change.</p>
 <p>Show the contents of all registries:</p>
 <pre><code class="language-console"># nix registry list
 user   flake:dwarffs github:edolstra/dwarffs/d181d714fd36eb06f4992a1997cd5601e26db8f5
-system flake:nixpkgs path:/nix/store/fxl9mrm5xvzam0lxi9ygdmksskx4qq8s-source?lastModified=1605220118&amp;narHash=sha256-Und10ixH1WuW0XHYMxxuHRohKYb45R%2fT8CwZuLd2D2Q=&amp;rev=3090c65041104931adda7625d37fa874b2b5c124
+system flake:nixpkgs path:/nix/store/jschy88crdk7jqqbk1p2b4l1c9gljl9b-source?lastModified=1605220118&amp;narHash=sha256-Und10ixH1WuW0XHYMxxuHRohKYb45R%2fT8CwZuLd2D2Q=&amp;rev=3090c65041104931adda7625d37fa874b2b5c124
 global flake:blender-bin github:edolstra/nix-warez?dir=blender
 global flake:dwarffs github:edolstra/dwarffs
 …
@@ -317,7 +333,7 @@ output. Each line represents one registry entry in the format <em>type</em>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

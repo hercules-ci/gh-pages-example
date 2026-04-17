@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>String context - Nix 2.31.3 Reference Manual</title>
+        <title>String context - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -212,11 +228,11 @@ They can be either of type <a href="#string-context-constant">constant</a> or <a
 <blockquote>
 <p><strong>Example</strong></p>
 <p><a href="./builtins.html#builtins-storePath"><code>builtins.storePath</code></a> creates a string with a single constant string context element:</p>
-<pre><code class="language-nix">builtins.getContext (builtins.storePath "/nix/store/wkhdf9jinag5750mqlax6z2zbwhqb76n-hello-2.10")
+<pre><code class="language-nix">builtins.getContext (builtins.storePath "/nix/store/ikwkxz4wwlp2g1428n7dy729cg1d9hin-hello-2.10")
 </code></pre>
 <p>evaluates to</p>
 <pre><code class="language-nix">{
-  "/nix/store/wkhdf9jinag5750mqlax6z2zbwhqb76n-hello-2.10" = {
+  "/nix/store/ikwkxz4wwlp2g1428n7dy729cg1d9hin-hello-2.10" = {
     path = true;
   };
 }
@@ -272,7 +288,7 @@ Take a regular constant string context element pointing to a derivation, and tra
 <h2 id="inspecting-string-contexts"><a class="header" href="#inspecting-string-contexts">Inspecting string contexts</a></h2>
 <p>Most basically, <a href="./builtins.html#builtins-hasContext"><code>builtins.hasContext</code></a> will tell whether a string has a non-empty context.</p>
 <p>When more granular information is needed, <a href="./builtins.html#builtins-getContext"><code>builtins.getContext</code></a> can be used.
-It creates an <a href="./types.html#attribute-set">attribute set</a> representing the string context, which can be inspected as usual.</p>
+It creates an <a href="./types.html#type-attrs">attribute set</a> representing the string context, which can be inspected as usual.</p>
 <h2 id="clearing-string-contexts"><a class="header" href="#clearing-string-contexts">Clearing string contexts</a></h2>
 <p><a href="./builtins.html#builtins-unsafeDiscardStringContext"><code>builtins.unsafeDiscardStringContext</code></a> will make a copy of a string, but with an empty string context.
 The returned string can be used in more ways, e.g. by operators that require the string context to be empty.
@@ -280,7 +296,7 @@ The requirement to explicitly discard the string context in such use cases helps
 The “unsafe” marker is only there to remind that Nix normally guarantees that dependencies are tracked, whereas the returned string has lost them.</p>
 <h2 id="constructing-string-contexts"><a class="header" href="#constructing-string-contexts">Constructing string contexts</a></h2>
 <p><a href="./builtins.html#builtins-appendContext"><code>builtins.appendContext</code></a> will create a copy of a string, but with additional string context elements.
-The context is specified explicitly by an <a href="./types.html#attribute-set">attribute set</a> in the format that <a href="./builtins.html#builtins-hasContext"><code>builtins.hasContext</code></a> produces.
+The context is specified explicitly by an <a href="./types.html#type-attrs">attribute set</a> in the format that <a href="./builtins.html#builtins-hasContext"><code>builtins.hasContext</code></a> produces.
 A string with arbitrary contexts can be made like this:</p>
 <ol>
 <li>Create a string with the desired string context elements.
@@ -340,7 +356,7 @@ A string with arbitrary contexts can be made like this:</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Input-addressing derivation outputs - Nix 2.31.3 Reference Manual</title>
+        <title>Input-addressing derivation outputs - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../../toc-f3fccd7f.js"></script>
+        <script src="../../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../../print.html" title="Print this book" aria-label="Print this book">
@@ -185,25 +201,181 @@
 <p>“Input addressing” means the address the store object by the <em>way it was made</em> rather than <em>what it is</em>.
 That is to say, an input-addressed output’s store path is a function not of the output itself, but of the derivation that produced it.
 Even if two store paths have the same contents, if they are produced in different ways, and one is input-addressed, then they will have different store paths, and thus guaranteed to not be the same store object.</p>
-<!---
+<h2 id="hash-quotient-drv"><a class="header" href="#hash-quotient-drv">Modulo content addressed derivation outputs</a></h2>
+<p>A naive implementation of an output hash computation for input-addressed outputs would be to hash the derivation hash and output together.
+This clearly has the uniqueness properties we want for input-addressed outputs, but suffers from an inefficiency.
+Specifically, new builds would be required whenever a change is made to a fixed-output derivation, despite having provably no differences in the inputs to the new derivation compared to what it used to be.
+Concretely, this would cause a “mass rebuild” whenever any fetching detail changes, including mirror lists, certificate authority certificates, etc.</p>
+<p>To solve this problem, we compute output hashes differently, so that certain output hashes become identical.
+We call this concept quotient hashing, in reference to quotient types or sets.</p>
+<p>So how do we compute the hash part of the output paths of an input-addressed derivation?
+This is done by the function <code>hashQuotientDerivation</code>, shown below.</p>
+<p>First, a word on inputs.
+<code>hashQuotientDerivation</code> is only defined on derivations whose <a href="../../../store/derivation/index.html#inputs">inputs</a> take the first-order form:</p>
+<pre><code class="language-typescript">type ConstantPath = {
+  path: StorePath;
+};
 
-### Modulo fixed-output derivations
+type FirstOrderOutputPath = {
+  drvPath: StorePath;
+  output: OutputName;
+};
 
-**TODO hash derivation modulo.**
+type FirstOrderDerivingPath = ConstantPath | FirstOrderOutputPath;
 
-So how do we compute the hash part of the output path of a derivation?
-This is done by the function `hashDrv`, shown in Figure 5.10.
-It distinguishes between two cases.
-If the derivation is a fixed-output derivation, then it computes a hash over just the `outputHash` attributes.
+type Inputs = Set&lt;FirstOrderDerivingPath&gt;;
+</code></pre>
+<p>For the algorithm below, we adopt a derivation where the two types of (first order) derived paths are partitioned into two sets, as follows:</p>
+<pre><code class="language-typescript">type Derivation = {
+  // inputs: Set&lt;FirstOrderDerivingPath&gt;; // replaced
+  inputSrcs: Set&lt;ConstantPath&gt;; // new instead
+  inputDrvOutputs: Set&lt;FirstOrderOutputPath&gt;; // new instead
+  // ...other fields...
+};
+</code></pre>
+<p>In the <a href="../../../development/experimental-features.html#xp-feature-dynamic-derivations">currently-experimental</a> higher-order case where outputs of outputs are allowed as <a href="../../../store/derivation/index.html#deriving-path">deriving paths</a> and thus derivation inputs, derivations using that generalization are not valid arguments to this function.
+Those derivations must be (partially) <a href="../../../store/resolution.html">resolved</a> enough first, to the point where no such higher-order inputs remain.
+Then, and only then, can input addresses be assigned.</p>
+<pre><code>function hashQuotientDerivation(drv) -&gt; Hash:
+    assert(drv.outputs are input-addressed)
+    drv′ ← drv with {
+        inputDrvOutputs = ⋃(
+            assert(drvPath is store path)
+            case hashOutputsOrQuotientDerivation(readDrv(drvPath)) of
+                drvHash : Hash →
+                    (drvHash.toBase16(), output)
+                outputHashes : Map[String, Hash] →
+                    (outputHashes[output].toBase16(), "out")
+            | (drvPath, output) ∈ drv.inputDrvOutputs
+        )
+    }
+    return hashSHA256(printDrv(drv′))
 
-If the derivation is not a fixed-output derivation, we replace each element in the derivation’s inputDrvs with the result of a call to `hashDrv` for that element.
-(The derivation at each store path in `inputDrvs` is converted from its on-disk ATerm representation back to a `StoreDrv` by the function `parseDrv`.) In essence, `hashDrv` partitions store derivations into equivalence classes, and for hashing purpose it replaces each store path in a derivation graph with its equivalence class.
-
-The recursion in Figure 5.10 is inefficient:
-it will call itself once for each path by which a subderivation can be reached, i.e., `O(V k)` times for a derivation graph with `V` derivations and with out-degree of at most `k`.
-In the actual implementation, memoisation is used to reduce this to `O(V + E)` complexity for a graph with E edges.
-
--->
+function hashOutputsOrQuotientDerivation(drv) -&gt; Map[String, Hash] | Hash:
+    if drv.outputs are content-addressed:
+        return {
+            outputName ↦ hashSHA256(
+                "fixed:out:" + ca.printMethodAlgo() +
+                ":" + ca.hash.toBase16() +
+                ":" + ca.makeFixedOutputPath(drv.name, outputName))
+            | (outputName ↦ output) ∈ drv.outputs
+            , ca = output.contentAddress // or get from build trace if floating
+        }
+    else: // drv.outputs are input-addressed
+        return hashQuotientDerivation(drv)
+</code></pre>
+<h3 id="hashquotientderivation"><a class="header" href="#hashquotientderivation"><code>hashQuotientDerivation</code></a></h3>
+<p>We replace each element in the derivation’s <code>inputDrvOutputs</code> using data from a call to <code>hashOutputsOrQuotientDerivation</code> on the <code>drvPath</code> of that element.
+When <code>hashOutputsOrQuotientDerivation</code> returns a single drv hash (because the input derivation in question is input-addressing), we simply swap out the <code>drvPath</code> for that hash, and keep the same output name.
+When <code>hashOutputsOrQuotientDerivation</code> returns a map of content addresses per-output, we look up the output in question, and pair it with the output name <code>out</code>.</p>
+<p>The resulting pseudo-derivation (with hashes instead of store paths in <code>inputDrvs</code>) is then printed (in the <a href="../../../protocols/derivation-aterm.html">“ATerm” format</a>) and hashed, and this becomes the hash of the “quotient derivation”.</p>
+<p>When calculating output hashes, <code>hashQuotientDerivation</code> is called on an almost-complete input-addressing derivation, which is just missing its input-addressed outputs paths.
+The derivation hash is then used to calculate output paths for each output.</p>
+<!-- TODO describe how this is done. -->
+<p>Those output paths can then be substituted into the almost-complete input-addressed derivation to complete it.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>There may be an unintentional deviation from specification currently implemented in the <code>(outputHashes[output].toBase16(), "out")</code> case.
+This is not fatal because the deviation would only apply for content-addressing derivations with more than one output, and that only occurs in the floating case, which is <a href="../../../development/experimental-features.html#xp-feature-ca-derivations">experimental</a>.
+Once this bug is fixed, this note will be removed.</p>
+</blockquote>
+<h3 id="hashoutputsorquotientderivation"><a class="header" href="#hashoutputsorquotientderivation"><code>hashOutputsOrQuotientDerivation</code></a></h3>
+<p>How does <code>hashOutputsOrQuotientDerivation</code> in turn work?
+It consists of two main cases, based on whether the outputs of the derivation are to be input-addressed or content-addressed.</p>
+<h4 id="input-addressed-outputs-case"><a class="header" href="#input-addressed-outputs-case">Input-addressed outputs case</a></h4>
+<p>In the input-addressed case, it just calls <code>hashQuotientDerivation</code>, and returns that derivation hash.
+This makes <code>hashQuotientDerivation</code> and <code>hashOutputsOrQuotientDerivation</code> mutually-recursive.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In this case, <code>hashQuotientDerivation</code> is being called on a <em>complete</em> input-addressing derivation that already has its output paths calculated.
+The <code>inputDrvs</code> substitution takes place anyways.</p>
+</blockquote>
+<h4 id="content-addressed-outputs-case"><a class="header" href="#content-addressed-outputs-case">Content-addressed outputs case</a></h4>
+<p>If the outputs are <a href="./content-address.html">content-addressed</a>, then it computes a hash for each output derived from the content-address of that output.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In the <a href="./content-address.html#fixed">fixed</a> content-addressing case, the outputs’ content addresses are statically specified in advance, so this always just works.
+(The fixed case is what the pseudo-code shows.)</p>
+<p>In the <a href="./content-address.html#floating">floating</a> case, the content addresses are not specified in advance.
+This is what the “or get from <a href="../../../store/build-trace.html">build trace</a> if floating” comment refers to.
+In this case, the algorithm is <em>stuck</em> until the input in question is built, and we know what the actual contents of the output in question is.</p>
+<p>That is OK however, because there is no problem with delaying the assigning of input addresses (which, remember, is what <code>hashQuotientDerivation</code> is ultimately for) until all inputs are known.</p>
+</blockquote>
+<h3 id="performance"><a class="header" href="#performance">Performance</a></h3>
+<p>The recursion in the algorithm is potentially inefficient:
+it could call itself once for each path by which a subderivation can be reached, i.e., <code>O(V^k)</code> times for a derivation graph with <code>V</code> derivations and with out-degree of at most <code>k</code>.
+In the actual implementation, <a href="https://en.wikipedia.org/wiki/Memoization">memoisation</a> is used to reduce this cost to be proportional to the total number of <code>inputDrvOutputs</code> encountered.</p>
+<h3 id="semantic-properties"><a class="header" href="#semantic-properties">Semantic properties</a></h3>
+<p><em>See <a href="../../../store/math-notation.html">this chapter’s appendix</a> on grammar and metavariable conventions.</em></p>
+<p>In essence, <code>hashQuotientDerivation</code> partitions input-addressing derivations into equivalence classes: every derivation in that equivalence class is mapped to the same derivation hash.
+We can characterize this equivalence relation directly, by working bottom up.</p>
+<p>We start by defining an equivalence relation on first-order output deriving paths that refer content-addressed derivation outputs. Two such paths are equivalent if they refer to the same store object:</p>
+<p>\[
+\begin{prooftree}
+\AxiomC{$d_1$ is content-addressing}
+\AxiomC{$d_2$ is content-addressing}
+\AxiomC{$
+{}^*(\text{path}(d_1), o_1)
+=
+{}^*(\text{path}(d_2), o_2)
+$}
+\TrinaryInfC{$(\text{path}(d_1), o_1) \,\sim_{\mathrm{CA}}\, (d_2, o_2)$}
+\end{prooftree}
+\]</p>
+<p>where \({}^*(s, o)\) denotes the store object that the output deriving path refers to.</p>
+<p>We will also need the following construction to lift any equivalence relation on \(X\) to an equivalence relation on (finite) sets of \(X\) (in short, \(\mathcal{P}(X)\)):</p>
+<p>\[
+\begin{prooftree}
+\AxiomC{$\forall a \in A. \exists b \in B. a \,\sim_X\, b$}
+\AxiomC{$\forall b \in B. \exists a \in A. b \,\sim_X\, a$}
+\BinaryInfC{$A \,\sim_{\mathcal{P}(X)}\, B$}
+\end{prooftree}
+\]</p>
+<p>Now we can define the equivalence relation \(\sim_\mathrm{IA}\) on input-addressed derivation outputs. Two input-addressed outputs are equivalent if their derivations are equivalent (via the yet-to-be-defined \(\sim_{\mathrm{IADrv}}\) relation) and their output names are the same:</p>
+<p>\[
+\begin{prooftree}
+\AxiomC{$d_1$ is input-addressing}
+\AxiomC{$d_2$ is input-addressing}
+\AxiomC{$d_1 \,\sim_{\mathrm{IADrv}}\, d_2$}
+\AxiomC{$o_1 = o_2$}
+\QuaternaryInfC{$(\text{path}(d_1), o_1) \,\sim_{\mathrm{IA}}\, (\text{path}(d_2), o_2)$}
+\end{prooftree}
+\]</p>
+<p>And now we can define \(\sim_{\mathrm{IADrv}}\).
+Two input-addressed derivations are equivalent if their content-addressed inputs are equivalent, their input-addressed inputs are also equivalent, and they are otherwise equal:</p>
+<!-- cheating a bit with the semantics to get a good layout that fits on the page -->
+<p>\[
+\begin{prooftree}
+\alwaysNoLine
+\AxiomC{$
+\mathrm{caInputs}(d_1)
+\,\sim_{\mathcal{P}(\mathrm{CA})}\,
+\mathrm{caInputs}(d_2)
+$}
+\AxiomC{$
+\mathrm{iaInputs}(d_1)
+\,\sim_{\mathcal{P}(\mathrm{IA})}\,
+\mathrm{iaInputs}(d_2)
+$}
+\BinaryInfC{$
+d_1\left[\mathrm{inputDrvOutputs} := \{\}\right]
+=
+d_2\left[\mathrm{inputDrvOutputs} := \{\}\right]
+$}
+\alwaysSingleLine
+\UnaryInfC{$d_1 \,\sim_{\mathrm{IADrv}}\, d_2$}
+\end{prooftree}
+\]</p>
+<p>where \(\mathrm{caInputs}(d)\) returns the content-addressed inputs of \(d\) and \(\mathrm{iaInputs}(d)\) returns the input-addressed inputs.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>An astute reader might notice that that nowhere does <code>inputSrcs</code> enter into these definitions.
+That means that replacing an input derivation with its outputs directly added to <code>inputSrcs</code> always results in a derivation in a different equivalence class, despite the resulting input closure (as would be mounted in the store at build time) being the same.
+<a href="https://github.com/NixOS/nix/issues/9259">Issue #9259</a> is about creating a coarser equivalence relation to address this.</p>
+<p>\(\sim_\mathrm{Drv}\) from <a href="../../../store/resolution.html">derivation resolution</a> is such an equivalence relation.
+It is coarser than this one: any two derivations which are “‘hash quotient derivation’-equivalent” (\(\sim_\mathrm{IADrv}\)) are also “resolution-equivalent” (\(\sim_\mathrm{Drv}\)).
+It also relates derivations whose <code>inputDrvOutputs</code> have been rewritten into <code>inputSrcs</code>.</p>
+</blockquote>
 
                     </main>
 
@@ -213,7 +385,7 @@ In the actual implementation, memoisation is used to reduce this to `O(V + E)` c
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
-                            <a rel="next prefetch" href="../../../store/building.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../../store/build-trace.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                             </a>
 
@@ -227,7 +399,7 @@ In the actual implementation, memoisation is used to reduce this to `O(V + E)` c
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
-                    <a rel="next prefetch" href="../../../store/building.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../../store/build-trace.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
                     </a>
             </nav>
@@ -256,7 +428,7 @@ In the actual implementation, memoisation is used to reduce this to `O(V + E)` c
         <script src="../../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../../redirects-4afb32ee.js"></script>
+        <script src="../../../redirects-70899071.js"></script>
 
 
 

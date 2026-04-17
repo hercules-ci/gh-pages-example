@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.19 (2023-11-17) - Nix 2.31.3 Reference Manual</title>
+        <title>Release 2.19 (2023-11-17) - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -209,8 +225,8 @@ by appending the contents of any <code>#! nix</code> lines and the script’s lo
 <p><code>nix-shell</code> shebang lines now support single-quoted arguments.</p>
 </li>
 <li>
-<p><code>builtins.fetchTree</code> is now its own experimental feature, <a href="../development/experimental-features.html#xp-fetch-tree"><code>fetch-tree</code></a>.
-This allows stabilising it independently of the rest of what is encompassed by <a href="../development/experimental-features.html#xp-fetch-tree"><code>flakes</code></a>.</p>
+<p><code>builtins.fetchTree</code> is now its own experimental feature, <a href="../development/experimental-features.html#xp-feature-fetch-tree"><code>fetch-tree</code></a>.
+This allows stabilising it independently of the rest of what is encompassed by <a href="../development/experimental-features.html#xp-feature-flakes"><code>flakes</code></a>.</p>
 </li>
 <li>
 <p>The interface for creating and updating lock files has been overhauled:</p>
@@ -246,7 +262,7 @@ The <code>valid</code> field also goes away because we just use <code>null</code
 <p>Old way:</p>
 <pre><code class="language-json5">[
   {
-    "path": "/nix/store/8fv91097mbh5049i9rglc73dx6kjg3qk-bash-5.2-p15",
+    "path": "/nix/store/fvqsvk65d38p8qqir371ii0hyqxvjcw6-bash-5.2-p15",
     "valid": true,
     // ...
   },
@@ -260,7 +276,7 @@ The <code>valid</code> field also goes away because we just use <code>null</code
 <li>
 <p>New way</p>
 <pre><code class="language-json5">{
-  "/nix/store/8fv91097mbh5049i9rglc73dx6kjg3qk-bash-5.2-p15": {
+  "/nix/store/fvqsvk65d38p8qqir371ii0hyqxvjcw6-bash-5.2-p15": {
     // ...
   },
   "/nix/store/wffw7l0alvs3iw94cbgi1gmmbmw99sqb-home-manager-path": null,
@@ -336,7 +352,7 @@ This means that command completion scripts, <code>.desktop</code> files, and sim
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

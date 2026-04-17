@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix-store --query - Nix 2.31.3 Reference Manual</title>
+        <title>nix-store --query - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -628,11 +644,6 @@ $ mount -o bind /mnt/otherdisk/nix /nix
 <p>Overrides the location of the Nix store (default <code>prefix/store</code>).</p>
 </li>
 <li>
-<p><span id="env-NIX_DATA_DIR"><a href="#env-NIX_DATA_DIR"><code>NIX_DATA_DIR</code></a></span></p>
-<p>Overrides the location of the Nix static data directory (default
-<code>prefix/share</code>).</p>
-</li>
-<li>
 <p><span id="env-NIX_LOG_DIR"><a href="#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a></span></p>
 <p>Overrides the location of the Nix log directory (default
 <code>prefix/var/log/nix</code>).</p>
@@ -727,9 +738,9 @@ current user environment:</p>
 </code></pre>
 <p>Print the build-time dependencies of <code>svn</code>:</p>
 <pre><code class="language-console">$ nix-store --query --requisites $(nix-store --query --deriver $(which svn))
-/nix/store/02iizgn86m42q905rddvg4ja975bk2i4-grep-2.5.1.tar.bz2.drv
-/nix/store/07a2bzxmzwz5hp58nf03pahrv2ygwgs3-gcc-wrapper.sh
-/nix/store/0ma7c9wsbaxahwwl04gbw3fcd806ski4-glibc-2.3.4.drv
+/nix/store/y6qa66l9h0pw161crnlk6y16rdrcljx4-grep-2.5.1.tar.bz2.drv
+/nix/store/z716h753s97jhnzvfank2srqbljswpgm-gcc-wrapper.sh
+/nix/store/f39x0q73rjdyvzm93y9wrkfr6x39lb7f-glibc-2.3.4.drv
 ... lots of other paths ...
 </code></pre>
 <p>The difference with the previous example is that we ask the closure of
@@ -738,10 +749,10 @@ the derivation (<code>-qd</code>), not the closure of the output path that conta
 <p>Show the build-time dependencies as a tree:</p>
 <pre><code class="language-console">$ nix-store --query --tree $(nix-store --query --deriver $(which svn))
 /nix/store/7i5082kfb6yjbqdbiwdhhza0am2xvh6c-subversion-1.1.4.drv
-+---/nix/store/d8afh10z72n8l1cr5w42366abiblgn54-builder.sh
-+---/nix/store/fmzxmpjx2lh849ph0l36snfj9zdibw67-bash-3.0.drv
-|   +---/nix/store/570hmhmx3v57605cqg9yfvvyh0nnb8k8-bash
-|   +---/nix/store/p3srsbd8dx44v2pg6nbnszab5mcwx03v-builder.sh
++---/nix/store/vxnmkc8l8d2ijjha4xwhkfgx9vvc3q4c-builder.sh
++---/nix/store/rn9776dy82n5qrgz7xbcl1iw4vfkcrkk-bash-3.0.drv
+|   +---/nix/store/x9j20hz6bln1crzn55qifk0bbsm8v5ac-bash
+|   +---/nix/store/ajnn1mcm45wjvn0rlc22gvx2cwhjnazx-builder.sh
 ...
 </code></pre>
 <p>Show all paths that depend on the same OpenSSL library as <code>svn</code>:</p>
@@ -824,7 +835,7 @@ depends on <code>svn</code>:</p>
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

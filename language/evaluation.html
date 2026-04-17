@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Evaluation - Nix 2.31.3 Reference Manual</title>
+        <title>Evaluation - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -229,6 +245,32 @@ in f (throw "kablam")
 in f { x = throw "error"; y = throw "error"; }
 =&gt; "ok"
 </code></pre>
+<h2 id="evaluation-order"><a class="header" href="#evaluation-order">Evaluation order</a></h2>
+<p>The order in which expressions are evaluated is generally unspecified, because it does not affect successful evaluation outcomes.
+This allows more freedom for the evaluator to evolve and to evaluate efficiently.</p>
+<p>Data dependencies naturally impose some ordering constraints: a value cannot be used before it is computed.
+Beyond these constraints, the evaluator is free to choose any order.</p>
+<p>The order in which side effects such as <a href="../language/builtins.html#builtins-trace"><code>builtins.trace</code></a> output occurs is not defined, but may be expected to follow data dependencies. <!-- we may want to be more specific about this. --></p>
+<p>In a lazy language, evaluation order is often opposite to expectations from strict languages.
+For example, in <code>let wrap = x: { wrapped = x; }; in wrap (1 + 2)</code>, the function body produces a result (<code>{ wrapped = ...; }</code>) <em>before</em> evaluating <code>x</code>.</p>
+<h2 id="infinite-recursion-and-stack-overflow"><a class="header" href="#infinite-recursion-and-stack-overflow">Infinite recursion and stack overflow</a></h2>
+<p>During evaluation, two types of errors can occur when expressions reference themselves or call functions too deeply:</p>
+<h3 id="infinite-recursion"><a class="header" href="#infinite-recursion">Infinite recursion</a></h3>
+<p>This error occurs when a value depends on itself through a cycle, making it impossible to compute.</p>
+<pre><code class="language-nix">let x = x; in x
+=&gt; error: infinite recursion encountered
+</code></pre>
+<p>Infinite recursion happens at the value level when evaluating an expression requires evaluating the same expression again.</p>
+<p>Despite the name, infinite recursion is cheap to compute and does not involve a stack overflow.
+The cycle is finite and fairly easy to detect.</p>
+<h3 id="stack-overflow"><a class="header" href="#stack-overflow">Stack overflow</a></h3>
+<p>This error occurs when the call depth exceeds the maximum allowed limit.</p>
+<pre><code class="language-nix">let f = x: f (x + 1);
+in f 0
+=&gt; error: stack overflow; max-call-depth exceeded
+</code></pre>
+<p>Stack overflow happens when too many function calls are nested without returning.
+The maximum call depth is controlled by the <a href="../command-ref/conf-file.html#conf-max-call-depth"><code>max-call-depth</code> setting</a>.</p>
 
                     </main>
 
@@ -281,7 +323,7 @@ in f { x = throw "error"; y = throw "error"; }
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

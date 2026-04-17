@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Operators - Nix 2.31.3 Reference Manual</title>
+        <title>Operators - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -209,8 +225,8 @@
 <tr><td><a href="#comparison">Greater than or equal to</a></td><td><em>expr</em> <code>&gt;=</code> <em>expr</em></td><td>none</td><td>10</td></tr>
 <tr><td><a href="#equality">Equality</a></td><td><em>expr</em> <code>==</code> <em>expr</em></td><td>none</td><td>11</td></tr>
 <tr><td>Inequality</td><td><em>expr</em> <code>!=</code> <em>expr</em></td><td>none</td><td>11</td></tr>
-<tr><td>Logical conjunction (<code>AND</code>)</td><td><em>bool</em> <code>&amp;&amp;</code> <em>bool</em></td><td>left</td><td>12</td></tr>
-<tr><td>Logical disjunction (<code>OR</code>)</td><td><em>bool</em> <code>||</code> <em>bool</em></td><td>left</td><td>13</td></tr>
+<tr><td><a href="#logical-conjunction">Logical conjunction</a> (<code>AND</code>)</td><td><em>bool</em> <code>&amp;&amp;</code> <em>bool</em></td><td>left</td><td><a href="#precedence-and-disjunctive-normal-form">12</a></td></tr>
+<tr><td><a href="#logical-disjunction">Logical disjunction</a> (<code>OR</code>)</td><td><em>bool</em> <code>||</code> <em>bool</em></td><td>left</td><td><a href="#precedence-and-disjunctive-normal-form">13</a></td></tr>
 <tr><td><a href="#logical-implication">Logical implication</a></td><td><em>bool</em> <code>-&gt;</code> <em>bool</em></td><td>right</td><td>14</td></tr>
 <tr><td><a href="#pipe-operators">Pipe operator</a> (experimental)</td><td><em>expr</em> <code>|&gt;</code> <em>func</em></td><td>left</td><td>15</td></tr>
 <tr><td><a href="#pipe-operators">Pipe operator</a> (experimental)</td><td><em>func</em> <code>&lt;|</code> <em>expr</em></td><td>right</td><td>15</td></tr>
@@ -304,6 +320,8 @@ The path appears in the result as the corresponding <a href="../store/store-path
 <p>Update <a href="./types.html#type-attrs">attribute set</a> <em>attrset1</em> with names and values from <em>attrset2</em>.</p>
 <p>The returned attribute set will have all of the attributes in <em>attrset1</em> and <em>attrset2</em>.
 If an attribute name is present in both, the attribute value from the latter is taken.</p>
+<p>This operator is <a href="../language/evaluation.html#strictness">strict</a> in both <em>attrset1</em> and <em>attrset2</em>.
+That means that both arguments are evaluated to <a href="../language/evaluation.html#values">weak head normal form</a>, so the attribute sets themselves are evaluated, but their attribute values are not evaluated.</p>
 <h2 id="comparison"><a class="header" href="#comparison">Comparison</a></h2>
 <p>Comparison is</p>
 <ul>
@@ -327,13 +345,70 @@ elements at the same index in both lists are compared according to their type an
 </div>
 <h2 id="equality"><a class="header" href="#equality">Equality</a></h2>
 <ul>
-<li><a href="./types.html#type-attrs">Attribute sets</a> and <a href="./types.html#type-list">lists</a> are compared recursively, and therefore are fully evaluated.</li>
-<li>Comparison of <a href="./syntax.html#functions">functions</a> always returns <code>false</code>.</li>
+<li><a href="./types.html#type-attrs">Attribute sets</a> are compared first by attribute names and then by items until a difference is found.</li>
+<li><a href="./types.html#type-list">Lists</a> are compared first by length and then by items until a difference is found.</li>
+<li>Comparison of distinct <a href="./syntax.html#functions">functions</a> returns <code>false</code>, but identical functions may be subject to <a href="#value-identity-optimization">value identity optimization</a>.</li>
 <li>Numbers are type-compatible, see <a href="#arithmetic">arithmetic</a> operators.</li>
 <li>Floating point numbers only differ up to a limited precision.</li>
 </ul>
+<p>The <code>==</code> operator is <a href="../language/evaluation.html#strictness">strict</a> in both arguments; when comparing composite types (<a href="./types.html#type-attrs">attribute sets</a> and <a href="./types.html#type-list">lists</a>), it is partially strict in their contained values: they are evaluated until a difference is found. <!-- this is woefully underspecified, affecting which expressions evaluate correctly; not just "ordering" or error messages. --></p>
+<h3 id="value-identity-optimization"><a class="header" href="#value-identity-optimization">Value identity optimization</a></h3>
+<p>Nix performs equality comparisons of nested values by pointer equality or more abstractly, <em>identity</em>.
+Nix semantics ideally do not assign a unique identity to values as they are created, but equality is an exception to this rule.
+The disputable benefit of this is that it is more efficient, and it allows cyclical structures to be compared, e.g. <code>let x = { x = x; }; in x == x</code> evaluates to <code>true</code>.
+However, as a consequence, it makes a function equal to itself when the comparison is made in a list or attribute set, in contradiction to a simple direct comparison.</p>
+<h2 id="logical-conjunction"><a class="header" href="#logical-conjunction">Logical conjunction</a></h2>
+<blockquote>
+<p><strong>Syntax</strong></p>
+<p><em>bool1</em> <code>&amp;&amp;</code> <em>bool2</em></p>
+</blockquote>
+<p>Logical AND. Equivalent to <code>if</code> <em>bool1</em> <code>then</code> <em>bool2</em> <code>else false</code>.</p>
+<p>This operator is <a href="../language/evaluation.html#strictness">strict</a> in <em>bool1</em>, but only evaluates <em>bool2</em> if <em>bool1</em> is <code>true</code>.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-nix">true &amp;&amp; false
+=&gt; false
+
+false &amp;&amp; throw "never evaluated"
+=&gt; false
+</code></pre>
+</blockquote>
+<h2 id="logical-disjunction"><a class="header" href="#logical-disjunction">Logical disjunction</a></h2>
+<blockquote>
+<p><strong>Syntax</strong></p>
+<p><em>bool1</em> <code>||</code> <em>bool2</em></p>
+</blockquote>
+<p>Logical OR. Equivalent to <code>if</code> <em>bool1</em> <code>then true</code> <code>else</code> <em>bool2</em>.</p>
+<p>This operator is <a href="../language/evaluation.html#strictness">strict</a> in <em>bool1</em>, but only evaluates <em>bool2</em> if <em>bool1</em> is <code>false</code>.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-nix">true || false
+=&gt; true
+
+true || throw "never evaluated"
+=&gt; true
+</code></pre>
+</blockquote>
+<h3 id="precedence-and-disjunctive-normal-form"><a class="header" href="#precedence-and-disjunctive-normal-form">Precedence and disjunctive normal form</a></h3>
+<p>The precedence of <code>&amp;&amp;</code> and <code>||</code> aligns with disjunctive normal form.
+Without parentheses, an expression describes multiple “permissible situations” (connected by <code>||</code>), where each situation consists of multiple simultaneous conditions (connected by <code>&amp;&amp;</code>).</p>
+<p>For example, <code>A || B &amp;&amp; C || D &amp;&amp; E</code> is parsed as <code>A || (B &amp;&amp; C) || (D &amp;&amp; E)</code>, describing three permissible situations: A holds, or both B and C hold, or both D and E hold.</p>
 <h2 id="logical-implication"><a class="header" href="#logical-implication">Logical implication</a></h2>
-<p>Equivalent to <code>!</code><em>b1</em> <code>||</code> <em>b2</em>  (or <code>if</code> <em>b1</em> <code>then</code> <em>b2</em> <code>else true</code>)</p>
+<blockquote>
+<p><strong>Syntax</strong></p>
+<p><em>bool1</em> <code>-&gt;</code> <em>bool2</em></p>
+</blockquote>
+<p>Logical implication. Equivalent to <code>!</code><em>bool1</em> <code>||</code> <em>bool2</em> (or <code>if</code> <em>bool1</em> <code>then</code> <em>bool2</em> <code>else true</code>).</p>
+<p>This operator is <a href="../language/evaluation.html#strictness">strict</a> in <em>bool1</em>, but only evaluates <em>bool2</em> if <em>bool1</em> is <code>true</code>.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-nix">true -&gt; false
+=&gt; false
+
+false -&gt; throw "never evaluated"
+=&gt; true
+</code></pre>
+</blockquote>
 <h2 id="pipe-operators"><a class="header" href="#pipe-operators">Pipe operators</a></h2>
 <ul>
 <li><em>a</em> <code>|&gt;</code> <em>b</em> is equivalent to <em>b</em> <em>a</em></li>
@@ -412,7 +487,7 @@ For example, include the following in <a href="../command-ref/conf-file.html"><c
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

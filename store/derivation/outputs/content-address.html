@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Content-addressing derivation outputs - Nix 2.31.3 Reference Manual</title>
+        <title>Content-addressing derivation outputs - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../../toc-f3fccd7f.js"></script>
+        <script src="../../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../../print.html" title="Print this book" aria-label="Print this book">
@@ -313,7 +329,7 @@ It is only in the potential for that check to fail that they are different.</p>
 <p><strong>Design Note</strong></p>
 <p>In a future world where floating content-addressing is also stable, we in principle no longer need separate <a href="#fixed">fixed</a> content-addressing.
 Instead, we could always use floating content-addressing, and separately assert the precise value content address of a given store object to be used as an input (of another derivation).
-A stand-alone assertion object of this sort is not yet implemented, but its possible creation is tracked in <a href="https://github.com/NixOS/nix/issues/11955">Issue #11955</a>.</p>
+A stand-alone assertion object of this sort is not yet implemented, but its possible creation is tracked in <a href="https://github.com/NixOS/nix/issues/11955">issue #11955</a>.</p>
 <p>In the current version of Nix, fixed outputs which fail their hash check are still registered as valid store objects, just not registered as outputs of the derivation which produced them.
 This is an optimization that means if the wrong output hash is specified in a derivation, and then the derivation is recreated with the right output hash, derivation does not need to be rebuilt — avoiding downloading potentially large amounts of data twice.
 This optimisation prefigures the design above:
@@ -381,7 +397,7 @@ It would only be when Nix subsequently tries to build something with that (refin
         <script src="../../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../../redirects-4afb32ee.js"></script>
+        <script src="../../../redirects-70899071.js"></script>
 
 
 

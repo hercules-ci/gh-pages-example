@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix flake check - Nix 2.31.3 Reference Manual</title>
+        <title>nix flake check - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -216,39 +232,49 @@ at the first error.</p>
 <p>The following flake output attributes must be derivations:</p>
 <ul>
 <li><code>checks.</code><em>system</em><code>.</code><em>name</em></li>
-<li><code>defaultPackage.</code><em>system</em></li>
-<li><code>devShell.</code><em>system</em></li>
+<li><code>devShells.</code><em>system</em><code>.default</code></li>
 <li><code>devShells.</code><em>system</em><code>.</code><em>name</em></li>
 <li><code>nixosConfigurations.</code><em>name</em><code>.config.system.build.toplevel</code></li>
+<li><code>packages.</code><em>system</em><code>.default</code></li>
 <li><code>packages.</code><em>system</em><code>.</code><em>name</em></li>
 </ul>
 <p>The following flake output attributes must be <a href="./nix3-run.html">app
 definitions</a>:</p>
 <ul>
+<li><code>apps.</code><em>system</em><code>.default</code></li>
 <li><code>apps.</code><em>system</em><code>.</code><em>name</em></li>
-<li><code>defaultApp.</code><em>system</em></li>
 </ul>
 <p>The following flake output attributes must be <a href="./nix3-flake-init.html">template
 definitions</a>:</p>
 <ul>
-<li><code>defaultTemplate</code></li>
+<li><code>templates.default</code></li>
 <li><code>templates.</code><em>name</em></li>
 </ul>
 <p>The following flake output attributes must be <em>Nixpkgs overlays</em>:</p>
 <ul>
-<li><code>overlay</code></li>
+<li><code>overlays.default</code></li>
 <li><code>overlays.</code><em>name</em></li>
 </ul>
 <p>The following flake output attributes must be <em>NixOS modules</em>:</p>
 <ul>
-<li><code>nixosModule</code></li>
+<li><code>nixosModules.default</code></li>
 <li><code>nixosModules.</code><em>name</em></li>
 </ul>
 <p>The following flake output attributes must be
 <a href="./nix3-bundle.html">bundlers</a>:</p>
 <ul>
+<li><code>bundlers.default</code></li>
 <li><code>bundlers.</code><em>name</em></li>
-<li><code>defaultBundler</code></li>
+</ul>
+<p>Old default attributes are renamed, they will work but will emit a warning:</p>
+<ul>
+<li><code>defaultPackage.&lt;system&gt;</code> → <code>packages.</code><em>system</em><code>.default</code></li>
+<li><code>defaultApps.&lt;system&gt;</code> → <code>apps.</code><em>system</em><code>.default</code></li>
+<li><code>defaultTemplate</code> → <code>templates.default</code></li>
+<li><code>defaultBundler.&lt;system&gt;</code> → <code>bundlers.</code><em>system</em><code>.default</code></li>
+<li><code>overlay</code> → <code>overlays.default</code></li>
+<li><code>devShell.&lt;system&gt;</code> → <code>devShells.</code><em>system</em><code>.default</code></li>
+<li><code>nixosModule</code> → <code>nixosModules.default</code></li>
 </ul>
 <p>In addition, the <code>hydraJobs</code> output is evaluated in the same way as
 Hydra’s <code>hydra-eval-jobs</code> (i.e. as a arbitrarily deeply nested
@@ -339,7 +365,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-override-input"><a href="#opt-override-input"><code>--override-input</code></a></span> <em>input-path</em> <em>flake-url</em></p>
-<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). This implies <code>--no-write-lock-file</code>.</p>
+<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). The input path must not be empty. This implies <code>--no-write-lock-file</code>.</p>
 </li>
 <li>
 <p><span id="opt-recreate-lock-file"><a href="#opt-recreate-lock-file"><code>--recreate-lock-file</code></a></span></p>
@@ -468,7 +494,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 

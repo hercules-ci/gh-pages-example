@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Built-ins - Nix 2.31.3 Reference Manual</title>
+        <title>Built-ins - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-f3fccd7f.js"></script>
+        <script src="../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -185,12 +201,29 @@
 <p>This section lists the values and functions built into the Nix language evaluator.
 All built-ins are available through the global <a href="#builtins-builtins"><code>builtins</code></a> constant.</p>
 <p>Some built-ins are also exposed directly in the global scope:</p>
-<!-- TODO(@rhendric, #10970): this list is incomplete -->
 <ul>
 <li><a href="#builtins-derivation"><code>derivation</code></a></li>
-<li><a href="#builtins-import"><code>import</code></a></li>
+<li><code>derivationStrict</code></li>
 <li><a href="#builtins-abort"><code>abort</code></a></li>
+<li><a href="#builtins-baseNameOf"><code>baseNameOf</code></a></li>
+<li><a href="#builtins-break"><code>break</code></a></li>
+<li><a href="#builtins-dirOf"><code>dirOf</code></a></li>
+<li><a href="#builtins-false"><code>false</code></a></li>
+<li><a href="#builtins-fetchGit"><code>fetchGit</code></a></li>
+<li><code>fetchMercurial</code></li>
+<li><a href="#builtins-fetchTarball"><code>fetchTarball</code></a></li>
+<li><a href="#builtins-fetchTree"><code>fetchTree</code></a></li>
+<li><a href="#builtins-fromTOML"><code>fromTOML</code></a></li>
+<li><a href="#builtins-import"><code>import</code></a></li>
+<li><a href="#builtins-isNull"><code>isNull</code></a></li>
+<li><a href="#builtins-map"><code>map</code></a></li>
+<li><a href="#builtins-null"><code>null</code></a></li>
+<li><a href="#builtins-placeholder"><code>placeholder</code></a></li>
+<li><a href="#builtins-removeAttrs"><code>removeAttrs</code></a></li>
+<li><a href="#builtins-scopedImport"><code>scopedImport</code></a></li>
 <li><a href="#builtins-throw"><code>throw</code></a></li>
+<li><a href="#builtins-toString"><code>toString</code></a></li>
+<li><a href="#builtins-true"><code>true</code></a></li>
 </ul>
 <dl>
   
@@ -224,7 +257,7 @@ All built-ins are available through the global <a href="#builtins-builtins"><cod
 
 <dd>
 <p>Create a copy of the given string where a single
-<a href="../language/string-context.html#string-context-element-constant">constant</a>
+<a href="../language/string-context.html#string-context-constant">constant</a>
 string context element is turned into a
 <a href="../language/string-context.html#string-context-element-derivation-deep">derivation deep</a>
 string context element.</p>
@@ -363,7 +396,7 @@ a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &
 <p>Compare two strings representing versions and return <code>-1</code> if
 version <em>s1</em> is older than version <em>s2</em>, <code>0</code> if they are the same,
 and <code>1</code> if <em>s1</em> is newer than <em>s2</em>. The version comparison
-algorithm is the same as the one used by <a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
+algorithm is the same as the one used by <a href="../command-ref/nix-env/upgrade.html"><code>nix-env -u</code></a>.</p>
 </dd>
 
 <dt id="builtins-concatLists">
@@ -568,9 +601,9 @@ from 0. A fatal error occurs if the index is out of bounds.</p>
 <dd>
 <p>Primitive value.</p>
 <p>It can be returned by
-<a href="../language/operators.html#Comparison">comparison operators</a>
+<a href="../language/operators.html#comparison">comparison operators</a>
 and used in
-<a href="../language/syntax.html#Conditionals">conditional expressions</a>.</p>
+<a href="../language/syntax.html#conditionals">conditional expressions</a>.</p>
 <p>The name <code>false</code> is not special, and can be shadowed:</p>
 <pre><code class="language-nix-repl">nix-repl&gt; let false = 1; in false
 1
@@ -604,7 +637,7 @@ and used in
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
   fromStore = "https://cache.nixos.org";
-  fromPath = /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1;
+  fromPath = /nix/store/nph9br6y2dmciy6q3dj3fwk2brdlr4gh-git-2.33.1;
   toPath = /nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1;
 }
 </code></pre>
@@ -614,15 +647,15 @@ and rewrites it into the content-addressed store path
 <p>Like the previous example, no extra configuration or privileges are required.</p>
 <p>To find out the correct value for <code>toPath</code> given a <code>fromPath</code>,
 use <a href="../command-ref/new-cli/nix3-store-make-content-addressed.html"><code>nix store make-content-addressed</code></a>:</p>
-<pre><code class="language-console"># nix store make-content-addressed --from https://cache.nixos.org /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1
-rewrote '/nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1' to '/nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1'
+<pre><code class="language-console"># nix store make-content-addressed --from https://cache.nixos.org /nix/store/nph9br6y2dmciy6q3dj3fwk2brdlr4gh-git-2.33.1
+rewrote '/nix/store/nph9br6y2dmciy6q3dj3fwk2brdlr4gh-git-2.33.1' to '/nix/store/ldbhlwhh39wha58rm61bkiiwm6j7211j-git-2.33.1'
 </code></pre>
 <p>Alternatively, set <code>toPath = ""</code> and find the correct <code>toPath</code> in the error message.</p>
 <p><strong>Fetch an input-addressed store path as is</strong></p>
 <p>Example:</p>
 <pre><code class="language-nix">builtins.fetchClosure {
   fromStore = "https://cache.nixos.org";
-  fromPath = /nix/store/r2jd6ygnmirm2g803mksqqjm4y39yi6i-git-2.33.1;
+  fromPath = /nix/store/nph9br6y2dmciy6q3dj3fwk2brdlr4gh-git-2.33.1;
   inputAddressed = true;
 }
 </code></pre>
@@ -908,15 +941,33 @@ The remote source is fetched from the network if both are true:</p>
 </ul>
 <h2 id="source-types"><a class="header" href="#source-types">Source types</a></h2>
 <p>The following source types and associated input attributes are supported.</p>
- <!-- TODO: It would be soooo much more predictable to work with (and
- document) if `fetchTree` was a curried call with the first parameter for
- `type` or an attribute like `builtins.fetchTree.git`! -->
+<!-- TODO: It would be soooo much more predictable to work with (and
+document) if `fetchTree` was a curried call with the first parameter for
+`type` or an attribute like `builtins.fetchTree.git`! -->
 <ul>
 <li>
 <p><code>"file"</code></p>
 <p>Place a plain file into the Nix store.
 This is similar to <a href="../language/builtins.html#builtins-fetchurl"><code>builtins.fetchurl</code></a></p>
 <ul>
+<li>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>name</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>revCount</code> (String, required)</p>
+</li>
+<li>
+<p><code>unpack</code> (String, required)</p>
+</li>
 <li>
 <p><code>url</code> (String, required)</p>
 <p>Supported protocols:</p>
@@ -958,43 +1009,52 @@ Use a <code>narHash</code> known in advance to ensure the output has expected co
 </ul>
 </li>
 <li>
-<p><code>"tarball"</code></p>
-<p>Download a tar archive and extract it into the Nix store.
-This has the same underlying implementation as <a href="../language/builtins.html#builtins-fetchTarball"><code>builtins.fetchTarball</code></a></p>
-<ul>
-<li>
-<p><code>url</code> (String, required)</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">fetchTree {
-  type = "tarball";
-  url = "https://github.com/NixOS/nixpkgs/tarball/nixpkgs-23.11";
-}
-</code></pre>
-</blockquote>
-</li>
-</ul>
-</li>
-<li>
 <p><code>"git"</code></p>
 <p>Fetch a Git tree and copy it to the Nix store.
 This is similar to <a href="../language/builtins.html#builtins-fetchGit"><code>builtins.fetchGit</code></a>.</p>
 <ul>
 <li>
-<p><code>url</code> (String, required)</p>
-<p>The URL formats supported are the same as for Git itself.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-nix">fetchTree {
-  type = "git";
-  url = "git@github.com:NixOS/nixpkgs.git";
-}
-</code></pre>
-</blockquote>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is given, Nix only considers files added to the Git index, as listed by <code>git ls-files</code> but use the <em>current file contents</em> of the Git working directory.</p>
-</blockquote>
+<p><code>allRefs</code> (Bool, optional)</p>
+<p>By default, this has no effect. This becomes relevant only once <code>shallow</code> cloning is disabled.</p>
+<p>Whether to fetch all references (eg. branches and tags) of the repository.
+With this argument being true, it’s possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
+(Without setting this option, only <code>rev</code>s from the specified <code>ref</code> are supported).</p>
+<p>Default: <code>false</code></p>
+</li>
+<li>
+<p><code>dirtyRev</code> (String, required)</p>
+</li>
+<li>
+<p><code>dirtyShortRev</code> (String, required)</p>
+</li>
+<li>
+<p><code>exportIgnore</code> (String, required)</p>
+</li>
+<li>
+<p><code>keytype</code> (String, required)</p>
+</li>
+<li>
+<p><code>lastModified</code> (Integer, optional)</p>
+<p>Unix timestamp of the fetched commit.</p>
+<p>If set, pass through the value to the output attribute set.
+Otherwise, generated from the fetched Git tree.</p>
+</li>
+<li>
+<p><code>lfs</code> (Bool, optional)</p>
+<p>Fetch any <a href="https://git-lfs.com/">Git LFS</a> files.</p>
+<p>Default: <code>false</code></p>
+</li>
+<li>
+<p><code>name</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>publicKey</code> (String, required)</p>
+</li>
+<li>
+<p><code>publicKeys</code> (String, required)</p>
 </li>
 <li>
 <p><code>ref</code> (String, optional)</p>
@@ -1008,6 +1068,12 @@ This is similar to <a href="../language/builtins.html#builtins-fetchGit"><code>b
 <p>Default: the tip of <code>ref</code></p>
 </li>
 <li>
+<p><code>revCount</code> (Integer, optional)</p>
+<p>Number of revisions in the history of the Git repository before the fetched commit.</p>
+<p>If set, pass through the value to the output attribute set.
+Otherwise, generated from the fetched Git tree.</p>
+</li>
+<li>
 <p><code>shallow</code> (Bool, optional)</p>
 <p>Make a shallow clone when fetching the Git tree.
 When this is enabled, the options <code>ref</code> and <code>allRefs</code> have no effect anymore.</p>
@@ -1019,29 +1085,206 @@ When this is enabled, the options <code>ref</code> and <code>allRefs</code> have
 <p>Default: <code>false</code></p>
 </li>
 <li>
-<p><code>lfs</code> (Bool, optional)</p>
-<p>Fetch any <a href="https://git-lfs.com/">Git LFS</a> files.</p>
-<p>Default: <code>false</code></p>
+<p><code>url</code> (String, required)</p>
+<p>The URL formats supported are the same as for Git itself.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-nix">fetchTree {
+  type = "git";
+  url = "git@github.com:NixOS/nixpkgs.git";
+}
+</code></pre>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>If the URL points to a local directory, and no <code>ref</code> or <code>rev</code> is given, Nix only considers files added to the Git index, as listed by <code>git ls-files</code> but uses the <em>current file contents</em> of the Git working directory.</p>
+</blockquote>
 </li>
 <li>
-<p><code>allRefs</code> (Bool, optional)</p>
-<p>By default, this has no effect. This becomes relevant only once <code>shallow</code> cloning is disabled.</p>
-<p>Whether to fetch all references (eg. branches and tags) of the repository.
-With this argument being true, it’s possible to load a <code>rev</code> from <em>any</em> <code>ref</code>.
-(Without setting this option, only <code>rev</code>s from the specified <code>ref</code> are supported).</p>
-<p>Default: <code>false</code></p>
+<p><code>verifyCommit</code> (String, required)</p>
+</li>
+</ul>
 </li>
 <li>
-<p><code>lastModified</code> (Integer, optional)</p>
-<p>Unix timestamp of the fetched commit.</p>
-<p>If set, pass through the value to the output attribute set.
-Otherwise, generated from the fetched Git tree.</p>
+<p><code>"github"</code></p>
+<ul>
+<li>
+<p><code>host</code> (String, required)</p>
 </li>
 <li>
-<p><code>revCount</code> (Integer, optional)</p>
-<p>Number of revisions in the history of the Git repository before the fetched commit.</p>
-<p>If set, pass through the value to the output attribute set.
-Otherwise, generated from the fetched Git tree.</p>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>owner</code> (String, required)</p>
+</li>
+<li>
+<p><code>ref</code> (String, required)</p>
+</li>
+<li>
+<p><code>repo</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>treeHash</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"gitlab"</code></p>
+<ul>
+<li>
+<p><code>host</code> (String, required)</p>
+</li>
+<li>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>owner</code> (String, required)</p>
+</li>
+<li>
+<p><code>ref</code> (String, required)</p>
+</li>
+<li>
+<p><code>repo</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>treeHash</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"hg"</code></p>
+<ul>
+<li>
+<p><code>name</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>ref</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>revCount</code> (String, required)</p>
+</li>
+<li>
+<p><code>url</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"indirect"</code></p>
+<ul>
+<li>
+<p><code>id</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>ref</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"path"</code></p>
+<ul>
+<li>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>path</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>revCount</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"sourcehut"</code></p>
+<ul>
+<li>
+<p><code>host</code> (String, required)</p>
+</li>
+<li>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>owner</code> (String, required)</p>
+</li>
+<li>
+<p><code>ref</code> (String, required)</p>
+</li>
+<li>
+<p><code>repo</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>treeHash</code> (String, required)</p>
+</li>
+</ul>
+</li>
+<li>
+<p><code>"tarball"</code></p>
+<p>Download a tar archive and extract it into the Nix store.
+This has the same underlying implementation as <a href="../language/builtins.html#builtins-fetchTarball"><code>builtins.fetchTarball</code></a></p>
+<ul>
+<li>
+<p><code>lastModified</code> (String, required)</p>
+</li>
+<li>
+<p><code>name</code> (String, required)</p>
+</li>
+<li>
+<p><code>narHash</code> (String, required)</p>
+</li>
+<li>
+<p><code>rev</code> (String, required)</p>
+</li>
+<li>
+<p><code>revCount</code> (String, required)</p>
+</li>
+<li>
+<p><code>unpack</code> (String, required)</p>
+</li>
+<li>
+<p><code>url</code> (String, required)</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-nix">fetchTree {
+  type = "tarball";
+  url = "https://github.com/NixOS/nixpkgs/tarball/nixpkgs-23.11";
+}
+</code></pre>
+</blockquote>
 </li>
 </ul>
 </li>
@@ -1175,7 +1418,7 @@ the entire corresponding subtree of <em>e2</em> is excluded.</p>
 <p>is equivalent to:</p>
 <pre><code class="language-nix">builtins.findFile builtins.nixPath "nixpkgs"
 </code></pre>
-<p>A search path is represented as a list of <a href="./types.html#attribute-set">attribute sets</a> with two attributes:</p>
+<p>A search path is represented as a list of <a href="./types.html#type-attrs">attribute sets</a> with two attributes:</p>
 <ul>
 <li><code>prefix</code> is a relative path.</li>
 <li><code>path</code> denotes a file system location</li>
@@ -1263,7 +1506,7 @@ See <a href="../command-ref/nix-channel.html">documentation on <code>nix-channel
 <li>
 <pre><code>{
   prefix = "nixpkgs";
-  path = "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
+  path = "https://channels.nixos.org/nixos-unstable/nixexprs.tar.xz";
 }
 </code></pre>
 </li>
@@ -1416,10 +1659,10 @@ The value of <code>key</code> can be one of the following types:</p>
 <ul>
 <li><a href="../language/types.html#type-int">Int</a></li>
 <li><a href="../language/types.html#type-float">Float</a></li>
-<li><a href="../language/types.html#type-boolean">Boolean</a></li>
+<li><a href="../language/types.html#type-bool">Boolean</a></li>
 <li><a href="../language/types.html#type-string">String</a></li>
 <li><a href="../language/types.html#type-path">Path</a></li>
-<li><a href="../language/types.html#list">List</a></li>
+<li><a href="../language/types.html#type-list">List</a></li>
 </ul>
 <p>The result is produced by calling the <code>operator</code> on each <code>item</code> that has not been called yet, including newly added items, until no new items are added.
 Items are compared by their <code>key</code> attribute.</p>
@@ -1907,7 +2150,7 @@ For instance,</p>
   "out"
 </code></pre>
 <p>returns an input placeholder for the output of the output of <code>myDrv</code>.</p>
-<p>This primop corresponds to the <code>^</code> sigil for <a href="../glossary.html#gloss-deriving-paths">deriving paths</a>, e.g. as part of installable syntax on the command line.</p>
+<p>This primop corresponds to the <code>^</code> sigil for <a href="../glossary.html#gloss-deriving-path">deriving paths</a>, e.g. as part of installable syntax on the command line.</p>
 </dd>
 
 <dt id="builtins-parseDrvName">
@@ -1982,16 +2225,19 @@ with the same semantics.</p>
 </li>
 <li>
 <p>recursive<br>When <code>false</code>, when <code>path</code> is added to the store it is with a
-flat hash, rather than a hash of the NAR serialization of the
-file. Thus, <code>path</code> must refer to a regular file, not a
+<a href="../store/file-system-object/content-address.html#serial-flat">flat hash</a>,
+rather than a hash of the
+<a href="../store/file-system-object/content-address.html#serial-nix-archive">NAR serialization</a>
+of the file. Thus, <code>path</code> must refer to a regular file, not a
 directory. This allows similar behavior to <code>fetchurl</code>. Defaults
 to <code>true</code>.</p>
 </li>
 <li>
-<p>sha256<br>When provided, this is the expected hash of the file at the
-path. Evaluation fails if the hash is incorrect, and
-providing a hash allows <code>builtins.path</code> to be used even when the
-<code>pure-eval</code> nix config option is on.</p>
+<p>sha256<br>When provided, this is the expected
+<a href="../store/file-system-object/content-address.html">content hash</a>
+of the path. Evaluation fails if the hash is incorrect,
+and providing a hash allows <code>builtins.path</code> to be used even
+when the <code>pure-eval</code> nix config option is on.</p>
 </li>
 </ul>
 </dd>
@@ -2076,6 +2322,42 @@ with the corresponding string in <em>to</em>.</p>
 <p>evaluates to <code>"fabir"</code>.</p>
 </dd>
 
+<dt id="builtins-scopedImport">
+  <a href="#builtins-scopedImport"><code>scopedImport <var>scope</var> <var>path</var></code></a>
+</dt>
+
+<dd>
+<p>Load, parse, and return the Nix expression in the file <em>path</em>, with the attributes from <em>scope</em> available as variables in the lexical scope of the imported file.</p>
+<p>This function is similar to <a href="#builtins-import"><code>import</code></a>, but allows you to provide additional variables that will be available in the scope of the imported expression.
+The <em>scope</em> argument must be an attribute set; each attribute becomes a variable available in the imported file.
+Built-in functions and values remain accessible unless shadowed by <em>scope</em> attributes.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Variables from <em>scope</em> shadow built-ins with the same name, allowing you to override built-ins for the imported expression.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Unlike <a href="#builtins-import"><code>import</code></a>, <code>scopedImport</code> does not memoize evaluation results.
+While the parsing result may be reused, each call produces a distinct value.
+This is observable through performance and side effects such as <a href="#builtins-trace"><code>builtins.trace</code></a>.</p>
+</blockquote>
+<p>The <em>path</em> argument must meet the same criteria as an <a href="../language/string-interpolation.html#interpolated-expression">interpolated expression</a>.</p>
+<p>If <em>path</em> is a directory, the file <code>default.nix</code> in that directory is used if it exists.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<p>Create a file <code>greet.nix</code>:</p>
+<pre><code class="language-nix"># greet.nix
+"${greeting}, ${name}!"
+</code></pre>
+<p>Import it with additional variables in scope:</p>
+<pre><code class="language-nix">scopedImport { greeting = "Hello"; name = "World"; } ./greet.nix
+</code></pre>
+<pre><code>"Hello, World!"
+</code></pre>
+</blockquote>
+<p>Evaluation aborts if the file doesn’t exist or contains an invalid Nix expression.</p>
+</dd>
+
 <dt id="builtins-seq">
   <a href="#builtins-seq"><code>seq <var>e1</var> <var>e2</var></code></a>
 </dt>
@@ -2105,6 +2387,7 @@ in the <em>list</em>. This means that for any elements <em>a</em>, <em>b</em> an
 <ol>
 <li>Transitivity</li>
 </ol>
+<p>If a is less than b and b is less than c, then it follows that a is less than c.</p>
 <pre><code class="language-nix">comparator a b &amp;&amp; comparator b c -&gt; comparator a c
 </code></pre>
 <ol>
@@ -2115,8 +2398,16 @@ in the <em>list</em>. This means that for any elements <em>a</em>, <em>b</em> an
 <ol>
 <li>Transitivity of equivalence</li>
 </ol>
-<pre><code class="language-nix">let equiv = a: b: (!comparator a b &amp;&amp; !comparator b a); in
-equiv a b &amp;&amp; equiv b c -&gt; equiv a c
+<p>First, two values a and b are considered equivalent with respect to the comparator if:</p>
+<pre><code>!comparator a b &amp;&amp; !comparator b a
+</code></pre>
+<p>In other words, neither is considered “less than” the other.</p>
+<p>Transitivity of equivalence means:</p>
+<p>If a is equivalent to b, and b is equivalent to c, then a must also be equivalent to c.</p>
+<pre><code class="language-nix">let
+  equiv = x: y: (!comparator x y &amp;&amp; !comparator y x);
+in
+  equiv a b &amp;&amp; equiv b c -&gt; equiv a c
 </code></pre>
 <p>If the <em>comparator</em> violates any of these properties, then <code>builtins.sort</code>
 reorders elements in an unspecified manner.</p>
@@ -2153,7 +2444,7 @@ sequences is a regex group.</p>
 <dd>
 <p>Split a string representing a version into its components, by the
 same version splitting logic underlying the version comparison in
-<a href="../command-ref/nix-env.html#operation---upgrade"><code>nix-env -u</code></a>.</p>
+<a href="../command-ref/nix-env/upgrade.html"><code>nix-env -u</code></a>.</p>
 </dd>
 
 <dt id="builtins-storeDir">
@@ -2484,9 +2775,9 @@ is useful for debugging.</p>
 <dd>
 <p>Primitive value.</p>
 <p>It can be returned by
-<a href="../language/operators.html#Comparison">comparison operators</a>
+<a href="../language/operators.html#comparison">comparison operators</a>
 and used in
-<a href="../language/syntax.html#Conditionals">conditional expressions</a>.</p>
+<a href="../language/syntax.html#conditionals">conditional expressions</a>.</p>
 <p>The name <code>true</code> is not special, and can be shadowed:</p>
 <pre><code class="language-nix-repl">nix-repl&gt; let true = 1; in true
 1
@@ -2531,7 +2822,7 @@ Instead, use <a href="../language/builtins.html#builtins-addErrorContext"><code>
 <p>Create a copy of the given string where every
 <a href="../language/string-context.html#string-context-element-derivation-deep">derivation deep</a>
 string context element is turned into a
-<a href="../language/string-context.html#string-context-element-constant">constant</a>
+<a href="../language/string-context.html#string-context-constant">constant</a>
 string context element.</p>
 <p>This is the opposite of <a href="#builtins-addDrvOutputDependencies"><code>builtins.addDrvOutputDependencies</code></a>.</p>
 <p>This is unsafe because it allows us to “forget” store objects we would have otherwise referred to with the string context,
@@ -2657,7 +2948,7 @@ values are the return values of <code>f</code>.</p>
         <script src="../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-4afb32ee.js"></script>
+        <script src="../redirects-70899071.js"></script>
 
 
 

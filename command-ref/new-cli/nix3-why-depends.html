@@ -3,10 +3,25 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix why-depends - Nix 2.31.3 Reference Manual</title>
+        <title>nix why-depends - Nix 2.34.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,16 +45,17 @@
         <!-- Custom theme stylesheets -->
         <link rel="stylesheet" href="../../custom-80d08c7f.css">
 
+        <!-- MathJax -->
 
         <!-- Provide site root and default themes to javascript -->
         <script>
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-374ccf4d.js";
+            window.path_to_searchindex_js = "../../searchindex-f7b65461.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-f3fccd7f.js"></script>
+        <script src="../../toc-f02b95af.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -138,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.31.3 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.34.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -196,31 +212,31 @@ and its interface is subject to change.</p>
 <p>Show one path through the dependency graph leading from Hello to
 Glibc:</p>
 <pre><code class="language-console"># nix why-depends nixpkgs#hello nixpkgs#glibc
-/nix/store/v5sv61sszx301i0x6xysaqzla09nksnd-hello-2.10
-└───bin/hello: …...................../nix/store/9l06v7fc38c1x3r2iydl15ksgz0ysb82-glibc-2.32/lib/ld-linux-x86-64.…
-    → /nix/store/9l06v7fc38c1x3r2iydl15ksgz0ysb82-glibc-2.32
+/nix/store/10l19qifk7hjjq47px8m2prqk1gv4isy-hello-2.10
+└───bin/hello: …...................../nix/store/kmmr0ggkywxvnad4z1chqb6lsxi6pqgc-glibc-2.32/lib/ld-linux-x86-64.…
+    → /nix/store/kmmr0ggkywxvnad4z1chqb6lsxi6pqgc-glibc-2.32
 </code></pre>
 </li>
 <li>
 <p>Show all files and paths in the dependency graph leading from
 Thunderbird to libX11:</p>
 <pre><code class="language-console"># nix why-depends --all nixpkgs#thunderbird nixpkgs#xorg.libX11
-/nix/store/qfc8729nzpdln1h0hvi1ziclsl3m84sr-thunderbird-78.5.1
-├───lib/thunderbird/libxul.so: …6wrw-libxcb-1.14/lib:/nix/store/adzfjjh8w25vdr0xdx9x16ah4f5rqrw5-libX11-1.7.0/lib:/nix/store/ssf…
-│   → /nix/store/adzfjjh8w25vdr0xdx9x16ah4f5rqrw5-libX11-1.7.0
-├───lib/thunderbird/libxul.so: …pxyc-libXt-1.2.0/lib:/nix/store/1qj29ipxl2fyi2b13l39hdircq17gnk0-libXdamage-1.1.5/lib:/nix/store…
-│   → /nix/store/1qj29ipxl2fyi2b13l39hdircq17gnk0-libXdamage-1.1.5
-│   ├───lib/libXdamage.so.1.1.0: …-libXfixes-5.0.3/lib:/nix/store/adzfjjh8w25vdr0xdx9x16ah4f5rqrw5-libX11-1.7.0/lib:/nix/store/9l0…
-│   │   → /nix/store/adzfjjh8w25vdr0xdx9x16ah4f5rqrw5-libX11-1.7.0
+/nix/store/0my2p7psgdzqc5pq6dyl4ld9w6g0np58-thunderbird-78.5.1
+├───lib/thunderbird/libxul.so: …6wrw-libxcb-1.14/lib:/nix/store/jmwiq1bb3n47a0css8b1q7lhgf7416k5-libX11-1.7.0/lib:/nix/store/ssf…
+│   → /nix/store/jmwiq1bb3n47a0css8b1q7lhgf7416k5-libX11-1.7.0
+├───lib/thunderbird/libxul.so: …pxyc-libXt-1.2.0/lib:/nix/store/l1sv43bafhkf2iikmdw9y62aybjdhcmm-libXdamage-1.1.5/lib:/nix/store…
+│   → /nix/store/l1sv43bafhkf2iikmdw9y62aybjdhcmm-libXdamage-1.1.5
+│   ├───lib/libXdamage.so.1.1.0: …-libXfixes-5.0.3/lib:/nix/store/jmwiq1bb3n47a0css8b1q7lhgf7416k5-libX11-1.7.0/lib:/nix/store/9l0…
+│   │   → /nix/store/jmwiq1bb3n47a0css8b1q7lhgf7416k5-libX11-1.7.0
 …
 </code></pre>
 </li>
 <li>
 <p>Show why Glibc depends on itself:</p>
 <pre><code class="language-console"># nix why-depends nixpkgs#glibc nixpkgs#glibc
-/nix/store/9df65igwjmf2wbw0gbrrgair6piqjgmi-glibc-2.31
-└───lib/ld-2.31.so: …che       Do not use /nix/store/9df65igwjmf2wbw0gbrrgair6piqjgmi-glibc-2.31/etc/ld.so.cache.  --…
-    → /nix/store/9df65igwjmf2wbw0gbrrgair6piqjgmi-glibc-2.31
+/nix/store/q9mknq836i0kblq8g1hm9f3cv9qda0r9-glibc-2.31
+└───lib/ld-2.31.so: …che       Do not use /nix/store/q9mknq836i0kblq8g1hm9f3cv9qda0r9-glibc-2.31/etc/ld.so.cache.  --…
+    → /nix/store/q9mknq836i0kblq8g1hm9f3cv9qda0r9-glibc-2.31
 </code></pre>
 </li>
 <li>
@@ -240,7 +256,7 @@ Thunderbird to libX11:</p>
 <p>Nix automatically determines potential runtime dependencies between
 store paths by scanning for the <em>hash parts</em> of store paths. For
 instance, if there exists a store path
-<code>/nix/store/9df65igwjmf2wbw0gbrrgair6piqjgmi-glibc-2.31</code>, and a file
+<code>/nix/store/q9mknq836i0kblq8g1hm9f3cv9qda0r9-glibc-2.31</code>, and a file
 inside another store path contains the string <code>9df65igw…</code>, then the
 latter store path <em>refers</em> to the former, and thus might need it at
 runtime. Nix always maintains the existence of the transitive closure
@@ -344,7 +360,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
 </li>
 <li>
 <p><span id="opt-override-input"><a href="#opt-override-input"><code>--override-input</code></a></span> <em>input-path</em> <em>flake-url</em></p>
-<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). This implies <code>--no-write-lock-file</code>.</p>
+<p>Override a specific flake input (e.g. <code>dwarffs/nixpkgs</code>). The input path must not be empty. This implies <code>--no-write-lock-file</code>.</p>
 </li>
 <li>
 <p><span id="opt-recreate-lock-file"><a href="#opt-recreate-lock-file"><code>--recreate-lock-file</code></a></span></p>
@@ -488,7 +504,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-a0b12cfe.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-4afb32ee.js"></script>
+        <script src="../../redirects-70899071.js"></script>
 
 
 
