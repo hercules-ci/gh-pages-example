@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Testing - Nix 2.34.9 Reference Manual</title>
+        <title>Testing - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -202,7 +202,7 @@
 <p>A <a href="https://hydra.nixos.org/job/nix/master/coverage/latest/download-by-type/report/coverage">coverage analysis report</a> is available online
 You can build it yourself:</p>
 <pre><code># nix build .#hydraJobs.coverage
-# xdg-open ./result/coverage/index.html
+# xdg-open ./result/index.html
 </code></pre>
 <p><a href="https://hydra.nixos.org/job/nix/master/coverage#tabs-charts">Extensive records of build metrics</a>, such as test coverage over time, are also available online.</p>
 <h2 id="unit-tests"><a class="header" href="#unit-tests">Unit-tests</a></h2>
@@ -217,31 +217,28 @@ You can build it yourself:</p>
 │   ├── value/context.cc
 │   …
 │
-├── tests
-│   │
+├── libutil-tests
+│   ├── meson.build
 │   …
-│   ├── libutil-tests
+│   ├── data
+│   │   ├── git/tree.txt
+│       …
+│
+├── libexpr-test-support
+│   ├── meson.build
+│   ├── include/nix/expr
 │   │   ├── meson.build
-│   │   …
-│   │   └── data
-│   │       ├── git/tree.txt
-│   │       …
-│   │
-│   ├── libexpr-test-support
-│   │   ├── meson.build
-│   │   ├── include/nix/expr
-│   │   │   ├── meson.build
-│   │   │   └── tests
-│   │   │       ├── value/context.hh
-│   │   │       …
 │   │   └── tests
-│   │       ├── value/context.cc
+│   │       ├── value/context.hh
 │   │       …
-│   │
-│   ├── libexpr-tests
-│   …   ├── meson.build
+│   ├── tests
 │       ├── value/context.cc
 │       …
+│
+├── libexpr-tests
+│   ├── meson.build
+│   ├── value/context.cc
+│    …
 …
 </code></pre>
 </blockquote>
@@ -258,7 +255,7 @@ But organizing the tests this way has one big benefit:
 there is no risk of any build-system wildcards for the library accidentally picking up test code that should not built and installed as part of the library.</p>
 <h3 id="running-tests-1"><a class="header" href="#running-tests-1">Running tests</a></h3>
 <p>You can run the whole testsuite with <code>meson test</code> from the Meson build directory, or the tests for a specific component with <code>meson test nix-store-tests</code>.
-A environment variables that Google Test accepts are also worth knowing:</p>
+The environment variables that Google Test accepts are also worth knowing:</p>
 <ol>
 <li>
 <p><a href="https://google.github.io/googletest/advanced.html#running-a-subset-of-the-tests"><code>GTEST_FILTER</code></a></p>
@@ -390,11 +387,6 @@ GNU gdb (GDB) 12.1
 </code></pre>
 <p>One can debug the Nix invocation in all the usual ways.
 For example, enter <code>run</code> to start the Nix invocation.</p>
-<h3 id="troubleshooting"><a class="header" href="#troubleshooting">Troubleshooting</a></h3>
-<p>Sometimes running tests in the development shell may leave artefacts in the local repository.
-To remove any traces of that:</p>
-<pre><code class="language-console">git clean -x --force tests
-</code></pre>
 <h3 id="characterisation-testing-functional"><a class="header" href="#characterisation-testing-functional">Characterisation testing</a></h3>
 <p>Occasionally, Nix utilizes a technique called <a href="https://en.wikipedia.org/wiki/Characterization_test">Characterisation Testing</a> as part of the functional tests.
 This technique is to include the exact output/behavior of a former version of Nix in a test in order to check that Nix continues to produce the same behavior going forward.</p>
@@ -425,94 +417,48 @@ This helps us ensure that Nix works correctly on NixOS, and environments that ha
 <h2 id="integration-tests"><a class="header" href="#integration-tests">Integration tests</a></h2>
 <p>The integration tests are defined in the Nix flake under the <code>hydraJobs.tests</code> attribute.
 These tests include everything that needs to interact with external services or run Nix in a non-trivial distributed setup.
-Because these tests are expensive and require more than what the standard github-actions setup provides, they only run on the master branch (on <a href="https://hydra.nixos.org/jobset/nix/master">https://hydra.nixos.org/jobset/nix/master</a>).</p>
+Because these tests are expensive and require more than what the standard github-actions setup provides, most of them only run on the master branch (on <a href="https://hydra.nixos.org/jobset/nix/master">https://hydra.nixos.org/jobset/nix/master</a>).</p>
 <p>You can run them manually with <code>nix build .#hydraJobs.tests.{testName}</code> or <code>nix-build -A hydraJobs.tests.{testName}</code>.</p>
 <h2 id="installer-tests"><a class="header" href="#installer-tests">Installer tests</a></h2>
-<p>After a one-time setup, the Nix repository’s GitHub Actions continuous integration (CI) workflow can test the installer each time you push to a branch.</p>
-<p>Creating a Cachix cache for your installer tests and adding its authorisation token to GitHub enables <a href="https://github.com/NixOS/nix/blob/88a45d6149c0e304f6eb2efcc2d7a4d0d569f8af/.github/workflows/ci.yml#L50-L91">two installer-specific jobs in the CI workflow</a>:</p>
+<p>GitHub Actions CI in the Nix repository also tests the installer on PRs. It does not require additional setup and utilises <a href="https://docs.github.com/en/actions/tutorials/store-and-share-data">GHA Artifacts</a> and can be run in any Nix repository fork.</p>
 <ul>
 <li>
-<p>The <code>installer</code> job generates installers for the platforms below and uploads them to your Cachix cache:</p>
+<p>The <code>tests</code> job generates installers for the platforms below and uploads them as an artifact:</p>
 <ul>
 <li><code>x86_64-linux</code></li>
-<li><code>armv6l-linux</code></li>
-<li><code>armv7l-linux</code></li>
-<li><code>x86_64-darwin</code></li>
+<li><code>aarch64-darwin</code></li>
 </ul>
 </li>
 <li>
-<p>The <code>installer_test</code> job (which runs on <code>ubuntu-24.04</code> and <code>macos-14</code>) will try to install Nix with the cached installer and run a trivial Nix command.</p>
+<p>The <code>installer_test</code> job (which runs on Linux and macOS) will try to install Nix with the cached installer and run a trivial Nix command.</p>
+</li>
+<li>
+<p>Both the scripted installer and the <a href="https://github.com/NixOS/nix-installer">standalone Rust-based installer</a> are tested.</p>
 </li>
 </ul>
-<h3 id="one-time-setup"><a class="header" href="#one-time-setup">One-time setup</a></h3>
-<ol>
-<li>Have a GitHub account with a fork of the <a href="https://github.com/NixOS/nix">Nix repository</a>.</li>
-<li>At cachix.org:
-<ul>
-<li>Create or log in to an account.</li>
-<li>Create a Cachix cache using the format <code>&lt;github-username&gt;-nix-install-tests</code>.</li>
-<li>Navigate to the new cache &gt; Settings &gt; Auth Tokens.</li>
-<li>Generate a new Cachix auth token and copy the generated value.</li>
-</ul>
-</li>
-<li>At github.com:
-<ul>
-<li>Navigate to your Nix fork &gt; Settings &gt; Secrets &gt; Actions &gt; New repository secret.</li>
-<li>Name the secret <code>CACHIX_AUTH_TOKEN</code>.</li>
-<li>Paste the copied value of the Cachix cache auth token.</li>
-</ul>
-</li>
-</ol>
+<p>You can generate the installer tarball and script manually by running <code>nix build .#hydraJobs.installerScriptForGHA.&lt;system-double&gt;</code>.</p>
 <h2 id="working-on-documentation"><a class="header" href="#working-on-documentation">Working on documentation</a></h2>
 <h3 id="using-the-ci-generated-installer-for-manual-testing"><a class="header" href="#using-the-ci-generated-installer-for-manual-testing">Using the CI-generated installer for manual testing</a></h3>
-<p>After the CI run completes, you can check the output to extract the installer URL:</p>
+<p>After the CI run completes, you can check the output to extract the installer artifact:</p>
 <ol>
 <li>
 <p>Click into the detailed view of the CI run.</p>
 </li>
 <li>
-<p>Click into any <code>installer_test</code> run (the URL you’re here to extract will be the same in all of them).</p>
+<p>Scroll down to <code>Artifacts</code> section.</p>
 </li>
 <li>
-<p>Click into the <code>Run cachix/install-nix-action@v...</code> step and click the detail triangle next to the first log line (it will also be <code>Run cachix/install-nix-action@v...</code>)</p>
+<p>Download the corresponding installer artifact (<code>installer-darwin</code> for <code>aarch64-darwin</code> and <code>installer-linux</code> for <code>x86_64-linux</code>).</p>
 </li>
 <li>
-<p>Copy the value of <code>install_url</code></p>
+<p>Unpack the downloaded <code>.zip</code> artifact.</p>
 </li>
 <li>
-<p>To generate an install command, plug this <code>install_url</code> and your GitHub username into this template:</p>
-<pre><code class="language-console">curl -L &lt;install_url&gt; | sh -s -- --tarball-url-prefix https://&lt;github-username&gt;-nix-install-tests.cachix.org/serve
+<p>To generate an install command, plug the path to the unpacked artifact into this template:</p>
+<pre><code class="language-console">sh &lt;path/to/artifact&gt;/install --tarball-url-prefix file://&lt;path/to/artifact&gt;
 </code></pre>
 </li>
 </ol>
-<!-- #### Manually generating test installers
-
-There's obviously a manual way to do this, and it's still the only way for
-platforms that lack GA runners.
-
-I did do this back in Fall 2020 (before the GA approach encouraged here). I'll
-sketch what I recall in case it encourages someone to fill in detail, but: I
-didn't know what I was doing at the time and had to fumble/ask around a lot--
-so I don't want to uphold any of it as "right". It may have been dumb or
-the _hard_ way from the getgo. Fundamentals may have changed since.
-
-Here's the build command I used to do this on and for x86_64-darwin:
-nix build --out-link /tmp/foo ".#checks.x86_64-darwin.binaryTarball"
-
-I used the stable out-link to make it easier to script the next steps:
-link=$(readlink /tmp/foo)
-cp $link/*-darwin.tar.xz ~/somewheres
-
-I've lost the last steps and am just going from memory:
-
-From here, I think I had to extract and modify the `install` script to point
-it at this tarball (which I scped to my own site, but it might make more sense
-to just share them locally). I extracted this script once and then just
-search/replaced in it for each new build.
-
-The installer now supports a `--tarball-url-prefix` flag which _may_ have
-solved this need?
--->
 
                     </main>
 
@@ -565,7 +511,7 @@ solved this need?
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

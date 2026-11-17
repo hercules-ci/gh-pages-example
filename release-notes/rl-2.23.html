@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.23 (2024-06-03) - Nix 2.34.9 Reference Manual</title>
+        <title>Release 2.23 (2024-06-03) - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -213,7 +213,7 @@ build, all hash mismatches are displayed.</p>
 </li>
 <li>
 <p>Modify <code>nix derivation {add,show}</code> JSON format <a href="https://github.com/NixOS/nix/issues/9866">#9866</a> <a href="https://github.com/NixOS/nix/pull/10722">#10722</a></p>
-<p>The JSON format for derivations has been slightly revised to better conform to our <a href="../development/json-guideline.html">JSON guidelines</a>.
+<p>The JSON format for derivations has been slightly revised to better conform to our <a href="../development/data-modeling.html">data modeling guidelines</a>.
 In particular, the hash algorithm and content addressing method of content-addressed derivation outputs are now separated into two fields <code>hashAlgo</code> and <code>method</code>,
 rather than one field with an arcane <code>:</code>-separated format.</p>
 <p>This JSON format is only used by the experimental <code>nix derivation</code> family of commands, at this time.
@@ -269,7 +269,7 @@ Future commands may include <code>nix env run</code> and <code>nix env print-env
 For example, <code>"ca": null</code> is used to indicate a store object that isn’t content-addressed rather than omitting the <code>ca</code> field entirely.
 This makes records of this sort more self-describing, and easier to consume programmatically.</p>
 <p>We will follow this design principle going forward;
-the <a href="../development/json-guideline.html">JSON guidelines</a> in the contributing section have been updated accordingly.</p>
+the <a href="../development/data-modeling.html">data modeling guidelines</a> in the contributing section have been updated accordingly.</p>
 </li>
 <li>
 <p>Large path warnings <a href="https://github.com/NixOS/nix/pull/10661">#10661</a></p>
@@ -333,7 +333,7 @@ than 100 MiB.</p>
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

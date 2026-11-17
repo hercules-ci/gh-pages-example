@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store - Nix 2.34.9 Reference Manual</title>
+        <title>Store - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -241,7 +241,12 @@
 <li><a href="#contents_pattern1_info_ultimate">2.1.1.10. Property <code>ultimate</code></a></li>
 <li><a href="#contents_pattern1_info_signatures">2.1.1.11. Property <code>signatures</code></a>
 <ul>
-<li><a href="#contents_pattern1_info_signatures_items">2.1.1.11.1. signatures items</a></li>
+<li><a href="#contents_pattern1_info_signatures_items">2.1.1.11.1. Signature</a>
+<ul>
+<li><a href="#contents_pattern1_info_signatures_items_keyName">2.1.1.11.1.1. Property <code>keyName</code></a></li>
+<li><a href="#contents_pattern1_info_signatures_items_sig">2.1.1.11.1.2. Property <code>sig</code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#contents_pattern1_info_closureSize">2.1.1.12. Property <code>closureSize</code></a></li>
@@ -318,47 +323,47 @@
 </li>
 </ul>
 </li>
-<li><a href="#derivations_pattern1_inputs">3.1.4. Property <code>inputs</code></a>
+<li><a href="#derivations_pattern1_system">3.1.4. Property <code>system</code></a></li>
+<li><a href="#derivations_pattern1_builder">3.1.5. Property <code>builder</code></a></li>
+<li><a href="#derivations_pattern1_args">3.1.6. Property <code>args</code></a>
 <ul>
-<li><a href="#derivations_pattern1_inputs_srcs">3.1.4.1. Property <code>srcs</code></a>
-<ul>
-<li><a href="#derivations_pattern1_inputs_srcs_items">3.1.4.1.1. Store Path</a></li>
+<li><a href="#derivations_pattern1_args_items">3.1.6.1. args items</a></li>
 </ul>
 </li>
-<li><a href="#derivations_pattern1_inputs_drvs">3.1.4.2. Property <code>drvs</code></a>
+<li><a href="#derivations_pattern1_env">3.1.7. Property <code>env</code></a>
 <ul>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1">3.1.4.2.1. Pattern Property <code>Store Path</code></a>
+<li><a href="#derivations_pattern1_env_additionalProperties">3.1.7.1. Property <code>additionalProperties</code></a></li>
+</ul>
+</li>
+<li><a href="#derivations_pattern1_structuredAttrs">3.1.8. Property <code>structuredAttrs</code></a></li>
+<li><a href="#derivations_pattern1_inputs">3.1.9. Property <code>inputs</code></a>
 <ul>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i0">3.1.4.2.1.1. Property <code>Output Names</code></a>
+<li><a href="#derivations_pattern1_inputs_srcs">3.1.9.1. Property <code>srcs</code></a>
 <ul>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i0_items">3.1.4.2.1.1.1. Output name</a></li>
+<li><a href="#derivations_pattern1_inputs_srcs_items">3.1.9.1.1. Store Path</a></li>
 </ul>
 </li>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1">3.1.4.2.1.2. Property <code>Dynamic Outputs</code></a>
+<li><a href="#derivations_pattern1_inputs_drvs">3.1.9.2. Property <code>drvs</code></a>
 <ul>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_outputs">3.1.4.2.1.2.1. Property <code>outputs</code></a></li>
-<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_dynamicOutputs">3.1.4.2.1.2.2. Property <code>dynamicOutputs</code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><a href="#derivations_pattern1_system">3.1.5. Property <code>system</code></a></li>
-<li><a href="#derivations_pattern1_builder">3.1.6. Property <code>builder</code></a></li>
-<li><a href="#derivations_pattern1_args">3.1.7. Property <code>args</code></a>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1">3.1.9.2.1. Pattern Property <code>Store Path</code></a>
 <ul>
-<li><a href="#derivations_pattern1_args_items">3.1.7.1. args items</a></li>
-</ul>
-</li>
-<li><a href="#derivations_pattern1_env">3.1.8. Property <code>env</code></a>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i0">3.1.9.2.1.1. Property <code>Output Names</code></a>
 <ul>
-<li><a href="#derivations_pattern1_env_additionalProperties">3.1.8.1. Property <code>additionalProperties</code></a></li>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i0_items">3.1.9.2.1.1.1. Output name</a></li>
 </ul>
 </li>
-<li><a href="#derivations_pattern1_structuredAttrs">3.1.9. Property <code>structuredAttrs</code></a></li>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1">3.1.9.2.1.2. Property <code>Dynamic Outputs</code></a>
+<ul>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_outputs">3.1.9.2.1.2.1. Property <code>outputs</code></a></li>
+<li><a href="#derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_dynamicOutputs">3.1.9.2.1.2.2. Property <code>dynamicOutputs</code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -523,7 +528,7 @@ must respect the following conditions</p>
 <tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 <tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
-<tr><td><strong>Defined in</strong></td><td>./store-object-info-v2.yaml#/$defs/impure</td></tr>
+<tr><td><strong>Defined in</strong></td><td>./store-object-info-v3.yaml#/$defs/impure</td></tr>
 </tbody>
 </table>
 </div>
@@ -534,7 +539,7 @@ must respect the following conditions</p>
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+ <a href="#contents_pattern1_info_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>+ <a href="#contents_pattern1_info_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 3)</td></tr>
 <tr><td>- <a href="#contents_pattern1_info_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
 <tr><td>+ <a href="#contents_pattern1_info_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
 <tr><td>+ <a href="#contents_pattern1_info_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
@@ -544,13 +549,13 @@ must respect the following conditions</p>
 <tr><td>+ <a href="#contents_pattern1_info_deriver">deriver</a></td><td>Combination</td><td>No</td><td>Deriver</td></tr>
 <tr><td>+ <a href="#contents_pattern1_info_registrationTime">registrationTime</a></td><td>integer or null</td><td>No</td><td>Registration Time</td></tr>
 <tr><td>+ <a href="#contents_pattern1_info_ultimate">ultimate</a></td><td>boolean</td><td>No</td><td>Ultimate</td></tr>
-<tr><td>+ <a href="#contents_pattern1_info_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Signatures</td></tr>
+<tr><td>+ <a href="#contents_pattern1_info_signatures">signatures</a></td><td>array</td><td>No</td><td>Signatures</td></tr>
 <tr><td>- <a href="#contents_pattern1_info_closureSize">closureSize</a></td><td>integer</td><td>No</td><td>Closure Size</td></tr>
 </tbody>
 </table>
 </div>
 <h5 id="2111-property-version"><a class="header" href="#2111-property-version"><a name="contents_pattern1_info_version"></a>2.1.1.1. Property <code>version</code></a></h5>
-<p><strong>Title:</strong> Format version (must be 2)</p>
+<p><strong>Title:</strong> Format version (must be 3)</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -563,7 +568,7 @@ must respect the following conditions</p>
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> Must be <code>2</code>.
+<p><strong>Description:</strong> Must be <code>3</code>.
 This is a guard that allows us to continue evolving this format.
 Here is the rough version history:</p>
 <ul>
@@ -576,8 +581,11 @@ Here is the rough version history:</p>
 <li>
 <p>Version 2: Use structured JSON type for <code>ca</code></p>
 </li>
+<li>
+<p>Version 3: Use structured JSON type for <code>signatures</code></p>
+</li>
 </ul>
-<p>Specific value: <code>2</code></p>
+<p>Specific value: <code>3</code></p>
 <h5 id="2112-property-path"><a class="header" href="#2112-property-path"><a name="contents_pattern1_info_path"></a>2.1.1.2. Property <code>path</code></a></h5>
 <p><strong>Title:</strong> Store Path</p>
 <div class="table-wrapper">
@@ -728,7 +736,7 @@ and subject to change.</p>
 <h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h5 id="2116-property-ca"><a class="header" href="#2116-property-ca"><a name="contents_pattern1_info_ca"></a>2.1.1.6. Property <code>ca</code></a></h5>
@@ -893,7 +901,7 @@ In particular, the references of the store object are <em>not</em> taken into ac
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory-path">path to the store directory</a> this store object belongs within (e.g. <code>/nix/store</code>).</p>
 <h5 id="2118-property-deriver"><a class="header" href="#2118-property-deriver"><a name="contents_pattern1_info_deriver"></a>2.1.1.8. Property <code>deriver</code></a></h5>
 <p><strong>Title:</strong> Deriver</p>
 <div class="table-wrapper">
@@ -953,7 +961,7 @@ and subject to change.</p>
 <h2 id="structure-1"><a class="header" href="#structure-1">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h6 id="21182-property-item-1"><a class="header" href="#21182-property-item-1"><a name="contents_pattern1_info_deriver_oneOf_i1"></a>2.1.1.8.2. Property <code>item 1</code></a></h6>
@@ -1011,7 +1019,7 @@ Otherwise <code>null</code>.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
@@ -1042,11 +1050,55 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 <tr><th>Each item of this array must be</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#contents_pattern1_info_signatures_items">signatures items</a></td><td>-</td></tr>
+<tr><td><a href="#contents_pattern1_info_signatures_items">Signature</a></td><td>A cryptographic signature along with the name of the key that produced it. …</td></tr>
 </tbody>
 </table>
 </div>
-<h6 id="211111-signatures-items"><a class="header" href="#211111-signatures-items"><a name="contents_pattern1_info_signatures_items"></a>2.1.1.11.1. signatures items</a></h6>
+<h6 id="211111-signature"><a class="header" href="#211111-signature"><a name="contents_pattern1_info_signatures_items"></a>2.1.1.11.1. Signature</a></h6>
+<p><strong>Title:</strong> Signature</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>./signature-v2.yaml</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A cryptographic signature along with the name of the key that produced it.</p>
+<p>This schema describes the JSON representation of signatures as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="version-history"><a class="header" href="#version-history">Version History</a></h2>
+<ul>
+<li>
+<p>Version 1: Colon-separated string in the format <code>&lt;key-name&gt;:&lt;signature-in-Base64&gt;</code></p>
+</li>
+<li>
+<p>Version 2: Structured object with <code>keyName</code> and <code>sig</code> fields</p>
+</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#contents_pattern1_info_signatures_items_keyName">keyName</a></td><td>string</td><td>No</td><td>Key Name</td></tr>
+<tr><td>+ <a href="#contents_pattern1_info_signatures_items_sig">sig</a></td><td>string</td><td>No</td><td>Signature Data</td></tr>
+</tbody>
+</table>
+</div>
+<h6 id="2111111-property-keyname"><a class="header" href="#2111111-property-keyname"><a name="contents_pattern1_info_signatures_items_keyName"></a>2.1.1.11.1.1. Property <code>keyName</code></a></h6>
+<p><strong>Title:</strong> Key Name</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -1054,10 +1106,25 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 </thead>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
 </div>
+<p><strong>Description:</strong> The name of the key used to produce this signature</p>
+<h6 id="2111112-property-sig"><a class="header" href="#2111112-property-sig"><a name="contents_pattern1_info_signatures_items_sig"></a>2.1.1.11.1.2. Property <code>sig</code></a></h6>
+<p><strong>Title:</strong> Signature Data</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The raw signature bytes, Base64-encoded</p>
 <h5 id="21112-property-closuresize"><a class="header" href="#21112-property-closuresize"><a name="contents_pattern1_info_closureSize"></a>2.1.1.12. Property <code>closureSize</code></a></h5>
 <p><strong>Title:</strong> Closure Size</p>
 <div class="table-wrapper">
@@ -1383,8 +1450,8 @@ must respect the following conditions</p>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-<tr><td><strong>Defined in</strong></td><td>./derivation-v4.yaml</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Not allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
 </tbody>
 </table>
 </div>
@@ -1405,12 +1472,12 @@ and subject to change.</p>
 <tr><td>+ <a href="#derivations_pattern1_name">name</a></td><td>string</td><td>No</td><td>Derivation name</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 4)</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_outputs">outputs</a></td><td>object</td><td>No</td><td>Output specifications</td></tr>
-<tr><td>+ <a href="#derivations_pattern1_inputs">inputs</a></td><td>object</td><td>No</td><td>Derivation inputs</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_system">system</a></td><td>string</td><td>No</td><td>Build system type</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_builder">builder</a></td><td>string</td><td>No</td><td>Build program path</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_args">args</a></td><td>array of string</td><td>No</td><td>Builder arguments</td></tr>
 <tr><td>+ <a href="#derivations_pattern1_env">env</a></td><td>object</td><td>No</td><td>Environment variables</td></tr>
 <tr><td>- <a href="#derivations_pattern1_structuredAttrs">structuredAttrs</a></td><td>object</td><td>No</td><td>Structured attributes</td></tr>
+<tr><td>+ <a href="#derivations_pattern1_inputs">inputs</a></td><td>object</td><td>No</td><td>Derivation inputs</td></tr>
 </tbody>
 </table>
 </div>
@@ -1424,6 +1491,7 @@ and subject to change.</p>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
 </tbody>
 </table>
 </div>
@@ -1439,6 +1507,7 @@ Used when calculating store paths for the derivation’s outputs.</p>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>const</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
 </tbody>
 </table>
 </div>
@@ -1483,6 +1552,7 @@ The choice of <code>3</code> is fairly arbitrary, but corresponds to this inform
 <tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 <tr><td><strong>Additional properties</strong></td><td><a href="#derivations_pattern1_outputs_additionalProperties">Each additional property must conform to the schema</a></td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
 </tbody>
 </table>
 </div>
@@ -1838,7 +1908,156 @@ As such, we don’t record it in the build trace, under the assumption that if w
 <li>“sha256”</li>
 <li>“sha512”</li>
 </ul>
-<h4 id="314-property-inputs"><a class="header" href="#314-property-inputs"><a name="derivations_pattern1_inputs"></a>3.1.4. Property <code>inputs</code></a></h4>
+<h4 id="314-property-system"><a class="header" href="#314-property-system"><a name="derivations_pattern1_system"></a>3.1.4. Property <code>system</code></a></h4>
+<p><strong>Title:</strong> Build system type</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The system type on which this derivation is to be built
+(e.g. <code>x86_64-linux</code>).</p>
+<h4 id="315-property-builder"><a class="header" href="#315-property-builder"><a name="derivations_pattern1_builder"></a>3.1.5. Property <code>builder</code></a></h4>
+<p><strong>Title:</strong> Build program path</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Absolute path of the program used to perform the build.
+Typically this is the <code>bash</code> shell
+(e.g. <code>/nix/store/p4xlj4imjbnm4v0x5jf4qysvyjjlgq1d-bash-4.4-p23/bin/bash</code>).</p>
+<h4 id="316-property-args"><a class="header" href="#316-property-args"><a name="derivations_pattern1_args"></a>3.1.6. Property <code>args</code></a></h4>
+<p><strong>Title:</strong> Builder arguments</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Command-line arguments passed to the <code>builder</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th>Array restrictions</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
+<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
+<tr><td><strong>Additional items</strong></td><td>False</td></tr>
+<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
+</tbody>
+</table>
+</div>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Each item of this array must be</th><th>Description</th></tr>
+</thead>
+<tbody>
+<tr><td><a href="#derivations_pattern1_args_items">args items</a></td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+<h5 id="3161-args-items"><a class="header" href="#3161-args-items"><a name="derivations_pattern1_args_items"></a>3.1.6.1. args items</a></h5>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="317-property-env"><a class="header" href="#317-property-env"><a name="derivations_pattern1_env"></a>3.1.7. Property <code>env</code></a></h4>
+<p><strong>Title:</strong> Environment variables</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+<tr><td><strong>Additional properties</strong></td><td><a href="#derivations_pattern1_env_additionalProperties">Each additional property must conform to the schema</a></td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> Environment variables passed to the <code>builder</code>.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>- <a href="#derivations_pattern1_env_additionalProperties"></a></td><td>string</td><td>No</td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+<h5 id="3171-property-additionalproperties"><a class="header" href="#3171-property-additionalproperties"><a name="derivations_pattern1_env_additionalProperties"></a>3.1.7.1. Property <code>additionalProperties</code></a></h5>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="318-property-structuredattrs"><a class="header" href="#318-property-structuredattrs"><a name="derivations_pattern1_structuredAttrs"></a>3.1.8. Property <code>structuredAttrs</code></a></h4>
+<p><strong>Title:</strong> Structured attributes</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/derivation/index.html">JSON format for <code>Derivation</code></a></td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> <a href="../../store/derivation/index.html#structured-attrs">Structured Attributes</a>, only defined if the derivation contains them.
+Structured attributes are JSON, and thus embedded as-is.</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>- <a href="#derivations_pattern1_structuredAttrs_additionalProperties"></a></td><td>object</td><td>No</td><td>-</td></tr>
+</tbody>
+</table>
+</div>
+<h4 id="319-property-inputs"><a class="header" href="#319-property-inputs"><a name="derivations_pattern1_inputs"></a>3.1.9. Property <code>inputs</code></a></h4>
 <p><strong>Title:</strong> Derivation inputs</p>
 <div class="table-wrapper">
 <table>
@@ -1864,7 +2083,7 @@ As such, we don’t record it in the build trace, under the assumption that if w
 </tbody>
 </table>
 </div>
-<h5 id="3141-property-srcs"><a class="header" href="#3141-property-srcs"><a name="derivations_pattern1_inputs_srcs"></a>3.1.4.1. Property <code>srcs</code></a></h5>
+<h5 id="3191-property-srcs"><a class="header" href="#3191-property-srcs"><a name="derivations_pattern1_inputs_srcs"></a>3.1.9.1. Property <code>srcs</code></a></h5>
 <p><strong>Title:</strong> Input source paths</p>
 <div class="table-wrapper">
 <table>
@@ -1910,7 +2129,7 @@ As such, we don’t record it in the build trace, under the assumption that if w
 </tbody>
 </table>
 </div>
-<h6 id="31411-store-path"><a class="header" href="#31411-store-path"><a name="derivations_pattern1_inputs_srcs_items"></a>3.1.4.1.1. Store Path</a></h6>
+<h6 id="31911-store-path"><a class="header" href="#31911-store-path"><a name="derivations_pattern1_inputs_srcs_items"></a>3.1.9.1.1. Store Path</a></h6>
 <p><strong>Title:</strong> Store Path</p>
 <div class="table-wrapper">
 <table>
@@ -1939,10 +2158,10 @@ and subject to change.</p>
 <h2 id="structure-2"><a class="header" href="#structure-2">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
-<h5 id="3142-property-drvs"><a class="header" href="#3142-property-drvs"><a name="derivations_pattern1_inputs_drvs"></a>3.1.4.2. Property <code>drvs</code></a></h5>
+<h5 id="3192-property-drvs"><a class="header" href="#3192-property-drvs"><a name="derivations_pattern1_inputs_drvs"></a>3.1.9.2. Property <code>drvs</code></a></h5>
 <p><strong>Title:</strong> Input derivations</p>
 <div class="table-wrapper">
 <table>
@@ -1976,7 +2195,7 @@ and subject to change.</p>
 </tbody>
 </table>
 </div>
-<h6 id="31421-pattern-property-store-path"><a class="header" href="#31421-pattern-property-store-path"><a name="derivations_pattern1_inputs_drvs_pattern1"></a>3.1.4.2.1. Pattern Property <code>Store Path</code></a></h6>
+<h6 id="31921-pattern-property-store-path"><a class="header" href="#31921-pattern-property-store-path"><a name="derivations_pattern1_inputs_drvs_pattern1"></a>3.1.9.2.1. Pattern Property <code>Store Path</code></a></h6>
 <blockquote>
 <p>All properties whose name matches the regular expression
 <code>^[0123456789abcdfghijklmnpqrsvwxyz]{32}-.+\.drv$</code> (<a href="https://regex101.com/?regex=%5E%5B0123456789abcdfghijklmnpqrsvwxyz%5D%7B32%7D-.%2B%5C.drv%24">Test</a>)
@@ -2007,7 +2226,7 @@ must respect the following conditions</p>
 </tbody>
 </table>
 </div>
-<h6 id="314211-property-output-names"><a class="header" href="#314211-property-output-names"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i0"></a>3.1.4.2.1.1. Property <code>Output Names</code></a></h6>
+<h6 id="319211-property-output-names"><a class="header" href="#319211-property-output-names"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i0"></a>3.1.9.2.1.1. Property <code>Output Names</code></a></h6>
 <p><strong>Title:</strong> Output Names</p>
 <div class="table-wrapper">
 <table>
@@ -2046,7 +2265,7 @@ must respect the following conditions</p>
 </tbody>
 </table>
 </div>
-<h6 id="3142111-output-name"><a class="header" href="#3142111-output-name"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i0_items"></a>3.1.4.2.1.1.1. Output name</a></h6>
+<h6 id="3192111-output-name"><a class="header" href="#3192111-output-name"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i0_items"></a>3.1.9.2.1.1.1. Output name</a></h6>
 <p><strong>Title:</strong> Output name</p>
 <div class="table-wrapper">
 <table>
@@ -2061,7 +2280,7 @@ must respect the following conditions</p>
 </table>
 </div>
 <p><strong>Description:</strong> Name of the derivation output to depend on</p>
-<h6 id="314212-property-dynamic-outputs"><a class="header" href="#314212-property-dynamic-outputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1"></a>3.1.4.2.1.2. Property <code>Dynamic Outputs</code></a></h6>
+<h6 id="319212-property-dynamic-outputs"><a class="header" href="#319212-property-dynamic-outputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1"></a>3.1.9.2.1.2. Property <code>Dynamic Outputs</code></a></h6>
 <p><strong>Title:</strong> Dynamic Outputs</p>
 <div class="table-wrapper">
 <table>
@@ -2089,7 +2308,7 @@ must respect the following conditions</p>
 </tbody>
 </table>
 </div>
-<h6 id="3142121-property-outputs"><a class="header" href="#3142121-property-outputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_outputs"></a>3.1.4.2.1.2.1. Property <code>outputs</code></a></h6>
+<h6 id="3192121-property-outputs"><a class="header" href="#3192121-property-outputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_outputs"></a>3.1.9.2.1.2.1. Property <code>outputs</code></a></h6>
 <p><strong>Title:</strong> Output Names</p>
 <div class="table-wrapper">
 <table>
@@ -2104,7 +2323,7 @@ must respect the following conditions</p>
 </table>
 </div>
 <p><strong>Description:</strong> Set of names of derivation outputs to depend on</p>
-<h6 id="3142122-property-dynamicoutputs"><a class="header" href="#3142122-property-dynamicoutputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_dynamicOutputs"></a>3.1.4.2.1.2.2. Property <code>dynamicOutputs</code></a></h6>
+<h6 id="3192122-property-dynamicoutputs"><a class="header" href="#3192122-property-dynamicoutputs"><a name="derivations_pattern1_inputs_drvs_pattern1_pattern3_i1_dynamicOutputs"></a>3.1.9.2.1.2.2. Property <code>dynamicOutputs</code></a></h6>
 <p><strong>Title:</strong> Dynamic Outputs</p>
 <div class="table-wrapper">
 <table>
@@ -2121,150 +2340,6 @@ must respect the following conditions</p>
 </div>
 <p><strong>Description:</strong> <strong>Experimental feature</strong>: <a href="../../development/experimental-features.html#xp-feature-dynamic-derivations"><code>dynamic-derivations</code></a></p>
 <p>This recursive data type allows for depending on outputs of outputs.</p>
-<h4 id="315-property-system"><a class="header" href="#315-property-system"><a name="derivations_pattern1_system"></a>3.1.5. Property <code>system</code></a></h4>
-<p><strong>Title:</strong> Build system type</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> The system type on which this derivation is to be built
-(e.g. <code>x86_64-linux</code>).</p>
-<h4 id="316-property-builder"><a class="header" href="#316-property-builder"><a name="derivations_pattern1_builder"></a>3.1.6. Property <code>builder</code></a></h4>
-<p><strong>Title:</strong> Build program path</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> Absolute path of the program used to perform the build.
-Typically this is the <code>bash</code> shell
-(e.g. <code>/nix/store/p4xlj4imjbnm4v0x5jf4qysvyjjlgq1d-bash-4.4-p23/bin/bash</code>).</p>
-<h4 id="317-property-args"><a class="header" href="#317-property-args"><a name="derivations_pattern1_args"></a>3.1.7. Property <code>args</code></a></h4>
-<p><strong>Title:</strong> Builder arguments</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> Command-line arguments passed to the <code>builder</code>.</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th>Array restrictions</th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Min items</strong></td><td>N/A</td></tr>
-<tr><td><strong>Max items</strong></td><td>N/A</td></tr>
-<tr><td><strong>Items unicity</strong></td><td>False</td></tr>
-<tr><td><strong>Additional items</strong></td><td>False</td></tr>
-<tr><td><strong>Tuple validation</strong></td><td>See below</td></tr>
-</tbody>
-</table>
-</div>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Each item of this array must be</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><a href="#derivations_pattern1_args_items">args items</a></td><td>-</td></tr>
-</tbody>
-</table>
-</div>
-<h5 id="3171-args-items"><a class="header" href="#3171-args-items"><a name="derivations_pattern1_args_items"></a>3.1.7.1. args items</a></h5>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-</tbody>
-</table>
-</div>
-<h4 id="318-property-env"><a class="header" href="#318-property-env"><a name="derivations_pattern1_env"></a>3.1.8. Property <code>env</code></a></h4>
-<p><strong>Title:</strong> Environment variables</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-<tr><td><strong>Additional properties</strong></td><td><a href="#derivations_pattern1_env_additionalProperties">Each additional property must conform to the schema</a></td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> Environment variables passed to the <code>builder</code>.</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
-</thead>
-<tbody>
-<tr><td>- <a href="#derivations_pattern1_env_additionalProperties"></a></td><td>string</td><td>No</td><td>-</td></tr>
-</tbody>
-</table>
-</div>
-<h5 id="3181-property-additionalproperties"><a class="header" href="#3181-property-additionalproperties"><a name="derivations_pattern1_env_additionalProperties"></a>3.1.8.1. Property <code>additionalProperties</code></a></h5>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-</tbody>
-</table>
-</div>
-<h4 id="319-property-structuredattrs"><a class="header" href="#319-property-structuredattrs"><a name="derivations_pattern1_structuredAttrs"></a>3.1.9. Property <code>structuredAttrs</code></a></h4>
-<p><strong>Title:</strong> Structured attributes</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> <a href="../../store/derivation/index.html#structured-attrs">Structured Attributes</a>, only defined if the derivation contains them.
-Structured attributes are JSON, and thus embedded as-is.</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
-</thead>
-<tbody>
-<tr><td>- <a href="#derivations_pattern1_structuredAttrs_additionalProperties"></a></td><td>object</td><td>No</td><td>-</td></tr>
-</tbody>
-</table>
-</div>
 <h2 id="4-property-buildtrace"><a class="header" href="#4-property-buildtrace"><a name="buildTrace"></a>4. Property <code>buildTrace</code></a></h2>
 <p><strong>Title:</strong> Build Trace</p>
 <div class="table-wrapper">
@@ -2331,11 +2406,11 @@ must respect the following conditions</p>
 <tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
 <tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-<tr><td><strong>Defined in</strong></td><td>./build-trace-entry-v2.yaml#/$defs/value</td></tr>
+<tr><td><strong>Defined in</strong></td><td>./build-trace-entry-v3.yaml#/$defs/value</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> A <a href="../../store/build-trace.html">build trace entry</a> is a key-value pair.
+<p><strong>Description:</strong> A <a href="../../store/build-trace.html#entry">build trace entry</a> is a key-value pair.
 This is the “value” part, describing an output.</p>
 <div class="table-wrapper">
 <table>
@@ -2344,7 +2419,7 @@ This is the “value” part, describing an output.</p>
 </thead>
 <tbody>
 <tr><td>+ <a href="#buildTrace_pattern1_additionalProperties_outPath">outPath</a></td><td>string</td><td>No</td><td>Output Store Path</td></tr>
-<tr><td>+ <a href="#buildTrace_pattern1_additionalProperties_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Build Signatures</td></tr>
+<tr><td>+ <a href="#buildTrace_pattern1_additionalProperties_signatures">signatures</a></td><td>array</td><td>No</td><td>Build Signatures</td></tr>
 </tbody>
 </table>
 </div>
@@ -2382,7 +2457,7 @@ This is the “value” part, describing an output.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
@@ -2408,7 +2483,7 @@ This is the “value” part, describing an output.</p>
 <tr><th>Each item of this array must be</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#buildTrace_pattern1_additionalProperties_signatures_items">Signature</a></td><td>A single cryptographic signature</td></tr>
+<tr><td><a href="#buildTrace_pattern1_additionalProperties_signatures_items">Signature</a></td><td>A cryptographic signature along with the name of the key that produced it. …</td></tr>
 </tbody>
 </table>
 </div>
@@ -2420,12 +2495,30 @@ This is the “value” part, describing an output.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#contents_pattern1_info_signatures_items">Signature</a></td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> A single cryptographic signature</p>
+<p><strong>Description:</strong> A cryptographic signature along with the name of the key that produced it.</p>
+<p>This schema describes the JSON representation of signatures as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="version-history-1"><a class="header" href="#version-history-1">Version History</a></h2>
+<ul>
+<li>
+<p>Version 1: Colon-separated string in the format <code>&lt;key-name&gt;:&lt;signature-in-Base64&gt;</code></p>
+</li>
+<li>
+<p>Version 2: Structured object with <code>keyName</code> and <code>sig</code> fields</p>
+</li>
+</ul>
 <hr>
 <h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
 <h3 id="empty-store"><a class="header" href="#empty-store">Empty store</a></h3>
@@ -2465,7 +2558,7 @@ This is the “value” part, describing an output.</p>
         "signatures": [],
         "storeDir": "/nix/store",
         "ultimate": false,
-        "version": 2
+        "version": 3
       }
     }
   },
@@ -2550,7 +2643,7 @@ This is the “value” part, describing an output.</p>
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

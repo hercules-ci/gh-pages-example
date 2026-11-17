@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix-store --import - Nix 2.34.9 Reference Manual</title>
+        <title>nix-store --import - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -464,31 +464,26 @@ Also note the warning under <code>nix-store --repair-path</code>.</p>
 <p>See <a href="../../command-ref/conf-file.html#command-line-flags"><code>man nix.conf</code></a> for overriding configuration settings with command line flags.</p>
 </blockquote>
 <h1 id="common-environment-variables"><a class="header" href="#common-environment-variables">Common Environment Variables</a></h1>
-<p>Most Nix commands interpret the following environment variables:</p>
+<p>Most Nix commands interpret the following environment variables.</p>
+<h2 id="configuration-environment-variables"><a class="header" href="#configuration-environment-variables">Configuration environment variables</a></h2>
+<p>The following environment variables affect how Nix loads its configuration.
+See the <a href="../../command-ref/conf-file.html#configuration-file">configuration file</a> documentation for full details.</p>
 <ul>
 <li>
-<p><span id="env-IN_NIX_SHELL"><a href="#env-IN_NIX_SHELL"><code>IN_NIX_SHELL</code></a></span></p>
-<p>Indicator that tells if the current environment was set up by
-<code>nix-shell</code>. It can have the values <code>pure</code> or <code>impure</code>.</p>
+<p><span id="env-NIX_CONF_DIR"><a href="#env-NIX_CONF_DIR"><code>NIX_CONF_DIR</code></a></span></p>
+<p>Overrides the system configuration directory.</p>
 </li>
 <li>
-<p><span id="env-NIX_PATH"><a href="#env-NIX_PATH"><code>NIX_PATH</code></a></span></p>
-<p>A colon-separated list of search path entries used to resolve <a href="../../language/constructs/lookup-path.html">lookup paths</a>.</p>
-<p>This environment variable overrides the value of the <a href="../../command-ref/conf-file.html#conf-nix-path"><code>nix-path</code> configuration setting</a>.</p>
-<p>It can be extended using the <a href="../../command-ref/opt-common.html#opt-I"><code>-I</code> option</a>.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-bash">$ export NIX_PATH=`/home/eelco/Dev:nixos-config=/etc/nixos
-</code></pre>
-</blockquote>
-<p>If <code>NIX_PATH</code> is set to an empty string, resolving search paths will always fail.</p>
-<blockquote>
-<p><strong>Example</strong></p>
-<pre><code class="language-bash">$ NIX_PATH= nix-instantiate --eval '&lt;nixpkgs&gt;'
-error: file 'nixpkgs' was not found in the Nix search path (add it using $NIX_PATH or -I)
-</code></pre>
-</blockquote>
+<p><span id="env-NIX_USER_CONF_FILES"><a href="#env-NIX_USER_CONF_FILES"><code>NIX_USER_CONF_FILES</code></a></span></p>
+<p>Overrides the user configuration file locations.</p>
 </li>
+<li>
+<p><span id="env-NIX_CONFIG"><a href="#env-NIX_CONFIG"><code>NIX_CONFIG</code></a></span></p>
+<p>Provides configuration settings inline.</p>
+</li>
+</ul>
+<h2 id="store-setting-environment-variables"><a class="header" href="#store-setting-environment-variables">Store setting environment variables</a></h2>
+<ul>
 <li>
 <p><span id="env-NIX_IGNORE_SYMLINK_STORE"><a href="#env-NIX_IGNORE_SYMLINK_STORE"><code>NIX_IGNORE_SYMLINK_STORE</code></a></span></p>
 <p>Normally, the Nix store directory (typically <code>/nix/store</code>) is not
@@ -510,35 +505,30 @@ $ mount -o bind /mnt/otherdisk/nix /nix
 </li>
 <li>
 <p><span id="env-NIX_STORE_DIR"><a href="#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a></span></p>
-<p>Overrides the location of the Nix store (default <code>prefix/store</code>).</p>
+<p>Overrides the location of the Nix store.
+On Unix, the default is <code>/nix/store</code>, set at compile time by the <code>libstore:store-dir</code> build option.
+On Windows, there is no compile-time setting; the default is <code>%PROGRAMDATA%\nix\store</code>, determined at runtime using the <a href="#known-folders"><code>%PROGRAMDATA%</code> Known Folder</a>.</p>
+<p>See the <a href="../../store/types/index.html">Store Types</a> chapter; each store has a <code>store</code> setting linking back to this as its default.</p>
 </li>
 <li>
 <p><span id="env-NIX_LOG_DIR"><a href="#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a></span></p>
-<p>Overrides the location of the Nix log directory (default
-<code>prefix/var/log/nix</code>).</p>
+<p>Overrides the location of the Nix log directory.
+On Unix, the default is <code>/nix/var/log/nix</code>, set at compile time by the <code>log-dir</code> build option.
+On Windows, there is no compile-time setting; the default is <code>%PROGRAMDATA%\nix\log</code>, determined at runtime using the <a href="#known-folders"><code>%PROGRAMDATA%</code> Known Folder</a>.</p>
+<p>The <a href="../../store/types/local-store.html">Local Store</a>, <a href="../../store/types/local-daemon-store.html">Local Daemon Store</a>, and <a href="../../store/types/experimental-ssh-store-with-filesystem-mounted.html">Experimental SSH Store with filesystem mounted</a> have per-store settings that override this.</p>
 </li>
 <li>
 <p><span id="env-NIX_STATE_DIR"><a href="#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a></span></p>
-<p>Overrides the location of the Nix state directory (default
-<code>prefix/var/nix</code>).</p>
+<p>Overrides the location of the Nix state directory.
+On Unix, the default is <code>${localstatedir}/nix</code>, where <code>localstatedir</code> is a compile-time build option defaulting to <code>/nix/var</code>.
+On Windows, there is no compile-time setting; the default is <code>%PROGRAMDATA%\nix\state</code>, determined at runtime using the <a href="#known-folders"><code>%PROGRAMDATA%</code> Known Folder</a>.</p>
+<p>The <a href="../../store/types/local-store.html">Local Store</a>, <a href="../../store/types/local-daemon-store.html">Local Daemon Store</a>, and <a href="../../store/types/experimental-ssh-store-with-filesystem-mounted.html">Experimental SSH Store with filesystem mounted</a> have per-store settings that override this.</p>
 </li>
 <li>
-<p><span id="env-NIX_CONF_DIR"><a href="#env-NIX_CONF_DIR"><code>NIX_CONF_DIR</code></a></span></p>
-<p>Overrides the location of the system Nix configuration directory
-(default <code>sysconfdir/nix</code>, i.e. <code>/etc/nix</code> on most systems).</p>
-</li>
-<li>
-<p><span id="env-NIX_CONFIG"><a href="#env-NIX_CONFIG"><code>NIX_CONFIG</code></a></span></p>
-<p>Applies settings from Nix configuration from the environment.
-The content is treated as if it was read from a Nix configuration file.
-Settings are separated by the newline character.</p>
-</li>
-<li>
-<p><span id="env-NIX_USER_CONF_FILES"><a href="#env-NIX_USER_CONF_FILES"><code>NIX_USER_CONF_FILES</code></a></span></p>
-<p>Overrides the location of the Nix user configuration files to load from.</p>
-<p>The default are the locations according to the <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a>.
-See the <a href="#xdg-base-directories">XDG Base Directories</a> sub-section for details.</p>
-<p>The variable is treated as a list separated by the <code>:</code> token.</p>
+<p><span id="env-NIX_DAEMON_SOCKET_PATH"><a href="#env-NIX_DAEMON_SOCKET_PATH"><code>NIX_DAEMON_SOCKET_PATH</code></a></span></p>
+<p>Overrides the path to the Unix domain socket used to communicate with the Nix daemon.
+Defaults to <code>daemon-socket/socket</code> within the state directory (see <a href="#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a>).</p>
+<p>See the <a href="../../store/types/local-daemon-store.html">Local Daemon Store</a> documentation for details on how the socket path is resolved.</p>
 </li>
 <li>
 <p><span id="env-TMPDIR"><a href="#env-TMPDIR"><code>TMPDIR</code></a></span></p>
@@ -548,13 +538,11 @@ substantial amounts of disk space. The default is <code>/tmp</code>.</p>
 </li>
 <li>
 <p><span id="env-NIX_REMOTE"><a href="#env-NIX_REMOTE"><code>NIX_REMOTE</code></a></span></p>
-<p>This variable should be set to <code>daemon</code> if you want to use the Nix
-daemon to execute Nix operations. This is necessary in <a href="../../installation/multi-user.html">multi-user
-Nix installations</a>. If the Nix
-daemon’s Unix socket is at some non-standard path, this variable
-should be set to <code>unix://path/to/socket</code>. Otherwise, it should be
-left unset.</p>
+<p>Overrides the <a href="../../command-ref/conf-file.html#conf-store"><code>store</code></a> setting.</p>
 </li>
+</ul>
+<h2 id="nix-language-evaluator-settings"><a class="header" href="#nix-language-evaluator-settings">Nix language evaluator settings</a></h2>
+<ul>
 <li>
 <p><span id="env-NIX_SHOW_STATS"><a href="#env-NIX_SHOW_STATS"><code>NIX_SHOW_STATS</code></a></span></p>
 <p>If set to <code>1</code>, Nix will print some evaluation statistics, such as
@@ -573,30 +561,73 @@ variable sets the initial size of the heap in bytes. It defaults to
 384 MiB. Setting it to a low value reduces memory consumption, but
 will increase runtime due to the overhead of garbage collection.</p>
 </li>
+<li>
+<p><span id="env-NIX_PATH"><a href="#env-NIX_PATH"><code>NIX_PATH</code></a></span></p>
+<p>A colon-separated list of search path entries used to resolve <a href="../../language/constructs/lookup-path.html">lookup paths</a>.</p>
+<p>This environment variable overrides the value of the <a href="../../command-ref/conf-file.html#conf-nix-path"><code>nix-path</code> configuration setting</a>.</p>
+<p>It can be extended using the <a href="../../command-ref/opt-common.html#opt-I"><code>-I</code> option</a>.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-bash">$ export NIX_PATH=/home/eelco/Dev:nixos-config=/etc/nixos
+</code></pre>
+</blockquote>
+<p>If <code>NIX_PATH</code> is set to an empty string, resolving search paths will always fail.</p>
+<blockquote>
+<p><strong>Example</strong></p>
+<pre><code class="language-bash">$ NIX_PATH= nix-instantiate --eval '&lt;nixpkgs&gt;'
+error: file 'nixpkgs' was not found in the Nix search path (add it using $NIX_PATH or -I)
+</code></pre>
+</blockquote>
+</li>
 </ul>
-<h2 id="xdg-base-directories"><a class="header" href="#xdg-base-directories">XDG Base Directories</a></h2>
-<p>Nix follows the <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a>.</p>
-<p>For backwards compatibility, Nix commands will follow the standard only when <a href="../../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is enabled.
-<a href="../../command-ref/new-cli/nix.html">New Nix commands</a> (experimental) conform to the standard by default.</p>
-<p>The following environment variables are used to determine locations of various state and configuration files:</p>
+<h2 id="user-directories"><a class="header" href="#user-directories">User Directories</a></h2>
+<p>Nix supports per-user <strong>configuration</strong>, <strong>state</strong>, and <strong>cache</strong> directories.
+The following environment variables override the locations for these directories:</p>
+<ul>
+<li><a href="#user-conf-dir" id="user-conf-dir">user configuration directory</a>: <a href="#env-NIX_CONFIG_HOME" id="env-NIX_CONFIG_HOME"><code>NIX_CONFIG_HOME</code></a></li>
+<li>user state directory: <a href="#env-NIX_STATE_HOME" id="env-NIX_STATE_HOME"><code>NIX_STATE_HOME</code></a></li>
+<li>user cache directory: <a href="#env-NIX_CACHE_HOME" id="env-NIX_CACHE_HOME"><code>NIX_CACHE_HOME</code></a></li>
+</ul>
+<p>When these are not set, the defaults depend on the platform:</p>
+<ul>
+<li>On Unix, the <a href="#xdg-base-directories">XDG base directories</a>: <code>$XDG_CONFIG_HOME/nix</code>, <code>$XDG_STATE_HOME/nix</code>, <code>$XDG_CACHE_HOME/nix</code></li>
+<li>On Windows, the <a href="#known-folders">Windows Known Folders</a>: <code>%APPDATA%\nix\config</code>, <code>%LOCALAPPDATA%\nix\state</code>, <code>%LOCALAPPDATA%\nix\cache</code></li>
+</ul>
+<p>For backwards compatibility, legacy Nix commands (e.g. <code>nix-env</code>, <code>nix-channel</code>) use dotfiles in <code>$HOME</code> instead of these directories unless <a href="../../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is enabled.
+<a href="../../command-ref/new-cli/nix.html">New Nix commands</a> (experimental) use the proper directories by default.</p>
+<p>When <a href="../../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is enabled, the configuration directory is resolved as:</p>
+<ol>
+<li><code>$NIX_CONFIG_HOME</code>, if it is defined</li>
+<li>Otherwise, the platform default (e.g. <code>$XDG_CONFIG_HOME/nix</code> on Unix)</li>
+</ol>
+<p>Likewise for the state and cache directories.</p>
+<h2 id="miscellaneous-environment-variables"><a class="header" href="#miscellaneous-environment-variables">Miscellaneous environment variables</a></h2>
+<ul>
+<li>
+<p><span id="env-IN_NIX_SHELL"><a href="#env-IN_NIX_SHELL"><code>IN_NIX_SHELL</code></a></span></p>
+<p>Indicator that tells if the current environment was set up by
+<code>nix-shell</code>. It can have the values <code>pure</code> or <code>impure</code>.</p>
+</li>
+</ul>
+<h2 id="appendix-os-specific-conventions"><a class="header" href="#appendix-os-specific-conventions">Appendix: OS-specific conventions</a></h2>
+<p>This information is not Nix-specific, but is referenced above.</p>
+<h3 id="xdg-base-directories"><a class="header" href="#xdg-base-directories">Unix: XDG Base Directories</a></h3>
+<p>The <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a> defines standard locations for user-specific configuration, state, and cache files on Unix systems.</p>
+<p>The following environment variables are used:</p>
 <ul>
 <li><a href="#env-XDG_CONFIG_HOME" id="env-XDG_CONFIG_HOME"><code>XDG_CONFIG_HOME</code></a> (default <code>~/.config</code>)</li>
 <li><a href="#env-XDG_STATE_HOME" id="env-XDG_STATE_HOME"><code>XDG_STATE_HOME</code></a> (default <code>~/.local/state</code>)</li>
 <li><a href="#env-XDG_CACHE_HOME" id="env-XDG_CACHE_HOME"><code>XDG_CACHE_HOME</code></a> (default <code>~/.cache</code>)</li>
+<li><a href="#env-XDG_CONFIG_DIRS" id="env-XDG_CONFIG_DIRS"><code>XDG_CONFIG_DIRS</code></a> (default <code>/etc/xdg</code>) — colon-separated list of additional configuration base directories, searched after <code>XDG_CONFIG_HOME</code></li>
 </ul>
-<p>In addition, setting the following environment variables overrides the XDG base directories:</p>
+<h3 id="known-folders"><a class="header" href="#known-folders">Windows: Known Folders</a></h3>
+<p>On Windows, <a href="https://learn.microsoft.com/en-us/windows/win32/shell/known-folders">Known Folders</a> provide standard locations for application data on Windows.</p>
+<p>The relevant folders are:</p>
 <ul>
-<li><a href="#env-NIX_CONFIG_HOME" id="env-NIX_CONFIG_HOME"><code>NIX_CONFIG_HOME</code></a> (default <code>$XDG_CONFIG_HOME/nix</code>)</li>
-<li><a href="#env-NIX_STATE_HOME" id="env-NIX_STATE_HOME"><code>NIX_STATE_HOME</code></a> (default <code>$XDG_STATE_HOME/nix</code>)</li>
-<li><a href="#env-NIX_CACHE_HOME" id="env-NIX_CACHE_HOME"><code>NIX_CACHE_HOME</code></a> (default <code>$XDG_CACHE_HOME/nix</code>)</li>
+<li><a href="#env-APPDATA" id="env-APPDATA"><code>%APPDATA%</code></a> — per-user roaming application data</li>
+<li><a href="#env-LOCALAPPDATA" id="env-LOCALAPPDATA"><code>%LOCALAPPDATA%</code></a> — per-user local application data</li>
+<li><a href="#env-PROGRAMDATA" id="env-PROGRAMDATA"><code>%PROGRAMDATA%</code></a> — system-wide application data</li>
 </ul>
-<p>When <a href="../../command-ref/conf-file.html#conf-use-xdg-base-directories"><code>use-xdg-base-directories</code></a> is enabled, the configuration directory is:</p>
-<ol>
-<li><code>$NIX_CONFIG_HOME</code>, if it is defined</li>
-<li>Otherwise, <code>$XDG_CONFIG_HOME/nix</code>, if <code>XDG_CONFIG_HOME</code> is defined</li>
-<li>Otherwise, <code>~/.config/nix</code>.</li>
-</ol>
-<p>Likewise for the state and cache directories.</p>
 <h1 id="examples"><a class="header" href="#examples">Examples</a></h1>
 <blockquote>
 <p><strong>Example</strong></p>
@@ -660,7 +691,7 @@ $ nix-store --export $(nix-store --query --requisites $storePath) &gt; hello.clo
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

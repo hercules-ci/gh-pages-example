@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix-hash - Nix 2.34.9 Reference Manual</title>
+        <title>nix-hash - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -232,20 +232,20 @@ The result is identical to that produced by the GNU commands
 </li>
 <li>
 <p><code>--base32</code></p>
-<p>Print the hash in a base-32 representation rather than hexadecimal.
-This base-32 representation is more compact and can be used in Nix
+<p>Print the hash in <a href="../protocols/nix32.html">Nix32</a> representation rather than hexadecimal.
+This representation is more compact and can be used in Nix
 expressions (such as in calls to <code>fetchurl</code>).</p>
 </li>
 <li>
 <p><code>--base64</code></p>
-<p>Similar to –base32, but print the hash in a base-64 representation,
-which is more compact than the base-32 one.</p>
+<p>Similar to <code>--base32</code>, but print the hash in a <a href="https://en.wikipedia.org/wiki/Base64">Base64</a> representation,
+which is more compact than the Nix32 one.</p>
 </li>
 <li>
 <p><code>--sri</code></p>
-<p>Print the hash in SRI format with base-64 encoding.
+<p>Print the hash in <a href="../glossary.html#gloss-sri">SRI</a> format with Base64 encoding.
 The type of hash algorithm will be prepended to the hash string,
-followed by a hyphen (-) and the base-64 hash body.</p>
+followed by a hyphen (-) and the Base64 hash body.</p>
 </li>
 <li>
 <p><code>--truncate</code></p>
@@ -258,18 +258,18 @@ followed by a hyphen (-) and the base-64 hash body.</p>
 </li>
 <li>
 <p><code>--to-base16</code></p>
-<p>Don’t hash anything, but convert the base-32 hash representation
+<p>Don’t hash anything, but convert the <a href="../protocols/nix32.html">Nix32</a> hash representation
 <em>hash</em> to hexadecimal.</p>
 </li>
 <li>
 <p><code>--to-base32</code></p>
 <p>Don’t hash anything, but convert the hexadecimal hash representation
-<em>hash</em> to base-32.</p>
+<em>hash</em> to <a href="../protocols/nix32.html">Nix32</a>.</p>
 </li>
 <li>
 <p><code>--to-base64</code></p>
 <p>Don’t hash anything, but convert the hexadecimal hash representation
-<em>hash</em> to base-64.</p>
+<em>hash</em> to Base64.</p>
 </li>
 <li>
 <p><code>--to-sri</code></p>
@@ -315,7 +315,7 @@ error: reading file `test/': Is a directory
 $ nix-hash --type sha256 --flat test/world
 5891b5b522d5df086d0ff0b110fbd9d21bb4fc7163af34d08286a2e846f6be03
 </code></pre>
-<p>Converting between hexadecimal, base-32, base-64, and SRI:</p>
+<p>Converting between hexadecimal, Nix32, Base64, and SRI:</p>
 <pre><code class="language-console">$ nix-hash --type sha1 --to-base32 e4fd8ba5f7bbeaea5ace89fe10255536cd60dab6
 nvd61k9nalji1zl9rrdfmsmvyyjqpzg4
 
@@ -383,7 +383,7 @@ e4fd8ba5f7bbeaea5ace89fe10255536cd60dab6
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

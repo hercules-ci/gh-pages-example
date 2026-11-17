@@ -1,0 +1,641 @@
+<!DOCTYPE HTML>
+<html lang="en" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Release 2.35 (2026-06-22) - Nix 2.35.6 Reference Manual</title>
+
+
+        <!-- Custom HTML head -->
+        <script>
+        MathJax = {
+          loader: {load: ['[tex]/bussproofs']},
+          tex: {
+            packages: {'[+]': ['bussproofs']},
+            // Doesn't seem to work in mathjax 3
+            //formatError: function(jax, error) {
+            //  console.log(`TeX error in "${jax.latex}": ${error.message}`);
+            //  return jax.formatError(error);
+            //}
+          }
+        };
+        </script>
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon-de23e50b.svg">
+        <link rel="shortcut icon" href="../favicon-8114d1fc.png">
+        <link rel="stylesheet" href="../css/variables-8adf115d.css">
+        <link rel="stylesheet" href="../css/general-e96d0476.css">
+        <link rel="stylesheet" href="../css/chrome-d279d366.css">
+        <link rel="stylesheet" href="../css/print-9e4910d8.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../fonts/fonts-9644e21d.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" id="mdbook-highlight-css" href="../highlight-493f70e1.css">
+        <link rel="stylesheet" id="mdbook-tomorrow-night-css" href="../tomorrow-night-4c0ae647.css">
+        <link rel="stylesheet" id="mdbook-ayu-highlight-css" href="../ayu-highlight-3fdfc3ac.css">
+
+        <!-- Custom theme stylesheets -->
+        <link rel="stylesheet" href="../custom-80d08c7f.css">
+
+        <!-- MathJax -->
+
+        <!-- Provide site root and default themes to javascript -->
+        <script>
+            const path_to_root = "../";
+            const default_light_theme = "light";
+            const default_dark_theme = "navy";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc-7c874087.js"></script>
+    </head>
+    <body>
+    <div id="mdbook-help-container">
+        <div id="mdbook-help-popup">
+            <h2 class="mdbook-help-title">Keyboard shortcuts</h2>
+            <div>
+                <p>Press <kbd>←</kbd> or <kbd>→</kbd> to navigate between chapters</p>
+                <p>Press <kbd>S</kbd> or <kbd>/</kbd> to search in the book</p>
+                <p>Press <kbd>?</kbd> to show this help</p>
+                <p>Press <kbd>Esc</kbd> to hide this help</p>
+            </div>
+        </div>
+    </div>
+    <div id="mdbook-body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                let theme = localStorage.getItem('mdbook-theme');
+                let sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            const default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? default_dark_theme : default_light_theme;
+            let theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="mdbook-sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            let sidebar = null;
+            const sidebar_toggle = document.getElementById("mdbook-sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+                sidebar_toggle.checked = false;
+            }
+            if (sidebar === 'visible') {
+                sidebar_toggle.checked = true;
+            } else {
+                html.classList.remove('sidebar-visible');
+            }
+        </script>
+
+        <nav id="mdbook-sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="mdbook-sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="mdbook-page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="mdbook-menu-bar-hover-placeholder"></div>
+                <div id="mdbook-menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="mdbook-sidebar-toggle" class="icon-button" for="mdbook-sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="mdbook-sidebar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M0 96C0 78.3 14.3 64 32 64H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32C14.3 128 0 113.7 0 96zM0 256c0-17.7 14.3-32 32-32H416c17.7 0 32 14.3 32 32s-14.3 32-32 32H32c-17.7 0-32-14.3-32-32zM448 416c0 17.7-14.3 32-32 32H32c-17.7 0-32-14.3-32-32s14.3-32 32-32H416c17.7 0 32 14.3 32 32z"/></svg></span>
+                        </label>
+                        <button id="mdbook-theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="mdbook-theme-list">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M371.3 367.1c27.3-3.9 51.9-19.4 67.2-42.9L600.2 74.1c12.6-19.5 9.4-45.3-7.6-61.2S549.7-4.4 531.1 9.6L294.4 187.2c-24 18-38.2 46.1-38.4 76.1L371.3 367.1zm-19.6 25.4l-116-104.4C175.9 290.3 128 339.6 128 400c0 3.9 .2 7.8 .6 11.6c1.8 17.5-10.2 36.4-27.8 36.4H96c-17.7 0-32 14.3-32 32s14.3 32 32 32H240c61.9 0 112-50.1 112-112c0-2.5-.1-5-.2-7.5z"/></svg></span>
+                        </button>
+                        <ul id="mdbook-theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-default_theme">Auto</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="mdbook-theme-ayu">Ayu</button></li>
+                        </ul>
+                        <button id="mdbook-search-toggle" class="icon-button" type="button" title="Search (`/`)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="/ s" aria-controls="mdbook-searchbar">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352c79.5 0 144-64.5 144-144s-64.5-144-144-144S64 128.5 64 208s64.5 144 144 144z"/></svg></span>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <span class=fa-svg id="print-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M128 0C92.7 0 64 28.7 64 64v96h64V64H354.7L384 93.3V160h64V93.3c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0H128zM384 352v32 64H128V384 368 352H384zm64 32h32c17.7 0 32-14.3 32-32V256c0-35.3-28.7-64-64-64H64c-35.3 0-64 28.7-64 64v96c0 17.7 14.3 32 32 32H64v64c0 35.3 28.7 64 64 64H384c35.3 0 64-28.7 64-64V384zm-16-88c-13.3 0-24-10.7-24-24s10.7-24 24-24s24 10.7 24 24s-10.7 24-24 24z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/NixOS/nix" title="Git repository" aria-label="Git repository">
+                            <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></span>
+                        </a>
+                        <a href="https://github.com/NixOS/nix/tree/master/doc/manual/source/release-notes/rl-2.35.md" title="Suggest an edit" aria-label="Suggest an edit" rel="edit">
+                            <span class=fa-svg id="git-edit-button"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M421.7 220.3l-11.3 11.3-22.6 22.6-205 205c-6.6 6.6-14.8 11.5-23.8 14.1L30.8 511c-8.4 2.5-17.5 .2-23.7-6.1S-1.5 489.7 1 481.2L38.7 353.1c2.6-9 7.5-17.2 14.1-23.8l205-205 22.6-22.6 11.3-11.3 33.9 33.9 62.1 62.1 33.9 33.9zM96 353.9l-9.3 9.3c-.9 .9-1.6 2.1-2 3.4l-25.3 86 86-25.3c1.3-.4 2.5-1.1 3.4-2l9.3-9.3H112c-8.8 0-16-7.2-16-16V353.9zM453.3 19.3l39.4 39.4c25 25 25 65.5 0 90.5l-14.5 14.5-22.6 22.6-11.3 11.3-33.9-33.9-62.1-62.1L314.3 67.7l11.3-11.3 22.6-22.6 14.5-14.5c25-25 65.5-25 90.5 0z"/></svg></span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="mdbook-search-wrapper" class="hidden">
+                    <form id="mdbook-searchbar-outer" class="searchbar-outer">
+                        <div class="search-wrapper">
+                            <input type="search" id="mdbook-searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="mdbook-searchresults-outer" aria-describedby="searchresults-header">
+                            <div class="spinner-wrapper">
+                                <span class=fa-svg id="fa-spin"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M304 48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zm0 416c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM48 304c26.5 0 48-21.5 48-48s-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48zm464-48c0-26.5-21.5-48-48-48s-48 21.5-48 48s21.5 48 48 48s48-21.5 48-48zM142.9 437c18.7-18.7 18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zm0-294.2c18.7-18.7 18.7-49.1 0-67.9S93.7 56.2 75 75s-18.7 49.1 0 67.9s49.1 18.7 67.9 0zM369.1 437c18.7 18.7 49.1 18.7 67.9 0s18.7-49.1 0-67.9s-49.1-18.7-67.9 0s-18.7 49.1 0 67.9z"/></svg></span>
+                            </div>
+                        </div>
+                    </form>
+                    <div id="mdbook-searchresults-outer" class="searchresults-outer hidden">
+                        <div id="mdbook-searchresults-header" class="searchresults-header"></div>
+                        <ul id="mdbook-searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('mdbook-sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('mdbook-sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#mdbook-sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="mdbook-content" class="content">
+                    <main>
+                        <h1 id="release-2350-2026-06-22"><a class="header" href="#release-2350-2026-06-22">Release 2.35.0 (2026-06-22)</a></h1>
+<h2 id="highlights"><a class="header" href="#highlights">Highlights</a></h2>
+<ul>
+<li>
+<p>Sources are copied to the store more lazily <a href="https://github.com/NixOS/nix/issues/3121">#3121</a> <a href="https://github.com/NixOS/nix/pull/15711">#15711</a> <a href="https://github.com/NixOS/nix/pull/15920">#15920</a></p>
+<p>Historically, flakes source trees have been eagerly fetched to and evaluated from the Nix store to ensure deterministic and hermetic evaluation, even if the resulting store object is not used as a derivation input. This made the implementation simpler, yet made flakes unusable in large repositories and performed unnecessary writes to the store on each change to the source tree.</p>
+<p>Since Nix 2.32, all I/O (excluding <code>path:</code> and <code>hg+:</code>-style inputs) for reading sources during evaluation has been funneled to their original filesystem location (or to the <code>~/.cache/nix/tarball-cache-v2</code> bare git repository for tarball-based inputs). However, the source tree was still fetched to the store – primarily for computing the resulting content-addressed store path. In most cases, (such as importing the <code>nixpkgs</code> package set) this is not necessary.</p>
+<p>Touching (and hashing the NAR serialisation of) the whole source tree is unavoidable, since:</p>
+<ul>
+<li>In case of flake inputs, <code>narHash</code> integrity must be checked eagerly.</li>
+<li>The <code>outPath</code> attribute of a flake must be known in advance, and for backwards compatibility must be a content-addressed store path string with <a href="../language/string-context.html#string-context-constant">constant string context</a> representing the flake source tree.</li>
+</ul>
+<p>Even within the constraints imposed by backwards compatibility requirements, there are several improvements that are achievable. To reduce the number of copies performed, Nix now hashes the input without copying first, assuming that the <code>.outPath</code> will not end up in a derivation attribute and thus would never have to be actually fetched to the store. This comes at the slight cost of doing more work in case the assumption is wrong, but results in less work in typical use cases. The evaluator continues to behave as if the copy was performed:</p>
+<ul>
+<li>Flakes are still evaluated from the store, from the evaluator’s point of view.</li>
+<li><code>toString ./.</code> continues to produce a content-addressed store path string without context.</li>
+<li>Path resolution crossing trees located in the filesystem and in Nix’s view of it (with “virtual” overlays on top) continues to work. For example, the flake source tree can contain a relative symlink pointing outside its corresponding store object (though such usage is discouraged and makes further improvements to laziness intractable).</li>
+<li>Reading files from the flake’s <code>outPath</code> continues to work. For example, such code is well-formed and is not considered <a href="../language/import-from-derivation.html">IFD</a>:</li>
+</ul>
+<pre><code class="language-nix">builtins.readFile ( /. + (builtins.unsafeDiscardStringContext self.outPath) + "/flake.nix" )
+</code></pre>
+<p>Similar treatment has been applied to <code>builtins.fetchTarball</code>, which no longer eagerly copies paths to the store.
+<code>builtins.storePath</code> now also short-circuits on “lazy-ish” store paths and doesn’t substitute unless necessary.</p>
+<p>This change is expected to significantly reduce disk usage required for typical evaluations and results in ~2x speedup for fetching and unpacking a nixpkgs tarball (either via <code>fetchTree</code>/flakes or via <code>fetchTarball</code>).</p>
+</li>
+<li>
+<p>Support FreeBSD <code>libjail</code> based sandboxing, add <code>x86_64-freebsd</code> to installer <a href="https://github.com/NixOS/nix/pull/9968">#9968</a> <a href="https://github.com/NixOS/nix/pull/13281">#13281</a> <a href="https://github.com/NixOS/nix/pull/15673">#15673</a></p>
+<p>The FreeBSD build of Nix now supports build sandboxing via FreeBSD jails and is enabled by default.
+A FreeBSD build has been added to the traditional installer script. The beta rust-based installer is not yet supported.
+FreeBSD support is not as well-tested as Linux or macOS, but is fully capable of building packages and performing other tasks expected of Nix on Linux.</p>
+</li>
+</ul>
+<h2 id="improvements"><a class="header" href="#improvements">Improvements</a></h2>
+<ul>
+<li>
+<p>HTTP/3 (QUIC) support <a href="https://github.com/NixOS/nix/pull/15961">#15961</a></p>
+<p>Nix can now fetch from binary caches and other HTTP(S) sources over HTTP/3 (QUIC), controlled by a new <a href="../command-ref/conf-file.html#conf-http3"><code>http3</code></a> setting (disabled by default).
+When enabled, Nix requests HTTP/3 and transparently falls back to HTTP/2 or HTTP/1.1 for servers that do not advertise QUIC.
+The setting only takes effect when linked against a <code>libcurl</code> built with HTTP/3 support, otherwise it is ignored and Nix keeps using HTTP/2 without warning or error.</p>
+<p>Enable it with:</p>
+<pre><code>nix.conf: http3 = true
+CLI:      --http3
+</code></pre>
+<p>Or disable with:</p>
+<pre><code>nix.conf: http3 = false
+CLI:      --no-http3
+</code></pre>
+</li>
+<li>
+<p>Link mimalloc for faster evaluation <a href="https://github.com/NixOS/nix/pull/15596">#15596</a></p>
+<p>The <code>nix</code> binary now links <a href="https://github.com/microsoft/mimalloc">mimalloc</a> by default, replacing glibc’s malloc for all non-GC allocations.
+This yields a <strong>5–12% wall-clock improvement</strong> on evaluation workloads, ranging from <code>nix-instantiate hello</code> to <code>nix-env -qa</code> and full NixOS configurations.
+The allocator can be disabled at build time with <code>-Dnix:mimalloc=disabled</code>.</p>
+</li>
+<li>
+<p>The <code>revCount</code> attribute of the Git fetchers is now lazily computed and passed-through as-is when explicitly specified <a href="https://github.com/NixOS/nix/pull/15772">#15772</a> <a href="https://github.com/NixOS/nix/pull/14596">#14596</a></p>
+<p><code>revCount</code> and <code>lastModified</code> attributes passed to the Git fetcher are no longer eagerly validated when explicitly specified.</p>
+<p>When not explicitly specified, <code>revCount</code> is now also a thunk value and not computed eagerly. This delays this (potentially) expensive computation until the value is actually required.</p>
+</li>
+<li>
+<p>Configurable file-transfer retry backoff with full jitter and <code>Retry-After</code> support <a href="https://github.com/NixOS/nix/issues/15023">#15023</a> <a href="https://github.com/NixOS/nix/issues/15419">#15419</a> <a href="https://github.com/NixOS/nix/pull/15449">#15449</a></p>
+<p>File transfer retries (downloads and uploads) now use AWS-style “full jitter” exponential backoff, treat HTTP 503 as rate-limited (same longer delay as 429),
+and honor the <code>Retry-After</code> response header.</p>
+<p>Retry timing is configurable via new <code>nix.conf</code> settings:</p>
+<ul>
+<li><a href="../command-ref/conf-file.html#conf-filetransfer-retry-delay"><code>filetransfer-retry-delay</code></a>: base delay for transient errors</li>
+<li><a href="../command-ref/conf-file.html#conf-filetransfer-retry-delay-rate-limited"><code>filetransfer-retry-delay-rate-limited</code></a>: base delay for 429/503</li>
+<li><a href="../command-ref/conf-file.html#conf-filetransfer-retry-max-delay"><code>filetransfer-retry-max-delay</code></a>: per-attempt delay ceiling</li>
+<li><a href="../command-ref/conf-file.html#conf-filetransfer-retry-jitter"><code>filetransfer-retry-jitter</code></a>: enable full jitter</li>
+</ul>
+<p>The existing <code>download-attempts</code> setting has been renamed to <a href="../command-ref/conf-file.html#conf-filetransfer-retry-attempts"><code>filetransfer-retry-attempts</code></a> to reflect that it applies to uploads as well as downloads.
+The old name remains as an alias for backwards compatibility.</p>
+<p>Per-substituter overrides are available as store reference parameters (<a href="../store/types/http-binary-cache-store.html#store-http-binary-cache-store-retry-delay"><code>retry-delay</code></a>, <a href="../store/types/http-binary-cache-store.html#store-http-binary-cache-store-retry-delay-rate-limited"><code>retry-delay-rate-limited</code></a>, <a href="../store/types/http-binary-cache-store.html#store-http-binary-cache-store-retry-max-delay"><code>retry-max-delay</code></a>, <a href="../store/types/http-binary-cache-store.html#store-http-binary-cache-store-retry-attempts"><code>retry-attempts</code></a>), e.g. <code>s3://my-cache?retry-attempts=8</code>.</p>
+</li>
+<li>
+<p>Improve daemon socket path logic for chroot stores <a href="https://github.com/NixOS/nix/pull/15190">#15190</a></p>
+<p>The default daemon socket path now uses the per-store <a href="../store/types/local-store.html#store-local-store-state"><code>state</code></a> directory whenever one is defined, rather than always using the global <a href="../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a>.
+This means <a href="../store/types/local-store.html#chroot">local chroot stores</a> each get their own socket path automatically.</p>
+<p>Example:</p>
+<pre><code class="language-bash">nix-daemon --store /foo/bar
+</code></pre>
+<p>will now use a socket at:</p>
+<pre><code>/foo/bar/nix/var/nix/daemon-socket/socket
+</code></pre>
+<p>instead of</p>
+<pre><code>$NIX_STATE_DIR/daemon-socket/socket
+</code></pre>
+<p>Users who wish to serve or connect to a chroot store at the old location will have to force the socket location:</p>
+<ul>
+<li>
+<p>When serving (running a daemon), use the new <a href="../command-ref/new-cli/nix3-daemon.html#opt-socket-path"><code>--socket-path</code></a> flag:</p>
+<pre><code class="language-bash">nix daemon --socket-path "$NIX_STATE_DIR/daemon-socket/socket"
+</code></pre>
+</li>
+<li>
+<p>When connecting as a client, put the path in the <a href="../store/types/local-daemon-store.html">store URL</a>:</p>
+<pre><code>unix://$NIX_STATE_DIR/daemon-socket/socket
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p>Linux sandbox: also block <code>listxattr</code> syscalls <a href="https://github.com/NixOS/nix/pull/15743">#15743</a></p>
+<p>The Linux sandbox now also returns <code>ENOTSUP</code> for <code>listxattr</code>, <code>llistxattr</code> and <code>flistxattr</code>, matching the existing treatment of <code>getxattr</code>/<code>setxattr</code>/<code>removexattr</code>.
+This prevents host xattrs (e.g. <code>security.selinux</code>) from leaking into builds and fixes tools such as <code>mkfs.ubifs</code> that probe xattr support via <code>listxattr</code>.</p>
+</li>
+<li>
+<p>Support SCP-like URLs in fetchGit and type = “git” flake inputs <a href="https://github.com/NixOS/nix/issues/14852">#14852</a> <a href="https://github.com/NixOS/nix/issues/14867">#14867</a> <a href="https://github.com/NixOS/nix/pull/14863">#14863</a></p>
+<p>Nix now (once again) recognizes <a href="https://git-scm.com/docs/git-clone#_git_urls">SCP-like syntax for Git URLs</a>. This partially
+restores compatibility with Nix 2.3 for <code>fetchGit</code>. The following syntax is once again supported:</p>
+<pre><code class="language-nix">builtins.fetchGit "host:/absolute/path/to/repo"
+</code></pre>
+<p>Nix also passes through the tilde (for home directories) verbatim:</p>
+<pre><code class="language-nix">builtins.fetchGit "host:~/relative/to/home"
+</code></pre>
+<p>IPv6 addresses also supported when bracketed:</p>
+<pre><code class="language-nix">builtins.fetchGit "user@[::1]:~/relative/to/home"
+</code></pre>
+<p><code>builtins.fetchTree</code> also supports this syntax now:</p>
+<pre><code class="language-nix">builtins.fetchTree { type = "git"; url = "host:/path/to/repo"; }
+</code></pre>
+</li>
+<li>
+<p><code>nix flake check</code> now supports <code>--print-out-paths</code> <a href="https://github.com/NixOS/nix/issues/13470">#13470</a> <a href="https://github.com/NixOS/nix/pull/15476">#15476</a> and <code>--out-link</code> <a href="https://github.com/NixOS/nix/issues/13470">#13470</a> <a href="https://github.com/NixOS/nix/pull/15476">#15476</a> defaulting to not creating out links if the flag is not specified.</p>
+</li>
+<li>
+<p>Added <code>--skip-alive</code> (and <code>--skip-live</code> alias for compatibility with Lix users) option to <code>nix store delete</code> for collecting garbage within a closure <a href="https://github.com/NixOS/nix/issues/7239">#7239</a> <a href="https://github.com/NixOS/nix/pull/15236">#15236</a> <a href="https://github.com/NixOS/nix/pull/15727">#15727</a></p>
+<p><code>nix store delete --recursive --skip-alive</code> can be used to collect garbage within a closure, in which case it will only collect the dead paths that are part of the closure of its arguments.
+The additional option <code>--also-referrers</code> is added to support this mode, which allows referrers of paths in the closure to also be deleted.</p>
+</li>
+<li>
+<p><code>builtins.getFlake</code> now supports path values <a href="https://github.com/NixOS/nix/pull/15290">#15290</a></p>
+<p><code>builtins.getFlake</code> now accepts path values in addition to flakerefs. This improves the usability of relative flakes, allowing you to write <code>builtins.getFlake ./subflake</code>.
+This change does not allow specifying paths that are not already in the store (though they do not have valid store objects, i.e. this will not force a copy if the flake has only been hashed – and not copied to the store). This may change in a future release.</p>
+</li>
+<li>
+<p><code>nix-profile.fish</code> and <code>nix-profile-daemon.fish</code> now use <code>$NIX_LINK</code> for computing the value of <code>NIX_PROFILE</code> instead of <code>$HOME/.nix-profile</code> <a href="https://github.com/NixOS/nix/pull/14293">#14293</a></p>
+</li>
+<li>
+<p><code>nix</code> binary now exports symbols from C bindings <a href="https://github.com/NixOS/nix/pull/15696">#15696</a></p>
+<p>This allows Nix plugins written against the C API to look up symbols dynamically without linking to corresponding <code>libnix*c.so</code> libraries.</p>
+</li>
+<li>
+<p>The computed Git LFS endpoint URLs have been fixed to follow the spec <a href="https://github.com/NixOS/nix/pull/15891">#15891</a> and memory usage of LFS fetches has been decreased <a href="https://github.com/NixOS/nix/pull/15912">#15912</a></p>
+</li>
+<li>
+<p>We now verify that fetched Git LFS objects have the same OID as requested <a href="https://github.com/NixOS/nix/pull/15845">#15845</a></p>
+</li>
+<li>
+<p>Primop documentation now includes time complexity information <a href="https://github.com/NixOS/nix/pull/14554">#14554</a></p>
+</li>
+<li>
+<p>Improved documentation on store paths and derivation building <a href="https://github.com/NixOS/nix/pull/14699">#14699</a></p>
+</li>
+<li>
+<p>The <a href="../command-ref/conf-file.html#conf-build-hook">build hook</a> is now killed with <code>SIGTERM</code> instead of <code>SIGKILL</code> <a href="https://github.com/NixOS/nix/pull/15105">#15105</a></p>
+</li>
+<li>
+<p>Download/upload logs strip <code>userinfo</code> URL components <a href="https://github.com/NixOS/nix/pull/15715">#15715</a></p>
+</li>
+</ul>
+<h2 id="content-addressed-derivations-changes"><a class="header" href="#content-addressed-derivations-changes">Content-addressed derivations changes</a></h2>
+<p>The experimental content-addressed (CA) derivation feature has undergone a significant change to how build traces (formerly called “realisations”) are identified.
+This changes the binary cache endpoints for realisations and the daemon/nix-serve protocol (gated behind a daemon protocol feature flag).</p>
+<ul>
+<li>
+<p>Realisations keyed by store path instead of hash modulo <a href="https://github.com/NixOS/nix/issues/11897">#11897</a> <a href="https://github.com/NixOS/nix/pull/12464">#12464</a></p>
+<p>Previously, a build trace entry (realisation) was keyed by the hash modulo of the derivation. In simpler terms, derivations transitively depending on distinct fixed-output derivations with the same <code>outPath</code> would share a realisation.</p>
+<p>Now, build trace entries are keyed by the regular derivation store path (<code>.drvPath</code>) plus the output name. For example, instead of:</p>
+<pre><code>sha256:ba7816bf8f01...!out
+</code></pre>
+<p>The key is now:</p>
+<pre><code>/nix/store/abc...-foo.drv^out
+</code></pre>
+</li>
+<li>
+<p>Removed support for “deep” realisations <a href="https://github.com/NixOS/nix/pull/15289">#15289</a></p>
+<p>Previously the build trace (set of “realisations”) contained entries for both unresolved and <a href="../store/resolution.html">resolved</a> derivations.
+Now, it contains entries exclusively for resolved derivations.
+For now, unresolved derivations will be resolved from these underlying build trace entries.
+This is slower, but has the benefit of making build trace entries stateless and self-describing — making sharing realisations easier between stores.</p>
+<p>This change necessitates changes to the binary cache format:</p>
+<ul>
+<li>The directory for build traces moved from <code>realisations/</code> to <code>build-trace-v2/</code>.</li>
+<li>File paths changed from <code>realisations/&lt;hash&gt;!&lt;output&gt;.doi</code> to <code>build-trace-v2/&lt;drvName&gt;/&lt;outputName&gt;.doi</code>.</li>
+<li>The JSON format of build trace entries is now split into <code>key</code> and <code>value</code> objects:
+<pre><code class="language-json">{
+  "key": {
+    "drvPath": "abc...-foo.drv",
+    "outputName": "out"
+  },
+  "value": {
+    "outPath": "xyz...-foo",
+    "signatures": [{ "keyName": "cache.example.com-1", "sig": "..." }]
+  }
+}
+</code></pre>
+Previously, these were flat objects with a string <code>id</code> field like <code>"sha256:...!out"</code>.</li>
+<li>The deprecated <code>dependentRealisations</code> field has been removed.</li>
+</ul>
+<p>The build trace entries stored in the local SQLite database no longer have any foreign key references to store objects.
+This is because the build trace entries for resolved derivations that may have been deleted need to be preserved, otherwise the outputs of other unresolved derivations will be effectively forgotten.
+GC for the build trace is not yet implemented due to the lack of a clear default policy.</p>
+</li>
+<li>
+<p>Structured signature for realisations and <code>path-info</code> <a href="https://github.com/NixOS/nix/pull/15009">#15009</a></p>
+<p><a href="../protocols/json/signature.html">Signatures</a> in JSON formats are now represented as structured objects with <code>keyName</code> and <code>sig</code> fields, rather than colon-separated strings.
+<code>nix path-info --json --json-format 3</code> opts into the new version for this command.
+JSON parsing accepts both the old string format and new structured format for backwards compatibility.</p>
+<p>This format is also used for the build trace entries in binary caches.</p>
+</li>
+<li>
+<p><code>nix realisation</code> command has been renamed to <code>nix store build-trace</code> <a href="https://github.com/NixOS/nix/pull/16000">#16000</a> <a href="https://github.com/NixOS/nix/pull/15948">#15948</a></p>
+</li>
+</ul>
+<h2 id="build-performance-improvements"><a class="header" href="#build-performance-improvements">Build performance improvements</a></h2>
+<ul>
+<li>
+<p>Make post-build-hook asynchronous <a href="https://github.com/NixOS/nix/issues/15406">#15406</a> <a href="https://github.com/NixOS/nix/pull/15451">#15451</a></p>
+<p>The <a href="../command-ref/conf-file.html#conf-post-build-hook"><code>post-build-hook</code></a> now runs asynchronously, without blocking the build event loop.
+Dependent builds are not started until the hook finishes, but multiple hook instances are now launched concurrently – up to the <a href="../command-ref/conf-file.html#conf-max-jobs"><code>max-jobs</code></a> limit.</p>
+</li>
+<li>
+<p>zstd compression now emits multi-frame output and uses less memory <a href="https://github.com/NixOS/nix/pull/15550">#15550</a></p>
+<p>zstd-compressed NARs are now written as a sequence of independent 16 MiB frames instead of a single large frame.
+This lays the groundwork for parallel decompression in a future release without requiring caches to be repopulated, and significantly lowers peak memory use during compression
+(e.g. from ~600 MiB to ~100 MiB for a 1 GiB store path).</p>
+<p>The output remains standard zstd and is decoded unchanged by existing Nix binaries and the <code>zstd</code> CLI; compression ratio is effectively unchanged.</p>
+<p>Per-frame compression now uses up to 4 worker threads. For zstd this is the new default: the <a href="../store/types/http-binary-cache-store.html#store-http-binary-cache-store-parallel-compression"><code>parallel-compression</code></a> store setting defaults to <code>true</code> when <code>compression=zstd</code> (it remains <code>false</code> for other compression algorithms like <code>xz</code>).
+Set <code>?parallel-compression=false</code> to opt out.</p>
+</li>
+<li>
+<p>More parallelism for binary cache uploads <a href="https://github.com/NixOS/nix/pull/15957">#15957</a></p>
+<p>Uploads of NARs now start without waiting for all references to be uploaded.
+Also, NARs are now uploaded in order of descending (decompressed) NAR size.
+The closure invariant is still maintained by copying <code>.narinfo</code> in a topologically sorted order.</p>
+</li>
+<li>
+<p>The derivation build scheduler memory usage reduction and performance improvements <a href="https://github.com/NixOS/nix/pull/15611">#15611</a> <a href="https://github.com/NixOS/nix/pull/15695">#15695</a></p>
+<p>Memory usage of the derivation build scheduler has been improved to allow more state sharing.
+Inefficiencies leading to quadratic complexity of scheduling build/substitution jobs have been addressed.
+Scheduling resources are allocated more sparingly and freed earlier to reduce peak consumption.</p>
+<p>These improvements amount to ~2-8x less <code>nix-daemon</code> memory usage for typical workloads and more in larger derivation graphs, not accounting for short-lived allocations used during substitution.</p>
+<p>Notably, the current architecture of the build scheduler gets proportionally slower on Linux with larger heaps as derivation “builder” processes are <code>fork</code>-ed directly from the Nix process, which blocks the builder event loop for the duration of the <code>fork</code>. Thus, smaller heap of <code>nix-daemon</code> translates into faster build startups.</p>
+</li>
+<li>
+<p>Concurrent path substitutions and eval-time fetches of the same inputs now run only once <a href="https://github.com/NixOS/nix/pull/15555">#15555</a> <a href="https://github.com/NixOS/nix/pull/15644">#15644</a></p>
+<p>This avoids redundant work in case multiple Nix processes try to substitute/download the same resource concurrently.</p>
+</li>
+<li>
+<p><code>.narinfo</code> lookups in binary caches are more concurrent</p>
+<p>Querying the existence and path metadata in binary caches is now more asynchronous. Operations like <code>nix path-info</code> on large closures are faster and more efficient.
+The build scheduler event loop now doesn’t block on <code>.narinfo</code> queries, which improves performance with passthru binary caches.</p>
+</li>
+</ul>
+<h2 id="bug-fixes"><a class="header" href="#bug-fixes">Bug fixes</a></h2>
+<ul>
+<li>
+<p>Fix hash collision between store paths with self-references and their zeroed-out equivalents <a href="https://github.com/NixOS/nix/issues/15837">#15837</a> <a href="https://github.com/NixOS/nix/pull/15931">#15931</a></p>
+<p>When computing the hash of a NAR with self-references, Nix zeroes out the self-references but also hashes their positions.
+The latter was accidentally lost in Nix 2.17.0, which meant a NAR with self-references could hash to the same store path as an otherwise-identical NAR in which some of the self-references had been zeroed out.</p>
+<p>This release restores hashing the positions of self-references.
+As a consequence, content-addressed store paths derived from self-referential NARs will differ from those produced by Nix 2.17 through 2.34.
+This affects users of the experimental <code>ca-derivations</code> features, as well as users of <code>nix store make-content-addressed</code>.</p>
+</li>
+<li>
+<p>C API: Fix <code>EvalState</code> pointer passed to primop callbacks <a href="https://github.com/NixOS/nix/pull/15300">#15300</a> <a href="https://github.com/NixOS/nix/pull/15383">#15383</a></p>
+<p>The <code>EvalState *</code> passed to C API primop callbacks was incorrectly pointing to the internal <code>nix::EvalState</code> rather than the C API wrapper struct.
+This caused a segfault when the callback used the pointer with C API functions such as <code>nix_alloc_value()</code>.
+The same issue affected <code>printValueAsJSON</code> and <code>printValueAsXML</code> callbacks on external values.</p>
+</li>
+<li>
+<p>GitHub fetcher now validates URL parameters <a href="https://github.com/NixOS/nix/issues/15304">#15304</a> <a href="https://github.com/NixOS/nix/pull/15331">#15331</a></p>
+<p>The <code>github:</code> fetcher now validates URL parameters, and will error if an invalid parameter like <code>tag</code> is provided.</p>
+</li>
+<li>
+<p>Fixed a bug where keep-outputs and keep-derivations can interfere with delete commands <a href="https://github.com/NixOS/nix/pull/15776">#15776</a></p>
+<p>Setting <a href="../command-ref/conf-file.html#conf-keep-derivations"><code>keep-derivations</code></a> to <code>true</code> and trying to delete a derivation with realised outputs would previously fail.
+Same with <a href="../command-ref/conf-file.html#conf-keep-outputs"><code>keep-outputs</code></a> and trying to delete an output that still has derivers.
+These options no longer affect the deletion commands, and are now documented as such.</p>
+</li>
+<li>
+<p>S3 substituters fall back to the URL’s region for STS WebIdentity auth <a href="https://github.com/NixOS/nix/pull/15594">#15594</a></p>
+<p>When authenticating to an S3 binary cache via STS WebIdentity (EKS IRSA, GitHub Actions OIDC), Nix now uses the <code>?region=</code> parameter from the S3 URL as a fallback for the STS endpoint region if neither <code>AWS_REGION</code> nor <code>AWS_DEFAULT_REGION</code> is set.
+Previously, IRSA setups that exported <code>AWS_WEB_IDENTITY_TOKEN_FILE</code> and <code>AWS_ROLE_ARN</code> but no region would fail with a misleading “IMDS provider” error.</p>
+</li>
+<li>
+<p>S3: restore STS WebIdentity and ECS container credential providers <a href="https://github.com/NixOS/nix/pull/15507">#15507</a></p>
+<p>Nix 2.33 replaced the S3 backend’s <code>aws-sdk-cpp</code> credential chain with a custom chain built on <code>aws-c-auth</code>.
+That chain omitted two providers, breaking S3 binary cache access in container workloads:</p>
+<ul>
+<li><strong>STS WebIdentity</strong> (<code>AWS_WEB_IDENTITY_TOKEN_FILE</code>, <code>AWS_ROLE_ARN</code>, <code>AWS_ROLE_SESSION_NAME</code>) – used by EKS IRSA, GitHub Actions OIDC, and any <code>sts:AssumeRoleWithWebIdentity</code> federation.</li>
+<li><strong>ECS container metadata</strong> (<code>AWS_CONTAINER_CREDENTIALS_RELATIVE_URI</code>, <code>AWS_CONTAINER_CREDENTIALS_FULL_URI</code>) – used by ECS tasks and EKS Pod Identity.</li>
+</ul>
+<p>The typical symptom was a misleading IMDS error (<code>Valid credentials could not be sourced by the IMDS provider</code>), because IMDS is the last provider tried after the correct one was skipped.</p>
+<p>Both providers are now part of the chain, ordered to match the pre-2.33 behaviour.
+As in both the old and new AWS SDK default chains, ECS and IMDS are mutually exclusive: when container credential environment variables are set, IMDS is skipped.</p>
+</li>
+<li>
+<p>HTTP 401 and 407 responses from binary caches are no longer treated as missing files <a href="https://github.com/NixOS/nix/pull/15877">#15877</a></p>
+<p>Nix no longer treats <code>Unauthorized</code> and <code>Proxy Authentication Required</code> HTTP codes as an indication of a missing file. This used to be the case because AWS S3 returns 403 <code>Forbidden</code> for missing objects in unlistable buckets. 401/407 were accidentally included and this workaround is now tightly scoped to 403 responses.</p>
+</li>
+<li>
+<p>Fixed <code>nixbld</code> gid in <code>/etc/group</code> in the Linux build sandbox when user namespaces are not supported <a href="https://github.com/NixOS/nix/pull/15131">#15131</a></p>
+</li>
+<li>
+<p>Store garbage collection is now more robust <a href="https://github.com/NixOS/nix/pull/15992">#15992</a> <a href="https://github.com/NixOS/nix/pull/15720">#15720</a> <a href="https://github.com/NixOS/nix/pull/15616">#15616</a></p>
+</li>
+<li>
+<p>Fixed deadlock for hash-mismatching fixed-output derivations <a href="https://github.com/NixOS/nix/pull/15874">#15874</a></p>
+</li>
+<li>
+<p><code>nix-copy-closure</code> no longer ignores <code>--include-outputs</code> flag <a href="https://github.com/NixOS/nix/pull/15896">#15896</a></p>
+</li>
+<li>
+<p>Fixes to <code>recursive-nix</code> experimental feature</p>
+<p>Prior to this release, internal datastructures used to implement this feature were not used in a thread-safe manner.
+Threads handling daemon connections are now reaped promptly, fixing resource leaks.</p>
+</li>
+</ul>
+<h2 id="contributors"><a class="header" href="#contributors">Contributors</a></h2>
+<p>This release was made possible by the following 59 contributors:</p>
+<ul>
+<li>Michael Wang <a href="https://github.com/zwang20"><strong>(@zwang20)</strong></a></li>
+<li>Amaan Qureshi <a href="https://github.com/amaanq"><strong>(@amaanq)</strong></a></li>
+<li>Sergei Zimmerman <a href="https://github.com/xokdvium"><strong>(@xokdvium)</strong></a></li>
+<li>Reuben Gardos Reid <a href="https://github.com/ReubenJ"><strong>(@ReubenJ)</strong></a></li>
+<li>StepBroBD <a href="https://github.com/stepbrobd"><strong>(@stepbrobd)</strong></a></li>
+<li>dram <a href="https://github.com/dramforever"><strong>(@dramforever)</strong></a></li>
+<li>Tom <a href="https://github.com/thunze"><strong>(@thunze)</strong></a></li>
+<li>Sergei Trofimovich <a href="https://github.com/trofi"><strong>(@trofi)</strong></a></li>
+<li>Robert Hensing <a href="https://github.com/roberth"><strong>(@roberth)</strong></a></li>
+<li>steveoliphant <a href="https://github.com/steveoliphant"><strong>(@steveoliphant)</strong></a></li>
+<li>espes <a href="https://github.com/espes"><strong>(@espes)</strong></a></li>
+<li>Jörg Thalheim <a href="https://github.com/Mic92"><strong>(@Mic92)</strong></a></li>
+<li>Artemis Tosini <a href="https://github.com/artemist"><strong>(@artemist)</strong></a></li>
+<li>sander <a href="https://github.com/sandydoo"><strong>(@sandydoo)</strong></a></li>
+<li>Erik Jensen <a href="https://github.com/rkjnsn"><strong>(@rkjnsn)</strong></a></li>
+<li>Cameron Will <a href="https://github.com/cwill747"><strong>(@cwill747)</strong></a></li>
+<li>Maciej Krüger <a href="https://github.com/mkg20001"><strong>(@mkg20001)</strong></a></li>
+<li>Dror Speiser <a href="https://github.com/drorspei"><strong>(@drorspei)</strong></a></li>
+<li>Eveeifyeve <a href="https://github.com/Eveeifyeve"><strong>(@Eveeifyeve)</strong></a></li>
+<li>Audrey Dutcher <a href="https://github.com/rhelmot"><strong>(@rhelmot)</strong></a></li>
+<li>Lisanna Dettwyler <a href="https://github.com/lisanna-dettwyler"><strong>(@lisanna-dettwyler)</strong></a></li>
+<li>TyIsI <a href="https://github.com/TyIsI"><strong>(@TyIsI)</strong></a></li>
+<li>Adam Kliś <a href="https://github.com/BonusPlay"><strong>(@BonusPlay)</strong></a></li>
+<li>Domen Kožar <a href="https://github.com/domenkozar"><strong>(@domenkozar)</strong></a></li>
+<li>Taeer Bar-Yam <a href="https://github.com/Radvendii"><strong>(@Radvendii)</strong></a></li>
+<li>ryota2357 <a href="https://github.com/ryota2357"><strong>(@ryota2357)</strong></a></li>
+<li>LIN, Jian <a href="https://github.com/jian-lin"><strong>(@jian-lin)</strong></a></li>
+<li>znmz <a href="https://github.com/znmz"><strong>(@znmz)</strong></a></li>
+<li>Felix Stupp <a href="https://github.com/Zocker1999NET"><strong>(@Zocker1999NET)</strong></a></li>
+<li>Johannes Kirschbauer <a href="https://github.com/hsjobeki"><strong>(@hsjobeki)</strong></a></li>
+<li>Antonio Nuno Monteiro <a href="https://github.com/anmonteiro"><strong>(@anmonteiro)</strong></a></li>
+<li>tomberek <a href="https://github.com/tomberek"><strong>(@tomberek)</strong></a></li>
+<li>Eelco Dolstra <a href="https://github.com/edolstra"><strong>(@edolstra)</strong></a></li>
+<li>adisbladis <a href="https://github.com/adisbladis"><strong>(@adisbladis)</strong></a></li>
+<li>Luna Nova <a href="https://github.com/LunNova"><strong>(@LunNova)</strong></a></li>
+<li>Riccardo Mazzarini <a href="https://github.com/noib3"><strong>(@noib3)</strong></a></li>
+<li>Bouke van der Bijl <a href="https://github.com/bouk"><strong>(@bouk)</strong></a></li>
+<li>Dario <a href="https://github.com/dve00"><strong>(@dve00)</strong></a></li>
+<li>Michael Hoang <a href="https://github.com/Enzime"><strong>(@Enzime)</strong></a></li>
+<li>Paul Sbarra <a href="https://github.com/tones111"><strong>(@tones111)</strong></a></li>
+<li>edef <a href="https://github.com/edef1c"><strong>(@edef1c)</strong></a></li>
+<li>Adam Dinwoodie <a href="https://github.com/me-and"><strong>(@me-and)</strong></a></li>
+<li>Brian McKenna <a href="https://github.com/puffnfresh"><strong>(@puffnfresh)</strong></a></li>
+<li>Jeremy Fleischman <a href="https://github.com/jfly"><strong>(@jfly)</strong></a></li>
+<li>John Ericson <a href="https://github.com/Ericson2314"><strong>(@Ericson2314)</strong></a></li>
+<li>Alex Ionescu <a href="https://github.com/aionescu"><strong>(@aionescu)</strong></a></li>
+<li>Tristan Ross <a href="https://github.com/RossComputerGuy"><strong>(@RossComputerGuy)</strong></a></li>
+<li>Bernardo Meurer <a href="https://github.com/lovesegfault"><strong>(@lovesegfault)</strong></a></li>
+<li>Pierre Penninckx <a href="https://github.com/ibizaman"><strong>(@ibizaman)</strong></a></li>
+<li>Leonard Sheng Sheng Lee <a href="https://github.com/sheeeng"><strong>(@sheeeng)</strong></a></li>
+<li>rszyma <a href="https://github.com/rszyma"><strong>(@rszyma)</strong></a></li>
+<li>Ryan Hendrickson <a href="https://github.com/rhendric"><strong>(@rhendric)</strong></a></li>
+<li>Lennart Kolmodin <a href="https://github.com/kolmodin"><strong>(@kolmodin)</strong></a></li>
+<li>zowoq <a href="https://github.com/zowoq"><strong>(@zowoq)</strong></a></li>
+<li>Peter Collingbourne <a href="https://github.com/pcc"><strong>(@pcc)</strong></a></li>
+<li>Simon Žlender <a href="https://github.com/szlend"><strong>(@szlend)</strong></a></li>
+<li>Lily Foster <a href="https://github.com/lilyinstarlight"><strong>(@lilyinstarlight)</strong></a></li>
+<li>randomizedcoder <a href="https://github.com/randomizedcoder"><strong>(@randomizedcoder)</strong></a></li>
+<li>Krish Jaiswal</li>
+</ul>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../release-notes/rl-next.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                            </a>
+
+                            <a rel="next prefetch" href="../release-notes/rl-2.34.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../release-notes/rl-next.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
+                    </a>
+
+                    <a rel="next prefetch" href="../release-notes/rl-2.34.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M278.6 233.4c12.5 12.5 12.5 32.8 0 45.3l-160 160c-12.5 12.5-32.8 12.5-45.3 0s-12.5-32.8 0-45.3L210.7 256 73.4 118.6c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0l160 160z"/></svg></span>
+                    </a>
+            </nav>
+
+        </div>
+
+        <template id=fa-eye><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM432 256c0 79.5-64.5 144-144 144s-144-64.5-144-144s64.5-144 144-144s144 64.5 144 144zM288 192c0 35.3-28.7 64-64 64c-11.5 0-22.3-3-31.6-8.4c-.2 2.8-.4 5.5-.4 8.4c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6z"/></svg></span></template>
+        <template id=fa-eye-slash><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M38.8 5.1C28.4-3.1 13.3-1.2 5.1 9.2S-1.2 34.7 9.2 42.9l592 464c10.4 8.2 25.5 6.3 33.7-4.1s6.3-25.5-4.1-33.7L525.6 386.7c39.6-40.6 66.4-86.1 79.9-118.4c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C465.5 68.8 400.8 32 320 32c-68.2 0-125 26.3-169.3 60.8L38.8 5.1zM223.1 149.5C248.6 126.2 282.7 112 320 112c79.5 0 144 64.5 144 144c0 24.9-6.3 48.3-17.4 68.7L408 294.5c5.2-11.8 8-24.8 8-38.5c0-53-43-96-96-96c-2.8 0-5.6 .1-8.4 .4c5.3 9.3 8.4 20.1 8.4 31.6c0 10.2-2.4 19.8-6.6 28.3l-90.3-70.8zm223.1 298L373 389.9c-16.4 6.5-34.3 10.1-53 10.1c-79.5 0-144-64.5-144-144c0-6.9 .5-13.6 1.4-20.2L83.1 161.5C60.3 191.2 44 220.8 34.5 243.7c-3.3 7.9-3.3 16.7 0 24.6c14.9 35.7 46.2 87.7 93 131.1C174.5 443.2 239.2 480 320 480c47.8 0 89.9-12.9 126.2-32.5z"/></svg></span></template>
+        <template id=fa-copy><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M502.6 70.63l-61.25-61.25C435.4 3.371 427.2 0 418.7 0H255.1c-35.35 0-64 28.66-64 64l.0195 256C192 355.4 220.7 384 256 384h192c35.2 0 64-28.8 64-64V93.25C512 84.77 508.6 76.63 502.6 70.63zM464 320c0 8.836-7.164 16-16 16H255.1c-8.838 0-16-7.164-16-16L239.1 64.13c0-8.836 7.164-16 16-16h128L384 96c0 17.67 14.33 32 32 32h47.1V320zM272 448c0 8.836-7.164 16-16 16H63.1c-8.838 0-16-7.164-16-16L47.98 192.1c0-8.836 7.164-16 16-16H160V128H63.99c-35.35 0-64 28.65-64 64l.0098 256C.002 483.3 28.66 512 64 512h192c35.2 0 64-28.8 64-64v-32h-47.1L272 448z"/></svg></span></template>
+        <template id=fa-play><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg></span></template>
+        <template id=fa-clock-rotate-left><span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M75 75L41 41C25.9 25.9 0 36.6 0 57.9V168c0 13.3 10.7 24 24 24H134.1c21.4 0 32.1-25.9 17-41l-30.8-30.8C155 85.5 203 64 256 64c106 0 192 86 192 192s-86 192-192 192c-40.8 0-78.6-12.7-109.7-34.4c-14.5-10.1-34.4-6.6-44.6 7.9s-6.6 34.4 7.9 44.6C151.2 495 201.7 512 256 512c141.4 0 256-114.6 256-256S397.4 0 256 0C185.3 0 121.3 28.7 75 75zm181 53c-13.3 0-24 10.7-24 24V256c0 6.4 2.5 12.5 7 17l72 72c9.4 9.4 24.6 9.4 33.9 0s9.4-24.6 0-33.9l-65-65V152c0-13.3-10.7-24-24-24z"/></svg></span></template>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr-ef4e11c1.min.js"></script>
+        <script src="../mark-09e88c2c.min.js"></script>
+        <script src="../searcher-09f2665d.js"></script>
+
+        <script src="../clipboard-1626706a.min.js"></script>
+        <script src="../highlight-862e895d.js"></script>
+        <script src="../book-609e4cb8.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../redirects-d95376cb.js"></script>
+
+
+
+    </div>
+    </body>
+</html>

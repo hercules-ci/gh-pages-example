@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix daemon - Nix 2.34.9 Reference Manual</title>
+        <title>nix daemon - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -241,6 +241,22 @@ operations on the Nix store on behalf of non-root users. Usually you
 don’t run the daemon directly; instead it’s managed by a service
 management framework such as <code>systemd</code> on Linux, or <code>launchctl</code> on Darwin.</p>
 <p>Note that this daemon does not fork into the background.</p>
+<h1 id="socket-path"><a class="header" href="#socket-path">Socket path</a></h1>
+<p>Unless <code>--stdio</code> is used, the daemon listens on a Unix domain socket.
+The socket path is determined similarly as for the <a href="../../store/types/local-daemon-store.html">Local Daemon Store</a>:</p>
+<ol>
+<li>
+<p>The <code>--socket-path</code> flag, if passed.</p>
+</li>
+<li>
+<p>The <a href="../../command-ref/env-common.html#env-NIX_DAEMON_SOCKET_PATH"><code>NIX_DAEMON_SOCKET_PATH</code></a> environment variable, if set.</p>
+</li>
+<li>
+<p>Otherwise, <code>daemon-socket/socket</code> within the store’s state directory.
+The <a href="../../store/types/local-store.html">Local Store</a>, <a href="../../store/types/local-daemon-store.html">Local Daemon Store</a>, and <a href="../../store/types/experimental-ssh-store-with-filesystem-mounted.html">Experimental SSH Store with filesystem mounted</a> each have their own per-store state directory.
+For other store types, the global <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> is used.</p>
+</li>
+</ol>
 <h1 id="systemd-socket-activation"><a class="header" href="#systemd-socket-activation">Systemd socket activation</a></h1>
 <p><code>nix daemon</code> supports systemd socket-based activation using the
 <code>nix-daemon.socket</code> unit in the Nix distribution. It supports
@@ -263,13 +279,20 @@ ListenStream=/nix/var/nix/daemon-socket/socket-2
 </li>
 <li>
 <p><span id="opt-force-untrusted"><a href="#opt-force-untrusted"><code>--force-untrusted</code></a></span></p>
-<p>Force the daemon to not trust connecting clients. The connection is processed by the receiving daemon before forwarding commands.</p>
+<p>Force the daemon to not trust connecting clients.
+The connection is processed by the receiving daemon before forwarding commands.</p>
 </li>
 <li>
 <p><span id="opt-process-ops"><a href="#opt-process-ops"><code>--process-ops</code></a></span></p>
 <p>Forces the daemon to process received commands itself rather than forwarding the commands straight to the remote store.</p>
 <pre><code>        This is useful for the `mounted-ssh://` store where some actions need to be performed on the remote end but as connected user, and not as the user of the underlying daemon on the remote end.
 </code></pre>
+</li>
+<li>
+<p><span id="opt-socket-path"><a href="#opt-socket-path"><code>--socket-path</code></a></span> <em>path</em></p>
+<p>Path to the daemon’s UNIX socket.
+Overrides <code>NIX_DAEMON_SOCKET_PATH</code> and the default.
+Incompatible with <code>--stdio</code>.</p>
 </li>
 <li>
 <p><span id="opt-stdio"><a href="#opt-stdio"><code>--stdio</code></a></span></p>
@@ -378,7 +401,7 @@ ListenStream=/nix/var/nix/daemon-socket/socket-2
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

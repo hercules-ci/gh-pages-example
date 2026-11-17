@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Build Result - Nix 2.34.9 Reference Manual</title>
+        <title>Build Result - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -205,27 +205,19 @@
 <li><a href="#oneOf_i0_status">1.2. Property <code>status</code></a></li>
 <li><a href="#oneOf_i0_builtOutputs">1.3. Property <code>builtOutputs</code></a>
 <ul>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties">1.3.1. Property <code>Build Trace Entry</code></a>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties">1.3.1. Property <code>Build Trace Value</code></a>
 <ul>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i0">1.3.1.1. Property <code>Build Trace Key</code></a>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties_outPath">1.3.1.1. Property <code>outPath</code></a></li>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures">1.3.1.2. Property <code>signatures</code></a>
 <ul>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i0_id">1.3.1.1.1. Property <code>id</code></a></li>
-</ul>
-</li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1">1.3.1.2. Property <code>Build Trace Value</code></a>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items">1.3.1.2.1. Signature</a>
 <ul>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_outPath">1.3.1.2.1. Property <code>outPath</code></a></li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures">1.3.1.2.2. Property <code>signatures</code></a>
-<ul>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures_items">1.3.1.2.2.1. Signature</a></li>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items_keyName">1.3.1.2.1.1. Property <code>keyName</code></a></li>
+<li><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items_sig">1.3.1.2.1.2. Property <code>sig</code></a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_id">1.3.1.3. Property <code>id</code></a></li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_outPath">1.3.1.4. Property <code>outPath</code></a></li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures">1.3.1.5. Property <code>signatures</code></a></li>
-<li><a href="#oneOf_i0_builtOutputs_additionalProperties_additionalProperties">1.3.1.6. Property <code>additionalProperties</code></a></li>
 </ul>
 </li>
 </ul>
@@ -372,129 +364,11 @@
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>- <a href="#oneOf_i0_builtOutputs_additionalProperties"></a></td><td>object</td><td>No</td><td>Build Trace Entry</td></tr>
+<tr><td>- <a href="#oneOf_i0_builtOutputs_additionalProperties"></a></td><td>object</td><td>No</td><td>Build Trace Value</td></tr>
 </tbody>
 </table>
 </div>
-<h4 id="131-property-build-trace-entry"><a class="header" href="#131-property-build-trace-entry"><a name="oneOf_i0_builtOutputs_additionalProperties"></a>1.3.1. Property <code>Build Trace Entry</code></a></h4>
-<p><strong>Title:</strong> Build Trace Entry</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>combining</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Additional properties</strong></td><td><a href="#oneOf_i0_builtOutputs_additionalProperties_additionalProperties">Each additional property must conform to the schema</a></td></tr>
-<tr><td><strong>Defined in</strong></td><td>build-trace-entry-v2.yaml</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> A record of a successful build outcome for a specific derivation output.</p>
-<p>This schema describes the JSON representation of a <a href="../../store/build-trace.html">build trace entry</a>.</p>
-<blockquote>
-<p><strong>Warning</strong></p>
-<p>This JSON format is currently
-<a href="../../development/experimental-features.html#xp-feature-ca-derivations"><strong>experimental</strong></a>
-and subject to change.</p>
-</blockquote>
-<p>Verision history:</p>
-<ul>
-<li>
-<p>Version 1: Original format</p>
-</li>
-<li>
-<p>Version 2: Remove <code>dependentRealisations</code></p>
-</li>
-</ul>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
-</thead>
-<tbody>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_id">id</a></td><td>object</td><td>No</td><td>-</td></tr>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_outPath">outPath</a></td><td>object</td><td>No</td><td>-</td></tr>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_signatures">signatures</a></td><td>object</td><td>No</td><td>-</td></tr>
-<tr><td>- <a href="#oneOf_i0_builtOutputs_additionalProperties_additionalProperties"></a></td><td>object</td><td>No</td><td>-</td></tr>
-</tbody>
-</table>
-</div>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>All of(Requirement)</th></tr>
-</thead>
-<tbody>
-<tr><td><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i0">Build Trace Key</a></td></tr>
-<tr><td><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1">Build Trace Value</a></td></tr>
-</tbody>
-</table>
-</div>
-<h5 id="1311-property-build-trace-key"><a class="header" href="#1311-property-build-trace-key"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i0"></a>1.3.1.1. Property <code>Build Trace Key</code></a></h5>
-<p><strong>Title:</strong> Build Trace Key</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-<tr><td><strong>Defined in</strong></td><td>#/$defs/key</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> A <a href="../../store/build-trace.html">build trace entry</a> is a key-value pair.
-This is the “key” part, refering to a derivation and output.</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
-</thead>
-<tbody>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i0_id">id</a></td><td>string</td><td>No</td><td>Derivation Output ID</td></tr>
-</tbody>
-</table>
-</div>
-<h6 id="13111-property-id"><a class="header" href="#13111-property-id"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i0_id"></a>1.3.1.1.1. Property <code>id</code></a></h6>
-<p><strong>Title:</strong> Derivation Output ID</p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> Unique identifier for the derivation output that was built.</p>
-<p>Format: <code>{hash-quotient-drv}!{output-name}</code></p>
-<ul>
-<li>
-<p><strong>hash-quotient-drv</strong>: SHA-256 <a href="../../store/derivation/outputs/input-address.html#hash-quotient-drv">hash of the quotient derivation</a>.
-Begins with <code>sha256:</code>.</p>
-</li>
-<li>
-<p><strong>output-name</strong>: Name of the specific output (e.g., “out”, “dev”, “doc”)</p>
-</li>
-</ul>
-<p>Example: <code>"sha256:ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad!foo"</code></p>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th>Restrictions</th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Must match regular expression</strong></td><td><code>^sha256:[0-9a-f]{64}![a-zA-Z_][a-zA-Z0-9_-]*$</code> <a href="https://regex101.com/?regex=%5Esha256%3A%5B0-9a-f%5D%7B64%7D%21%5Ba-zA-Z_%5D%5Ba-zA-Z0-9_-%5D%2A%24">Test</a></td></tr>
-</tbody>
-</table>
-</div>
-<h5 id="1312-property-build-trace-value"><a class="header" href="#1312-property-build-trace-value"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i1"></a>1.3.1.2. Property <code>Build Trace Value</code></a></h5>
+<h4 id="131-property-build-trace-value"><a class="header" href="#131-property-build-trace-value"><a name="oneOf_i0_builtOutputs_additionalProperties"></a>1.3.1. Property <code>Build Trace Value</code></a></h4>
 <p><strong>Title:</strong> Build Trace Value</p>
 <div class="table-wrapper">
 <table>
@@ -505,11 +379,11 @@ Begins with <code>sha256:</code>.</p>
 <tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
 <tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-<tr><td><strong>Defined in</strong></td><td>#/$defs/value</td></tr>
+<tr><td><strong>Defined in</strong></td><td>build-trace-entry-v3.yaml#/$defs/value</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> A <a href="../../store/build-trace.html">build trace entry</a> is a key-value pair.
+<p><strong>Description:</strong> A <a href="../../store/build-trace.html#entry">build trace entry</a> is a key-value pair.
 This is the “value” part, describing an output.</p>
 <div class="table-wrapper">
 <table>
@@ -517,12 +391,12 @@ This is the “value” part, describing an output.</p>
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_outPath">outPath</a></td><td>string</td><td>No</td><td>Output Store Path</td></tr>
-<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Build Signatures</td></tr>
+<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_outPath">outPath</a></td><td>string</td><td>No</td><td>Output Store Path</td></tr>
+<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_signatures">signatures</a></td><td>array</td><td>No</td><td>Build Signatures</td></tr>
 </tbody>
 </table>
 </div>
-<h6 id="13121-property-outpath"><a class="header" href="#13121-property-outpath"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i1_outPath"></a>1.3.1.2.1. Property <code>outPath</code></a></h6>
+<h5 id="1311-property-outpath"><a class="header" href="#1311-property-outpath"><a name="oneOf_i0_builtOutputs_additionalProperties_outPath"></a>1.3.1.1. Property <code>outPath</code></a></h5>
 <p><strong>Title:</strong> Output Store Path</p>
 <div class="table-wrapper">
 <table>
@@ -548,7 +422,7 @@ This is the “value” part, describing an output.</p>
 </tbody>
 </table>
 </div>
-<h6 id="13122-property-signatures"><a class="header" href="#13122-property-signatures"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures"></a>1.3.1.2.2. Property <code>signatures</code></a></h6>
+<h5 id="1312-property-signatures"><a class="header" href="#1312-property-signatures"><a name="oneOf_i0_builtOutputs_additionalProperties_signatures"></a>1.3.1.2. Property <code>signatures</code></a></h5>
 <p><strong>Title:</strong> Build Signatures</p>
 <div class="table-wrapper">
 <table>
@@ -556,7 +430,7 @@ This is the “value” part, describing an output.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
@@ -582,11 +456,11 @@ This is the “value” part, describing an output.</p>
 <tr><th>Each item of this array must be</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures_items">Signature</a></td><td>A single cryptographic signature</td></tr>
+<tr><td><a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items">Signature</a></td><td>A cryptographic signature along with the name of the key that produced it. …</td></tr>
 </tbody>
 </table>
 </div>
-<h6 id="131221-signature"><a class="header" href="#131221-signature"><a name="oneOf_i0_builtOutputs_additionalProperties_allOf_i1_signatures_items"></a>1.3.1.2.2.1. Signature</a></h6>
+<h6 id="13121-signature"><a class="header" href="#13121-signature"><a name="oneOf_i0_builtOutputs_additionalProperties_signatures_items"></a>1.3.1.2.1. Signature</a></h6>
 <p><strong>Title:</strong> Signature</p>
 <div class="table-wrapper">
 <table>
@@ -594,64 +468,69 @@ This is the “value” part, describing an output.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>signature-v2.yaml</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A cryptographic signature along with the name of the key that produced it.</p>
+<p>This schema describes the JSON representation of signatures as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="version-history"><a class="header" href="#version-history">Version History</a></h2>
+<ul>
+<li>
+<p>Version 1: Colon-separated string in the format <code>&lt;key-name&gt;:&lt;signature-in-Base64&gt;</code></p>
+</li>
+<li>
+<p>Version 2: Structured object with <code>keyName</code> and <code>sig</code> fields</p>
+</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items_keyName">keyName</a></td><td>string</td><td>No</td><td>Key Name</td></tr>
+<tr><td>+ <a href="#oneOf_i0_builtOutputs_additionalProperties_signatures_items_sig">sig</a></td><td>string</td><td>No</td><td>Signature Data</td></tr>
+</tbody>
+</table>
+</div>
+<h6 id="131211-property-keyname"><a class="header" href="#131211-property-keyname"><a name="oneOf_i0_builtOutputs_additionalProperties_signatures_items_keyName"></a>1.3.1.2.1.1. Property <code>keyName</code></a></h6>
+<p><strong>Title:</strong> Key Name</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
 <tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>Description:</strong> A single cryptographic signature</p>
-<h5 id="1313-property-id"><a class="header" href="#1313-property-id"><a name="oneOf_i0_builtOutputs_additionalProperties_id"></a>1.3.1.3. Property <code>id</code></a></h5>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
 </tbody>
 </table>
 </div>
-<h5 id="1314-property-outpath"><a class="header" href="#1314-property-outpath"><a name="oneOf_i0_builtOutputs_additionalProperties_outPath"></a>1.3.1.4. Property <code>outPath</code></a></h5>
+<p><strong>Description:</strong> The name of the key used to produce this signature</p>
+<h6 id="131212-property-sig"><a class="header" href="#131212-property-sig"><a name="oneOf_i0_builtOutputs_additionalProperties_signatures_items_sig"></a>1.3.1.2.1.2. Property <code>sig</code></a></h6>
+<p><strong>Title:</strong> Signature Data</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
 </tbody>
 </table>
 </div>
-<h5 id="1315-property-signatures"><a class="header" href="#1315-property-signatures"><a name="oneOf_i0_builtOutputs_additionalProperties_signatures"></a>1.3.1.5. Property <code>signatures</code></a></h5>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
-<tr><td><strong>Required</strong></td><td>Yes</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-</tbody>
-</table>
-</div>
-<h5 id="1316-property-additionalproperties"><a class="header" href="#1316-property-additionalproperties"><a name="oneOf_i0_builtOutputs_additionalProperties_additionalProperties"></a>1.3.1.6. Property <code>additionalProperties</code></a></h5>
-<div class="table-wrapper">
-<table>
-<thead>
-<tr><th></th><th></th></tr>
-</thead>
-<tbody>
-<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
-</tbody>
-</table>
-</div>
+<p><strong>Description:</strong> The raw signature bytes, Base64-encoded</p>
 <h2 id="2-property-failed-build-result"><a class="header" href="#2-property-failed-build-result"><a name="oneOf_i1"></a>2. Property <code>Failed Build Result</code></a></h2>
 <p><strong>Title:</strong> Failed Build Result</p>
 <div class="table-wrapper">
@@ -886,14 +765,10 @@ just that we don’t have evidence of non-determinism.</p>
 <pre><code class="language-json">{
   "builtOutputs": {
     "bar": {
-      "dependentRealisations": {},
-      "id": "sha256:6f869f9ea2823bda165e06076fd0de4366dead2c0e8d2dbbad277d4f15c373f5!bar",
       "outPath": "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-bar",
       "signatures": []
     },
     "foo": {
-      "dependentRealisations": {},
-      "id": "sha256:6f869f9ea2823bda165e06076fd0de4366dead2c0e8d2dbbad277d4f15c373f5!foo",
       "outPath": "g1w7hy3qg1w7hy3qg1w7hy3qg1w7hy3q-foo",
       "signatures": []
     }
@@ -984,7 +859,7 @@ just that we don’t have evidence of non-determinism.</p>
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Store Object Info - Nix 2.34.9 Reference Manual</title>
+        <title>Store Object Info - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -197,7 +197,7 @@
 
                 <div id="mdbook-content" class="content">
                     <main>
-                        <h1 id="store-object-info-v2"><a class="header" href="#store-object-info-v2">Store Object Info v2</a></h1>
+                        <h1 id="store-object-info-v3"><a class="header" href="#store-object-info-v3">Store Object Info v3</a></h1>
 <ul>
 <li><a href="#oneOf_i0">1. Property <code>Store Object Info</code></a>
 <ul>
@@ -252,7 +252,12 @@
 <li><a href="#oneOf_i1_ultimate">2.10. Property <code>ultimate</code></a></li>
 <li><a href="#oneOf_i1_signatures">2.11. Property <code>signatures</code></a>
 <ul>
-<li><a href="#oneOf_i1_signatures_items">2.11.1. signatures items</a></li>
+<li><a href="#oneOf_i1_signatures_items">2.11.1. Signature</a>
+<ul>
+<li><a href="#oneOf_i1_signatures_items_keyName">2.11.1.1. Property <code>keyName</code></a></li>
+<li><a href="#oneOf_i1_signatures_items_sig">2.11.1.2. Property <code>sig</code></a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li><a href="#oneOf_i1_closureSize">2.12. Property <code>closureSize</code></a></li>
@@ -277,7 +282,7 @@
 <li><a href="#oneOf_i2_ultimate">3.10. Property <code>ultimate</code></a></li>
 <li><a href="#oneOf_i2_signatures">3.11. Property <code>signatures</code></a>
 <ul>
-<li><a href="#oneOf_i2_signatures_items">3.11.1. signatures items</a></li>
+<li><a href="#oneOf_i2_signatures_items">3.11.1. Signature</a></li>
 </ul>
 </li>
 <li><a href="#oneOf_i2_closureSize">3.12. Property <code>closureSize</code></a></li>
@@ -289,7 +294,7 @@
 </ul>
 </li>
 </ul>
-<p><strong>Title:</strong> Store Object Info v2</p>
+<p><strong>Title:</strong> Store Object Info v3</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -353,7 +358,7 @@ This is the minimal set of fields that describe what a store object contains.</p
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+ <a href="#oneOf_i0_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>+ <a href="#oneOf_i0_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 3)</td></tr>
 <tr><td>- <a href="#oneOf_i0_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
 <tr><td>+ <a href="#oneOf_i0_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
 <tr><td>+ <a href="#oneOf_i0_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
@@ -364,7 +369,7 @@ This is the minimal set of fields that describe what a store object contains.</p
 </table>
 </div>
 <h3 id="11-property-version"><a class="header" href="#11-property-version"><a name="oneOf_i0_version"></a>1.1. Property <code>version</code></a></h3>
-<p><strong>Title:</strong> Format version (must be 2)</p>
+<p><strong>Title:</strong> Format version (must be 3)</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -376,7 +381,7 @@ This is the minimal set of fields that describe what a store object contains.</p
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> Must be <code>2</code>.
+<p><strong>Description:</strong> Must be <code>3</code>.
 This is a guard that allows us to continue evolving this format.
 Here is the rough version history:</p>
 <ul>
@@ -389,8 +394,11 @@ Here is the rough version history:</p>
 <li>
 <p>Version 2: Use structured JSON type for <code>ca</code></p>
 </li>
+<li>
+<p>Version 3: Use structured JSON type for <code>signatures</code></p>
+</li>
 </ul>
-<p>Specific value: <code>2</code></p>
+<p>Specific value: <code>3</code></p>
 <h3 id="12-property-path"><a class="header" href="#12-property-path"><a name="oneOf_i0_path"></a>1.2. Property <code>path</code></a></h3>
 <p><strong>Title:</strong> Store Path</p>
 <div class="table-wrapper">
@@ -401,7 +409,7 @@ Here is the rough version history:</p>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
-<tr><td><strong>Defined in</strong></td><td>./store-path-v1.yaml</td></tr>
+<tr><td><strong>Defined in</strong></td><td><a href="../../protocols/json/store-path.html">JSON format for <code>StorePath</code></a></td></tr>
 </tbody>
 </table>
 </div>
@@ -539,7 +547,7 @@ and subject to change.</p>
 <h2 id="structure"><a class="header" href="#structure">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h3 id="16-property-ca"><a class="header" href="#16-property-ca"><a name="oneOf_i0_ca"></a>1.6. Property <code>ca</code></a></h3>
@@ -702,7 +710,7 @@ In particular, the references of the store object are <em>not</em> taken into ac
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory-path">path to the store directory</a> this store object belongs within (e.g. <code>/nix/store</code>).</p>
 <h2 id="2-property-store-object-info-with-impure-fields"><a class="header" href="#2-property-store-object-info-with-impure-fields"><a name="oneOf_i1"></a>2. Property <code>Store Object Info with Impure Fields</code></a></h2>
 <p><strong>Title:</strong> Store Object Info with Impure Fields</p>
 <div class="table-wrapper">
@@ -726,7 +734,7 @@ In other words, the same store object in different stores could have different v
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+ <a href="#oneOf_i1_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>+ <a href="#oneOf_i1_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 3)</td></tr>
 <tr><td>- <a href="#oneOf_i1_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
 <tr><td>+ <a href="#oneOf_i1_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
 <tr><td>+ <a href="#oneOf_i1_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
@@ -736,13 +744,13 @@ In other words, the same store object in different stores could have different v
 <tr><td>+ <a href="#oneOf_i1_deriver">deriver</a></td><td>Combination</td><td>No</td><td>Deriver</td></tr>
 <tr><td>+ <a href="#oneOf_i1_registrationTime">registrationTime</a></td><td>integer or null</td><td>No</td><td>Registration Time</td></tr>
 <tr><td>+ <a href="#oneOf_i1_ultimate">ultimate</a></td><td>boolean</td><td>No</td><td>Ultimate</td></tr>
-<tr><td>+ <a href="#oneOf_i1_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Signatures</td></tr>
+<tr><td>+ <a href="#oneOf_i1_signatures">signatures</a></td><td>array</td><td>No</td><td>Signatures</td></tr>
 <tr><td>- <a href="#oneOf_i1_closureSize">closureSize</a></td><td>integer</td><td>No</td><td>Closure Size</td></tr>
 </tbody>
 </table>
 </div>
 <h3 id="21-property-version"><a class="header" href="#21-property-version"><a name="oneOf_i1_version"></a>2.1. Property <code>version</code></a></h3>
-<p><strong>Title:</strong> Format version (must be 2)</p>
+<p><strong>Title:</strong> Format version (must be 3)</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -755,7 +763,7 @@ In other words, the same store object in different stores could have different v
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> Must be <code>2</code>.
+<p><strong>Description:</strong> Must be <code>3</code>.
 This is a guard that allows us to continue evolving this format.
 Here is the rough version history:</p>
 <ul>
@@ -768,8 +776,11 @@ Here is the rough version history:</p>
 <li>
 <p>Version 2: Use structured JSON type for <code>ca</code></p>
 </li>
+<li>
+<p>Version 3: Use structured JSON type for <code>signatures</code></p>
+</li>
 </ul>
-<p>Specific value: <code>2</code></p>
+<p>Specific value: <code>3</code></p>
 <h3 id="22-property-path"><a class="header" href="#22-property-path"><a name="oneOf_i1_path"></a>2.2. Property <code>path</code></a></h3>
 <p><strong>Title:</strong> Store Path</p>
 <div class="table-wrapper">
@@ -920,7 +931,7 @@ and subject to change.</p>
 <h2 id="structure-1"><a class="header" href="#structure-1">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h3 id="26-property-ca"><a class="header" href="#26-property-ca"><a name="oneOf_i1_ca"></a>2.6. Property <code>ca</code></a></h3>
@@ -1013,7 +1024,7 @@ That will be fixed, and as each is fixed, the example (along with a more precise
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory-path">path to the store directory</a> this store object belongs within (e.g. <code>/nix/store</code>).</p>
 <h3 id="28-property-deriver"><a class="header" href="#28-property-deriver"><a name="oneOf_i1_deriver"></a>2.8. Property <code>deriver</code></a></h3>
 <p><strong>Title:</strong> Deriver</p>
 <div class="table-wrapper">
@@ -1073,7 +1084,7 @@ and subject to change.</p>
 <h2 id="structure-2"><a class="header" href="#structure-2">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h4 id="282-property-item-1"><a class="header" href="#282-property-item-1"><a name="oneOf_i1_deriver_oneOf_i1"></a>2.8.2. Property <code>item 1</code></a></h4>
@@ -1131,7 +1142,7 @@ Otherwise <code>null</code>.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
@@ -1162,11 +1173,55 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 <tr><th>Each item of this array must be</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#oneOf_i1_signatures_items">signatures items</a></td><td>-</td></tr>
+<tr><td><a href="#oneOf_i1_signatures_items">Signature</a></td><td>A cryptographic signature along with the name of the key that produced it. …</td></tr>
 </tbody>
 </table>
 </div>
-<h4 id="2111-signatures-items"><a class="header" href="#2111-signatures-items"><a name="oneOf_i1_signatures_items"></a>2.11.1. signatures items</a></h4>
+<h4 id="2111-signature"><a class="header" href="#2111-signature"><a name="oneOf_i1_signatures_items"></a>2.11.1. Signature</a></h4>
+<p><strong>Title:</strong> Signature</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
+<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Defined in</strong></td><td>./signature-v2.yaml</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> A cryptographic signature along with the name of the key that produced it.</p>
+<p>This schema describes the JSON representation of signatures as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="version-history"><a class="header" href="#version-history">Version History</a></h2>
+<ul>
+<li>
+<p>Version 1: Colon-separated string in the format <code>&lt;key-name&gt;:&lt;signature-in-Base64&gt;</code></p>
+</li>
+<li>
+<p>Version 2: Structured object with <code>keyName</code> and <code>sig</code> fields</p>
+</li>
+</ul>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
+</thead>
+<tbody>
+<tr><td>+ <a href="#oneOf_i1_signatures_items_keyName">keyName</a></td><td>string</td><td>No</td><td>Key Name</td></tr>
+<tr><td>+ <a href="#oneOf_i1_signatures_items_sig">sig</a></td><td>string</td><td>No</td><td>Signature Data</td></tr>
+</tbody>
+</table>
+</div>
+<h5 id="21111-property-keyname"><a class="header" href="#21111-property-keyname"><a name="oneOf_i1_signatures_items_keyName"></a>2.11.1.1. Property <code>keyName</code></a></h5>
+<p><strong>Title:</strong> Key Name</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -1174,10 +1229,25 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 </thead>
 <tbody>
 <tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
-<tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
 </tbody>
 </table>
 </div>
+<p><strong>Description:</strong> The name of the key used to produce this signature</p>
+<h5 id="21112-property-sig"><a class="header" href="#21112-property-sig"><a name="oneOf_i1_signatures_items_sig"></a>2.11.1.2. Property <code>sig</code></a></h5>
+<p><strong>Title:</strong> Signature Data</p>
+<div class="table-wrapper">
+<table>
+<thead>
+<tr><th></th><th></th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Required</strong></td><td>Yes</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>Description:</strong> The raw signature bytes, Base64-encoded</p>
 <h3 id="212-property-closuresize"><a class="header" href="#212-property-closuresize"><a name="oneOf_i1_closureSize"></a>2.12. Property <code>closureSize</code></a></h3>
 <p><strong>Title:</strong> Closure Size</p>
 <div class="table-wrapper">
@@ -1229,7 +1299,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 <tr><th>Property</th><th>Type</th><th>Pattern</th><th>Title/Description</th></tr>
 </thead>
 <tbody>
-<tr><td>+ <a href="#oneOf_i2_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 2)</td></tr>
+<tr><td>+ <a href="#oneOf_i2_version">version</a></td><td>const</td><td>No</td><td>Format version (must be 3)</td></tr>
 <tr><td>- <a href="#oneOf_i2_path">path</a></td><td>string</td><td>No</td><td>Store Path</td></tr>
 <tr><td>+ <a href="#oneOf_i2_narHash">narHash</a></td><td>string</td><td>No</td><td>NAR Hash</td></tr>
 <tr><td>+ <a href="#oneOf_i2_narSize">narSize</a></td><td>integer</td><td>No</td><td>NAR Size</td></tr>
@@ -1239,7 +1309,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 <tr><td>+ <a href="#oneOf_i2_deriver">deriver</a></td><td>object</td><td>No</td><td>Deriver</td></tr>
 <tr><td>+ <a href="#oneOf_i2_registrationTime">registrationTime</a></td><td>integer or null</td><td>No</td><td>Registration Time</td></tr>
 <tr><td>+ <a href="#oneOf_i2_ultimate">ultimate</a></td><td>boolean</td><td>No</td><td>Ultimate</td></tr>
-<tr><td>+ <a href="#oneOf_i2_signatures">signatures</a></td><td>array of string</td><td>No</td><td>Signatures</td></tr>
+<tr><td>+ <a href="#oneOf_i2_signatures">signatures</a></td><td>array</td><td>No</td><td>Signatures</td></tr>
 <tr><td>- <a href="#oneOf_i2_closureSize">closureSize</a></td><td>integer</td><td>No</td><td>Closure Size</td></tr>
 <tr><td>+ <a href="#oneOf_i2_url">url</a></td><td>string</td><td>No</td><td>URL</td></tr>
 <tr><td>+ <a href="#oneOf_i2_compression">compression</a></td><td>string</td><td>No</td><td>Compression</td></tr>
@@ -1250,7 +1320,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 </table>
 </div>
 <h3 id="31-property-version"><a class="header" href="#31-property-version"><a name="oneOf_i2_version"></a>3.1. Property <code>version</code></a></h3>
-<p><strong>Title:</strong> Format version (must be 2)</p>
+<p><strong>Title:</strong> Format version (must be 3)</p>
 <div class="table-wrapper">
 <table>
 <thead>
@@ -1263,7 +1333,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> Must be <code>2</code>.
+<p><strong>Description:</strong> Must be <code>3</code>.
 This is a guard that allows us to continue evolving this format.
 Here is the rough version history:</p>
 <ul>
@@ -1275,6 +1345,9 @@ Here is the rough version history:</p>
 </li>
 <li>
 <p>Version 2: Use structured JSON type for <code>ca</code></p>
+</li>
+<li>
+<p>Version 3: Use structured JSON type for <code>signatures</code></p>
 </li>
 </ul>
 <h3 id="32-property-path"><a class="header" href="#32-property-path"><a name="oneOf_i2_path"></a>3.2. Property <code>path</code></a></h3>
@@ -1370,7 +1443,7 @@ Otherwise (i.e. if it is <a href="../../glossary.html#gloss-input-addressed-stor
 </tbody>
 </table>
 </div>
-<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory">store directory</a> this store object belongs to (e.g. <code>/nix/store</code>).</p>
+<p><strong>Description:</strong> The <a href="../../store/store-path.html#store-directory-path">path to the store directory</a> this store object belongs within (e.g. <code>/nix/store</code>).</p>
 <h3 id="38-property-deriver"><a class="header" href="#38-property-deriver"><a name="oneOf_i2_deriver"></a>3.8. Property <code>deriver</code></a></h3>
 <p><strong>Title:</strong> Deriver</p>
 <div class="table-wrapper">
@@ -1431,7 +1504,7 @@ and subject to change.</p>
 <h2 id="structure-3"><a class="header" href="#structure-3">Structure</a></h2>
 <p>The format follows this pattern: <code>${digest}-${name}</code></p>
 <ul>
-<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a>, a variant of base-32 (20 hash bytes become 32 ASCII characters)</li>
+<li><strong>hash</strong>: Digest rendered in <a href="../../protocols/nix32.html">Nix32</a> (20 hash bytes become 32 ASCII characters)</li>
 <li><strong>name</strong>: The package name and optional version/suffix information</li>
 </ul>
 <h4 id="382-property-item-1"><a class="header" href="#382-property-item-1"><a name="oneOf_i2_deriver_oneOf_i1"></a>3.8.2. Property <code>item 1</code></a></h4>
@@ -1491,7 +1564,7 @@ Otherwise <code>null</code>.</p>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>array of string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>array</code></td></tr>
 <tr><td><strong>Required</strong></td><td>Yes</td></tr>
 <tr><td><strong>Defined in</strong></td><td>#/$defs/impure/properties/signatures</td></tr>
 </tbody>
@@ -1523,22 +1596,42 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
 <tr><th>Each item of this array must be</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="#oneOf_i2_signatures_items">signatures items</a></td><td>-</td></tr>
+<tr><td><a href="#oneOf_i2_signatures_items">Signature</a></td><td>A cryptographic signature along with the name of the key that produced it. …</td></tr>
 </tbody>
 </table>
 </div>
-<h4 id="3111-signatures-items"><a class="header" href="#3111-signatures-items"><a name="oneOf_i2_signatures_items"></a>3.11.1. signatures items</a></h4>
+<h4 id="3111-signature"><a class="header" href="#3111-signature"><a name="oneOf_i2_signatures_items"></a>3.11.1. Signature</a></h4>
+<p><strong>Title:</strong> Signature</p>
 <div class="table-wrapper">
 <table>
 <thead>
 <tr><th></th><th></th></tr>
 </thead>
 <tbody>
-<tr><td><strong>Type</strong></td><td><code>string</code></td></tr>
+<tr><td><strong>Type</strong></td><td><code>object</code></td></tr>
 <tr><td><strong>Required</strong></td><td>No</td></tr>
+<tr><td><strong>Additional properties</strong></td><td>Any type allowed</td></tr>
+<tr><td><strong>Same definition as</strong></td><td><a href="#oneOf_i1_signatures_items">Signature</a></td></tr>
 </tbody>
 </table>
 </div>
+<p><strong>Description:</strong> A cryptographic signature along with the name of the key that produced it.</p>
+<p>This schema describes the JSON representation of signatures as used in various Nix JSON APIs.</p>
+<blockquote>
+<p><strong>Warning</strong></p>
+<p>This JSON format is currently
+<a href="../../development/experimental-features.html#xp-feature-nix-command"><strong>experimental</strong></a>
+and subject to change.</p>
+</blockquote>
+<h2 id="version-history-1"><a class="header" href="#version-history-1">Version History</a></h2>
+<ul>
+<li>
+<p>Version 1: Colon-separated string in the format <code>&lt;key-name&gt;:&lt;signature-in-Base64&gt;</code></p>
+</li>
+<li>
+<p>Version 2: Structured object with <code>keyName</code> and <code>sig</code> fields</p>
+</li>
+</ul>
 <h3 id="312-property-closuresize"><a class="header" href="#312-property-closuresize"><a name="oneOf_i2_closureSize"></a>3.12. Property <code>closureSize</code></a></h3>
 <p><strong>Title:</strong> Closure Size</p>
 <div class="table-wrapper">
@@ -1706,7 +1799,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
     "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
   ],
   "storeDir": "/nix/store",
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
@@ -1725,12 +1818,18 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
   ],
   "registrationTime": 23423,
   "signatures": [
-    "asdf:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-    "qwer:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    {
+      "keyName": "asdf",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    },
+    {
+      "keyName": "qwer",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
   ],
   "storeDir": "/nix/store",
   "ultimate": true,
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
@@ -1741,7 +1840,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
   "narSize": 0,
   "references": [],
   "storeDir": "/nix/store",
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
@@ -1756,7 +1855,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
   "signatures": [],
   "storeDir": "/nix/store",
   "ultimate": false,
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
@@ -1773,7 +1872,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
     "n5wkd9frr45pa74if5gpz9j7mifg27fh-foo"
   ],
   "storeDir": "/nix/store",
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
@@ -1795,27 +1894,33 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
   ],
   "registrationTime": 23423,
   "signatures": [
-    "asdf:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-    "qwer:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    {
+      "keyName": "asdf",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    },
+    {
+      "keyName": "qwer",
+      "sig": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=="
+    }
   ],
   "storeDir": "/nix/store",
   "ultimate": true,
   "url": "nar/1w1fff338fvdw53sqgamddn1b2xgds473pv6y13gizdbqjv4i5p3.nar.xz",
-  "version": 2
+  "version": 3
 }
 
 </code></pre>
 <!-- need to convert YAML to JSON first
 ## Raw Schema
 
-[JSON Schema for Store Object Info v1](schema/store-object-info-v2.json)
+[JSON Schema for Store Object Info v1](schema/store-object-info-v3.json)
 -->
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../protocols/json/store-path.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../protocols/json/signature.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
@@ -1829,7 +1934,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../protocols/json/store-path.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../protocols/json/signature.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
@@ -1862,7 +1967,7 @@ but useful for <a href="../../glossary.html#gloss-input-addressed-store-object">
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

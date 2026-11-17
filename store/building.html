@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Building - Nix 2.34.9 Reference Manual</title>
+        <title>Building - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -198,116 +198,205 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="building"><a class="header" href="#building">Building</a></h1>
-<h2 id="normalizing-derivation-inputs"><a class="header" href="#normalizing-derivation-inputs">Normalizing derivation inputs</a></h2>
-<ul>
-<li>Each input must be <a href="../glossary.html#gloss-realise">realised</a> prior to building the derivation in question.</li>
-</ul>
-<ul>
-<li>Once this is done, the derivation is <em>normalized</em>, replacing each input deriving path with its store path, which we now know from realising the input.</li>
-</ul>
-<h2 id="builder-execution"><a class="header" href="#builder-execution">Builder Execution</a></h2>
-<p>The <a href="./derivation/index.html#builder"><code>builder</code></a> is executed as follows:</p>
-<ul>
+<p>As discussed in the <a href="./derivation/index.html">main page on derivations</a>:</p>
+<blockquote>
+<p>A derivation is a specification for running an executable on precisely defined input to produce one or more <a href="./store-object.html">store objects</a>.</p>
+</blockquote>
+<p>This page describes <em>building</em> a derivation, which is to say following the instructions in the derivation to actually run the executable.
+Some elements of derivations are self-explanatory.
+For example, the arguments specified in the derivation really are the arguments passed to the executable.
+In other cases, however, there is additional common steps performed by Nix for all derivations — mostly for setting up the build environment and collecting the built outputs.</p>
+<p>The chief design consideration for the building process is <em>determinism</em>.
+Conventional operating systems are typically not designed with determinism in mind.
+But determinism is needed to make Nix’s build caching a transparent abstraction.</p>
+<blockquote>
+<p><strong>Explanation</strong></p>
+<p>For example, no one wants to slightly modify a derivation, and then find that it no longer builds for an unrelated reason, because the original derivation <em>also</em> doesn’t build anymore, but the cache hit on the original derivation was hiding this.
+We want builds that succeed once to continue succeeding, to encourage fearless modification of old build recipes.
+Determinism is what enables things that once worked to keep working.</p>
+</blockquote>
+<p>The life cycle of a build can be broken down into 3 parts:</p>
+<ol>
 <li>
-<p>A temporary directory is created where the build will take place. The
-current directory is changed to this directory.</p>
-<p>See the per-store <a href="../store/types/local-store.html#store-local-store-build-dir"><code>build-dir</code></a> setting for more information.</p>
+<p>Spawn the builder process with the proper environment, including the correct process arguments, environment variables, and file system state.</p>
 </li>
 <li>
+<p>Wait for the builder process to exit and collect its exit status.
+Exit code 0 means success; anything else is a build failure.
+(Strictly speaking, Nix detects process exit by waiting for the standard output and error streams to close.
+If a builder explicitly closes these streams without exiting, Nix will kill it, and deem the build a failure.
+Processes should therefore exit <em>without</em> explicitly closing those standard streams, and let the exiting of the process close them implicitly.)</p>
+<p>Nix also logs the standard output and error of the process, but this is just for human convenience and does not influence the behavior of the system.
+(Builder processes have no idea what the consumer of their standard output and error does with the pseudo-terminal master, only that they are indeed consumed so buffers do not fill up etc. and writes to each output standard stream will continue to succeed.
+In practice, Nix will store the log in <code>/nix/var/log/nix</code>)</p>
+</li>
+<li>
+<p>Processing the outputs after the builder has exited.</p>
+<p>The builder process on exit should have left behind files for each output the derivation is supposed to produce.
+The files must be processed to turn them into bona fide store objects.
+If the processing succeeds, those store objects are associated with the derivation as (the results of) a successful build.</p>
+</li>
+</ol>
+<p>Step (3) is done by Nix externally to the build itself, which is just steps (1) and (2).
+In step (3), just inert data is processed, since the builder process has exited or been killed by then.
+Step (1) however is best described not from Nix’s perspective, but from the build process’s perspective.</p>
+<blockquote>
+<p><strong>Explanation</strong></p>
+<p>Ultimately, what matters for determinism is what the build process can observe: what resources (files, networking, etc.) it can see, what syscalls succeed or fail, etc.
+Nix can achieve this through many different sandboxing strategies (namespaces, VMs, chroots, …), but the process shouldn’t be able to tell them apart.
+We therefore specify building from the process’s perspective, not Nix’s perspective, to focus on <em>what</em>, not <em>how</em>.</p>
+</blockquote>
+<h2 id="what-derivations-can-be-built"><a class="header" href="#what-derivations-can-be-built">What derivations can be built</a></h2>
+<p>Actually only some derivations are ready to be built.
+In particular, only <a href="./resolution.html"><em>resolved</em></a> derivations can be built.
+That is to say, a derivation that depends on other derivations is not ready yet to be built, because some of those other derivations might not have yet been built.
+If the other derivations are indeed all built, we can witness this fact by resolving the derivation, and converting all the derivation’s input references into plain store paths.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Note that <a href="derivation/outputs/input-address.html">input-addressing</a> derivations are improperly resolved.
+As discussed on the linked page, the current input-addressing algorithm does not respect resolution-equivalence of derivations (\(\sim_\mathrm{Drv}\)).
+That means that if Nix properly resolved an input-addressed derivation, the resolved derivation would have different input addresses, violating expectations.
+Nix therefore improperly resolves the derivation, keeping its original input-addressed output paths, creating an invalid derivation that is both resolved and instructed to create the outputs at the originally expected paths.</p>
+</blockquote>
+<h2 id="environment-of-the-builder-process"><a class="header" href="#environment-of-the-builder-process">Environment of the builder process</a></h2>
+<p>This section describes how the <a href="./derivation/index.html#builder"><code>builder</code></a> is executed.</p>
+<blockquote>
+<p><strong>Implementation detail</strong></p>
+<p>Nix prevents multiple <a href="../glossary.html#gloss-nix-instance">Nix instances</a> from performing the same build at the same time, for example by acquiring exclusive file locks.</p>
+</blockquote>
+<h3 id="file-system"><a class="header" href="#file-system">File system</a></h3>
+<p>The builder should have access to a limited file system where only certain objects are available.
+The most important exposed files are the inputs (other store objects) of the (resolved) derivation.
+Additionally, some other files are exposed.</p>
+<h4 id="store-inputs"><a class="header" href="#store-inputs">Store inputs</a></h4>
+<p>The builder will be run against a file system in which the <a href="./store-path.html#store-directory-path">store directory</a> contains the <a href="../glossary.html#gloss-closure">closure</a> of the inputs.
+In particular, consider a store that just contains this closure.
+That store is exposed to the file system according to the rules specified in the <a href="./store-path.html#exposing">Exposing Store Objects in OS File Systems</a> documentation.
+This precisely defines the file system layout of the store that should be visible to the builder process.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Historically, Nix exposed <em>at least</em> the following store contents to the builder, but also arbitrarily other store objects, due to limitations around operating systems’ file system virtualization capabilities, and wanting to avoid copying or moving files.
+It still can do this in so-called <em>unsandboxed</em> builds.</p>
+<p>Such builds should be considered discouraged, but one that works less badly against non-mischievous derivations than might be expected.
+This is because store paths are relatively unpredictable, so a well-behaved program is unlikely to stumble upon a store object it wasn’t supposed to know about.</p>
+<p>As operating systems developed better file system primitives, the need for disabling sandboxing has lessened greatly over the years, and this trend should continue into the future.</p>
+</blockquote>
+<p>The outputs are expected to be created in that store directory as if they were valid store objects.
+(They are just files during builder execution, but during <a href="#processing-outputs">processing outputs</a> they will be turned into proper store objects.)
+The <a href="#env-vars">environment variables</a> for each output indicate where the builder should write them;
+Nix ensures that those paths do not yet exist when the builder is run.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>In sandboxed builds, ensuring that the outputs do not exist in the store directory is trivial.
+In unsandboxed builds, it is harder in general.
+In the worst case, the derivation is in fact rewritten so different output paths are used instead, and then the outputs are rewritten back to the intended output paths after.
+In the content-addressing case rewriting would be needed either way, but in the input-addressing case, this is a significant degradation, as the point of input addressing is to avoid rewrites by knowing output paths in advance.</p>
+</blockquote>
+<h3 id="other-file-system-state"><a class="header" href="#other-file-system-state">Other file system state</a></h3>
+<ul>
+<li>
+<p>The current working directory of the builder process will be a fresh temporary directory.
+It is initially empty when the process starts except for a few input files:</p>
+<ul>
+<li>
+<p>If <a href="../language/advanced-attributes.html#adv-attr-structuredAttrs"><code>__structuredAttrs</code></a> is enabled: <code>.attrs.json</code> (the derivation attributes as JSON) and <code>.attrs.sh</code> (a Bash-compatible rendering of the same).
+The environment variables <code>NIX_ATTRS_JSON_FILE</code> and <code>NIX_ATTRS_SH_FILE</code> point to these files, respectively.</p>
+</li>
+<li>
+<p>If <a href="../language/advanced-attributes.html#adv-attr-passAsFile"><code>passAsFile</code></a> is used (only without <code>__structuredAttrs</code>): for each attribute name listed, a file <code>.attr-&lt;hash&gt;</code> where <code>&lt;hash&gt;</code> is the <a href="../protocols/nix32.html">Nix32</a>-encoded SHA-256 hash of the attribute name.
+The environment variable <code>&lt;name&gt;Path</code> points to the file containing the attribute’s value.</p>
+</li>
+</ul>
+<p>In sandboxed builds, this directory is at a deterministic path inside the sandbox (controlled by the <a href="../command-ref/conf-file.html#conf-sandbox-build-dir"><code>sandbox-build-dir</code></a> setting, default <code>/build</code>).
+See also the per-store <a href="../store/types/local-store.html#store-local-store-build-dir"><code>build-dir</code></a> setting for the host-side location.</p>
+</li>
+<li>
+<p>Basic device nodes for essential operations (null device, random number generation, standard streams as a pseudo terminal)</p>
+<p>(A pseudo terminal would not be strictly necessary since the standard streams are passively logging, not there to facilitate interaction.
+But it is still useful to entice programs to do nicer logging with e.g. colors etc.)</p>
+</li>
+<li>
+<p>On Linux: Process information via <code>/proc</code></p>
+</li>
+<li>
+<p>Minimal user and group identity information</p>
+</li>
+<li>
+<p>A loopback-only network configuration with hostname set to <code>localhost</code></p>
+</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>Fixed-output derivations have access to additional operating system state to facilitate communication with the outside world, such as network name resolution and TLS certificate verification.
+This is necessary because these derivations are allowed to access the network, unlike regular derivations which are fully sandboxed.</p>
+</blockquote>
+<h3 id="env-vars"><a class="header" href="#env-vars">Environment variables</a></h3>
 <p>The environment is cleared and set to the derivation attributes, as
 specified above.</p>
-</li>
-<li>
+<p>For most derivations types this must contain at least:</p>
+<ul>
+<li>For each output declared in <code>outputs</code>, the corresponding environment variable is set to point to the intended path in the Nix store for that output.
+Each output path is a concatenation of the cryptographic hash of all build inputs, the <code>name</code> attribute and the output name.
+(The output name is omitted if it’s <code>out</code>.)</li>
+</ul>
 <p>In addition, the following variables are set:</p>
 <ul>
 <li>
-<p><code>NIX_BUILD_TOP</code> contains the path of the temporary directory for
-this build.</p>
+<p><code>NIX_BUILD_TOP</code> contains the path of the temporary directory for this build.</p>
 </li>
 <li>
-<p>Also, <code>TMPDIR</code>, <code>TEMPDIR</code>, <code>TMP</code>, <code>TEMP</code> are set to point to the
-temporary directory. This is to prevent the builder from
-accidentally writing temporary files anywhere else. Doing so
-might cause interference by other processes.</p>
+<p>Also, <code>TMPDIR</code>, <code>TEMPDIR</code>, <code>TMP</code>, <code>TEMP</code> are set to point to the temporary directory.
+This is to prevent the builder from accidentally writing temporary files anywhere else.
+Doing so might cause interference by other processes.</p>
 </li>
 <li>
-<p><code>PATH</code> is set to <code>/path-not-set</code> to prevent shells from
-initialising it to their built-in default value.</p>
+<p><code>PATH</code> is set to <code>/path-not-set</code> to prevent shells from initialising it to their built-in default value.</p>
 </li>
 <li>
-<p><code>HOME</code> is set to <code>/homeless-shelter</code> to prevent programs from
-using <code>/etc/passwd</code> or the like to find the user’s home
-directory, which could cause impurity. Usually, when <code>HOME</code> is
-set, it is used as the location of the home directory, even if
-it points to a non-existent path.</p>
+<p><code>HOME</code> is set to <code>/homeless-shelter</code>.
+(Without sandboxing, this discourages programs from using <code>/etc/passwd</code> or the like to find the user’s home directory, which could cause impurity.)
+Usually, when <code>HOME</code> is set, it is used as the location of the home directory, even if it points to a non-existent path.</p>
 </li>
 <li>
-<p><code>NIX_STORE</code> is set to the path of the top-level Nix store
-directory (typically, <code>/nix/store</code>).</p>
+<p><code>NIX_STORE</code> is set to the path of the top-level Nix <a href="./store-path.html#store-directory-path">store directory path</a> (typically, <code>/nix/store</code>).</p>
 </li>
 <li>
-<p><code>NIX_ATTRS_JSON_FILE</code> &amp; <code>NIX_ATTRS_SH_FILE</code> if <code>__structuredAttrs</code>
-is set to <code>true</code> for the derivation. A detailed explanation of this
-behavior can be found in the
-<a href="../language/advanced-attributes.html#adv-attr-structuredAttrs">section about structured attrs</a>.</p>
-</li>
-<li>
-<p>For each output declared in <code>outputs</code>, the corresponding
-environment variable is set to point to the intended path in the
-Nix store for that output. Each output path is a concatenation
-of the cryptographic hash of all build inputs, the <code>name</code>
-attribute and the output name. (The output name is omitted if
-it’s <code>out</code>.)</p>
+<p><code>NIX_ATTRS_JSON_FILE</code> &amp; <code>NIX_ATTRS_SH_FILE</code> if <code>__structuredAttrs</code> is set to <code>true</code> for the derivation.
+A detailed explanation of this behavior can be found in the <a href="../language/advanced-attributes.html#adv-attr-structuredAttrs">section about structured attrs</a>.</p>
 </li>
 </ul>
-</li>
-<li>
-<p>If an output path already exists, it is removed. Also, locks are
-acquired to prevent multiple <a href="../glossary.html#gloss-nix-instance">Nix instances</a> from performing the same
-build at the same time.</p>
-</li>
-<li>
-<p>A log of the combined standard output and error is written to
-<code>/nix/var/log/nix</code>.</p>
-</li>
-<li>
-<p>The builder is executed with the arguments specified by the
-attribute <code>args</code>. If it exits with exit code 0, it is considered to
-have succeeded.</p>
-</li>
-<li>
-<p>The temporary directory is removed (unless the <code>-K</code> option was
-specified).</p>
-</li>
-</ul>
+<h3 id="arguments"><a class="header" href="#arguments">Arguments</a></h3>
+<p>The builder is passed the arguments specified by the derivation attribute <code>args</code>.</p>
 <h2 id="processing-outputs"><a class="header" href="#processing-outputs">Processing outputs</a></h2>
 <p>If the builder exited successfully, the following steps happen in order to turn the output directories left behind by the builder into proper store objects:</p>
 <ul>
 <li>
 <p><strong>Normalize the file permissions</strong></p>
-<p>Nix sets the last-modified timestamp on all files
-in the build result to 1 (00:00:01 1/1/1970 UTC), sets the group to
-the default group, and sets the mode of the file to 0444 or 0555
-(i.e., read-only, with execute permission enabled if the file was
-originally executable). Any possible <code>setuid</code> and <code>setgid</code>
-bits are cleared.</p>
-<blockquote>
-<p><strong>Note</strong></p>
-<p>Setuid and setgid programs are not currently supported by Nix.
-This is because the Nix archives used in deployment have no concept of ownership information,
-and because it makes the build result dependent on the user performing the build.</p>
-</blockquote>
+<p>The files must conform to the model described in the <a href="./file-system-object/os-file-system.html">Exposing in OS file systems</a> section.
+For example, timestamps and permissions are canonicalised.</p>
 </li>
 <li>
 <p><strong>Calculate the references</strong></p>
-<p>Nix scans each output path for
-references to input paths by looking for the hash parts of the input
-paths. Since these are potential runtime dependencies, Nix registers
-them as dependencies of the output paths.</p>
-<p>Nix also scans for references to other outputs’ paths in the same way, because outputs are allowed to refer to each other.
-If the outputs’ references to each other form a cycle, this is an error, because the references of store objects much be acyclic.</p>
+<p>Nix scans each output path for <a href="./store-object.html#references">references</a> to input store objects by looking for the <a href="./store-path.html#digest">digest</a> of each input.
+(The name part and the <a href="./store-path.html#store-directory-path">store directory path</a> are ignored when scanning; an input’s hash part that is neither followed by a <code>-</code> nor proceeded by a <code>/</code> still scans as a reference.)
+Since these are potential runtime dependencies, Nix will register them as references of the output store object they occur in.</p>
+<p>Nix also scans for references from one output to another in the same way, because outputs are allowed to refer to each other.</p>
+<p>The outputs’ references must form a <a href="../glossary.html#gloss-directed-acyclic-graph">directed acyclic graph</a>.
+(This is not a special restriction for outputs; it is true for the references of all store objects in general.)</p>
+<p>In the case of derivations with output paths that are fixed in advance (i.e. <a href="./derivation/outputs/input-address.html">input-addressing</a> derivations, or <a href="./derivation/outputs/content-address.html#fixed">fixed content-addressing</a> derivations), the actual final store path to each output is used during the build if possible.
+For <a href="./derivation/outputs/content-address.html#floating">floating content-addressing</a> derivations, however, the final store path is not known in advance by definition.
+Scratch store paths must therefore be used instead.
+Scanning will use those scratch paths, but then any output-to-be that contains such a scanned scratch path must be rewritten to instead use the final (content-addressed) path of the output in question.</p>
 </li>
 </ul>
+<p>At this point, the file system data is in the proper form, and the valid acyclic reference data for each output is also calculated, so the outputs are added to the store as proper store objects.
+Additionally, those store objects (at least in the case that they are <a href="./derivation/outputs/content-address.html">content-addressed</a>) can be associated with the derivation in the <a href="./build-trace.html">build trace</a> in the record for a successful build.</p>
+<blockquote>
+<p><strong>Implementation detail</strong></p>
+<p>Nix will normally clean up and remove the temporary build directory after every build, successful or unsuccessful.
+The builder doesn’t know whether Nix does or not, however, as it will have exited before the build directory is cleaned up, and it will not see any old build directory if (after a failed build) it is run again.
+The <a href="../command-ref/opt-common.html#opt-keep-failed"><code>--keep-failed</code></a> option can be specified to keep the build directory in the case of a failing build.</p>
+</blockquote>
 
                     </main>
 
@@ -360,7 +449,7 @@ If the outputs’ references to each other form a cycle, this is an error, becau
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

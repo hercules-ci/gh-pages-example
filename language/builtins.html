@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Built-ins - Nix 2.34.9 Reference Manual</title>
+        <title>Built-ins - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -267,13 +267,42 @@ The latter is supported so this function is idempotent.</p>
 <p>This is the opposite of <a href="#builtins-unsafeDiscardOutputDependency"><code>builtins.unsafeDiscardOutputDependency</code></a>.</p>
 </dd>
 
+<dt id="builtins-addErrorContext">
+  <a href="#builtins-addErrorContext"><code>addErrorContext <var>context</var> <var>value</var></code></a>
+</dt>
+
+<dd>
+<p>Evaluate <em>context</em>, which can be coerced to a string,
+and append it to any error or stack traces displayed while evaluating <em>value</em>.
+Then return <em>value</em>.</p>
+<p>This function is useful for providing helpful context in complex Nix expressions
+when the evaluation of <em>value</em> fails.
+The additional context is applied when evaluating <em>value</em> itself fails,
+not when attributes or elements of <em>value</em> are evaluated.</p>
+<p>For example, the module system from nixpkgs uses this to show
+the relevant information about the options that were evaluating
+when an error occurs.</p>
+<pre><code class="language-nix-repl">nix-repl&gt; addErrorContext "while evaluating foo" (throw "bar")
+error:
+       … while evaluating foo
+
+       … while calling the 'throw' builtin
+         at «string»:1:56:
+            1| with builtins; addErrorContext "while evaluating foo" (throw "bar")
+             |                                                        ^
+
+       error: bar
+</code></pre>
+</dd>
+
 <dt id="builtins-all">
   <a href="#builtins-all"><code>all <var>pred</var> <var>list</var></code></a>
 </dt>
 
 <dd>
 <p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for all elements
-of <em>list</em>, and <code>false</code> otherwise.</p>
+of <em>list</em>, and <code>false</code> otherwise.
+Short-circuits and does not evaluate elements that appear later in the list if <code>pred</code> evaluates to <code>false</code>.</p>
 </dd>
 
 <dt id="builtins-any">
@@ -282,7 +311,8 @@ of <em>list</em>, and <code>false</code> otherwise.</p>
 
 <dd>
 <p>Return <code>true</code> if the function <em>pred</em> returns <code>true</code> for at least one
-element of <em>list</em>, and <code>false</code> otherwise.</p>
+element of <em>list</em>, and <code>false</code> otherwise.
+Short-circuits and does not evaluate elements that appear later in the list if <code>pred</code> evaluates to <code>true</code>.</p>
 </dd>
 
 <dt id="builtins-attrNames">
@@ -292,6 +322,7 @@ element of <em>list</em>, and <code>false</code> otherwise.</p>
 <dd>
 <p>Return the names of the attributes in the set <em>set</em> in an
 alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = "foo"; }</code> evaluates to <code>[ "x" "y" ]</code>.</p>
+<p>Has <code>O(n log n)</code> time complexity, where <code>n</code> is number of attributes in the <em>set</em>.</p>
 </dd>
 
 <dt id="builtins-attrValues">
@@ -301,6 +332,7 @@ alphabetically sorted list. For instance, <code>builtins.attrNames { y = 1; x = 
 <dd>
 <p>Return the values of the attributes in the set <em>set</em> in the order
 corresponding to the sorted attribute names.</p>
+<p>Has <code>O(n log n)</code> time complexity, where <code>n</code> is number of attributes in the <em>set</em>.</p>
 </dd>
 
 <dt id="builtins-baseNameOf">
@@ -372,6 +404,7 @@ ignored. For example,</p>
 <pre><code class="language-nix">builtins.catAttrs "a" [{a = 1;} {b = 0;} {a = 2;}]
 </code></pre>
 <p>evaluates to <code>[1 2]</code>.</p>
+<p>Has <code>O(n)</code> time complexity, where <code>n</code> is the size of the <em>list</em>.</p>
 </dd>
 
 <dt id="builtins-ceil">
@@ -582,7 +615,8 @@ before the final slash in the string. This is similar to the GNU
 
 <dd>
 <p>Return <code>true</code> if a value equal to <em>x</em> occurs in the list <em>xs</em>, and
-<code>false</code> otherwise.</p>
+<code>false</code> otherwise.
+Short-circuits and does not evaluate elements that occur in the list after the first match.</p>
 </dd>
 
 <dt id="builtins-elemAt">
@@ -678,7 +712,9 @@ attribute with the following attributes (all except <code>url</code> optional):<
 <ul>
 <li>
 <p><code>url</code></p>
-<p>The URL of the repo.</p>
+<p>The <a href="https://git-scm.com/docs/git-clone#_git_urls">Git URL</a> of the repo. SCP-like syntax is supported, but relative
+paths are rewritten to absolute ones. For example:</p>
+<p><code>git@github.com:repo/path</code> becomes <code>ssh://git@github.com/repo/path</code></p>
 </li>
 <li>
 <p><code>name</code> (default: <code>source</code>)</p>
@@ -1355,7 +1391,8 @@ characters that are invalid for the store.</p>
 
 <dd>
 <p>Return a list consisting of the elements of <em>list</em> for which the
-function <em>f</em> returns <code>true</code>.</p>
+function <em>f</em> returns <code>true</code>.
+Has linear time complexity in the size of the input <em>list</em>.</p>
 </dd>
 
 <dt id="builtins-filterSource">
@@ -1575,13 +1612,33 @@ a NixInt and if <code>*number* &lt; -9007199254740992</code> or <code>*number* &
 
 <dd>
 <p>Reduce a list by applying a binary operator, from left to right,
-e.g. <code>foldl' op nul [x0 x1 x2 ...] = op (op (op nul x0) x1) x2) ...</code>.</p>
+e.g.</p>
+<pre><code class="language-nix">foldl' op nul [ x0 x1 x2 ]
+  =
+    let
+      strictly = f: a: builtins.seq a (f a);
+      y0 = op nul x0;
+      y1 = strictly op y0 x1;
+      y2 = strictly op y1 x2;
+    in
+      y2
+
+  # and, ignoring strictness/laziness
+  ==
+    op (op (op nul x0) x1) x2
+</code></pre>
 <p>For example, <code>foldl' (acc: elem: acc + elem) 0 [1 2 3]</code> evaluates
 to <code>6</code> and <code>foldl' (acc: elem: { "${elem}" = elem; } // acc) {} ["a" "b"]</code> evaluates to <code>{ a = "a"; b = "b"; }</code>.</p>
 <p>The first argument of <code>op</code> is the accumulator whereas the second
-argument is the current element being processed. The return value
-of each application of <code>op</code> is evaluated immediately, even for
-intermediate values.</p>
+argument is the current element being processed.</p>
+<p>The return value of each application of <code>op</code> is evaluated immediately,
+even for intermediate values.
+This way, <code>foldl'</code> can operate in constant stack space, allowing it to operate on large lists,
+regardless of <a href="../command-ref/conf-file.html#conf-max-call-depth">max-call-depth</a>.</p>
+<p>Conventionally, a fold function without the <code>'</code> (“prime”) preserves laziness,
+but lacks these benefits.
+See also <a href="https://nixos.org/manual/nixpkgs/unstable/#function-library-lib.lists.foldl">Nixpkgs <code>lib.foldl</code></a>.</p>
+<p>Has linear time complexity in the size of the list.</p>
 </dd>
 
 <dt id="builtins-fromJSON">
@@ -1622,6 +1679,7 @@ denoting whether the corresponding argument has a default value. For
 instance, <code>functionArgs ({ x, y ? 123}: ...) = { x = false; y = true; }</code>.</p>
 <p>“Formal argument” here refers to the attributes pattern-matched by
 the function. Plain lambdas are not included, e.g. <code>functionArgs (x: ...) = { }</code>.</p>
+<p>Has constant time complexity.</p>
 </dd>
 
 <dt id="builtins-genList">
@@ -1634,6 +1692,7 @@ value returned by <em>generator</em> <code>i</code>. For example,</p>
 <pre><code class="language-nix">builtins.genList (x: x * x) 5
 </code></pre>
 <p>returns the list <code>[ 0 1 4 9 16 ]</code>.</p>
+<p>Has linear time complexity.</p>
 </dd>
 
 <dt id="builtins-genericClosure">
@@ -1698,6 +1757,7 @@ Items are compared by their <code>key</code> attribute.</p>
 aborts if the attribute doesn’t exist. This is a dynamic version of
 the <code>.</code> operator, since <em>s</em> is an expression rather than an
 identifier.</p>
+<p>Has <code>O(log n)</code> time complexity, where <code>n</code> is number of attributes in the <em>set</em>.</p>
 </dd>
 
 <dt id="builtins-getContext">
@@ -1744,7 +1804,7 @@ home directory.)</p>
 <pre><code>extra-experimental-features = flakes
 </code></pre>
 </blockquote>
-<p>Fetch a flake from a flake reference, and return its output attributes and some metadata. For example:</p>
+<p>Fetch a flake from a flake reference or a path, and return its output attributes and some metadata. For example:</p>
 <pre><code class="language-nix">(builtins.getFlake "nix/55bc52401966fbffa525c574c14f67b00bc4fb3a").packages.x86_64-linux.nix
 </code></pre>
 <p>Unless impure evaluation is allowed (<code>--impure</code>), the flake reference
@@ -1769,6 +1829,7 @@ mapped to the same corresponding attribute name returned by <em>f</em>.</p>
 <p>evaluates to</p>
 <pre><code class="language-nix">{ b = [ "bar" "baz" ]; f = [ "foo" ]; }
 </code></pre>
+<p>Has <code>O(n log n)</code> time complexity, where <code>n</code> is the size of the input <em>list</em>.</p>
 </dd>
 
 <dt id="builtins-hasAttr">
@@ -1779,6 +1840,7 @@ mapped to the same corresponding attribute name returned by <em>f</em>.</p>
 <p><code>hasAttr</code> returns <code>true</code> if <em>set</em> has an attribute named <em>s</em>, and
 <code>false</code> otherwise. This is a dynamic version of the <code>?</code> operator,
 since <em>s</em> is an expression rather than an identifier.</p>
+<p>Has <code>O(log n)</code> time complexity, where <code>n</code> is number of attributes in the <em>set</em>.</p>
 </dd>
 
 <dt id="builtins-hasContext">
@@ -1830,6 +1892,7 @@ of <code>"md5"</code>, <code>"sha1"</code>, <code>"sha256"</code> or <code>"sha5
 <p>Return the first element of a list; abort evaluation if the argument
 isn’t a list or is an empty list. You can test whether a list is
 empty by comparing it with <code>[]</code>.</p>
+<p>Has constant time complexity.</p>
 </dd>
 
 <dt id="builtins-import">
@@ -1891,7 +1954,7 @@ x: x + 456
 <dd>
 <p>Return a set consisting of the attributes in the set <em>e2</em> which have the
 same name as some attribute in <em>e1</em>.</p>
-<p>Performs in O(<em>n</em> log <em>m</em>) where <em>n</em> is the size of the smaller set and <em>m</em> the larger set’s size.</p>
+<p>Has <code>O(n log m)</code> time complexity, where <code>n</code> and <code>m</code> are the sizes of the smallest and largest set respectively.</p>
 </dd>
 
 <dt id="builtins-isAttrs">
@@ -2014,6 +2077,7 @@ takes precedence.</p>
 <p>evaluates to</p>
 <pre><code class="language-nix">{ foo = 123; bar = 456; }
 </code></pre>
+<p>Has <code>O(n log n)</code> time complexity, where <code>n</code> is size of the list.</p>
 </dd>
 
 <dt id="builtins-map">
@@ -2026,6 +2090,9 @@ example,</p>
 <pre><code class="language-nix">map (x: "foo" + x) [ "bar" "bla" "abc" ]
 </code></pre>
 <p>evaluates to <code>[ "foobar" "foobla" "fooabc" ]</code>.</p>
+<p>Has <code>O(n)</code> time complexity, where <code>n</code> is the size of the <em>list</em>.
+Note that no calls to <em>f</em> are performed by the builtin, but <em>f</em> itself is evaluated and its type is checked eagerly.
+The function <em>f</em> is called on demand when a resulting list element is evaluated.</p>
 </dd>
 
 <dt id="builtins-mapAttrs">
@@ -2037,6 +2104,9 @@ example,</p>
 <pre><code class="language-nix">builtins.mapAttrs (name: value: value * 10) { a = 1; b = 2; }
 </code></pre>
 <p>evaluates to <code>{ a = 10; b = 20; }</code>.</p>
+<p>Has <code>O(n)</code> time complexity, where <code>n</code> is the size of the <em>attrset</em>.
+Note that no calls to <em>f</em> are performed by the builtin.
+The function <em>f</em> is called on demand when a resulting attribute value is evaluated.</p>
 </dd>
 
 <dt id="builtins-match">
@@ -2201,6 +2271,7 @@ in <em>list</em> for which <em>pred</em> returned <code>true</code>, and a list 
 <p>evaluates to</p>
 <pre><code class="language-nix">{ right = [ 23 42 ]; wrong = [ 1 9 3 ]; }
 </code></pre>
+<p>Runs in linear time in the size of the <em>list</em>.</p>
 </dd>
 
 <dt id="builtins-path">
@@ -2306,6 +2377,7 @@ don’t have to exist in <em>set</em>. For instance,</p>
 <pre><code class="language-nix">removeAttrs { x = 1; y = 2; z = 3; } [ "a" "x" "z" ]
 </code></pre>
 <p>evaluates to <code>{ y = 2; }</code>.</p>
+<p>Has <code>O(n + k log k)</code> time complexity, where <code>n</code> is number of attributes in the <em>set</em> and <code>k</code> is the size of <em>list</em>.</p>
 </dd>
 
 <dt id="builtins-replaceStrings">
@@ -2320,6 +2392,7 @@ with the corresponding string in <em>to</em>.</p>
 <pre><code class="language-nix">builtins.replaceStrings ["oo" "a"] ["a" "i"] "foobar"
 </code></pre>
 <p>evaluates to <code>"fabir"</code>.</p>
+<p>Has <code>O(n k)</code> time complexity, where <code>n</code> is the length of <em>s</em> and <code>k</code> is the number of replacements.</p>
 </dd>
 
 <dt id="builtins-scopedImport">
@@ -2411,6 +2484,8 @@ in
 </code></pre>
 <p>If the <em>comparator</em> violates any of these properties, then <code>builtins.sort</code>
 reorders elements in an unspecified manner.</p>
+<p>Runs in <code>O(n log n)</code> time on average, where <code>n</code> is the size of the <em>list</em>.
+Uses an adaptive sort that exploits existing sorted runs in the input, down to <code>O(n)</code> when the list is already sorted.</p>
 </dd>
 
 <dt id="builtins-split">
@@ -2892,6 +2967,7 @@ values are the return values of <code>f</code>.</p>
   b = { name = "b"; values = [ "z" ]; };
 }
 </code></pre>
+<p>Has <code>O(n log n)</code> time complexity, where <code>n</code> is the number of attributes across all sets.</p>
 </dd>
 
 </dl>
@@ -2948,7 +3024,7 @@ values are the return values of <code>f</code>.</p>
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

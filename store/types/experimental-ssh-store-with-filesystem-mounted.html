@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Experimental SSH Store with filesystem mounted - Nix 2.34.9 Reference Manual</title>
+        <title>Experimental SSH Store with filesystem mounted - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -234,7 +234,8 @@ the remote side will create the symlinks necessary to avoid race conditions.</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-log"><a href="#store-experimental-ssh-store-with-filesystem-mounted-log"><code>log</code></a></span></p>
-<p>directory where Nix stores log files.</p>
+<p>Directory where Nix stores log files.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -261,6 +262,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-real"><a href="#store-experimental-ssh-store-with-filesystem-mounted-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
+<p>Defaults to <a href="#store-experimental-ssh-store-with-filesystem-mounted-store"><code>store</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -283,18 +285,19 @@ to be used on the remote machine. The default is <code>auto</code>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-ssh-key"><a href="#store-experimental-ssh-store-with-filesystem-mounted-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-state"><a href="#store-experimental-ssh-store-with-filesystem-mounted-state"><code>state</code></a></span></p>
 <p>Directory where Nix stores state.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-store"><a href="#store-experimental-ssh-store-with-filesystem-mounted-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -369,7 +372,7 @@ setting.</p>
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

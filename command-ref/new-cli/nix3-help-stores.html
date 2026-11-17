@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix help-stores - Nix 2.34.9 Reference Manual</title>
+        <title>nix help-stores - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -234,6 +234,7 @@ instance,</p>
 <p>tells Nix to access the store on a remote machine via the SSH
 protocol, using <code>/path/to/my/key</code> as the SSH private key. The
 supported settings for each store type are documented below.</p>
+<h3 id="auto"><a class="header" href="#auto"><code>auto</code> special URL</a></h3>
 <p>The special store URL <code>auto</code> causes Nix to automatically select a
 store as follows:</p>
 <ul>
@@ -246,7 +247,7 @@ is writable by the current user.</p>
 to the Nix daemon listening on that socket</a>.</p>
 </li>
 <li>
-<p>Otherwise, on Linux only, use the <a href="#local-store">local chroot store</a>
+<p>Otherwise, on Linux only, use the <a href="../../store/types/local-store.html#chroot">local chroot store</a>
 <code>~/.local/share/nix/root</code>, which will be created automatically if it
 does not exist.</p>
 </li>
@@ -283,9 +284,9 @@ No additional memory will be used, because no information needs to be stored.</p
 </li>
 <li>
 <p><span id="store-dummy-store-store"><a href="#store-dummy-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -490,7 +491,8 @@ ignore-gc-delete-failure = ...
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-log"><a href="#store-experimental-local-overlay-store-log"><code>log</code></a></span></p>
-<p>directory where Nix stores log files.</p>
+<p>Directory where Nix stores log files.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a> when <a href="#store-experimental-local-overlay-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -528,6 +530,7 @@ While the filesystem the database resides on might appear to be read-only, consi
 <li>
 <p><span id="store-experimental-local-overlay-store-real"><a href="#store-experimental-local-overlay-store-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
+<p>Defaults to <a href="#store-experimental-local-overlay-store-store"><code>store</code></a> when <a href="#store-experimental-local-overlay-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -539,7 +542,7 @@ is the only way to perform the deletion without creating a “whiteout”.
 However this causes the OverlayFS kernel data structures to get out-of-sync,
 and can lead to ‘stale file handle’ errors; remounting solves the problem.</p>
 <p>The store directory is passed as an argument to the invoked executable.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-require-sigs"><a href="#store-experimental-local-overlay-store-require-sigs"><code>require-sigs</code></a></span></p>
@@ -554,13 +557,14 @@ and can lead to ‘stale file handle’ errors; remounting solves the problem.</
 <li>
 <p><span id="store-experimental-local-overlay-store-state"><a href="#store-experimental-local-overlay-store-state"><code>state</code></a></span></p>
 <p>Directory where Nix stores state.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> when <a href="#store-experimental-local-overlay-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-store"><a href="#store-experimental-local-overlay-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -580,7 +584,7 @@ setting.</p>
 <li>
 <p><span id="store-experimental-local-overlay-store-upper-layer"><a href="#store-experimental-local-overlay-store-upper-layer"><code>upper-layer</code></a></span></p>
 <p>Directory containing the OverlayFS upper layer for this store’s store dir.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> <code>/upper-layer-must-be-set</code></p>
 </li>
 <li>
 <p><span id="store-experimental-local-overlay-store-use-roots-daemon"><a href="#store-experimental-local-overlay-store-use-roots-daemon"><code>use-roots-daemon</code></a></span></p>
@@ -598,7 +602,7 @@ use-roots-daemon = ...
 </blockquote>
 <p>Whether to request garbage collector roots from an external daemon.</p>
 <p>When enabled, the garbage collector connects to a Unix domain socket
-at <a href="../../store/types/local-store.html#store-option-state"><code>&lt;state-dir&gt;</code></a><code>/gc-roots-socket/socket</code> to discover additional roots
+at <a href="../../store/types/local-store.html#store-local-store-state"><code>&lt;state-dir&gt;</code></a><code>/gc-roots-socket/socket</code> to discover additional roots
 that should not be collected. This is useful when the Nix daemon runs
 without root privileges and cannot scan <code>/proc</code> for runtime roots.</p>
 <p>The daemon can be started with <a href="../../command-ref/new-cli/nix3-store-roots-daemon.html"><code>nix store roots-daemon</code></a>.</p>
@@ -647,7 +651,8 @@ the remote side will create the symlinks necessary to avoid race conditions.</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-log"><a href="#store-experimental-ssh-store-with-filesystem-mounted-log"><code>log</code></a></span></p>
-<p>directory where Nix stores log files.</p>
+<p>Directory where Nix stores log files.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -674,6 +679,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-real"><a href="#store-experimental-ssh-store-with-filesystem-mounted-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
+<p>Defaults to <a href="#store-experimental-ssh-store-with-filesystem-mounted-store"><code>store</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -696,18 +702,19 @@ to be used on the remote machine. The default is <code>auto</code>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-ssh-key"><a href="#store-experimental-ssh-store-with-filesystem-mounted-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-state"><a href="#store-experimental-ssh-store-with-filesystem-mounted-state"><code>state</code></a></span></p>
 <p>Directory where Nix stores state.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> when <a href="#store-experimental-ssh-store-with-filesystem-mounted-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-with-filesystem-mounted-store"><a href="#store-experimental-ssh-store-with-filesystem-mounted-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -782,13 +789,13 @@ to be used on the remote machine. The default is <code>auto</code>
 <li>
 <p><span id="store-experimental-ssh-store-ssh-key"><a href="#store-experimental-ssh-store-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-experimental-ssh-store-store"><a href="#store-experimental-ssh-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -813,7 +820,7 @@ setting.</p>
 </ul>
 <h1 id="http-binary-cache-store"><a class="header" href="#http-binary-cache-store">HTTP Binary Cache Store</a></h1>
 <p><strong>Store URL format</strong>: <code>http://...</code>, <code>https://...</code></p>
-<p>This store allows a binary cache to be accessed via the HTTP
+<p>This store allows a <a href="../../protocols/binary-cache/index.html">binary cache</a> to be accessed via the HTTP
 protocol.</p>
 <h2 id="settings-4"><a class="header" href="#settings-4">Settings</a></h2>
 <ul>
@@ -861,6 +868,7 @@ use a compression method supported by most web browsers
 <li>
 <p><span id="store-http-binary-cache-store-parallel-compression"><a href="#store-http-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
+<p>If not set explicitly, defaults to <code>true</code> when <code>compression</code> is <code>zstd</code> and <code>false</code> otherwise.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -875,9 +883,29 @@ A lower value means a higher priority.</p>
 <p><strong>Default:</strong> <code>0</code></p>
 </li>
 <li>
+<p><span id="store-http-binary-cache-store-retry-attempts"><a href="#store-http-binary-cache-store-retry-attempts"><code>retry-attempts</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-attempts"><code>filetransfer-retry-attempts</code></a> for requests to this store.</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-retry-delay"><a href="#store-http-binary-cache-store-retry-delay"><code>retry-delay</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-delay"><code>filetransfer-retry-delay</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-retry-delay-rate-limited"><a href="#store-http-binary-cache-store-retry-delay-rate-limited"><code>retry-delay-rate-limited</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-delay-rate-limited"><code>filetransfer-retry-delay-rate-limited</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-http-binary-cache-store-retry-max-delay"><a href="#store-http-binary-cache-store-retry-max-delay"><code>retry-max-delay</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-max-delay"><code>filetransfer-retry-max-delay</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
 <p><span id="store-http-binary-cache-store-secret-key"><a href="#store-http-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-http-binary-cache-store-secret-keys"><a href="#store-http-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
@@ -886,9 +914,9 @@ A lower value means a higher priority.</p>
 </li>
 <li>
 <p><span id="store-http-binary-cache-store-store"><a href="#store-http-binary-cache-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -928,7 +956,7 @@ setting.</p>
 </ul>
 <h1 id="local-binary-cache-store"><a class="header" href="#local-binary-cache-store">Local Binary Cache Store</a></h1>
 <p><strong>Store URL format</strong>: <code>file://</code><em>path</em></p>
-<p>This store allows reading and writing a binary cache stored in <em>path</em>
+<p>This store allows reading and writing a <a href="../../protocols/binary-cache/index.html">binary cache</a> stored in <em>path</em>
 in the local filesystem. If <em>path</em> does not exist, it will be created.</p>
 <p>For example, the following builds or downloads <code>nixpkgs#hello</code> into
 the local store and then copies it to the binary cache in
@@ -964,6 +992,7 @@ fetch debug info on demand</p>
 <li>
 <p><span id="store-local-binary-cache-store-parallel-compression"><a href="#store-local-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
+<p>If not set explicitly, defaults to <code>true</code> when <code>compression</code> is <code>zstd</code> and <code>false</code> otherwise.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -980,7 +1009,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-binary-cache-store-secret-key"><a href="#store-local-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-local-binary-cache-store-secret-keys"><a href="#store-local-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
@@ -989,9 +1018,9 @@ A lower value means a higher priority.</p>
 </li>
 <li>
 <p><span id="store-local-binary-cache-store-store"><a href="#store-local-binary-cache-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1022,13 +1051,23 @@ setting.</p>
 <h1 id="local-daemon-store"><a class="header" href="#local-daemon-store">Local Daemon Store</a></h1>
 <p><strong>Store URL format</strong>: <code>daemon</code>, <code>unix://</code><em>path</em></p>
 <p>This store type accesses a Nix store by talking to a Nix daemon
-listening on the Unix domain socket <em>path</em>. The store pseudo-URL
-<code>daemon</code> is equivalent to <code>unix:///nix/var/nix/daemon-socket/socket</code>.</p>
+listening on the Unix domain socket <em>path</em>.</p>
+<p>When <em>path</em> is not specified (i.e. the <code>daemon</code> pseudo-URL or bare <code>unix://</code>),
+the socket path is determined as follows:</p>
+<ol>
+<li>
+<p>The <a href="../../command-ref/env-common.html#env-NIX_DAEMON_SOCKET_PATH"><code>NIX_DAEMON_SOCKET_PATH</code></a> environment variable, if set.</p>
+</li>
+<li>
+<p>Otherwise, <code>daemon-socket/socket</code> within the <a href="#store-local-daemon-store-state"><code>state</code></a> directory.</p>
+</li>
+</ol>
 <h2 id="settings-6"><a class="header" href="#settings-6">Settings</a></h2>
 <ul>
 <li>
 <p><span id="store-local-daemon-store-log"><a href="#store-local-daemon-store-log"><code>log</code></a></span></p>
-<p>directory where Nix stores log files.</p>
+<p>Directory where Nix stores log files.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a> when <a href="#store-local-daemon-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -1055,6 +1094,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-daemon-store-real"><a href="#store-local-daemon-store-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
+<p>Defaults to <a href="#store-local-daemon-store-store"><code>store</code></a> when <a href="#store-local-daemon-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1065,13 +1105,14 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-daemon-store-state"><a href="#store-local-daemon-store-state"><code>state</code></a></span></p>
 <p>Directory where Nix stores state.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> when <a href="#store-local-daemon-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
 <p><span id="store-local-daemon-store-store"><a href="#store-local-daemon-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1101,7 +1142,8 @@ setting.</p>
 prefixed to other directories such as the Nix store directory. The
 store pseudo-URL <code>local</code> denotes a store that uses <code>/</code> as its root
 directory.</p>
-<p>A store that uses a <em>root</em> other than <code>/</code> is called a <em>chroot
+<h2 id="chroot"><a class="header" href="#chroot">Local chroot store</a></h2>
+<p>A local store that uses a <em>root</em> other than <code>/</code> is called a <em>local chroot
 store</em>. With such stores, the store directory is “logically” still
 <code>/nix/store</code>, so programs stored in them can only be built and
 executed by <code>chroot</code>-ing into <em>root</em>. Chroot stores only support
@@ -1161,7 +1203,8 @@ ignore-gc-delete-failure = ...
 </li>
 <li>
 <p><span id="store-local-store-log"><a href="#store-local-store-log"><code>log</code></a></span></p>
-<p>directory where Nix stores log files.</p>
+<p>Directory where Nix stores log files.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_LOG_DIR"><code>NIX_LOG_DIR</code></a> when <a href="#store-local-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/var/log/nix</code></p>
 </li>
 <li>
@@ -1191,6 +1234,7 @@ While the filesystem the database resides on might appear to be read-only, consi
 <li>
 <p><span id="store-local-store-real"><a href="#store-local-store-real"><code>real</code></a></span></p>
 <p>Physical path of the Nix store.</p>
+<p>Defaults to <a href="#store-local-store-store"><code>store</code></a> when <a href="#store-local-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1206,13 +1250,14 @@ While the filesystem the database resides on might appear to be read-only, consi
 <li>
 <p><span id="store-local-store-state"><a href="#store-local-store-state"><code>state</code></a></span></p>
 <p>Directory where Nix stores state.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STATE_DIR"><code>NIX_STATE_DIR</code></a> when <a href="#store-local-store-root"><code>root</code></a> is not set.</p>
 <p><strong>Default:</strong> <code>/dummy</code></p>
 </li>
 <li>
 <p><span id="store-local-store-store"><a href="#store-local-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1245,7 +1290,7 @@ use-roots-daemon = ...
 </blockquote>
 <p>Whether to request garbage collector roots from an external daemon.</p>
 <p>When enabled, the garbage collector connects to a Unix domain socket
-at <a href="../../store/types/local-store.html#store-option-state"><code>&lt;state-dir&gt;</code></a><code>/gc-roots-socket/socket</code> to discover additional roots
+at <a href="../../store/types/local-store.html#store-local-store-state"><code>&lt;state-dir&gt;</code></a><code>/gc-roots-socket/socket</code> to discover additional roots
 that should not be collected. This is useful when the Nix daemon runs
 without root privileges and cannot scan <code>/proc</code> for runtime roots.</p>
 <p>The daemon can be started with <a href="../../command-ref/new-cli/nix3-store-roots-daemon.html"><code>nix store roots-daemon</code></a>.</p>
@@ -1259,7 +1304,7 @@ without root privileges and cannot scan <code>/proc</code> for runtime roots.</p
 </ul>
 <h1 id="s3-binary-cache-store"><a class="header" href="#s3-binary-cache-store">S3 Binary Cache Store</a></h1>
 <p><strong>Store URL format</strong>: <code>s3://</code><em>bucket-name</em></p>
-<p>This store allows reading and writing a binary cache stored in an AWS S3 (or S3-compatible service) bucket.
+<p>This store allows reading and writing a <a href="../../protocols/binary-cache/index.html">binary cache</a> stored in an AWS S3 (or S3-compatible service) bucket.
 This store shares many idioms with the <a href="../../store/types/http-binary-cache-store.html">HTTP Binary Cache Store</a>.</p>
 <p>For AWS S3, the binary cache URL for a bucket named <code>example-nix-cache</code> will be exactly <a href="s3://example-nix-cache">s3://example-nix-cache</a>.
 For S3 compatible binary caches, consult that cache’s documentation.</p>
@@ -1430,6 +1475,7 @@ can improve performance and reliability for large uploads.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-parallel-compression"><a href="#store-s3-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
+<p>If not set explicitly, defaults to <code>true</code> when <code>compression</code> is <code>zstd</code> and <code>false</code> otherwise.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -1457,6 +1503,26 @@ parameter.</p>
 <p><strong>Default:</strong> <code>us-east-1</code></p>
 </li>
 <li>
+<p><span id="store-s3-binary-cache-store-retry-attempts"><a href="#store-s3-binary-cache-store-retry-attempts"><code>retry-attempts</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-attempts"><code>filetransfer-retry-attempts</code></a> for requests to this store.</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-retry-delay"><a href="#store-s3-binary-cache-store-retry-delay"><code>retry-delay</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-delay"><code>filetransfer-retry-delay</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-retry-delay-rate-limited"><a href="#store-s3-binary-cache-store-retry-delay-rate-limited"><code>retry-delay-rate-limited</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-delay-rate-limited"><code>filetransfer-retry-delay-rate-limited</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
+<p><span id="store-s3-binary-cache-store-retry-max-delay"><a href="#store-s3-binary-cache-store-retry-max-delay"><code>retry-max-delay</code></a></span></p>
+<p>Override <a href="../../command-ref/conf-file.html#conf-filetransfer-retry-max-delay"><code>filetransfer-retry-max-delay</code></a> for requests to this store (milliseconds).</p>
+<p><strong>Default:</strong> <code>0</code></p>
+</li>
+<li>
 <p><span id="store-s3-binary-cache-store-scheme"><a href="#store-s3-binary-cache-store-scheme"><code>scheme</code></a></span></p>
 <p>The scheme used for S3 requests, <code>https</code> (default) or <code>http</code>. This
 option allows you to disable HTTPS for binary caches which don’t
@@ -1471,7 +1537,7 @@ information.</p>
 <li>
 <p><span id="store-s3-binary-cache-store-secret-key"><a href="#store-s3-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-secret-keys"><a href="#store-s3-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
@@ -1498,9 +1564,9 @@ https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html</
 </li>
 <li>
 <p><span id="store-s3-binary-cache-store-store"><a href="#store-s3-binary-cache-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1590,13 +1656,13 @@ to be used on the remote machine. The default is <code>auto</code>
 <li>
 <p><span id="store-ssh-store-ssh-key"><a href="#store-ssh-store-ssh-key"><code>ssh-key</code></a></span></p>
 <p>Path to the SSH private key used to authenticate to the remote machine.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-ssh-store-store"><a href="#store-ssh-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -1722,7 +1788,7 @@ setting.</p>
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

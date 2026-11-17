@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix.conf - Nix 2.34.9 Reference Manual</title>
+        <title>nix.conf - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -202,20 +202,27 @@
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
 <p>Nix supports a variety of configuration settings, which are read from configuration files or taken as command line flags.</p>
 <h2 id="configuration-file"><a class="header" href="#configuration-file">Configuration file</a></h2>
-<p>By default Nix reads settings from the following places, in that order:</p>
+<p>By default Nix reads settings from each of the following places.
+Settings are applied on top of one another, so later settings overwrite earlier entries.</p>
 <ol>
 <li>
-<p>The system-wide configuration file <code>sysconfdir/nix/nix.conf</code> (i.e. <code>/etc/nix/nix.conf</code> on most systems), or <code>$NIX_CONF_DIR/nix.conf</code> if <a href="./env-common.html#env-NIX_CONF_DIR"><code>NIX_CONF_DIR</code></a> is set.</p>
+<p>The system-wide configuration file <code>nix.conf</code> in the configuration directory.</p>
+<p>The configuration directory defaults to <code>${sysconfdir}/nix</code> (i.e. <code>/etc/nix</code> on most Unix systems) or <code>%PROGRAMDATA%\nix\conf</code> on Windows, and can be overridden with <a href="./env-common.html#env-NIX_CONF_DIR"><code>NIX_CONF_DIR</code></a>.</p>
 <p>Values loaded in this file are not forwarded to the Nix daemon.
 The client assumes that the daemon has already loaded them.</p>
 </li>
 <li>
-<p>If <a href="./env-common.html#env-NIX_USER_CONF_FILES"><code>NIX_USER_CONF_FILES</code></a> is set, then each path separated by <code>:</code> will be loaded in reverse order.</p>
-<p>Otherwise it will look for <code>nix/nix.conf</code> files in <code>XDG_CONFIG_DIRS</code> and <a href="./env-common.html#env-XDG_CONFIG_HOME"><code>XDG_CONFIG_HOME</code></a>.
-If unset, <code>XDG_CONFIG_DIRS</code> defaults to <code>/etc/xdg</code>, and <code>XDG_CONFIG_HOME</code> defaults to <code>$HOME/.config</code> as per <a href="https://specifications.freedesktop.org/basedir-spec/basedir-spec-latest.html">XDG Base Directory Specification</a>.</p>
+<p>If <a href="./env-common.html#env-NIX_USER_CONF_FILES"><code>NIX_USER_CONF_FILES</code></a> is set, then each path in the list will be loaded in reverse order.
+The list separator is <code>:</code> on Unix and <code>;</code> on Windows.</p>
+<p>Otherwise it will look for <code>nix.conf</code> in:</p>
+<ul>
+<li>The <a href="./env-common.html#user-conf-dir">user configuration directory</a></li>
+<li>On Unix additionally, <code>nix/nix.conf</code> under each directory in <a href="./env-common.html#env-XDG_CONFIG_DIRS"><code>XDG_CONFIG_DIRS</code></a></li>
+</ul>
 </li>
 <li>
-<p>If <a href="./env-common.html#env-NIX_CONFIG"><code>NIX_CONFIG</code></a> is set, its contents are treated as the contents of a configuration file.</p>
+<p>If <a href="./env-common.html#env-NIX_CONFIG"><code>NIX_CONFIG</code></a> is set, its contents are treated as the contents of a configuration file.
+In particular, settings are separated by newlines, just as in the configuration file.</p>
 </li>
 </ol>
 <h3 id="file-format"><a class="header" href="#file-format">File format</a></h3>
@@ -589,7 +596,7 @@ If omitted, SSH uses its regular identities.</p>
 Typically this should be equal to the number of CPU cores.</p>
 </li>
 <li>
-<p>The “speed factor”, indicating the relative speed of the machine as a positive integer.
+<p>The “speed factor”, indicating the relative speed of the machine as a positive integer or decimal number.
 If there are multiple machines of the right type, Nix prefers the fastest, taking load into account.</p>
 </li>
 <li>
@@ -686,7 +693,7 @@ binary cache substituter. It corresponds to <code>curl</code>’s
 </li>
 <li>
 <p><span id="conf-cores"><a href="#conf-cores"><code>cores</code></a></span></p>
-<p>Sets the value of the <code>NIX_BUILD_CORES</code> environment variable in the <a href="../store/building.html#builder-execution">invocation of the <code>builder</code> executable</a> of a derivation.
+<p>Sets the value of the <code>NIX_BUILD_CORES</code> environment variable in the <a href="../store/building.html#env-vars">invocation of the <code>builder</code> executable</a> of a derivation.
 The <code>builder</code> executable can use this variable to control its own maximum amount of parallelism.</p>
 <!--
 FIXME(@fricklerhandwerk): I don't think this should even be mentioned here.
@@ -753,11 +760,6 @@ to the user. Instead, it prints to the nix-daemon’s log.</p>
 <p>When using the Nix daemon, <code>diff-hook</code> must be set in the <code>nix.conf</code>
 configuration file, and cannot be passed at the command line.</p>
 <p><strong>Default:</strong> ``</p>
-</li>
-<li>
-<p><span id="conf-download-attempts"><a href="#conf-download-attempts"><code>download-attempts</code></a></span></p>
-<p>The number of times Nix attempts to download a file before giving up.</p>
-<p><strong>Default:</strong> <code>5</code></p>
 </li>
 <li>
 <p><span id="conf-download-buffer-size"><a href="#conf-download-buffer-size"><code>download-buffer-size</code></a></span></p>
@@ -861,39 +863,42 @@ This is useful for evaluating Nix code on one system to produce derivations to b
 </li>
 <li>
 <p><span id="conf-external-builders"><a href="#conf-external-builders"><code>external-builders</code></a></span></p>
-<p>Helper programs that execute derivations.</p>
-<p>The program is passed a JSON document that describes the build environment as the final argument.
+<p>Helper programs for building derivations, specified in JSON format, e.g.</p>
+<pre><code class="language-json">[ {"systems": ["aarch64-linux"], "program": "/path/to/helper", "args": ["bla"]} ]
+</code></pre>
+<p>Whenever Nix needs to build a derivation for a system contained in <em>systems</em>, it will invoke <em>program</em> with the command line arguments <em>args</em>, and an additional argument containing the path of a JSON document that describes the build environment.
 The JSON document looks like this:</p>
-<p>{
-“args”: [
-“-e”,
-“/nix/store/vj1c3wf9…-source-stdenv.sh”,
-“/nix/store/shkw4qm9…-default-builder.sh”
-],
-“builder”: “/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash”,
-“env”: {
-“HOME”: “/homeless-shelter”,
-“builder”: “/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash”,
-“nativeBuildInputs”: “/nix/store/l31j72f1…-version-check-hook”,
-“out”: “/nix/store/2yx2prgx…-hello-2.12.2”
-…
-},
-“inputPaths”: [
-“/nix/store/14dciax3…-glibc-2.32-54-dev”,
-“/nix/store/1azs5s8z…-gettext-0.21”,
-…
-],
-“outputs”: {
-“out”: “/nix/store/2yx2prgx…-hello-2.12.2”
-},
-“realStoreDir”: “/nix/store”,
-“storeDir”: “/nix/store”,
-“system”: “aarch64-linux”,
-“tmpDir”: “/private/tmp/nix-build-hello-2.12.2.drv-0/build”,
-“tmpDirInSandbox”: “/build”,
-“topTmpDir”: “/private/tmp/nix-build-hello-2.12.2.drv-0”,
-“version”: 1
-}</p>
+<pre><code class="language-json">{
+  "args": [
+    "-e",
+    "/nix/store/vj1c3wf9…-source-stdenv.sh",
+    "/nix/store/shkw4qm9…-default-builder.sh"
+  ],
+  "builder": "/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash",
+  "env": {
+    "HOME": "/homeless-shelter",
+    "builder": "/nix/store/s1qkj0ph…-bash-5.2p37/bin/bash",
+    "nativeBuildInputs": "/nix/store/l31j72f1…-version-check-hook",
+    "out": "/nix/store/2yx2prgx…-hello-2.12.2"
+    …
+  },
+  "inputPaths": [
+    "/nix/store/14dciax3…-glibc-2.32-54-dev",
+    "/nix/store/1azs5s8z…-gettext-0.21",
+    …
+  ],
+  "outputs": {
+    "out": "/nix/store/2yx2prgx…-hello-2.12.2"
+  },
+  "realStoreDir": "/nix/store",
+  "storeDir": "/nix/store",
+  "system": "aarch64-linux",
+  "tmpDir": "/private/tmp/nix-build-hello-2.12.2.drv-0/build",
+  "tmpDirInSandbox": "/build",
+  "topTmpDir": "/private/tmp/nix-build-hello-2.12.2.drv-0",
+  "version": 1
+}
+</code></pre>
 <p><strong>Default:</strong> <em>empty</em></p>
 </li>
 <li>
@@ -920,6 +925,47 @@ binary substitute fails. This is equivalent to the <code>--fallback</code>
 flag. The default is <code>false</code>.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 <p><strong>Deprecated alias:</strong> <code>build-fallback</code></p>
+</li>
+<li>
+<p><span id="conf-filetransfer-retry-attempts"><a href="#conf-filetransfer-retry-attempts"><code>filetransfer-retry-attempts</code></a></span></p>
+<p>The number of times Nix attempts a file transfer (download
+or upload) before giving up. Retries apply to transient
+failures: connection-level errors, HTTP 408, 429, and most
+5xx responses. Authentication failures (401/403/407),
+404/410, and other 4xx responses are not retried.</p>
+<p><strong>Default:</strong> <code>5</code></p>
+<p><strong>Deprecated alias:</strong> <code>download-attempts</code></p>
+</li>
+<li>
+<p><span id="conf-filetransfer-retry-delay"><a href="#conf-filetransfer-retry-delay"><code>filetransfer-retry-delay</code></a></span></p>
+<p>Initial delay in milliseconds before retrying a failed file transfer
+(download or upload). The delay doubles with each subsequent attempt
+(exponential backoff) and is subject to random jitter (see
+<code>filetransfer-retry-jitter</code>).</p>
+<p><strong>Default:</strong> <code>100</code></p>
+</li>
+<li>
+<p><span id="conf-filetransfer-retry-delay-rate-limited"><a href="#conf-filetransfer-retry-delay-rate-limited"><code>filetransfer-retry-delay-rate-limited</code></a></span></p>
+<p>Initial delay in milliseconds before retrying a file transfer that
+failed with a rate-limit response (HTTP 429 or 503). The delay doubles
+with each subsequent attempt.</p>
+<p>Servers may send a <code>Retry-After</code> header specifying a longer delay;
+when present, Nix respects the larger of the two values.</p>
+<p><strong>Default:</strong> <code>5000</code></p>
+</li>
+<li>
+<p><span id="conf-filetransfer-retry-jitter"><a href="#conf-filetransfer-retry-jitter"><code>filetransfer-retry-jitter</code></a></span></p>
+<p>Whether to apply random jitter to retry delays. When enabled, each
+retry waits for a random duration between 0 and the computed delay
+(“full jitter”), which spreads out retry storms from many clients.</p>
+<p>Disable for deterministic retry timing (primarily useful for tests).</p>
+<p><strong>Default:</strong> <code>true</code></p>
+</li>
+<li>
+<p><span id="conf-filetransfer-retry-max-delay"><a href="#conf-filetransfer-retry-max-delay"><code>filetransfer-retry-max-delay</code></a></span></p>
+<p>Ceiling on the exponential backoff delay in milliseconds. This does not
+cap server-provided <code>Retry-After</code> values, which are honored as-is.</p>
+<p><strong>Default:</strong> <code>60000</code></p>
 </li>
 <li>
 <p><span id="conf-filter-syscalls"><a href="#conf-filter-syscalls"><code>filter-syscalls</code></a></span></p>
@@ -997,6 +1043,15 @@ to 25. 0 means no limit.</p>
 <p><span id="conf-http2"><a href="#conf-http2"><code>http2</code></a></span></p>
 <p>Whether to enable HTTP/2 support.</p>
 <p><strong>Default:</strong> <code>true</code></p>
+</li>
+<li>
+<p><span id="conf-http3"><a href="#conf-http3"><code>http3</code></a></span></p>
+<p>Whether to try enabling HTTP/3 (QUIC).
+When enabled, Nix requests HTTP/3 and transparently falls back
+to HTTP/2 or HTTP/1.1 for servers that do not support it.
+This option has no effect unless the <code>nix</code> binary is linked
+against a libcurl built with HTTP/3 (QUIC) support.</p>
+<p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
 <p><span id="conf-id-count"><a href="#conf-id-count"><code>id-count</code></a></span></p>
@@ -1078,6 +1133,8 @@ other roots).</p>
 store path was built), so by default this option is on. Turn it off
 to save a bit of disk space (or a lot if <code>keep-outputs</code> is also
 turned on).</p>
+<p>This option only applies to garbage collection of the whole store
+and does not affect deleting explicit paths.</p>
 <p><strong>Default:</strong> <code>true</code></p>
 <p><strong>Deprecated alias:</strong> <code>gc-keep-derivations</code></p>
 </li>
@@ -1120,6 +1177,8 @@ even if the output of a derivation is registered as a root, the
 collector still deletes store paths that are used only at build
 time (e.g., the C compiler, or source tarballs downloaded from the
 network). To prevent it from doing so, set this option to <code>true</code>.</p>
+<p>This option only applies to garbage collection of the whole store
+and does not affect deleting explicit paths.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 <p><strong>Deprecated alias:</strong> <code>gc-keep-outputs</code></p>
 </li>
@@ -1632,10 +1691,12 @@ timeout’s duration.</p>
 <li>
 <p><span id="conf-store"><a href="#conf-store"><code>store</code></a></span></p>
 <p>The <a href="../store/types/index.html#store-url-format">URL of the Nix store</a>
-to use for most operations.
-See the
+to use for most operations.</p>
+<p>See the
 <a href="../store/types/index.html">Store Types</a>
 section of the manual for supported store types and settings.</p>
+<p>Can be overridden by the <a href="../command-ref/env-common.html#env-NIX_REMOTE"><code>NIX_REMOTE</code></a> environment variable.</p>
+<p>The default value is <a href="../store/types/index.html#auto"><code>auto</code></a>.</p>
 <p><strong>Default:</strong> <code>auto</code></p>
 </li>
 <li>
@@ -1979,7 +2040,7 @@ Set it to 1 to warn on all paths.</p>
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

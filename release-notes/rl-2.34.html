@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Release 2.34 (2026-02-27) - Nix 2.34.9 Reference Manual</title>
+        <title>Release 2.34 (2026-02-27) - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -289,7 +289,7 @@ nix-repl&gt; foo.bar
 <p>New command <code>nix store roots-daemon</code> for serving GC roots <a href="https://github.com/NixOS/nix/pull/15143">#15143</a></p>
 <p>New command <a href="../command-ref/new-cli/nix3-store-roots-daemon.html"><code>nix store roots-daemon</code></a> runs a daemon that serves garbage collector roots over a Unix domain socket.
 It enables the garbage collector to discover runtime roots when the main Nix daemon doesn’t have <code>CAP_SYS_PTRACE</code> capability and therefore cannot scan <code>/proc</code>.</p>
-<p>The garbage collector can be configured to use this daemon via the <a href="../store/types/local-store.html#store-experimental-option-use-roots-daemon"><code>use-roots-daemon</code></a> store setting.</p>
+<p>The garbage collector can be configured to use this daemon via the <a href="../store/types/local-store.html#store-local-store-use-roots-daemon"><code>use-roots-daemon</code></a> store setting.</p>
 <p>This feature requires the <a href="../development/experimental-features.html#xp-feature-local-overlay-store"><code>local-overlay-store</code> experimental feature</a>.</p>
 </li>
 <li>
@@ -518,79 +518,12 @@ A misleading error message in <code>nix-env</code> that incorrectly blamed conte
 <li>Matthew Kenigsberg <a href="https://github.com/mkenigs"><strong>(@mkenigs)</strong></a></li>
 <li>Shea Levy <a href="https://github.com/shlevy"><strong>(@shlevy)</strong></a></li>
 </ul>
-<h1 id="release-2341-2026-03-08"><a class="header" href="#release-2341-2026-03-08">Release 2.34.1 (2026-03-08)</a></h1>
-<h2 id="changes"><a class="header" href="#changes">Changes</a></h2>
-<ul>
-<li>
-<p>C API: Fix <code>EvalState</code> pointer passed to primop callbacks <a href="https://github.com/NixOS/nix/pull/15300">#15300</a> <a href="https://github.com/NixOS/nix/pull/15383">#15383</a></p>
-<p>The <code>EvalState *</code> passed to C API primop callbacks was incorrectly pointing to
-the internal <code>nix::EvalState</code> rather than the C API wrapper struct. This caused
-a segfault when the callback used the pointer with C API functions such as
-<code>nix_alloc_value()</code>. The same issue affected <code>printValueAsJSON</code> and
-<code>printValueAsXML</code> callbacks on external values.</p>
-</li>
-<li>
-<p>Fix daemon not applying <code>FileTransferSettings</code> from <code>trusted-users</code> <a href="https://github.com/NixOS/nix/pull/15408">#15408</a></p>
-<p>Previously <code>nix-daemon</code> failed to apply settings for <code>libcurl</code> configuration configured by client connections from <a href="../command-ref/conf-file.html#conf-trusted-users"><code>trusted-users</code></a>. This was a pre-existing bug, which has been exacerbated by 2.34.0 moving more settings from the global <code>settings</code> into libcurl-specific <code>fileTransferSettings</code> (e.g. <code>netrc-file</code>, <code>http-connections</code> or <code>ssl-cert-file</code>). Note that the use of <code>trusted-users</code> is heavily discouraged unless you are fine with:</p>
-<blockquote>
-<p>Adding a user to <code>trusted-users</code> is essentially equivalent to giving that user root access to the system.
-For example, the user can access or replace store path contents that are critical for system security.</p>
-</blockquote>
-</li>
-<li>
-<p>Improve formatting of error messages and warnings <a href="https://github.com/NixOS/nix/pull/15397">#15397</a></p>
-</li>
-</ul>
-<h1 id="release-2342-2026-03-20"><a class="header" href="#release-2342-2026-03-20">Release 2.34.2 (2026-03-20)</a></h1>
-<h2 id="changes-1"><a class="header" href="#changes-1">Changes</a></h2>
-<ul>
-<li>
-<p>Fixed <code>nix upgrade-nix</code> without an explicitly specified <code>--profile</code> argument <a href="https://github.com/NixOS/nix/issues/15437">#15437</a> <a href="https://github.com/NixOS/nix/pull/15438">#15438</a></p>
-</li>
-<li>
-<p>Erroneous <code>error (ignored): write of ... bytes: Bad file descriptor</code> warnings on interrupted store copy operations are now fixed <a href="https://github.com/NixOS/nix/pull/15486">#15486</a></p>
-</li>
-<li>
-<p>Reverted changes enabling keep-alive in the HTTP client <a href="https://github.com/NixOS/nix/pull/15522">#15522</a></p>
-<p>Connection reuse for S3 stores has caused Hydra upload errors due to stale connections being closed by the remote servers. Nix currently lacks retry mechanisms for 400 <code>RequestTimeout</code> errors used by AWS S3.</p>
-</li>
-<li>
-<p>Fixed evaluation that accesses the logical store directory using <code>ssh-ng://</code> <code>eval-store</code>s <a href="https://github.com/NixOS/nix/pull/15417">#15417</a></p>
-<p>Accessing the logical store directory (typically <code>/nix/store</code>) during evaluation would fail previously:</p>
-<pre><code>nix build nixpkgs#hello --store ssh-ng://host
-error: path '/nix/store/' is not in the Nix store
-</code></pre>
-</li>
-<li>
-<p>S3: restore STS WebIdentity and ECS container credential providers <a href="https://github.com/NixOS/nix/pull/15507">#15507</a></p>
-<p>Nix 2.33 replaced the S3 backend’s <code>aws-sdk-cpp</code> credential chain with a
-custom chain built on <code>aws-c-auth</code>. That chain omitted two providers,
-breaking S3 binary cache access in container workloads:</p>
-<ul>
-<li><strong>STS WebIdentity</strong> (<code>AWS_WEB_IDENTITY_TOKEN_FILE</code>, <code>AWS_ROLE_ARN</code>,
-<code>AWS_ROLE_SESSION_NAME</code>) — used by EKS IRSA, GitHub Actions OIDC, and
-any <code>sts:AssumeRoleWithWebIdentity</code> federation.</li>
-<li><strong>ECS container metadata</strong> (<code>AWS_CONTAINER_CREDENTIALS_RELATIVE_URI</code>,
-<code>AWS_CONTAINER_CREDENTIALS_FULL_URI</code>) — used by ECS tasks and EKS Pod
-Identity.</li>
-</ul>
-<p>The typical symptom was a misleading IMDS error
-(<code>Valid credentials could not be sourced by the IMDS provider</code>), because
-IMDS is the last provider tried after the correct one was skipped.</p>
-<p>Both providers are now part of the chain, ordered to match the
-pre-2.33 <code>DefaultAWSCredentialsProviderChain</code>:
-<code>Environment → SSO → Profile → STS WebIdentity → (ECS | IMDS)</code>.
-As in both the old and new AWS SDK default chains, ECS and IMDS are
-mutually exclusive: when container credential environment variables are
-set, IMDS is skipped.</p>
-</li>
-</ul>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../release-notes/rl-next.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../release-notes/rl-2.35.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                             </a>
 
@@ -604,7 +537,7 @@ set, IMDS is skipped.</p>
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../release-notes/rl-next.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../release-notes/rl-2.35.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <span class=fa-svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc. --><path d="M41.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.3 256 246.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg></span>
                     </a>
 
@@ -637,7 +570,7 @@ set, IMDS is skipped.</p>
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 

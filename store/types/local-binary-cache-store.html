@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Local Binary Cache Store - Nix 2.34.9 Reference Manual</title>
+        <title>Local Binary Cache Store - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -199,7 +199,7 @@
                     <main>
                         <h1 id="local-binary-cache-store"><a class="header" href="#local-binary-cache-store">Local Binary Cache Store</a></h1>
 <p><strong>Store URL format</strong>: <code>file://</code><em>path</em></p>
-<p>This store allows reading and writing a binary cache stored in <em>path</em>
+<p>This store allows reading and writing a <a href="../../protocols/binary-cache/index.html">binary cache</a> stored in <em>path</em>
 in the local filesystem. If <em>path</em> does not exist, it will be created.</p>
 <p>For example, the following builds or downloads <code>nixpkgs#hello</code> into
 the local store and then copies it to the binary cache in
@@ -235,6 +235,7 @@ fetch debug info on demand</p>
 <li>
 <p><span id="store-local-binary-cache-store-parallel-compression"><a href="#store-local-binary-cache-store-parallel-compression"><code>parallel-compression</code></a></span></p>
 <p>Enable multi-threaded compression of NARs. This is currently only available for <code>xz</code> and <code>zstd</code>.</p>
+<p>If not set explicitly, defaults to <code>true</code> when <code>compression</code> is <code>zstd</code> and <code>false</code> otherwise.</p>
 <p><strong>Default:</strong> <code>false</code></p>
 </li>
 <li>
@@ -251,7 +252,7 @@ A lower value means a higher priority.</p>
 <li>
 <p><span id="store-local-binary-cache-store-secret-key"><a href="#store-local-binary-cache-store-secret-key"><code>secret-key</code></a></span></p>
 <p>Path to the secret key used to sign the binary cache.</p>
-<p><strong>Default:</strong> <em>empty</em></p>
+<p><strong>Default:</strong> ``</p>
 </li>
 <li>
 <p><span id="store-local-binary-cache-store-secret-keys"><a href="#store-local-binary-cache-store-secret-keys"><code>secret-keys</code></a></span></p>
@@ -260,9 +261,9 @@ A lower value means a higher priority.</p>
 </li>
 <li>
 <p><span id="store-local-binary-cache-store-store"><a href="#store-local-binary-cache-store-store"><code>store</code></a></span></p>
-<p>Logical location of the Nix store, usually
-<code>/nix/store</code>. Note that you can only copy store paths
-between stores if they have the same <code>store</code> setting.</p>
+<p>Logical location of the Nix store, usually <code>/nix/store</code>.</p>
+<p>Defaults to <a href="../../command-ref/env-common.html#env-NIX_STORE_DIR"><code>NIX_STORE_DIR</code></a> if unset.</p>
+<p>Note that you can only copy store paths between stores if they have the same <code>store</code> setting.</p>
 <p><strong>Default:</strong> <code>/nix/store</code></p>
 </li>
 <li>
@@ -342,7 +343,7 @@ setting.</p>
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

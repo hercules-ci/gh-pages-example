@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>nix path-info - Nix 2.34.9 Reference Manual</title>
+        <title>nix path-info - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../../toc-2af84db9.js"></script>
+        <script src="../../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -277,9 +277,8 @@ size:</p>
 <h1 id="description"><a class="header" href="#description">Description</a></h1>
 <p>This command shows information about the store paths produced by
 <a href="./nix.html#installables"><em>installables</em></a>, or about all paths in the store if you pass <code>--all</code>.</p>
-<p>By default, this command only prints the store paths. You can get
-additional information by passing flags such as <code>--closure-size</code>,
-<code>--size</code>, <code>--sigs</code> or <code>--json</code>.</p>
+<p>By default, this command only prints the store paths.
+You can get additional information by passing flags such as <code>--closure-size</code>, <code>--size</code>, <code>--sigs</code> or <code>--json</code>.</p>
 <blockquote>
 <p><strong>Warning</strong></p>
 <p>Note that <code>nix path-info</code> does not build or substitute the
@@ -303,7 +302,11 @@ to ensure that they exist.</p>
 </li>
 <li>
 <p><span id="opt-json-format"><a href="#opt-json-format"><code>--json-format</code></a></span> <em>version</em></p>
-<p>JSON format version to use (1 or 2). Version 1 uses string hashes and full store paths. Version 2 uses structured hashes and store path base names. This flag will be required in a future release.</p>
+<p>JSON format version of <a href="../../protocols/json/store-object-info.html">store object info</a> to use (1, 2, or 3).
+Version 1 uses string hashes and full store paths.
+Version 2 uses structured hashes and <a href="../../store/store-path.html#base-name">store path base names</a>.
+Version 3 uses structured signatures.
+This flag will be required in a future release.</p>
 </li>
 <li>
 <p><span id="opt-no-pretty"><a href="#opt-no-pretty"><code>--no-pretty</code></a></span></p>
@@ -559,7 +562,7 @@ to use for evaluation, i.e. to store derivations (<code>.drv</code> files) and i
         <script src="../../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../../redirects-70899071.js"></script>
+        <script src="../../redirects-d95376cb.js"></script>
 
 
 

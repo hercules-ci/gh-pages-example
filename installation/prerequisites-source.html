@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Prerequisites - Nix 2.34.9 Reference Manual</title>
+        <title>Prerequisites - Nix 2.35.6 Reference Manual</title>
 
 
         <!-- Custom HTML head -->
@@ -20,7 +20,7 @@
           }
         };
         </script>
-        <!-- Load a newer versino of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
+        <!-- Load a newer version of MathJax than mdbook does by default, and which in particular has working relative paths for the "bussproofs" extension. -->
         <script async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.0.1/es5/tex-mml-chtml.js"></script>
 
         <meta name="description" content="">
@@ -52,10 +52,10 @@
             const path_to_root = "../";
             const default_light_theme = "light";
             const default_dark_theme = "navy";
-            window.path_to_searchindex_js = "../searchindex-b4396ec3.js";
+            window.path_to_searchindex_js = "../searchindex-fc82cff2.js";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc-2af84db9.js"></script>
+        <script src="../toc-7c874087.js"></script>
     </head>
     <body>
     <div id="mdbook-help-container">
@@ -154,7 +154,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">Nix 2.34.9 Reference Manual</h1>
+                    <h1 class="menu-title">Nix 2.35.6 Reference Manual</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -198,101 +198,72 @@
                 <div id="mdbook-content" class="content">
                     <main>
                         <h1 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h1>
+<p>This list and lower version bounds are maintained on best-effort basis. When in doubt, check the <code>meson.build</code> files.</p>
 <ul>
 <li>
-<p>GNU Autoconf (<a href="https://www.gnu.org/software/autoconf/">https://www.gnu.org/software/autoconf/</a>) and the
-autoconf-archive macro collection
-(<a href="https://www.gnu.org/software/autoconf-archive/">https://www.gnu.org/software/autoconf-archive/</a>). These are
-needed to run the bootstrap script.</p>
+<p>Meson build system (<a href="https://github.com/mesonbuild/meson">https://github.com/mesonbuild/meson</a>).</p>
 </li>
 <li>
-<p>GNU Make.</p>
+<p>Ninja (<a href="https://ninja-build.org/">https://ninja-build.org/</a>).</p>
 </li>
 <li>
-<p>Bash Shell. The <code>./configure</code> script relies on bashisms, so Bash is
-required.</p>
+<p>A version of GCC or Clang that supports C++23 (anything newer than Clang 19 or GCC 14 is likely to work).</p>
 </li>
 <li>
-<p>A version of GCC or Clang that supports C++23.</p>
+<p><code>pkg-config</code> to locate dependencies.
+If your distribution does not provide it, you can get it from <a href="http://www.freedesktop.org/wiki/Software/pkg-config">http://www.freedesktop.org/wiki/Software/pkg-config</a>.</p>
 </li>
 <li>
-<p><code>pkg-config</code> to locate dependencies. If your distribution does not
-provide it, you can get it from
-<a href="http://www.freedesktop.org/wiki/Software/pkg-config">http://www.freedesktop.org/wiki/Software/pkg-config</a>.</p>
+<p>The OpenSSL library to calculate cryptographic hashes.
+If your distribution does not provide it, you can get it from <a href="https://www.openssl.org">https://www.openssl.org</a>.</p>
 </li>
 <li>
-<p>The OpenSSL library to calculate cryptographic hashes. If your
-distribution does not provide it, you can get it from
-<a href="https://www.openssl.org">https://www.openssl.org</a>.</p>
+<p>The <code>libbrotlienc</code> and <code>libbrotlidec</code> libraries to provide implementation of the Brotli compression algorithm.
+They are available for download from the official repository <a href="https://github.com/google/brotli">https://github.com/google/brotli</a>.</p>
 </li>
 <li>
-<p>The <code>libbrotlienc</code> and <code>libbrotlidec</code> libraries to provide
-implementation of the Brotli compression algorithm. They are
-available for download from the official repository
-<a href="https://github.com/google/brotli">https://github.com/google/brotli</a>.</p>
+<p>cURL library.
+If your distribution does not provide it, you can get it from <a href="https://curl.haxx.se/">https://curl.haxx.se/</a>.</p>
 </li>
 <li>
-<p>cURL and its library. If your distribution does not provide it, you
-can get it from <a href="https://curl.haxx.se/">https://curl.haxx.se/</a>.</p>
+<p>The SQLite embedded database library, version 3.6.19 or higher.
+If your distribution does not provide it, please install it from <a href="http://www.sqlite.org/">http://www.sqlite.org/</a>.</p>
 </li>
 <li>
-<p>The SQLite embedded database library, version 3.6.19 or higher. If
-your distribution does not provide it, please install it from
-<a href="http://www.sqlite.org/">http://www.sqlite.org/</a>.</p>
+<p>The <a href="http://www.hboehm.info/gc/">Boehm garbage collector (<code>bdw-gc</code>)</a> to reduce the evaluator’s memory consumption (optional).
+To enable it, install <code>pkgconfig</code> and the Boehm garbage collector, and pass the option <code>-Dlibexpr:gc=enabled</code> to <code>meson setup</code>.</p>
 </li>
 <li>
-<p>The <a href="http://www.hboehm.info/gc/">Boehm garbage collector (<code>bdw-gc</code>)</a> to reduce
-the evaluator’s memory consumption (optional).</p>
-<p>To enable it, install
-<code>pkgconfig</code> and the Boehm garbage collector, and pass the flag
-<code>--enable-gc</code> to <code>configure</code>.</p>
+<p>The <code>boost</code> library of version 1.87.0 or higher.
+It can be obtained from the official web site <a href="https://www.boost.org/">https://www.boost.org/</a>.</p>
 </li>
 <li>
-<p>The <code>boost</code> library of version 1.66.0 or higher. It can be obtained
-from the official web site <a href="https://www.boost.org/">https://www.boost.org/</a>.</p>
+<p>The <code>editline</code> library of version 1.14.0 or higher.
+It can be obtained from the its repository <a href="https://github.com/troglobit/editline">https://github.com/troglobit/editline</a>.</p>
 </li>
 <li>
-<p>The <code>editline</code> library of version 1.14.0 or higher. It can be
-obtained from the its repository
-<a href="https://github.com/troglobit/editline">https://github.com/troglobit/editline</a>.</p>
+<p>The <code>libsodium</code> library for verifying cryptographic signatures of contents fetched from binary caches.
+It can be obtained from the official web site <a href="https://libsodium.org">https://libsodium.org</a>.</p>
 </li>
 <li>
-<p>The <code>libsodium</code> library for verifying cryptographic signatures
-of contents fetched from binary caches.
-It can be obtained from the official web site
-<a href="https://libsodium.org">https://libsodium.org</a>.</p>
+<p>Recent versions of Bison and Flex to build the parser.
+(This is because Nix needs C++ template support in Bison and reentrancy support in Flex.)</p>
 </li>
 <li>
-<p>Recent versions of Bison and Flex to build the parser. (This is
-because Nix needs GLR support in Bison and reentrancy support in
-Flex.) For Bison, you need version 2.6, which can be obtained from
-the <a href="ftp://alpha.gnu.org/pub/gnu/bison">GNU FTP server</a>. For Flex,
-you need version 2.5.35, which is available on
-<a href="http://lex.sourceforge.net/">SourceForge</a>. Slightly older versions
-may also work, but ancient versions like the ubiquitous 2.5.4a
-won’t.</p>
+<p>The <code>libseccomp</code> is used to provide syscall filtering on Linux.
+This is an optional dependency and can be disabled passing a <code>-Dlibstore:seccomp-sandboxing=disabled</code> option to the <code>meson setup</code> command
+(Not recommended unless your system doesn’t support <code>libseccomp</code>).
+To get the library, visit <a href="https://github.com/seccomp/libseccomp">https://github.com/seccomp/libseccomp</a>.</p>
 </li>
 <li>
-<p>The <code>libseccomp</code> is used to provide syscall filtering on Linux. This
-is an optional dependency and can be disabled passing a
-<code>--disable-seccomp-sandboxing</code> option to the <code>configure</code> script (Not
-recommended unless your system doesn’t support <code>libseccomp</code>). To get
-the library, visit <a href="https://github.com/seccomp/libseccomp">https://github.com/seccomp/libseccomp</a>.</p>
-</li>
-<li>
-<p>On 64-bit x86 machines only, <code>libcpuid</code> library
-is used to determine which microarchitecture levels are supported
+<p>On 64-bit x86 machines only, <code>libcpuid</code> library is used to determine which microarchitecture levels are supported
 (e.g., as whether to have <code>x86_64-v2-linux</code> among additional system types).
-The library is available from its homepage
-<a href="http://libcpuid.sourceforge.net">http://libcpuid.sourceforge.net</a>.
-This is an optional dependency and can be disabled
-by providing a <code>--disable-cpuid</code> to the <code>configure</code> script.</p>
+The library is available from its homepage <a href="http://libcpuid.sourceforge.net">http://libcpuid.sourceforge.net</a>.
+This is an optional dependency and can be disabled by providing a <code>-Dlibutil:cpuid=disabled</code> option to <code>meson setup</code> script.</p>
 </li>
 <li>
-<p>Unless <code>./configure --disable-unit-tests</code> is specified, GoogleTest (GTest) and
-RapidCheck are required, which are available at
-<a href="https://google.github.io/googletest/">https://google.github.io/googletest/</a> and
-<a href="https://github.com/emil-e/rapidcheck">https://github.com/emil-e/rapidcheck</a> respectively.</p>
+<p>Unless <code>meson setup build -Dunit-tests=false</code> is specified, GoogleTest (GTest) and RapidCheck are required, which are available at
+<a href="https://google.github.io/googletest/">https://google.github.io/googletest/</a> and <a href="https://github.com/emil-e/rapidcheck">https://github.com/emil-e/rapidcheck</a> respectively.</p>
 </li>
 </ul>
 
@@ -347,7 +318,7 @@ RapidCheck are required, which are available at
         <script src="../book-609e4cb8.js"></script>
 
         <!-- Custom JS scripts -->
-        <script src="../redirects-70899071.js"></script>
+        <script src="../redirects-d95376cb.js"></script>
 
 
 
